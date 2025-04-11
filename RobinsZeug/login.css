@@ -1,0 +1,103 @@
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #f5f7f9;
+    flex-direction: column;
+  }
+  
+  header {
+    width: 100%;
+    display: flex;
+    padding: 20px 40px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    justify-content: flex-end;
+  }
+  
+  
+  #logo-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 1s ease-in-out;
+    z-index: 1000;
+  }
+  
+  #logo {
+    width: 200px;
+    height: auto;
+    transition: width 1s ease-in-out;
+  }
+  
+  #logo-container.shrink {
+    top: 100px; /* oder je nach Höhe deines Headers */
+    left: 40px;
+    transform: translate(0, 0);
+  }
+  
+  
+  #logo-container.shrink #logo {
+    width: 80px;
+  }
+  
+  main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  form {
+    background-color : white;
+    width:fit-content;
+    padding:30px;
+    border-radius: 20px;
+    text-align: center;
+    
+  }
+
+  form input {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+
+  .form-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    background-color: transparent;
+    display:flex;
+  }
+  
+  .hidden {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+  
+  .visible {
+    opacity: 1;
+  }
+  

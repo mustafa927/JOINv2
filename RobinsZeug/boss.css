@@ -1,0 +1,33 @@
+body {
+    margin:0;
+    background-color: #F6F7F8
+}
+button {
+    cursor:pointer;
+}
+
+a {
+    cursor:pointer;
+}
+
+.logo {
+width:100px;
+margin-top:20px;
+margin-left:20px;
+}
+
+.form-layout {
+    margin-top:20px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #0b140b; /* neu in modernen Browsern */
+    cursor: pointer;
+  }
