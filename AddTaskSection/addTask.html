@@ -4,11 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Task</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fb;
+            margin: 0;
+            padding: 40px;
+        }
+        h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            align-items: stretch;
+            gap: 40px;
+        }
+        .form-section {
+            flex: 1;
+            min-width: 300px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+        .priority-buttons button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .urgent {
+            background-color: #ff3d00;
+            color: white;
+        }
+        .medium {
+            background-color: #ffc107;
+        }
+        .low {
+            background-color: #d4edda;
+        }
+        .subtasks {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .bottom-buttons {
+            margin-top: 20px;
+        }
+        .bottom-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .clear-btn {
+            background-color: transparent;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+        .create-btn {
+            background-color: #2b2d42;
+            color: white;
+        }
+        .required-note {
+            font-size: 12px;
+            color: red;
+        }
+
+        .line {
+            margin:0 20px;
+            width:1px;
+            background-color:black;
+        }
+    </style>
 </head>
 <body>
+
     <h2>Add Task</h2>
-    <form action="">
-        
+    <form>
+        <div class="form-section">
+            <label for="title">Title<span class="required-note"> *</span></label>
+            <input type="text" id="title" placeholder="Enter a title" required>
+
+            <label for="desc">Description</label>
+            <textarea id="desc" placeholder="Enter a Description"></textarea>
+
+            <label for="due-date">Due date</label>
+            <input type="date" id="due-date">
+        </div>
+        <div class="line"></div>
+        <div class="form-section">
+            <label>Priority</label>
+            <div class="priority-buttons">
+                <button type="button" class="urgent">Urgent 🔺</button>
+                <button type="button" class="medium">Medium 🟨</button>
+                <button type="button" class="low">Low ✅</button>
+            </div>
+
+            <label for="assigned">Assigned to</label>
+            <select id="assigned">
+                <option>Select contacts to assign</option>
+            </select>
+
+            <label for="category">Category<span class="required-note"> *</span></label>
+            <select id="category" required>
+                <option>Select task category</option>
+            </select>
+
+            <label for="subtasks">Subtasks</label>
+            <div class="subtasks">
+                <input type="text" id="subtasks" placeholder="Add new subtask">
+                <button type="button">+</button>
+            </div>
+        </div>
     </form>
+
+    <div class="bottom-buttons">
+        <button type="reset" class="clear-btn">Clear ✗</button>
+        <button type="submit" class="create-btn">Create Task ✔</button>
+    </div>
+
 </body>
 </html>
