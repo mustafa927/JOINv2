@@ -51,7 +51,6 @@
         cursor: pointer;
         background-color: #fff;
         box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* für transition Startwert */
-       
       }
 
       .priority-buttons button:hover {
@@ -68,6 +67,20 @@
       .low {
         background-color: #ffffff;
       }
+
+      .priority-buttons button.active-urgent {
+        background-color: #ff4d4d; /* rot */
+        color: white;
+      }
+      .priority-buttons button.active-medium {
+        background-color: #ffa500; /* orange */
+        color: white;
+      }
+      .priority-buttons button.active-low {
+        background-color: #28a745; /* grün */
+        color: white;
+      }
+
       .subtasks {
         display: flex;
         align-items: center;
@@ -95,6 +108,8 @@
       .required-note {
         font-size: 12px;
         color: rgb(255, 0, 0);
+        margin-top: -15px;
+        margin-bottom: 10px;
       }
 
       .line {
@@ -109,7 +124,10 @@
     <form>
       <div class="form-section">
         <label for="title">Title<span class="required-note"> *</span></label>
-        <input type="text" id="title" placeholder="Enter a title" required />
+        <input type="text" id="title" placeholder="Enter a title" />
+        <div id="title-error" class="required-note">
+          *This field is required
+        </div>
 
         <label for="desc">Description</label>
         <textarea id="desc" placeholder="Enter a Description"></textarea>
@@ -121,10 +139,11 @@
       <div class="form-section">
         <label>Priority</label>
         <div class="priority-buttons">
-          <button type="button" class="urgent">Urgent 🔺</button>
-          <button type="button" class="medium">Medium 🟨</button>
-          <button type="button" class="low">Low ✅</button>
+          <button type="button" class="priority-btn urgent">Urgent 🔺</button>
+          <button type="button" class="priority-btn medium">Medium 🟨</button>
+          <button type="button" class="priority-btn low">Low ✅</button>
         </div>
+        
 
         <label for="assigned">Assigned to</label>
         <select id="assigned">
@@ -137,6 +156,9 @@
         <select id="category" required>
           <option>Select task category</option>
         </select>
+        <div id="category-error" class="required-note">
+          *This field is required
+        </div>
 
         <label for="subtasks">Subtasks</label>
         <div class="subtasks">
@@ -150,5 +172,35 @@
       <button type="reset" class="clear-btn">Clear ✗</button>
       <button type="submit" class="create-btn">Create Task ✔</button>
     </div>
+
+    <script>
+      const priorityButtons = document.querySelectorAll('.priority-btn');
+      let activeButton = null;
+    
+      priorityButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const isActive = button.classList.contains('active-urgent') ||
+                           button.classList.contains('active-medium') ||
+                           button.classList.contains('active-low');
+    
+          // Entferne alle aktiven Styles
+          priorityButtons.forEach(btn => {
+            btn.classList.remove('active-urgent', 'active-medium', 'active-low');
+          });
+    
+          // Wenn der Button nicht aktiv war → aktiviere ihn
+          if (!isActive) {
+            if (button.classList.contains('urgent')) {
+              button.classList.add('active-urgent');
+            } else if (button.classList.contains('medium')) {
+              button.classList.add('active-medium');
+            } else if (button.classList.contains('low')) {
+              button.classList.add('active-low');
+            }
+          }
+        });
+      });
+    </script>
+    
   </body>
 </html>
