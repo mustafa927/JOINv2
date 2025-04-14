@@ -27,6 +27,13 @@ h1 {
 }
 
 
+main {
+    flex-grow: 1; /* nimmt den restlichen Platz ein */
+
+    background-color: #fff; /* optional */
+
+  }
+
 .search-container {
     display: flex;
     align-items: center;

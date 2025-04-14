@@ -5,12 +5,6 @@ body {
     height: 100vh;
 }
 
-main {
-    flex-grow: 1; /* nimmt den restlichen Platz ein */
-
-    background-color: #fff; /* optional */
-
-  }
 
 .header-profile {
     display: flex;
