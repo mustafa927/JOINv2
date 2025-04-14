@@ -1,3 +1,7 @@
+body {
+    display: flex;
+} 
+
 .board-section {
     background-color: rgb(246,247,248);
     /* height: 100vh; */
