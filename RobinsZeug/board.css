@@ -1,0 +1,84 @@
+.board-section {
+    background-color: rgb(246,247,248);
+    height: 100vh;
+    margin: 0%;
+    /* padding-left: 40px; */
+    padding-right: 40px;
+    padding-top: 80px;
+}
+
+h1 {
+    font-size: 61px;
+}
+
+.Board-head {
+    display: flex;
+    justify-content: space-around;
+    padding-right: 40px;
+}
+
+.add-find-task {
+    display: flex;
+    /* justify-content: space-evenly; */
+    align-items: center;
+
+}
+
+
+.search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px 12px;
+    background-color: #f8f9fb;
+    width: 250px;
+
+  }
+  
+  .search-container input {
+    border: none;
+    outline: none;
+    flex: 1;
+    background-color: transparent;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .search-container input::placeholder {
+    color: #ccc;
+  }
+  
+  .search-icon {
+    margin-left: 8px;
+    color: #2d3a4a;
+    font-size: 16px;
+    border-left: 1px solid #ddd;
+    padding-left: 10px;
+
+  }
+  
+
+  .add-task-btn {
+    background-color: #2d3a4a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 12px;
+  }
+  
+  .add-task-btn:hover {
+    background-color: rgb(13,153,255);
+  }
+  
+  .plus-icon {
+    font-size: 16px;
+  }

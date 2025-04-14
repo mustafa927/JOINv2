@@ -1,7 +1,30 @@
 body {
     margin:0;
-    background-color: #F6F7F8
+    background-color: #F6F7F8;
+    display: flex;
+    height: 100vh;
 }
+
+main {
+    flex-grow: 1; /* nimmt den restlichen Platz ein */
+
+    background-color: #fff; /* optional */
+
+  }
+
+.header-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+  header {
+    display: flex;
+    padding-left: 60px;
+    padding: 40px;
+    justify-content: space-between;
+  }
+
 button {
     cursor:pointer;
 }
