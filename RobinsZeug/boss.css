@@ -23,6 +23,7 @@ main {
     padding-left: 60px;
     padding: 40px;
     justify-content: space-between;
+    height: 60px;
   }
 
 button {
