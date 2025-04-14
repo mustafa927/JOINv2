@@ -1,0 +1,212 @@
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: #f5f7f9;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 20px 40px;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+  font-size: 14px;
+}
+
+#not {
+  padding-right: 20px;
+  font-size: 18px;
+}
+
+#sign {
+  background-color: #2A3647;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 18px;
+}
+
+#sign:hover {
+  background-color: #29ABE2;
+}
+
+#a {
+  text-decoration: none;
+  color: #dededf;
+  font-weight: 650;
+  transition: color 0.3s ease;
+  display: inline-block;
+}
+
+#a:hover {
+  color: #29ABE2;
+  cursor: pointer;
+  transform: translateY(-1px);
+}
+
+#logo-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 1s ease-in-out;
+  z-index: 1000;
+}
+
+#logo {
+  width: 200px;
+  transition: width 1s ease-in-out;
+}
+
+#logo-container.shrink {
+  top: 20px;
+  left: 40px;
+  transform: translate(0, 0);
+}
+
+#logo-container.shrink #logo {
+  width: 80px;
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+form {
+  background-color: white;
+  padding: 80px;
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.form-title {
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  position: relative;
+  bottom: 30px;
+}
+
+.form-title::after {
+  content: "";
+  width: 120px;
+  height: 3px;
+  background-color: #0ea5e9;
+  display: block;
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+.input-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 12px 45px 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.input-wrapper .icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.btn {
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.btn.primary {
+  background-color: #2A3647;
+  color: white;
+  border: none;
+}
+
+.btn.primary:hover {
+  background-color: #29ABE2;
+}
+
+.btn.secondary {
+  background-color: transparent;
+  border: 2px solid #2A3647;
+  color: #2A3647;
+  position: relative;
+  left: 20px;
+  transition: color 0.3s ease;
+  display: inline-block;
+}
+
+.btn.secondary:hover {
+  background-color: rgba(14, 165, 233, 0.05);
+  color: #0ea5e9;
+  border-color: #0ea5e9;
+  transform: translateY(-1px);
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  font-weight: 600;
+}
+
+.hidden {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.visible {
+  opacity: 1;
+}
+
+/* ✅ Augenspezifisches Verhalten sicherstellen */
+.eye-icon.fa-eye.fa-eye-slash {
+  display: none !important;
+}
