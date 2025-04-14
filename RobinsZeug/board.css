@@ -1,0 +1,171 @@
+body {
+    display: flex;
+} 
+
+
+
+header {
+    display: flex;
+    padding-left: 60px;
+    padding: 40px;
+    justify-content: space-between;
+    height: 60px;
+  }
+
+  
+.board-section {
+    background-color: rgb(246,247,248);
+    /* height: 100vh; */
+    margin: 0%;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 80px;
+    height: calc(100vh - 250px);
+    width: calc(100vw - 250px);;
+}
+
+h1 {
+    font-size: 61px;
+}
+
+.Board-head {
+    display: flex;
+    justify-content: space-around;
+    padding-right: 40px;
+}
+
+.add-find-task {
+    display: flex;
+    /* justify-content: space-evenly; */
+    align-items: center;
+
+}
+
+
+main {
+    flex-grow: 1; /* nimmt den restlichen Platz ein */
+
+    background-color: #fff; /* optional */
+
+  }
+
+.search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px 12px;
+    background-color: #f8f9fb;
+    width: 250px;
+
+  }
+  
+  .search-container input {
+    border: none;
+    outline: none;
+    flex: 1;
+    background-color: transparent;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .search-container input::placeholder {
+    color: #ccc;
+  }
+  
+  .search-icon {
+    margin-left: 8px;
+    color: #2d3a4a;
+    font-size: 16px;
+    border-left: 1px solid #ddd;
+    padding-left: 10px;
+
+  }
+  
+
+  .add-task-btn {
+    background-color: #2d3a4a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 12px;
+  }
+  
+  .add-task-btn:hover {
+    background-color: rgb(13,153,255);
+  }
+  
+  .plus-icon {
+    font-size: 16px;
+  }
+
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    border: 2px solid #2d3a4a; /* Dunkler Rahmen */
+    border-radius: 8px;
+    background-color: transparent;
+    color: #2d3a4a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+  }
+  
+  .icon-btn:hover {
+    color:  rgb(13,153,255) ;
+    border: 2px solid  rgb(13,153,255); /* Dunkler Rahmen */
+  }
+  
+  .icon-btn:active {
+    transform: scale(0.95);
+  }
+  
+  .plus-icon {
+    font-weight: bold;
+  }
+  
+
+  .to-do-header{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    font-size: 24px;
+    align-items: center;
+  }
+
+
+  .progress-section {
+    width: 240px;
+    padding: 24px;
+    display: flex;
+   flex-direction: column;
+
+  }
+  .board-cards {
+    display: flex;
+    justify-content: center;
+  }
+
+  .no-tasks {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-color: rgb(231,231,231) ;
+    height: 54px;
+    border-radius: 12px;
+    color: #bcbcbc;
+
+    border: 2px dashed #bcbcbc; /* 2px dicke, gestrichelt, schwarz */
+
+  }
