@@ -2,6 +2,16 @@ body {
   display: flex;
 } 
 
+
+header {
+  display: flex;
+  padding-left: 60px;
+  padding: 40px;
+  justify-content: space-between;
+  height: 60px;
+  width: calc(100vw - 250px);;
+}
+
 .sidebar {
     background-color: #2A3647;
     display: flex;
