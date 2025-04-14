@@ -1,7 +1,6 @@
 body {
     margin:0;
     background-color: #F6F7F8;
-    /* display: flex; */
     height: 100vh;
 }
 
@@ -12,13 +11,6 @@ body {
     align-items: center;
 }
 
-  header {
-    display: flex;
-    padding-left: 60px;
-    padding: 40px;
-    justify-content: space-between;
-    height: 60px;
-  }
 
 button {
     cursor:pointer;

@@ -2,6 +2,17 @@ body {
     display: flex;
 } 
 
+
+
+header {
+    display: flex;
+    padding-left: 60px;
+    padding: 40px;
+    justify-content: space-between;
+    height: 60px;
+  }
+
+  
 .board-section {
     background-color: rgb(246,247,248);
     /* height: 100vh; */
