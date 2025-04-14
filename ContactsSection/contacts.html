@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacts</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      display: flex;
+      height: 100vh;
+      color: #333;
+    }
+
+    .contact-panel {
+      width: 300px;
+      background-color: #f7f9fb;
+      padding: 20px;
+      border-right: 1px solid #e0e0e0;
+      overflow-y: auto;
+    }
+
+    .main {
+      flex: 1;
+      padding: 40px;
+      background-color: #fafafa;
+    }
+
+    .add-contact {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #1f2d3d;
+      color: white;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+
+    .letter-divider {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #777;
+    }
+
+    .contact {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-left: 5px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #ccc;
+      color: white;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+      font-size: 14px;
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contact-name {
+      font-weight: 500;
+    }
+
+    .contact-email {
+      font-size: 10px;
+      color: #0077cc;
+    }
+
+    .header-title {
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .header-subtitle {
+      color: #888;
+      font-size: 15px;
+      margin-left: 0.10px;
+      border-left: 3px solid #2196f3;
+      padding-left: 10px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="contact-panel">
+    <div class="add-contact">Add new contact</div>
+
+    <div class="letter-divider">B</div>
+    <div class="contact">
+      <div class="avatar" style="background-color: #7e57c2;">BZ</div>
+      <div class="contact-details">
+        <div class="contact-name">Benedikt Ziegler</div>
+        <div class="contact-email">benedikt@gmail.com</div>
+      </div>
+    </div>
+
+    <div class="letter-divider">D</div>
+    <div class="contact">
+      <div class="avatar" style="background-color: #f06292;">DE</div>
+      <div class="contact-details">
+        <div class="contact-name">David Eisenberg</div>
+        <div class="contact-email">davidberg@gmail.com</div>
+      </div>
+    </div>
+
+    <div class="letter-divider">E</div>
+    <div class="contact">
+      <div class="avatar" style="background-color: #ffb74d;">EF</div>
+      <div class="contact-details">
+        <div class="contact-name">Eva Fischer</div>
+        <div class="contact-email">eva@gmail.com</div>
+      </div>
+    </div>
+
+    <div class="contact">
+      <div class="avatar" style="background-color: #4db6ac;">EM</div>
+      <div class="contact-details">
+        <div class="contact-name">Emmanuel Mauer</div>
+        <div class="contact-email">emmanueld@gmail.com</div>
+      </div>
+    </div>
+
+    <div class="letter-divider">M</div>
+    <div class="contact">
+      <div class="avatar" style="background-color: #673ab7;">MB</div>
+      <div class="contact-details">
+        <div class="contact-name">Marcel Bauer</div>
+        <div class="contact-email">bauer@gmail.com</div>
+      </div>
+    </div>
+
+    <div class="letter-divider">T</div>
+    <div class="contact">
+      <div class="avatar" style="background-color: #e57373;">TW</div>
+      <div class="contact-details">
+        <div class="contact-name">Tatjana Wolf</div>
+        <div class="contact-email">wolf@gmail.com</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <div class="header-title">Contacts</div>
+      <div class="header-subtitle">Better with a team</div>
+    </div>
+  </div>
+
+</body>
+</html>
