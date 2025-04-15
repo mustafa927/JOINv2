@@ -41,3 +41,7 @@ input[type="checkbox"] {
     accent-color: #0b140b; /* neu in modernen Browsern */
     cursor: pointer;
   }
+
+  .d-none {
+    display: none !important;
+  }

@@ -23,7 +23,7 @@
         <img src="svg/AddTask.svg" alt="">
         <span>Add Task</span>
       </a>
-      <a href="#" class="nav-item">
+      <a href="#" class="nav-item active">
         <img src="svg/Icons (1).svg" alt="">
         <span>Board</span>
       </a>
@@ -66,7 +66,7 @@
 </div>
 
 <section class="board-cards">
-<div class="progress-section">
+<div class="progress-section dropzone" ondragover="allowDrop(event)" ondrop="drop(event)">
   <div class="to-do-header">
     <p>To do</p>
     <button class="icon-btn">
@@ -80,14 +80,20 @@
 
 </div>
 
-<div class="progress-section">
+<div class="progress-section dropzone" ondragover="allowDrop(event)" ondrop="drop(event)">
   <div class="to-do-header">
     <p>In progress</p>
     <button class="icon-btn">
       <span class="plus-icon">+</span>
     </button>
   </div>
-  <div class="card">
+  
+  <div class="no-tasks d-none">
+    <p>No tasks To Do</p>
+
+  </div>
+
+  <div class="card" draggable="true" ondragstart="startDragging(event)" id="task-1">
     <div class="card-type">User Story</div>
     <div class="card-title">Kochwelt Page & Recipe Recommender</div>
     <div class="card-description">Build start page with recipe recommendation...</div>
@@ -111,7 +117,7 @@
   
 </div>
 
-<div class="progress-section">
+<div class="progress-section dropzone" ondragover="allowDrop(event)" ondrop="drop(event)">
   <div class="to-do-header">
     <p>Await Feedback</p>
     <button class="icon-btn">
@@ -121,10 +127,10 @@
   <div class="no-tasks">
     <p>No tasks To Do</p>
 
-</div>
+  </div>
 </div>
 
-<div class="progress-section">
+<div class="progress-section dropzone" ondragover="allowDrop(event)" ondrop="drop(event)">
   <div class="to-do-header">
     <p>Done</p>
     <!-- <button class="icon-btn">
@@ -149,6 +155,8 @@
 
 
 </main>
+
+<script src="board.js"></script>
 
 </body>
 </html>
