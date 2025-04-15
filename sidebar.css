@@ -3,6 +3,8 @@ body {
 } 
 
 
+
+
 header {
   display: flex;
   padding-left: 60px;
@@ -84,3 +86,6 @@ header {
     opacity: 1;
   }
   
+  .header-profile {
+    gap: 8px;
+  }
