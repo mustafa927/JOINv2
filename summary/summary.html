@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kanban Dashboard</title>
+<<<<<<< Updated upstream
   <link rel="stylesheet" href="summary.css" />
   <script defer src="summary.js"></script>
 </head>
@@ -99,5 +100,59 @@
       </div>
     </div>
   </main>
+=======
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div><strong>Kanban Project Management Tool</strong></div>
+    <div class="user-initials" id="userInitials">--</div>
+  </header>
+
+  <main class="container">
+    <h1>Join 360 <span class="highlight">| Key Metrics at a Glance</span></h1>
+
+    <div class="greeting">
+      Good morning, <span class="highlight" id="userName"></span>
+    </div>
+
+    <section class="metrics">
+      <div class="card">
+        <div class="card-icon">📝</div>
+        <div class="bold" id="todoCount">-</div>
+        <div>To-do</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">✔️</div>
+        <div class="bold" id="doneCount">-</div>
+        <div>Done</div>
+      </div>
+      <div class="card">
+        <img src="group7.svg" alt="Urgent Icon" class="icon-svg" />
+        <div class="bold" id="urgentCount">-</div>
+        <div>Urgent</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📅</div>
+        <div class="bold" id="deadlineDate">-</div>
+        <div>Upcoming Deadline</div>
+      </div>
+      <div class="card">
+        <div class="bold" id="taskBoardCount">-</div>
+        <div>Tasks in Board</div>
+      </div>
+      <div class="card">
+        <div class="bold" id="taskProgressCount">-</div>
+        <div>Tasks in Progress</div>
+      </div>
+      <div class="card">
+        <div class="bold" id="awaitingFeedbackCount">-</div>
+        <div>Awaiting Feedback</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+>>>>>>> Stashed changes
 </body>
 </html>
