@@ -84,3 +84,6 @@ header {
     opacity: 1;
   }
   
+  .header-profile {
+    gap: 8px;
+  }
