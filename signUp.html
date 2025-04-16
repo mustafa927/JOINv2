@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join - Sign up</title>
+    <link rel="stylesheet" href="style/loginStyle.css">
+    <link rel="stylesheet" href="style/signUp.css">
+</head>
+<body>
+    <div class="page-logo">
+        <img src="svg/Capa 2.svg" alt="Join Logo">
+    </div>
+    
+    <div class="signup-card">
+        <a href="index.html" class="back-arrow">
+            <img src="svg/arrow-left-line.svg" alt="Back">
+        </a>
+        
+        <h1>Sign up</h1>
+        <div class="blue-line"></div>
+        
+        <form class="signup-form">
+            <div class="input-field">
+                <input type="text" id="name" placeholder="Name" required>
+                <img src="svg/person.svg" alt="Person icon" class="input-icon">
+            </div>
+            
+            <div class="input-field">
+                <input type="email" id="email" placeholder="Email" required>
+                <img src="svg/mail.svg" alt="Email icon" class="input-icon">
+            </div>
+            
+            <div class="input-field">
+                <input type="password" id="password" placeholder="Password" required>
+                <img src="svg/lock.svg" alt="Password icon" class="input-icon">
+            </div>
+            
+            <div class="input-field">
+                <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+                <img src="svg/lock.svg" alt="Password icon" class="input-icon">
+            </div>
+            
+            <div class="privacy-checkbox">
+                <input type="checkbox" id="privacy-policy" required>
+                <label for="privacy-policy">I accept the <a href="privacyPolicy.html" class="privacy-link">Privacy policy</a></label>
+            </div>
+            
+            <button type="submit" class="signup-button">Sign up</button>
+        </form>
+    </div>
+    
+    <footer class="page-footer">
+        <a href="privacyPolicy.html">Privacy Policy</a>
+        <a href="Legal-notice.html">Legal notice</a>
+    </footer>
+</body>
+</html>
