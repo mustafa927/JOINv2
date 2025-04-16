@@ -12,7 +12,7 @@ body {
     padding-left: 40px;
     padding-right: 40px;
     padding-top: 80px;
-    height: calc(100vh - 250px);
+    height: calc(100vh - 220px);
     width: calc(100vw - 250px);;
 }
 
@@ -141,7 +141,7 @@ main {
     width: 240px;
     padding: 24px;
     display: flex;
-   flex-direction: column;
+    flex-direction: column;
 
   }
   .board-cards {
@@ -161,8 +161,6 @@ main {
     border: 2px dashed #bcbcbc; /* 2px dicke, gestrichelt, schwarz */
 
   }
-
-
 
   .card {
     width: 200px;
