@@ -140,8 +140,9 @@ body {
     cursor: pointer;
     margin: 10px auto;
     display: block;
-    width: 200px; 
+    width: 130px;
     transition: all 0.3s ease;
+    text-align: center;
 }
 
 .signup-button:hover {
