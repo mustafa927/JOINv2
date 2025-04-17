@@ -2,15 +2,27 @@ body {
     display: flex;
 } 
 
+header {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: space-around;
+  height: 100px;
+}
 
+header h2 {
+  font-weight: 100;
+}
 
+.header-profile {
+  width: 100px;
+  display: flex;
+  justify-content: space-around;
+}
 
 .board-section {
     background-color: rgb(246,247,248);
-    /* height: 100vh; */
     margin: 0%;
-    /* padding-left: 40px;
-    padding-right: 40px; */
     padding-top: 80px;
     height: calc(100vh - 220px);
     width: calc(100vw - 230px);;
