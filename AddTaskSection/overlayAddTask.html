@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overlay AddTask</title>
+    <link rel="stylesheet" href="addTask.css">
+</head>     
+<body>
+    <h2>Add Task</h2>
+    <form>
+      <div class="form-section">
+        <label for="title">Title<span class="required-note"> *</span></label>
+        <input type="text" id="title" placeholder="Enter a title" />
+        <div id="title-error" class="required-note">
+          *This field is required
+        </div>
+
+        <label for="desc">Description</label>
+        <textarea id="desc" placeholder="Enter a Description"></textarea>
+
+        <label for="due-date">Due date</label>
+        <input type="date" id="due-date" />
+      </div>
+      <div class="line"></div>
+      <div class="form-section">
+        <label>Priority</label>
+        <div class="priority-buttons">
+          <button type="button" class="priority-btn urgent">Urgent 🔺</button>
+          <button type="button" class="priority-btn medium">Medium 🟨</button>
+          <button type="button" class="priority-btn low">Low ✅</button>
+        </div>
+        
+
+        <label for="assigned">Assigned to</label>
+        <select id="assigned">
+          <option>Select contacts to assign</option>
+        </select>
+
+        <label for="category"
+          >Category<span class="required-note"> *</span></label
+        >
+        <select id="category" required>
+          <option>Select task category</option>
+        </select>
+        <div id="category-error" class="required-note">
+          *This field is required
+        </div>
+
+        <label for="subtasks">Subtasks</label>
+        <div class="subtasks">
+          <input type="text" id="subtasks" placeholder="Add new subtask" />
+          <button type="button">+</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="bottom-buttons">
+      <button type="reset" class="clear-btn">Clear ✗</button>
+      <button type="submit" class="create-btn">Create Task ✔</button>
+    </div>
+<script src="addTask.js"></script>
+</body>
+</html>
