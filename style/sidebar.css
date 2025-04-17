@@ -11,7 +11,7 @@ body {
     flex-direction: column;
     /* justify-content: space-between; */
     width: 230px !important;
-    height: 100vh;
+    /* height: 100vh; */
     padding: 40px 0;
     box-sizing: border-box;
   }
