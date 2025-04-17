@@ -395,7 +395,7 @@ body {
 
 /* === SIDEBAR (identisch zu privacyPolicy.css) === */
 .sidebar {
-  width: 210px;
+  width: 180px;
   background-color: #2A3647;
   color: white;
   display: flex;
