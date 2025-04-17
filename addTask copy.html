@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="sidebar.css">
   <link rel="stylesheet" href="addtask.css">
+  <link rel="stylesheet" href="boss.css">
   </head>
   <body>
     <aside class="sidebar">
@@ -41,7 +42,17 @@
 
 
       <main>
-    <h2>Add Task</h2>
+        <header>
+          <h2>Kanban Project Management tool</h2>
+      
+          <div class="header-profile">
+            <img src="svg/help.svg" alt="question-mark" srcset="">
+            <div class="avatar" style="background-color: #FF7A00;">AM</div>
+          </div>
+        </header>
+
+        <div class="maincontent">
+    <h1>Add Task</h1>
     <form>
       <div class="form-section">
         <label for="title">Title<span class="required-note"> *</span></label>
@@ -93,7 +104,7 @@
       <button type="reset" class="clear-btn">Clear ✗</button>
       <button type="submit" class="create-btn">Create Task ✔</button>
     </div>
-
+  </div>
   </main>
     <script>
       const priorityButtons = document.querySelectorAll('.priority-btn');
