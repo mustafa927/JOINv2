@@ -46,7 +46,7 @@ main {
     align-items: center;
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 8px 12px;
+    padding: 4px 8px;
     background-color: #f8f9fb;
     width: 250px;
 
@@ -74,6 +74,15 @@ main {
 
   }
   
+  .search-icon img:hover {
+    cursor: pointer;
+    background-color: #d0d0d0;
+    border-radius: 32px;
+  }
+
+  .search-icon img {
+    padding: 2px;
+  }
 
   .add-task-btn {
     background-color: #2d3a4a;
