@@ -91,8 +91,8 @@ function showContact(name) {
       <div>
         <h2>${contact.name}</h2>
         <div class="action-icons">
-          <span>Edit</span>
-          <span>Delete</span>
+          <span style="cursor:pointer;" onclick="editContact('${name}')">Edit</span>
+          <span style="cursor:pointer;" onclick="deleteContact('${name}')">Delete</span>
         </div>
       </div>
     </div>
@@ -106,6 +106,70 @@ function showContact(name) {
 }
       // 🟢 Hier einfach nur den Fetch starten
 
+      function createContact() {
+        const addContact = document.getElementById("addContactForm");
+      
+        addContact.innerHTML = `
+          <div>
+            <h2>Add contact</h2>
+            <p>Tasks are better with a team!</p>
+      
+            <div>
+              <input id="inputName" type="text" placeholder="Name">
+            </div>
+            <div>
+              <input id="inputEmail" type="email" placeholder="Email">
+            </div>
+            <div>
+              <input id="inputPhone" type="tel" placeholder="Phone">
+            </div>
+      
+            <div>
+              <button onclick="cancelContact()">Cancel</button>
+              <button onclick="saveContact()">Create contact</button>
+            </div>
+          </div>
+        `;
+      }
+      
+      async function saveContact() {
+        const name = document.getElementById("inputName").value;
+        const email = document.getElementById("inputEmail").value;
+        const phone = document.getElementById("inputPhone").value;
+      
+        if (!name || !email) {
+          alert("Name und Email sind Pflichtfelder!");
+          return;
+        }
+      
+        const newContact = {
+          name: name,
+          email: email,
+          phone: phone
+        };
+      
+        try {
+          await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json", {
+            method: "POST",
+            body: JSON.stringify(newContact),
+            headers: {
+              "Content-Type": "application/json"
+            }
+          });
+      
+          console.log("Kontakt gespeichert:", newContact);
+      
+          // UI zurücksetzen oder schließen
+          document.getElementById("addContactForm").innerHTML = "";
+      
+          // Liste neu laden
+          fetchData();
+      
+        } catch (error) {
+          console.error("Fehler beim Speichern:", error);
+        }
+      }
+      
       fetchData();
-
+      createContact();
     
