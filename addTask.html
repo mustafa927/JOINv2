@@ -42,12 +42,20 @@
 
 
       <main>
-        <header>
-          <h2>Kanban Project Management tool</h2>
-      
-          <div class="header-profile">
-            <img src="svg/help.svg" alt="question-mark" srcset="">
-            <div class="avatar" style="background-color: #FF7A00;">AM</div>
+        <header class="page-header">
+          <div class="logo-title">Kanban Project Management Tool</div>
+          <div class="header-icons">
+            <div class="help-icon">?</div>
+            <div class="profile-wrapper">
+              <div class="profile-circle" onclick="toggleMenu()">?</div>
+              <div id="dropdownMenu" class="dropdown-menu">
+                <ul>
+                  <li>Legal Notice</li>
+                  <li>Privacy Policy</li>
+                  <li>Log out</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </header>
 
@@ -107,6 +115,7 @@
   </div>
   </main>
 <script src="JavaScript/addTask.js"></script>
+<script src="JavaScript/summary.js"></script>
     
   </body>
 </html>
