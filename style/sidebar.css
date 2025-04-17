@@ -10,7 +10,7 @@ body {
     display: flex;
     flex-direction: column;
     /* justify-content: space-between; */
-    width: 230px;
+    width: 230px !important;
     height: 100vh;
     padding: 40px 0;
     box-sizing: border-box;
@@ -34,6 +34,7 @@ body {
     gap: 16px;
     flex-grow: 1;
     margin-top: 80px;
+    width: 230px;
   }
   
   .nav-item {
@@ -70,6 +71,15 @@ body {
   .sidebar-footer a {
     color: #ffffff;
     text-decoration: none;
+  }
+
+  .sidebar-footer a:hover {
+    color: #29ABE2;
+}
+
+  .sidebar-footer-active {
+    font-size: 21px;
+    color: #29ABE2 !important;
   }
   
   .sidebar-footer a:hover {
