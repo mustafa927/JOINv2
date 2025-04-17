@@ -5,13 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Task</title>
 
-
+    <link rel="stylesheet" href="sidebar.css">
     <style>
       body {
         font-family: Arial, sans-serif;
         background-color: #f8f9fb;
         margin: 0;
-        padding: 40px;
+        /* padding: 40px; */
+      }
+
+      main {
+        padding-top: 80px;
+        width: calc(100vw - 500px);
+        align-items: center;
+
+        padding-left: 80px;
       }
       h2 {
         font-size: 32px;
@@ -122,7 +130,38 @@
     </style>
   </head>
   <body>
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="img/sidebarLogo.svg" alt="Join Logo">
+      </div>
+    
+      <nav class="sidebar-nav">
+        <a href="summary.html" class="nav-item">
+          <img src="svg/Vector.svg" alt="">
+          <span>Summary</span>
+        </a>
+        <a href="AddTaskSection/addTask.html" class="nav-item active">
+          <img src="svg/Icons.svg" alt="">
+          <span>Add Task</span>
+        </a>
+        <a href="#" class="nav-item">
+          <img src="svg/Icons (1).svg" alt="">
+          <span>Board</span>
+        </a>
+        <a href="ContactsSection/contacts.html" class="nav-item">
+          <img src="svg/Icons (2).svg" alt="">
+          <span>Contacts</span>
+        </a>
+      </nav>
+    
+      <div class="sidebar-footer">
+        <a href="privacyPolicy.html">Privacy Policy</a>
+        <a href="Legal-notice.html">Legal notice</a>
+      </div>
+    </aside>
 
+
+      <main>
     <h2>Add Task</h2>
     <form>
       <div class="form-section">
@@ -176,6 +215,7 @@
       <button type="submit" class="create-btn">Create Task ✔</button>
     </div>
 
+  </main>
     <script>
       const priorityButtons = document.querySelectorAll('.priority-btn');
       let activeButton = null;
