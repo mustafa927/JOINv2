@@ -374,3 +374,449 @@ body {
 .status-card:hover .status-label {
   color: white;
 }
+/* === RESET & BASIS === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+body {
+  background-color: #F6F7F8;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* === SIDEBAR (identisch zu privacyPolicy.css) === */
+.sidebar {
+  width: 210px;
+  background-color: #2A3647;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 0;
+  height: 100%;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 60px;
+}
+
+.sidebar-logo img {
+  width: 100px;
+  height: auto;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-top: 28px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background-color: #091931;
+}
+
+.nav-item img {
+  width: 24px;
+  height: 24px;
+  margin-right: 16px;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+}
+
+.sidebar-footer a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 0;
+  transition: color 0.3s ease;
+}
+
+.sidebar-footer a:hover {
+  color: #29ABE2;
+}
+
+/* === HEADER === */
+.page-header {
+  position: fixed;
+  top: 0;
+  left: 210px;
+  right: 0;
+  height: 96px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  border-bottom: 1px solid #e0e0e0;
+  z-index: 100;
+}
+
+.logo-title {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.help-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 2px solid #2a3647;
+  color: #2a3647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.help-icon:hover {
+  background-color: #E2E6EC;
+  color: white;
+}
+
+.profile-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 2px solid #2a3647;
+  color: #2a3647;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.profile-circle:hover {
+  background-color: #E2E6EC;
+  color: white;
+}
+
+/* === DROPDOWN-MENÜ === */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 40px;
+  background-color: #2A3647;
+  min-width: 140px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  z-index: 1000;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 10px 0;
+}
+
+.dropdown-menu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #A4A7AB;
+  transition: background-color 0.3s;
+}
+
+.dropdown-menu li:hover {
+  background-color: #2A3D59;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+/* === INHALTSBEREICH === */
+.container {
+  margin-left: 210px;
+  margin-top: 96px;
+  padding: 40px 30px;
+  background-color: #f6f7f8;
+}
+
+/* === HEADLINE === */
+.headline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title {
+  font-size: 56px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.divider {
+  width: 2.4px;
+  height: 45px;
+  background-color: #29ABE2;
+}
+
+.sub {
+  font-size: 22px;
+  font-weight: 400;
+  margin: 0;
+  padding-left: 60px;
+}
+
+/* === CARDS (To-do, Done) === */
+.card-container {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  padding: 20px 30px;
+  text-align: center;
+  width: 200px;
+  height: 120px;
+  transition: background-color 0.3s, transform 0.3s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.card-icon {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background-color: #2a3647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.svg-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.card-number {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.card-label {
+  font-size: 16px;
+  color: #2c3e50;
+}
+
+.card:hover {
+  background-color: #2a3647;
+  transform: scale(1.05);
+}
+
+.card:hover .card-icon {
+  background-color: white;
+  color: #2c3e50;
+}
+
+.card:hover .card-number,
+.card:hover .card-label {
+  color: white;
+}
+
+/* === URGENT & GREETING === */
+.card-row {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.card-urgent {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 20px 30px;
+  width: 480px;
+  height: 120px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+
+.card-urgent:hover {
+  background-color: #2a3647;
+  transform: scale(1.05);
+}
+
+.card-urgent:hover .urgent-number,
+.card-urgent:hover .urgent-label,
+.card-urgent:hover .urgent-date,
+.card-urgent:hover .urgent-subtext {
+  color: white;
+}
+
+.urgent-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.urgent-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #FF3D00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.urgent-icon img {
+  width: 24px;
+  height: 24px;
+}
+
+.urgent-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.urgent-number {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+  padding-top: 6px;
+}
+
+.urgent-label {
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.urgent-divider {
+  width: 2px;
+  height: 80px;
+  background-color: #e0e0e0;
+  margin: 0 30px;
+}
+
+.urgent-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.urgent-date {
+  font-size: 16px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.urgent-subtext {
+  font-size: 14px;
+  color: #6e6e6e;
+}
+
+.greeting {
+  font-size: 32px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* === STATUS CARDS === */
+.status-card-row {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.status-card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  width: 150px;
+  height: 100px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+
+.status-number {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.status-label {
+  font-size: 18px;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.status-card:hover {
+  background-color: #2a3647;
+  transform: scale(1.05);
+}
+
+.status-card:hover .status-number,
+.status-card:hover .status-label {
+  color: white;
+}
