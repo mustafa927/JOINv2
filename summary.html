@@ -43,7 +43,7 @@
     </div>
   </aside>
 
-  <!-- Header oben -->
+  <!-- Header -->
   <header class="page-header">
     <div class="logo-title">Kanban Project Management Tool</div>
     <div class="header-icons">
@@ -52,16 +52,16 @@
         <div class="profile-circle" onclick="toggleMenu()">?</div>
         <div id="dropdownMenu" class="dropdown-menu">
           <ul>
-            <li>Legal Notice</li>
-            <li>Privacy Policy</li>
-            <li>Log out</li>
+            <li><a href="legal-notice.html">Legal Notice</a></li>
+            <li><a href="privacyPolicy.html">Privacy Policy</a></li>
+            <li><a href="index.html">Log out</a></li>
           </ul>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Hauptinhalt -->
+  <!-- Main Content -->
   <main class="container">
     <div class="headline">
       <h1 class="title">Join 360</h1>
@@ -70,67 +70,80 @@
     </div>
 
     <div class="card-container">
-      <div class="card">
-        <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg-icon">
-            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 
+      <a href="boardsection.html">
+        <div class="card">
+          <div class="card-icon">
+            <!-- Beispiel-SVG-Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg-icon">
+              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 
               0-1.41l-2.34-2.34a1.003 1.003 0 00-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.83z" fill="currentColor"/>
-          </svg>
+            </svg>
+          </div>
+          <div class="card-content">
+            <span class="card-number">?</span>
+            <p class="card-label">To-do</p>
+          </div>
         </div>
-        <div class="card-content">
-          <span class="card-number">?</span>
-          <p class="card-label">To-do</p>
-        </div>
-      </div>
+      </a>
 
-      <div class="card">
-        <div class="card-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg-icon">
-            <path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20.3 
+      <a href="boardsection.html">
+        <div class="card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg-icon">
+              <path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20.3 
               7.7l-1.4-1.4z" fill="currentColor"/>
-          </svg>
+            </svg>
+          </div>
+          <div class="card-content">
+            <span class="card-number">?</span>
+            <p class="card-label">Done</p>
+          </div>
         </div>
-        <div class="card-content">
-          <span class="card-number">?</span>
-          <p class="card-label">Done</p>
-        </div>
-      </div>
+      </a>
     </div>
 
     <div class="card-row">
-      <div class="card-urgent">
-        <div class="urgent-left">
-          <div class="urgent-icon">
-            <img src="./img/Group 7 (1).svg" alt="Urgent Icon" />
+      <a href="boardsection.html">
+        <div class="card-urgent">
+          <div class="urgent-left">
+            <div class="urgent-icon">
+              <img src="./img/Group 7 (1).svg" alt="Urgent Icon" />
+            </div>
+            <div class="urgent-info">
+              <div class="urgent-number">?</div>
+              <div class="urgent-label">Urgent</div>
+            </div>
           </div>
-          <div class="urgent-info">
-            <div class="urgent-number">?</div>
-            <div class="urgent-label">Urgent</div>
+          <div class="urgent-divider"></div>
+          <div class="urgent-right">
+            <div class="urgent-date">Datum</div>
+            <div class="urgent-subtext">Upcoming Deadline</div>
           </div>
         </div>
-        <div class="urgent-divider"></div>
-        <div class="urgent-right">
-          <div class="urgent-date">Datum</div>
-          <div class="urgent-subtext">Upcoming Deadline</div>
-        </div>
-      </div>
-
-      <div class="greeting">Good morning</div>
+      </a>
     </div>
 
     <div class="status-card-row">
-      <div class="status-card">
-        <div class="status-number">?</div>
-        <div class="status-label">Tasks in <br>Board</div>
-      </div>
-      <div class="status-card">
-        <div class="status-number">?</div>
-        <div class="status-label">Tasks In <br>Progress</div>
-      </div>
-      <div class="status-card">
-        <div class="status-number">?</div>
-        <div class="status-label">Awaiting <br>Feedback</div>
-      </div>
+      <a href="boardsection.html">
+        <div class="status-card">
+          <div class="status-number">?</div>
+          <div class="status-label">Tasks in <br>Board</div>
+        </div>
+      </a>
+
+      <a href="boardsection.html">
+        <div class="status-card">
+          <div class="status-number">?</div>
+          <div class="status-label">Tasks In <br>Progress</div>
+        </div>
+      </a>
+
+      <a href="boardsection.html">
+        <div class="status-card">
+          <div class="status-number">?</div>
+          <div class="status-label">Awaiting <br>Feedback</div>
+        </div>
+      </a>
     </div>
   </main>
 </body>
