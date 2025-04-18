@@ -3,15 +3,17 @@ body {
     display: flex;
     font-family: 'Segoe UI', sans-serif;
     background-color: #f4f6f8;
+
   }
   
   .sidebar {
+
     background-color: #2A3647;
     display: flex;
     flex-direction: column;
     /* justify-content: space-between; */
     width: 230px !important;
-    /* height: 100vh; */
+    height: 100%;
     padding: 40px 0;
     box-sizing: border-box;
   }
