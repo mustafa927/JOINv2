@@ -86,7 +86,7 @@ function showContact(name) {
   
     let overlay = document.getElementById("overlay");
     overlay.innerHTML = `
-    <div style="display:flex; align-items: center; gap: 15px;">
+    <div class="overlay-name">
       <div class="avatar avatar-big" style="width:60px; height:60px; font-size:20px;">${initials}</div>
       <div>
         <h2>${contact.name}</h2>
@@ -131,7 +131,12 @@ function showContact(name) {
           </div>
         `;
       }
-      
+
+      function addContact() {
+        let addContact = document.getElementById("addContactForm");
+        addContact.classList.remove("d_none");
+      }
+     
       async function saveContact() {
         const name = document.getElementById("inputName").value;
         const email = document.getElementById("inputEmail").value;
@@ -160,7 +165,9 @@ function showContact(name) {
           console.log("Kontakt gespeichert:", newContact);
       
           // UI zurücksetzen oder schließen
-          document.getElementById("addContactForm").innerHTML = "";
+          document.getElementById("inputName").value ="";
+          document.getElementById("inputEmail").value="";
+          document.getElementById("inputPhone").value="";
       
           // Liste neu laden
           fetchData();
@@ -168,8 +175,18 @@ function showContact(name) {
         } catch (error) {
           console.error("Fehler beim Speichern:", error);
         }
+
+        let addContact = document.getElementById("addContactForm");
+        addContact.classList.add("d_none");
       }
       
-      fetchData();
+      function cancelContact() {
+        let addContact = document.getElementById("addContactForm");
+        document.getElementById("inputName").value ="";
+        document.getElementById("inputEmail").value="";
+        document.getElementById("inputPhone").value="";
+        addContact.classList.add("d_none");
+      }
+      
       createContact();
     
