@@ -16,15 +16,7 @@ body {
     height: 100vh;
 }
 
-.sidebar {
-    width: 210px;
-    background-color: #2A3647;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    padding: 40px 0;
-    height: 100%;
-}
+
 
 .logo-container {
     display: flex;
@@ -83,7 +75,7 @@ body {
 }
 
 .footer-link.active {
-    color: #29ABE2;
+    color: #29ABE2 !important;
 }
 
 .main-content {

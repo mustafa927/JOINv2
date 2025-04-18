@@ -24,8 +24,8 @@ header h2 {
     background-color: rgb(246,247,248);
     margin: 0%;
     padding-top: 80px;
-    height: calc(100vh - 220px);
-    width: calc(100vw - 230px);;
+    height: calc(100vh - 80px);
+    width: calc(100vw - 230px);
 }
 
 h1 {

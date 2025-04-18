@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="sidebar.css">
-    <link rel="stylesheet" href="boss.css">
-    <link rel="stylesheet" href="board.css">
+    <link rel="stylesheet" href="style/sidebar.css">
+    <link rel="stylesheet" href="style/boss.css">
+    <link rel="stylesheet" href="/style/board.css">
     <title>Board</title>
 </head>
 <body>
@@ -19,7 +19,7 @@
         <img src="svg/Vector.svg" alt="">
         <span>Summary</span>
       </a>
-      <a href="AddTaskSection/addTask.html" class="nav-item">
+      <a href="addTask.html" class="nav-item">
         <img src="svg/Icons.svg" alt="">
         <span>Add Task</span>
       </a>
@@ -39,14 +39,23 @@
     </div>
   </aside>
 <main>
-  <header>
-    <h2>Kanban Project Management tool</h2>
-
-    <div class="header-profile">
-      <img src="svg/help.svg" alt="question-mark" srcset="">
-      <div class="avatar" style="background-color: #FF7A00;">AM</div>
+  <header class="page-header">
+    <div class="logo-title">Kanban Project Management Tool</div>
+    <div class="header-icons">
+      <div class="help-icon">?</div>
+      <div class="profile-wrapper">
+        <div class="profile-circle" onclick="toggleMenu()">?</div>
+        <div id="dropdownMenu" class="dropdown-menu">
+          <ul>
+            <li>Legal Notice</li>
+            <li>Privacy Policy</li>
+            <li>Log out</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </header>
+
 
 <section class="board-section">
   <div class="Board-head">
@@ -156,7 +165,7 @@
 
 </main>
 
-<script src="board.js"></script>
-<script src="summary.js"></script>
+<script src="JavaScript/board.js"></script>
+<script src="JavaScript/summary.js"></script>
 </body>
 </html>

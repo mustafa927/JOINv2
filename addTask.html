@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Task</title>
 
-    <link rel="stylesheet" href="sidebar.css">
-  <link rel="stylesheet" href="addtask.css">
+    <link rel="stylesheet" href="style/sidebar.css">
+  <link rel="stylesheet" href="style/addtask.css">
+  <link rel="stylesheet" href="style/boss.css">
   </head>
   <body>
     <aside class="sidebar">
@@ -41,7 +42,25 @@
 
 
       <main>
-    <h2>Add Task</h2>
+        <header class="page-header">
+          <div class="logo-title">Kanban Project Management Tool</div>
+          <div class="header-icons">
+            <div class="help-icon">?</div>
+            <div class="profile-wrapper">
+              <div class="profile-circle" onclick="toggleMenu()">?</div>
+              <div id="dropdownMenu" class="dropdown-menu">
+                <ul>
+                  <li>Legal Notice</li>
+                  <li>Privacy Policy</li>
+                  <li>Log out</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="maincontent">
+    <h1>Add Task</h1>
     <form>
       <div class="form-section">
         <label for="title">Title<span class="required-note"> *</span></label>
@@ -93,36 +112,10 @@
       <button type="reset" class="clear-btn">Clear ✗</button>
       <button type="submit" class="create-btn">Create Task ✔</button>
     </div>
-
+  </div>
   </main>
-    <script>
-      const priorityButtons = document.querySelectorAll('.priority-btn');
-      let activeButton = null;
-    
-      priorityButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          const isActive = button.classList.contains('active-urgent') ||
-                           button.classList.contains('active-medium') ||
-                           button.classList.contains('active-low');
-    
-          // Entferne alle aktiven Styles
-          priorityButtons.forEach(btn => {
-            btn.classList.remove('active-urgent', 'active-medium', 'active-low');
-          });
-    
-          // Wenn der Button nicht aktiv war → aktiviere ihn
-          if (!isActive) {
-            if (button.classList.contains('urgent')) {
-              button.classList.add('active-urgent');
-            } else if (button.classList.contains('medium')) {
-              button.classList.add('active-medium');
-            } else if (button.classList.contains('low')) {
-              button.classList.add('active-low');
-            }
-          }
-        });
-      });
-    </script>
+<script src="JavaScript/addTask.js"></script>
+<script src="JavaScript/summary.js"></script>
     
   </body>
 </html>

@@ -6,13 +6,18 @@ body {
   }
 
   main {
-    padding-top: 80px;
+
     width: calc(100vw - 500px);
     align-items: center;
 
-    padding-left: 80px;
+    /* padding-left: 80px; */
   }
-  h2 {
+
+  .maincontent {
+    padding-left: 80px;
+    padding-top: 150px;
+  }
+  h1 {
     font-size: 32px;
     margin-bottom: 20px;
   }
