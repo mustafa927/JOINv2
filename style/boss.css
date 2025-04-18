@@ -137,10 +137,36 @@ margin-left:20px;
 input[type="checkbox"] {
     width: 20px;
     height: 20px;
-    accent-color: #0b140b; /* neu in modernen Browsern */
+    accent-color: #0b140b;
     cursor: pointer;
   }
 
   .d-none {
     display: none !important;
+  }
+
+  .help-icon {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #E2E6EC;
+    color: #E2E6EC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .help-icon:hover {
+    transform: scale(1.05);
+    background-color: #29ABE2;
+    color: white;
+    border-color: #29ABE2;
+  }
+  
+  .help-icon:active {
+    transform: scale(0.95);
   }
