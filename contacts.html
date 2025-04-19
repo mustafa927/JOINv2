@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacts</title>
+  <link rel="stylesheet" href="style/boss.css" />
+  <link rel="stylesheet" href="style/sidebar.css" />
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="img/sidebarLogo.svg" alt="Join Logo">
+    </div>
+    <nav class="sidebar-nav">
+      <a href="summary.html" class="nav-item"><img src="svg/Vector.svg" alt=""><span>Summary</span></a>
+      <a href="addTask.html" class="nav-item"><img src="svg/Icons.svg" alt=""><span>Add Task</span></a>
+      <a href="boardsection.html" class="nav-item"><img src="svg/Icons (1).svg" alt=""><span>Board</span></a>
+      <a href="#" class="nav-item active"><img src="svg/Icons (2).svg" alt=""><span>Contacts</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="privacyPolicy.html">Privacy Policy</a>
+      <a href="Legal-notice.html">Legal notice</a>
+    </div>
+  </aside>
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="logo-title">Kanban Project Management Tool</div>
+    <div class="header-icons">
+      <div class="help-icon" id="helpIcon">?</div>
+      <div class="profile-wrapper">
+        <div class="profile-circle" onclick="toggleMenu()">SM</div>
+        <div id="dropdownMenu" class="dropdown-menu">
+          <ul>
+            <li>Legal Notice</li>
+            <li>Privacy Policy</li>
+            <li>Log out</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Left Side (Contact list) -->
+  <div class="left-side">
+    <div class="left-side-header">
+      <button class="new-contact">
+        Add new contact
+        <img src="./svg/person_add.svg" alt="Add Icon" />
+      </button>
+    </div>
+
+    <div class="contact-panel" id="contactPanel">
+      <div class="letter-separator">D</div>
+
+      <div class="contact-list">
+        <div class="avatar" style="background-color: #8E44AD;">BZ</div>
+        <div class="contact-info">
+          <p class="contact-name">Benedikt Ziegler</p>
+          <a href="mailto:benedikt@gmail.com">benedikt@gmail.com</a>
+        </div>
+      </div>
+
+      <div class="contact-list">
+        <div class="avatar" style="background-color: #e84393;">DE</div>
+        <div class="contact-info">
+          <p class="contact-name">David Eisenberg</p>
+          <a href="mailto:davidberg@gmail.com">davidberg@gmail.com</a>
+        </div>
+      </div>
+
+      <div class="letter-separator">E</div>
+      <div class="contact-list">
+        <div class="avatar" style="background-color: #f39c12;">EF</div>
+        <div class="contact-info">
+          <p class="contact-name">Eva Fischer</p>
+          <a href="mailto:eva@gmail.com">eva@gmail.com</a>
+        </div>
+      </div>
+      <div class="contact-list">
+        <div class="avatar" style="background-color: #1abc9c;">EM</div>
+        <div class="contact-info">
+          <p class="contact-name">Emmanuel Mauer</p>
+          <a href="mailto:emmanuelma@gmail.com">emmanuelma@gmail.com</a>
+        </div>
+      </div>
+
+      <div class="letter-separator">M</div>
+      <div class="contact-list">
+        <div class="avatar" style="background-color: #5e60ce;">MB</div>
+        <div class="contact-info">
+          <p class="contact-name">Marcel Bauer</p>
+          <a href="mailto:bauer@gmail.com">bauer@gmail.com</a>
+        </div>
+      </div>
+
+      <div class="letter-separator">T</div>
+      <div class="contact-list">
+        <div class="avatar" style="background-color: #e74c3c;">TW</div>
+        <div class="contact-info">
+          <p class="contact-name">Tatjana Wolf</p>
+          <a href="mailto:wolf@gmail.com">wolf@gmail.com</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="contact-info">
+      <div style="display:flex; align-items: center;">
+        <div class="contactInfo-title">Contacts</div>
+        <div class="contactInfo-subtitle">Better with a team</div>
+      </div>
+    </div>
+  </div>
+  <div id="addContactForm" class="editContact d_none"></div>
+  <script src="contacts.js"></script>
+
+</body>
+</html>
