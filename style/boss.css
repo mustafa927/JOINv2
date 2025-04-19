@@ -5,6 +5,11 @@ body {
 }
 
 
+button {
+  cursor:pointer;
+}
+
+
 .page-header {
   position: fixed;
   top: 0;
