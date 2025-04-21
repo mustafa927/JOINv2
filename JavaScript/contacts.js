@@ -57,26 +57,50 @@ function getInitials(name) {
 }
 
 function showContact(name) {
-  let contact = allContacts.find(c => c.name === name);
+  console.log("Funktion aufgerufen");
+  
+  let contact = allContacts.find(her => her.name === name);
+  console.log("Gefundener Kontakt:", contact);
+  let initials = getInitials(contact.name);
+  
   let overlay = document.getElementById("overlay");
 
   closeOverlay(); // sicherheitshalber zuerst alles schließen
 
   overlay.innerHTML = `
-    <div class="contact-overlay-card">
-      <img src="./img/j_emoji.png" alt="Avatar" class="contact-avatar-img">
-      <h2 class="contact-name">${contact.name}</h2>
-      <div class="contact-icons">
-        <img src="./img/edit_icon.png" alt="Edit" onclick="editContact('${name}')">
-        <img src="./img/delete_icon.png" alt="Delete" onclick="deleteContact('${name}')">
+    <div class="overlay-name">
+      <div class="avatar avatar-big" style="width:60px; height:60px; font-size:20px;">${initials}</div>
+      <div>
+        <h2>${contact.name}</h2>
+        <div class="action-icons">
+          <span style="cursor:pointer;" onclick="editContact('${name}')">Edit</span>
+          <span style="cursor:pointer;" onclick="deleteContact('${name}')">Delete</span>
+        </div>
       </div>
-      <div class="contact-details">
-        <p><strong>Email</strong><br><a href="mailto:${contact.email}">${contact.email}</a></p>
-        <p><strong>Phone</strong><br>${contact.phone}</p>
-      </div>
+    </div>
+
+    <div class="contact-info" style="margin-top:20px;">
+      <h4>Contact information</h4>
+      <p><strong>Email</strong><br><a href="mailto:${contact.email}">${contact.email}</a></p>
+      <p><strong>Phone</strong><br>${contact.phone}</p>
     </div>
   `;
 
+  console.log("Overlay-HTML gesetzt:", overlay.innerHTML);
+// //  overlay.innerHTML = `
+// <div class="contact-overlay-card">
+// <img src="./img/j_emoji.png" alt="Avatar" class="contact-avatar-img">
+// <h2 class="contact-name">${contact.name}</h2>
+// <div class="contact-icons">
+//   <img src="./img/edit_icon.png" alt="Edit" onclick="editContact('${name}')">
+//   <img src="./img/delete_icon.png" alt="Delete" onclick="deleteContact('${name}')">
+// </div>
+// <div class="contact-details">
+//   <p><strong>Email</strong><br><a href="mailto:${contact.email}">${contact.email}</a></p>
+//   <p><strong>Phone</strong><br>${contact.phone}</p>
+// </div>
+// </div>
+// `;
   document.getElementById("modalBackdrop").classList.add("d_none");
   document.getElementById("addContactForm").innerHTML = "";
   document.body.classList.remove("modal-open");
