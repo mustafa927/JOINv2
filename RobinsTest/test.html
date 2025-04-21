@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Join – Signup Test</title>
+</head>
+<body>
+  <h1>Sign up</h1>
+
+  <form onsubmit="signup(event)">
+    <input type="text" id="name" placeholder="Name" required /><br />
+    <input type="email" id="email" placeholder="Email" required /><br />
+    <input type="password" id="password" placeholder="Password" required /><br />
+    <input type="password" id="confirm-password" placeholder="Confirm Password" required /><br />
+    <label>
+      <input type="checkbox" id="privacy-policy" />
+      Accept privacy policy
+    </label><br /><br />
+    <button type="submit">Sign up</button>
+  </form>
+
+  <script>
+    const url = "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/users.json";
+
+    async function signup(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+      const accepted = document.getElementById("privacy-policy").checked;
+
+      if (!name || !email || !password || !confirmPassword) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      if (!accepted) {
+        alert("You must accept the privacy policy.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      const user = { name, email, password };
+
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(user),
+        });
+
+        const result = await response.json();
+        console.log("User saved with ID:", result.name);
+
+        alert("Sign up successful!");
+        window.location.href = "index.html";
+      } catch (err) {
+        console.error("Signup failed:", err);
+        alert("Signup failed. Please try again.");
+      }
+    }
+  </script>
+</body>
+</html>
