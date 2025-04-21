@@ -87,11 +87,41 @@ body {
     color: white;
   }
 
-  .subtasks {
+  .subtask-input-container {
     display: flex;
     align-items: center;
-    gap: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px 12px;
+    min-width: 270px;
+    height:22px
   }
+
+  .subtask-input {
+    border: none !important;
+    background: transparent;
+    flex: 1;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+    margin-bottom:0 !important;
+  }
+
+  .subtask-input::placeholder {
+    color: #bbb;
+  }
+
+  .add-subtask-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #888;
+    cursor: pointer;
+    padding: 0 5px;
+    transition: color 0.2s ease;
+  }
+
   .bottom-buttons {
     margin-top: 20px;
   }

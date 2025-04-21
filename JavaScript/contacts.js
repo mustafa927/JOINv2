@@ -1,192 +1,178 @@
 let allContacts = [];
-      console.log("Script wurde geladen");
 
-      async function fetchData() {
-        console.log("fetchData gestartet");
-        let response = await fetch(
-          "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/.json"
-        );
-        let data = await response.json();
-        let contacts = Object.values(data.person); // Array aus dem Objekt machen
-        allContacts=[];
-        for (let index = 0; index < contacts.length; index++) {
-            allContacts.push(contacts[index]);            
-        }
-        renderContacts();
-      }
+const avatarColors = [
+  "#FF7A00", "#FF5C01", "#FFBB2E", "#0095FF",
+  "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1",
+  "#FF4646", "#FFC700", "#BEE800"
+];
 
-      function renderContacts() {
-        const contactPanel = document.getElementById("contactPanel");
-        contactPanel.innerHTML = "";
+function getColorForName(name) {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return avatarColors[Math.abs(hash % avatarColors.length)];
+}
 
-        // 1. Kontakte alphabetisch sortieren
-        allContacts.sort(function (a, b) {
-          return a.name.localeCompare(b.name);
-        });
+function getInitials(name) {
+  if (!name) return "";
+  let parts = name.trim().split(" ");
+  let initials = parts[0][0];
+  if (parts.length > 1) initials += parts[1][0];
+  return initials.toUpperCase();
+}
 
-        // 2. Gruppieren nach Anfangsbuchstaben (klassische Schleife)
-        let grouped = {};
-        for (let i = 0; i < allContacts.length; i++) {
-          let contact = allContacts[i];
-          let firstLetter = contact.name[0].toUpperCase();
+async function fetchData() {
+  let res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/.json");
+  let data = await res.json();
+  allContacts = Object.values(data.person || {});
+  renderContacts();
+}
 
-          if (grouped[firstLetter] === undefined) {
-            grouped[firstLetter] = [];
-          }
-          grouped[firstLetter].push(contact);
-        }
+function renderContacts() {
+  const panel = document.getElementById("contactPanel");
+  panel.innerHTML = "";
+  allContacts.sort((a, b) => a.name.localeCompare(b.name));
+  let grouped = groupByLetter(allContacts);
+  for (let letter in grouped) {
+    panel.innerHTML += `<div style="margin:20px 0 10px;font-weight:bold;">${letter}</div>`;
+    grouped[letter].forEach(c => {
+      panel.innerHTML += contactCardTemplate(c, getInitials(c.name));
+    });
+  }
+}
 
-        // 3. Rendern: erst Buchstabe, dann alle zugehörigen Kontakte
-        let letters = Object.keys(grouped).sort();
+function groupByLetter(contacts) {
+  let grouped = {};
+  for (let c of contacts) {
+    let letter = c.name[0].toUpperCase();
+    if (!grouped[letter]) grouped[letter] = [];
+    grouped[letter].push(c);
+  }
+  return grouped;
+}
 
-        for (let i = 0; i < letters.length; i++) {
-          let letter = letters[i];
-          contactPanel.innerHTML += `
-      <div style="margin: 20px 0 10px; font-weight: bold; border-bottom: 1px solid #ddd;">${letter}</div>
-    `;
-
-          let group = grouped[letter];
-          for (let j = 0; j < group.length; j++) {
-            let contact = group[j];
-            let initials = getInitials(contact.name);
-            let contactCard = contactCardTemplate(contact, initials);
-            contactPanel.innerHTML += contactCard;
-          }
-        }
-      }
-
-      function contactCardTemplate(contact, initials) {
-        return `
-          <div class="contact-list" onclick="showContact('${contact.name}')">
-            <div class="avatar">${initials}</div>
-            <div>
-              <div><strong>${contact.name}</strong></div>
-              <div style="font-size: 12px; color: #0077cc;">${contact.email}</div>
-            </div>
-          </div>
-        `;
-      }
-      
-
-      function getInitials(name) {
-        if (!name) return "";
-        let parts = name.trim().split(" "); // trim entfernt leerzeichen, split trennet vor und nachname
-        let initials = parts[0][0]; // anfangsbuchstabe erstes wort
-        if (parts.length > 1) initials += parts[1][0]; // anfangsbuchstabe der folgewörter
-        return initials.toUpperCase();
-      }
-
-
-      
-function showContact(name) {
-
-    let contact = allContacts.find(her => her.name === name);
-    
-    let initials = getInitials(contact.name);
-  
-    let overlay = document.getElementById("overlay");
-    overlay.innerHTML = `
-    <div class="overlay-name">
-      <div class="avatar avatar-big" style="width:60px; height:60px; font-size:20px;">${initials}</div>
+function contactCardTemplate(contact, initials) {
+  let color = getColorForName(contact.name);
+  return `
+    <div class="contact-list" onclick="showContact('${contact.name}')">
+      <div class="avatar" style="background:${color}">${initials}</div>
       <div>
-        <h2>${contact.name}</h2>
-        <div class="action-icons">
-          <span style="cursor:pointer;" onclick="editContact('${name}')">Edit</span>
-          <span style="cursor:pointer;" onclick="deleteContact('${name}')">Delete</span>
+        <div><strong>${contact.name}</strong></div>
+        <div style="font-size:12px;color:#0077cc;">${contact.email}</div>
+      </div>
+    </div>`;
+}
+
+function showContact(name) {
+  let c = allContacts.find(c => c.name === name);
+  let overlay = document.getElementById("overlay");
+  closeOverlay();
+  let initials = getInitials(c.name);
+  let bg = getColorForName(c.name);
+  overlay.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:20px;max-width:400px;">
+      <div style="display:flex;align-items:center;gap:20px;">
+        <div style="width:60px;height:60px;border-radius:50%;background:${bg};color:white;
+        display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;">
+        ${initials}</div><h2 style="margin:0;">${c.name}</h2>
+      </div>
+      <div style="display:flex;justify-content:end;gap:15px; padding-right: 160px;">
+        <button onclick="editContact('${name}')" style="background:none;border:none;cursor:pointer;">
+          <img src="./svg/edit contacts.svg" alt="Edit" width="70">
+        </button>
+        <button onclick="deleteContact('${name}')" style="background:none;border:none;cursor:pointer;">
+          <img src="./svg/Delete contact.svg" alt="Delete" width="70">
+        </button>
+      </div>
+      <div>
+      <h1><strong>Contact Information </strong></h1>
+      <br>
+        <p><strong>Email</strong><br><a href="mailto:${c.email}">${c.email}</a></p>
+        <p><strong>Phone</strong><br>${c.phone}</p>
+      </div>
+    </div>`;
+}
+
+function addContact() {
+  createContact();
+}
+
+function createContact() {
+  const form = document.getElementById("addContactForm");
+  const modal = document.getElementById("modalBackdrop");
+  form.innerHTML = "";
+  document.getElementById("overlay").innerHTML = "";
+  modal.classList.remove("d_none");
+  document.body.classList.add("modal-open");
+
+  form.innerHTML = `
+    <div class="add-contact-overlay">
+      <div class="add-contact-left">
+        <img src="./svg/Capa 1.svg" class="add-contact-logo"><h2>Add contact</h2>
+        <p>Tasks are better with a team!</p><div class="underline"></div>
+      </div>
+      <div class="add-contact-right">
+        <div class="add-contact-avatar"><img src="./svg/person.svg"></div>
+        <div class="add-contact-inputs">
+          <div class="input-wrapper">
+            <input id="inputName" type="text" placeholder="Name">
+            <img src="./svg/person.svg" class="input-icon">
+          </div>
+          <div class="input-wrapper">
+            <input id="inputEmail" type="email" placeholder="Email">
+            <img src="./svg/mail.svg" class="input-icon">
+          </div>
+          <div class="input-wrapper">
+            <input id="inputPhone" type="tel" placeholder="Phone">
+            <img src="./svg/call.svg" class="input-icon">
+          </div>
+        </div>
+        <div class="add-contact-buttons">
+          <button class="cancel-btn" onclick="closeOverlay()">Cancel <span>&times;</span></button>
+          <button class="create-btn" onclick="saveContact()">Create contact <span>&check;</span></button>
         </div>
       </div>
-    </div>
-
-    <div class="contact-info" style="margin-top:20px;">
-      <h4>Contact information</h4>
-      <p><strong>Email</strong><br><a href="mailto:${contact.email}">${contact.email}</a></p>
-      <p><strong>Phone</strong><br>${contact.phone}</p>
-    </div>
-  `;
+    </div>`;
 }
-      // 🟢 Hier einfach nur den Fetch starten
 
-      function createContact() {
-        const addContact = document.getElementById("addContactForm");
-      
-        addContact.innerHTML = `
-          <div>
-            <h2>Add contact</h2>
-            <p>Tasks are better with a team!</p>
-      
-            <div>
-              <input id="inputName" type="text" placeholder="Name">
-            </div>
-            <div>
-              <input id="inputEmail" type="email" placeholder="Email">
-            </div>
-            <div>
-              <input id="inputPhone" type="tel" placeholder="Phone">
-            </div>
-      
-            <div>
-              <button onclick="cancelContact()">Cancel</button>
-              <button onclick="saveContact()">Create contact</button>
-            </div>
-          </div>
-        `;
-      }
+async function saveContact() {
+  const name = document.getElementById("inputName").value;
+  const email = document.getElementById("inputEmail").value;
+  const phone = document.getElementById("inputPhone").value;
+  if (!name || !email) {
+    alert("Name und Email sind Pflichtfelder!");
+    return;
+  }
+  const newContact = { name, email, phone };
+  await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json", {
+    method: "POST",
+    body: JSON.stringify(newContact),
+    headers: { "Content-Type": "application/json" }
+  });
+  fetchData();
+  closeOverlay();
+}
 
-      function addContact() {
-        let addContact = document.getElementById("addContactForm");
-        addContact.classList.remove("d_none");
-      }
-     
-      async function saveContact() {
-        const name = document.getElementById("inputName").value;
-        const email = document.getElementById("inputEmail").value;
-        const phone = document.getElementById("inputPhone").value;
-      
-        if (!name || !email) {
-          alert("Name und Email sind Pflichtfelder!");
-          return;
-        }
-      
-        const newContact = {
-          name: name,
-          email: email,
-          phone: phone
-        };
-      
-        try {
-          await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json", {
-            method: "POST",
-            body: JSON.stringify(newContact),
-            headers: {
-              "Content-Type": "application/json"
-            }
-          });
-      
-          console.log("Kontakt gespeichert:", newContact);
-      
-          // UI zurücksetzen oder schließen
-          document.getElementById("inputName").value ="";
-          document.getElementById("inputEmail").value="";
-          document.getElementById("inputPhone").value="";
-      
-          // Liste neu laden
-          fetchData();
-      
-        } catch (error) {
-          console.error("Fehler beim Speichern:", error);
-        }
+function closeOverlay(event) {
+  if (event && event.target.id !== "modalBackdrop") return;
+  document.getElementById("modalBackdrop").classList.add("d_none");
+  document.getElementById("addContactForm").innerHTML = "";
+  document.getElementById("overlay").innerHTML = "";
+  document.body.classList.remove("modal-open");
+}
 
-        let addContact = document.getElementById("addContactForm");
-        addContact.classList.add("d_none");
-      }
-      
-      function cancelContact() {
-        let addContact = document.getElementById("addContactForm");
-        document.getElementById("inputName").value ="";
-        document.getElementById("inputEmail").value="";
-        document.getElementById("inputPhone").value="";
-        addContact.classList.add("d_none");
-      }
-      
-      createContact();
-    
+function editContact(name) {
+  alert("Edit für " + name + " folgt bald.");
+}
+
+function deleteContact(name) {
+  alert("Löschen von " + name + " folgt bald.");
+}
+
+document.addEventListener("click", function (e) {
+  const card = document.querySelector(".contact-overlay-card");
+  if (card && !card.contains(e.target)) {
+    document.getElementById("overlay").innerHTML = "";
+  }
+});

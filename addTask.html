@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style/addtask.css">
     <link rel="stylesheet" href="style/boss.css">
   </head>
-  <body>
+  <body onload="fetchDataTasks()">
     <aside class="sidebar">
       <div class="sidebar-logo">
         <img src="img/sidebarLogo.svg" alt="Join Logo">
@@ -101,10 +101,11 @@
         </div>
 
         <label for="subtasks">Subtasks</label>
-        <div class="subtasks">
-          <input type="text" id="subtasks" placeholder="Add new subtask" />
-          <button type="button">+</button>
+        <div class="subtask-input-container">
+          <input type="text" placeholder="Add new subtask" class="subtask-input" />
+          <button class="add-subtask-button">+</button>
         </div>
+        
       </div>
     </form>
 
@@ -117,6 +118,7 @@
 <script src="JavaScript/addTask.js"></script>
 <script src="JavaScript/summary.js"></script>
 <script src="JavaScript/navigation.js"></script>
+<script src="JavaScript/fetchAndAddTask.js"></script>
     
   </body>
 </html>
