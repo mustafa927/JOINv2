@@ -1,51 +1,17 @@
 let allContacts = [];
 
-console.log("Script wurde geladen");
+const avatarColors = [
+  "#FF7A00", "#FF5C01", "#FFBB2E", "#0095FF",
+  "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1",
+  "#FF4646", "#FFC700", "#BEE800"
+];
 
-async function fetchData() {
-  console.log("fetchData gestartet");
-  let response = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/.json");
-  let data = await response.json();
-  let contacts = Object.values(data.person || {});
-  allContacts = contacts;
-  renderContacts();
-}
-
-function renderContacts() {
-  const contactPanel = document.getElementById("contactPanel");
-  contactPanel.innerHTML = "";
-
-  allContacts.sort((a, b) => a.name.localeCompare(b.name));
-
-  let grouped = {};
-  for (let contact of allContacts) {
-    let firstLetter = contact.name[0].toUpperCase();
-    if (!grouped[firstLetter]) grouped[firstLetter] = [];
-    grouped[firstLetter].push(contact);
+function getColorForName(name) {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
   }
-
-  let letters = Object.keys(grouped).sort();
-  for (let letter of letters) {
-    contactPanel.innerHTML += `
-      <div style="margin: 20px 0 10px; font-weight: bold; border-bottom: 1px solid #ddd;">${letter}</div>
-    `;
-    for (let contact of grouped[letter]) {
-      let initials = getInitials(contact.name);
-      contactPanel.innerHTML += contactCardTemplate(contact, initials);
-    }
-  }
-}
-
-function contactCardTemplate(contact, initials) {
-  return `
-    <div class="contact-list" onclick="showContact('${contact.name}')">
-      <div class="avatar">${initials}</div>
-      <div>
-        <div><strong>${contact.name}</strong></div>
-        <div style="font-size: 12px; color: #0077cc;">${contact.email}</div>
-      </div>
-    </div>
-  `;
+  return avatarColors[Math.abs(hash % avatarColors.length)];
 }
 
 function getInitials(name) {
@@ -56,54 +22,76 @@ function getInitials(name) {
   return initials.toUpperCase();
 }
 
-function showContact(name) {
-  console.log("Funktion aufgerufen");
-  
-  let contact = allContacts.find(her => her.name === name);
-  console.log("Gefundener Kontakt:", contact);
-  let initials = getInitials(contact.name);
-  
-  let overlay = document.getElementById("overlay");
+async function fetchData() {
+  let res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/.json");
+  let data = await res.json();
+  allContacts = Object.values(data.person || {});
+  renderContacts();
+}
 
-  closeOverlay(); // sicherheitshalber zuerst alles schließen
+function renderContacts() {
+  const panel = document.getElementById("contactPanel");
+  panel.innerHTML = "";
+  allContacts.sort((a, b) => a.name.localeCompare(b.name));
+  let grouped = groupByLetter(allContacts);
+  for (let letter in grouped) {
+    panel.innerHTML += `<div style="margin:20px 0 10px;font-weight:bold;">${letter}</div>`;
+    grouped[letter].forEach(c => {
+      panel.innerHTML += contactCardTemplate(c, getInitials(c.name));
+    });
+  }
+}
 
-  overlay.innerHTML = `
-    <div class="overlay-name">
-      <div class="avatar avatar-big" style="width:60px; height:60px; font-size:20px;">${initials}</div>
+function groupByLetter(contacts) {
+  let grouped = {};
+  for (let c of contacts) {
+    let letter = c.name[0].toUpperCase();
+    if (!grouped[letter]) grouped[letter] = [];
+    grouped[letter].push(c);
+  }
+  return grouped;
+}
+
+function contactCardTemplate(contact, initials) {
+  let color = getColorForName(contact.name);
+  return `
+    <div class="contact-list" onclick="showContact('${contact.name}')">
+      <div class="avatar" style="background:${color}">${initials}</div>
       <div>
-        <h2>${contact.name}</h2>
-        <div class="action-icons">
-          <span style="cursor:pointer;" onclick="editContact('${name}')">Edit</span>
-          <span style="cursor:pointer;" onclick="deleteContact('${name}')">Delete</span>
-        </div>
+        <div><strong>${contact.name}</strong></div>
+        <div style="font-size:12px;color:#0077cc;">${contact.email}</div>
       </div>
-    </div>
+    </div>`;
+}
 
-    <div class="contact-info" style="margin-top:20px;">
-      <h4>Contact information</h4>
-      <p><strong>Email</strong><br><a href="mailto:${contact.email}">${contact.email}</a></p>
-      <p><strong>Phone</strong><br>${contact.phone}</p>
-    </div>
-  `;
-
-  console.log("Overlay-HTML gesetzt:", overlay.innerHTML);
-// //  overlay.innerHTML = `
-// <div class="contact-overlay-card">
-// <img src="./img/j_emoji.png" alt="Avatar" class="contact-avatar-img">
-// <h2 class="contact-name">${contact.name}</h2>
-// <div class="contact-icons">
-//   <img src="./img/edit_icon.png" alt="Edit" onclick="editContact('${name}')">
-//   <img src="./img/delete_icon.png" alt="Delete" onclick="deleteContact('${name}')">
-// </div>
-// <div class="contact-details">
-//   <p><strong>Email</strong><br><a href="mailto:${contact.email}">${contact.email}</a></p>
-//   <p><strong>Phone</strong><br>${contact.phone}</p>
-// </div>
-// </div>
-// `;
-  document.getElementById("modalBackdrop").classList.add("d_none");
-  document.getElementById("addContactForm").innerHTML = "";
-  document.body.classList.remove("modal-open");
+function showContact(name) {
+  let c = allContacts.find(c => c.name === name);
+  let overlay = document.getElementById("overlay");
+  closeOverlay();
+  let initials = getInitials(c.name);
+  let bg = getColorForName(c.name);
+  overlay.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:20px;max-width:400px;">
+      <div style="display:flex;align-items:center;gap:20px;">
+        <div style="width:60px;height:60px;border-radius:50%;background:${bg};color:white;
+        display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;">
+        ${initials}</div><h2 style="margin:0;">${c.name}</h2>
+      </div>
+      <div style="display:flex;justify-content:end;gap:15px; padding-right: 160px;">
+        <button onclick="editContact('${name}')" style="background:none;border:none;cursor:pointer;">
+          <img src="./svg/edit contacts.svg" alt="Edit" width="70">
+        </button>
+        <button onclick="deleteContact('${name}')" style="background:none;border:none;cursor:pointer;">
+          <img src="./svg/Delete contact.svg" alt="Delete" width="70">
+        </button>
+      </div>
+      <div>
+      <h1><strong>Contact Information </strong></h1>
+      <br>
+        <p><strong>Email</strong><br><a href="mailto:${c.email}">${c.email}</a></p>
+        <p><strong>Phone</strong><br>${c.phone}</p>
+      </div>
+    </div>`;
 }
 
 function addContact() {
@@ -111,27 +99,21 @@ function addContact() {
 }
 
 function createContact() {
-  const addContactForm = document.getElementById("addContactForm");
-  const modalBackdrop = document.getElementById("modalBackdrop");
-
+  const form = document.getElementById("addContactForm");
+  const modal = document.getElementById("modalBackdrop");
+  form.innerHTML = "";
   document.getElementById("overlay").innerHTML = "";
-  addContactForm.innerHTML = "";
-
-  modalBackdrop.classList.remove("d_none");
+  modal.classList.remove("d_none");
   document.body.classList.add("modal-open");
 
-  addContactForm.innerHTML = `
+  form.innerHTML = `
     <div class="add-contact-overlay">
       <div class="add-contact-left">
-        <img src="./svg/Capa 1.svg" class="add-contact-logo" alt="Join Logo">
-        <h2>Add contact</h2>
-        <p>Tasks are better with a team!</p>
-        <div class="underline"></div>
+        <img src="./svg/Capa 1.svg" class="add-contact-logo"><h2>Add contact</h2>
+        <p>Tasks are better with a team!</p><div class="underline"></div>
       </div>
       <div class="add-contact-right">
-        <div class="add-contact-avatar">
-          <img src="./svg/person.svg" alt="Avatar">
-        </div>
+        <div class="add-contact-avatar"><img src="./svg/person.svg"></div>
         <div class="add-contact-inputs">
           <div class="input-wrapper">
             <input id="inputName" type="text" placeholder="Name">
@@ -151,52 +133,46 @@ function createContact() {
           <button class="create-btn" onclick="saveContact()">Create contact <span>&check;</span></button>
         </div>
       </div>
-    </div>
-  `;
+    </div>`;
 }
 
 async function saveContact() {
   const name = document.getElementById("inputName").value;
   const email = document.getElementById("inputEmail").value;
   const phone = document.getElementById("inputPhone").value;
-
   if (!name || !email) {
     alert("Name und Email sind Pflichtfelder!");
     return;
   }
-
   const newContact = { name, email, phone };
-
-  try {
-    await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json", {
-      method: "POST",
-      body: JSON.stringify(newContact),
-      headers: { "Content-Type": "application/json" }
-    });
-    console.log("Kontakt gespeichert:", newContact);
-    fetchData();
-  } catch (error) {
-    console.error("Fehler beim Speichern:", error);
-  }
-
+  await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json", {
+    method: "POST",
+    body: JSON.stringify(newContact),
+    headers: { "Content-Type": "application/json" }
+  });
+  fetchData();
   closeOverlay();
 }
 
 function closeOverlay(event) {
-  // Modal schließen
   if (event && event.target.id !== "modalBackdrop") return;
-
   document.getElementById("modalBackdrop").classList.add("d_none");
   document.getElementById("addContactForm").innerHTML = "";
   document.getElementById("overlay").innerHTML = "";
   document.body.classList.remove("modal-open");
 }
 
-document.addEventListener("click", function (event) {
-  const overlayCard = document.querySelector(".contact-overlay-card");
-  const overlay = document.getElementById("overlay");
+function editContact(name) {
+  alert("Edit für " + name + " folgt bald.");
+}
 
-  if (overlayCard && !overlayCard.contains(event.target)) {
-    overlay.innerHTML = "";
+function deleteContact(name) {
+  alert("Löschen von " + name + " folgt bald.");
+}
+
+document.addEventListener("click", function (e) {
+  const card = document.querySelector(".contact-overlay-card");
+  if (card && !card.contains(e.target)) {
+    document.getElementById("overlay").innerHTML = "";
   }
 });
