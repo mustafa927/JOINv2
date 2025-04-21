@@ -2,14 +2,6 @@ body {
     display: flex;
 } 
 
-header {
-  display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: space-around;
-  height: 100px;
-}
-
 header h2 {
   font-weight: 100;
 }
@@ -272,4 +264,3 @@ main {
     color: #FFBB2B;
     cursor: pointer;
   }
-  

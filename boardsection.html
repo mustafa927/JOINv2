@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/sidebar.css">
     <link rel="stylesheet" href="style/boss.css">
-    <link rel="stylesheet" href="/style/board.css">
+    <link rel="stylesheet" href="style/board.css">
     <link rel="stylesheet" href="style/help.css">
+    <link rel="stylesheet" href="style/dropdown-menu.css">
+    <link rel="stylesheet" href="style/header.css">
     <title>Board</title>
 </head>
 <body>
   <aside class="sidebar">
     <div class="sidebar-logo">
-      <img src="img/sidebarLogo.svg" alt="Join Logo">
+      <img src="svg/sidebarLogo.svg" alt="Join Logo">
     </div>
   
     <nav class="sidebar-nav">
@@ -45,15 +47,15 @@
     <div class="header-icons">
       <div class="help-icon" id="helpIcon">?</div>
       <div class="profile-wrapper">
-        <div class="profile-circle" onclick="toggleMenu()">?</div>
-        <div id="dropdownMenu" class="dropdown-menu">
-          <ul>
-            <li>Legal Notice</li>
-            <li>Privacy Policy</li>
-            <li>Log out</li>
-          </ul>
+        <div class="user-initial-small" onclick="toggleDropdown()">SM</div>
+        
+        <div class="dropdown-menu-small" id="userDropdown">
+            <ul>
+                <li><a href="Legal-notice.html">Legal Notice</a></li>
+                <li><a href="privacyPolicy.html">Privacy Policy</a></li>
+                <li><a href="index.html">Log out</a></li>
+            </ul>
         </div>
-      </div>
     </div>
   </header>
 
@@ -153,21 +155,14 @@
 </div>
 </div>
 
-
-
-  
 </section>
 </section>
-
-
 <section ></section>
-
-
-
 </main>
 
-<script src="JavaScript/board.js"></script>
-<script src="JavaScript/summary.js"></script>
-<script src="JavaScript/navigation.js"></script>
+<script src="JavaScript/board.js" type="module"></script>
+<script src="JavaScript/summary.js" type="module"></script>
+<script src="JavaScript/navigation.js" type="module"></script>
+<script src="JavaScript/dropdown-menu.js"></script>
 </body>
 </html>

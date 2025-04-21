@@ -6,7 +6,6 @@
     <title>Join - Sign up</title>
     <link rel="stylesheet" href="style/loginStyle.css">
     <link rel="stylesheet" href="style/signUp.css">
-    <script src="./JavaScript/signUp.js"></script>
 </head>
 <body>
     <div class="page-logo">
@@ -21,39 +20,58 @@
         <h1>Sign up</h1>
         <div class="blue-line"></div>
         
-        <form class="signup-form" onsubmit="signup(event)">
+        <div id="general-error" class="error-message"></div>
+        <div id="network-error" class="error-message">Keine Internetverbindung verfügbar.</div>
+        
+        <form class="signup-form" id="signupForm" onsubmit="return false;">
             <div class="input-field">
-                <input type="text" id="name" placeholder="Name" required>
+                <input type="text" id="name" name="name" placeholder="Name" required>
                 <img src="svg/person.svg" alt="Person icon" class="input-icon">
+                <div id="name-error" class="error-message"> Please enter your name.</div>
             </div>
             
             <div class="input-field">
-                <input type="email" id="email" placeholder="Email" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
                 <img src="svg/mail.svg" alt="Email icon" class="input-icon">
+                <div id="email-error" class="error-message">Please enter your email address.</div>
+                <div id="email-format-error" class="error-message">Please enter a valid email address.</div>
             </div>
             
             <div class="input-field">
-                <input type="password" id="password" placeholder="Password" required>
+                <input type="password" id="password" name="password" placeholder="Password" required minlength="6">
                 <img src="svg/lock.svg" alt="Password icon" class="input-icon">
+                <div id="password-error" class="error-message">Please enter a password.</div>
+                <div id="password-length-error" class="error-message">The password must be at least 6 characters long.</div>
             </div>
             
             <div class="input-field">
-                <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required minlength="6">
                 <img src="svg/lock.svg" alt="Password icon" class="input-icon">
+                <div id="confirm-password-error" class="error-message">Please confirm your password.</div>
+                <div id="password-match-error" class="error-message">Your passwords do not match.</div>
             </div>
             
             <div class="privacy-checkbox">
                 <input type="checkbox" id="privacy-policy" required>
-                <label for="privacy-policy">I accept the <a href="privacyPolicy.html" class="privacy-link">Privacy policy</a></label>
+                <label for="privacy-policy">I accept the <a href="privacy-login.html" class="privacy-link">Privacy policy</a></label>
+                <div id="privacy-error" class="error-message">Please accept the privacy policy.</div>
             </div>
             
-            <button type="submit"  class="signup-button">Sign up</button>
+            <button type="submit" class="signup-button" id="signupButton">Sign up</button>
         </form>
+    </div>
+
+    <div id="success-message" class="success-message">
+        <p>You Signed Up successfully</p>
     </div>
     
     <footer class="page-footer">
-        <a href="privacyPolicy.html">Privacy Policy</a>
-        <a href="Legal-notice.html">Legal notice</a>
+        <a href="privacy-login.html">Privacy Policy</a>
+        <a href="Legal-login.html">Legal notice</a>
     </footer>
+
+    <script src="JavaScript/logoAnimation.js"></script>
+    <script src="JavaScript/sign-up.js" type="module"></script>
+    <script src="JavaScript/database.js" type="module"></script>
 </body>
 </html>

@@ -3,11 +3,18 @@
     align-items: center;
     justify-content: flex-end;
     margin-bottom: 20px;
+    padding-top: 60px;
 }
 
 .back-button a {
     color: #29ABE2;
     text-decoration: none;
+}
+
+.back-button img {
+    width: 24px;
+    height: 24px;
+    display: block;
 }
 
 .help-title {
@@ -70,4 +77,36 @@
 
 .join-highlight {
     color: #29ABE2;
+}
+
+/* Profile wrapper positioning */
+.profile-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Profile wrapper positioning */
+.profile-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Smaller user initial */
+.user-initial-small {
+    width: 32px;
+    height: 32px;
+    background-color: #29ABE2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.user-initial-small:hover {
+    transform: scale(1.05);
 }

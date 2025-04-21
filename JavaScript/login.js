@@ -1,49 +1,157 @@
-async function login(event) {
+import { auth, db } from './firebase.js';
+import { signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+function showError(elementId, message) {
+    const errorElement = document.getElementById(elementId);
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+    }
+}
+
+function hideError(elementId) {
+    const errorElement = document.getElementById(elementId);
+    if (errorElement) {
+        errorElement.textContent = '';
+        errorElement.style.display = 'none';
+    }
+}
+
+// Handle login
+async function handleLogin(event) {
     event.preventDefault();
+    
+    // Reset all error messages
+    hideError('email-error');
+    hideError('password-error');
+    hideError('general-error');
+    
+    const email = document.getElementById('email').value.trim().toLowerCase();
+    const password = document.getElementById('password').value;
 
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
-
+    // Enhanced input validation
     if (!email || !password) {
-        alert("Bitte fülle beide Felder aus.");
+        showError('general-error', 'Please enter your email and password.');
         return;
     }
 
+    // Enhanced email validation
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+        showError('email-error', 'Please enter a valid email address.');
+        return;
+    }
+
+    // Password validation
+    if (password.length < 6) {
+        showError('password-error', 'The password must be at least 6 characters long.');
+        return;
+    }
+
+    const loginButton = document.querySelector('.btn-primary');
+    if (loginButton) {
+        loginButton.disabled = true;
+        loginButton.textContent = 'Logging in...';
+    }
+
     try {
-        const response = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/users.json");
-        const data = await response.json();
+        // Sign in with email and password
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
-        let userFound = false;
+        // Get user data from Firestore
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
 
-        for (const key in data) {
-            if (data[key].email === email && data[key].password === password) {
-                userFound = true;
-                break;
-            }
-        }
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
 
-        if (userFound) {
-            // Beispiel: user-Objekt mit Email + Name (falls du Namen gespeichert hast)
-            const loggedInUser = {
-                email: data[key].email,
-                name: data[key].name || ""  // falls nicht vorhanden, leer
-            };
-        
-            // Im localStorage speichern
-            localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
-        
-            alert("Login erfolgreich!");
-            window.location.href = "summary.html";
-        }
-        
+            // Update lastLogin timestamp
+            await setDoc(userDocRef, {
+                ...userData,
+                lastLogin: new Date().toISOString()
+            }, { merge: true });
+
+            // Store user session
+            localStorage.setItem('currentUser', JSON.stringify({
+                uid: user.uid,
+                ...userData
+            }));
+
+            // Redirect to summary page
+            window.location.href = 'summary.html';
         } else {
-            alert("E-Mail oder Passwort ist falsch.");
-        }
+            // Create basic user data
+            const userData = {
+                name: user.displayName || 'User',
+                email: user.email,
+                createdAt: new Date().toISOString(),
+                lastLogin: new Date().toISOString(),
+                tasks: [],
+                contacts: []
+            };
 
+            // Save user data to Firestore
+            await setDoc(userDocRef, userData);
+
+            // Store user session
+            localStorage.setItem('currentUser', JSON.stringify({
+                uid: user.uid,
+                ...userData
+            }));
+
+            // Redirect to summary page
+            window.location.href = 'summary.html';
+        }
     } catch (error) {
-        console.error("Fehler beim Login:", error);
-        alert("Es gab ein Problem beim Verbinden mit dem Server.");
+        if (error.code === 'auth/invalid-credential') {
+            showError('general-error', 'Invalid email or password. Please check your login details.');
+        } else if (error.code === 'auth/user-not-found') {
+            showError('email-error', 'No account found with this email address. Please register or check your email address.');
+        } else if (error.code === 'auth/wrong-password') {
+            showError('password-error', 'Wrong password. Please try again or reset your password.');
+        } else if (error.code === 'auth/too-many-requests') {
+            showError('general-error', 'Too many failed attempts. Please try again later or reset your password.');
+        } else if (error.code === 'auth/network-request-failed') {
+            showError('general-error', 'Network error. Please check your internet connection and try again.');
+        } else {
+            showError('general-error', 'An error occurred during login. Please try again later.');
+        }
+    } finally {
+        if (loginButton) {
+            loginButton.disabled = false;
+            loginButton.textContent = 'Log in';
+        }
     }
 }
+
+// Handle guest login
+function handleGuestLogin() {
+    // Store guest session
+    localStorage.setItem('currentUser', JSON.stringify({
+        isGuest: true,
+        name: 'Guest User'
+    }));
+    // Redirect to summary page
+    window.location.href = 'summary.html';
+}
+
+// Add event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.getElementById('loginForm');
+    const loginButton = document.querySelector('.btn-primary');
+    const guestLoginButton = document.querySelector('.btn-secondary');
+    
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleLogin);
+    }
+    
+    if (loginButton) {
+        loginButton.addEventListener('click', handleLogin);
+    }
+    
+    if (guestLoginButton) {
+        guestLoginButton.addEventListener('click', handleGuestLogin);
+    }
+}); 

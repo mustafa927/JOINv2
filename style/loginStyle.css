@@ -13,8 +13,8 @@ body {
 
 .page-logo {
     position: absolute;
-    top: 30px;
-    left: 30px;
+    top: 40px;
+    left: 40px;
 }
 
 .page-logo img {
@@ -209,5 +209,61 @@ button {
     color: #29ABE2;
     border-color: #29ABE2;
     box-shadow: 0 4px 8px rgba(41, 171, 226, 0.2);
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+
+    .login-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .input-field {
+        width: 100%;
+    }
+
+    .input-field input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-primary, .btn-secondary {
+        width: 100%;
+        margin: 0;
+    }
+
+    .page-logo {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin: 20px auto;
+        text-align: center;
+    }
+
+    .page-logo img {
+        width: 60px;
+        height: auto;
+    }
+
+    h1 {
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+
+    .page-footer {
+        position: relative;
+        margin-top: 20px;
+    }
 }
 

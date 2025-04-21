@@ -8,31 +8,31 @@
   <link rel="stylesheet" href="style/summary.css" />
   <link rel="stylesheet" href="style/help.css">
   <link rel="stylesheet" href="style/boss.css">
-  <script defer src="JavaScript/summary.js"></script>
-  <script src="JavaScript/navigation.js"></script>
+  <link rel="stylesheet" href="style/dropdown-menu.css">
+  <link rel="stylesheet" href="style/header.css">
 </head>
 <body>
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-logo">
-      <img src="img/sidebarLogo.svg" alt="Join Logo">
+      <img src="svg/sidebarLogo.svg" alt="Join Logo">
     </div>
 
     <nav class="sidebar-nav">
-      <a href="#" class="nav-item active">
-        <img src="./img/Icons.svg" alt="">
+      <a href="summary.html" class="nav-item active">
+        <img src="./svg/Icons.svg" alt="">
         <span>Summary</span>
       </a>
       <a href="addTask.html" class="nav-item">
-        <img src="./img/Icons (1).svg" alt="">
+        <img src="./svg/Icons (1).svg" alt="">
         <span>Add Task</span>
       </a>
       <a href="boardsection.html" class="nav-item">
-        <img src="./img/Icons (2).svg" alt="">
+        <img src="./svg/Icons (2).svg" alt="">
         <span>Board</span>
       </a>
       <a href="contacts.html" class="nav-item">
-        <img src="./img/Icons (3).svg" alt="">
+        <img src="./svg/Icons (3).svg" alt="">
         <span>Contacts</span>
       </a>
     </nav>
@@ -49,15 +49,15 @@
     <div class="header-icons">
       <div class="help-icon" id="helpIcon">?</div>
       <div class="profile-wrapper">
-        <div class="profile-circle" onclick="toggleMenu()">?</div>
-        <div id="dropdownMenu" class="dropdown-menu">
-          <ul>
-            <li><a href="legal-notice.html">Legal Notice</a></li>
-            <li><a href="privacyPolicy.html">Privacy Policy</a></li>
-            <li><a href="index.html">Log out</a></li>
-          </ul>
+        <div class="user-initial-small" onclick="toggleDropdown()">SM</div>
+        
+        <div class="dropdown-menu-small" id="userDropdown">
+            <ul>
+                <li><a href="Legal-notice.html">Legal Notice</a></li>
+                <li><a href="privacyPolicy.html">Privacy Policy</a></li>
+                <li><a href="index.html">Log out</a></li>
+            </ul>
         </div>
-      </div>
     </div>
   </header>
 
@@ -107,7 +107,7 @@
         <div class="card-urgent">
           <div class="urgent-left">
             <div class="urgent-icon">
-              <img src="./img/Group 7 (1).svg" alt="Urgent Icon" />
+              <img src="./svg/Group 7 (1).svg" alt="Urgent Icon" />
             </div>
             <div class="urgent-info">
               <div class="urgent-number">?</div>
@@ -146,5 +146,9 @@
       </a>
     </div>
   </main>
+
+  <script defer src="JavaScript/summary.js" type="module"></script>
+  <script src="JavaScript/navigation.js" type="module"></script>
+  <script src="JavaScript/dropdown-menu.js"></script>
 </body>
 </html>
