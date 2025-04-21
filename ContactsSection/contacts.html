@@ -1,173 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contacts</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      display: flex;
-      height: 100vh;
-      color: #333;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contacts</title>
+    <link rel="stylesheet" href="boss.css" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        display: flex;
+        height: 100vh;
+        color: #333;
+      }
 
-    .contact-panel {
-      width: 300px;
-      background-color: #f7f9fb;
-      padding: 20px;
-      border-right: 1px solid #e0e0e0;
-      overflow-y: auto;
-    }
+      .contact-panel {
+        width: 300px;
+     
+        padding: 20px;
+        border-right: 1px solid #e0e0e0;
+        overflow-y: auto;
+      }
 
-    .main {
-      flex: 1;
-      padding: 40px;
-      background-color: #fafafa;
-    }
+      .main {
+        flex: 1;
+        padding: 40px;
+        background-color: #fafafa;
+      }
 
-    .add-contact {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #1f2d3d;
-      color: white;
-      padding: 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      margin-bottom: 30px;
-    }
+      .contact-list {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 10px;
+        padding-left: 5px;
+        cursor: pointer;
+      }
 
-    .letter-divider {
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #777;
-    }
+      .avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: #ccc;
+        color: white;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+      }
 
-    .contact {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      padding-left: 5px;
-    }
+      .contactInfo-title {
+        font-size: 30px;
+        font-weight: bold;
+      }
 
-    .avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background-color: #ccc;
-      color: white;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 8px;
-      font-size: 14px;
-    }
+      /* hier ist der blaue strich zwischen ocntacts und bette rwith  a team */
+      .contactInfo-subtitle {
+        color: #888;
+        font-size: 20px;
+        margin-left: 20px;
+        border-left: 3px solid #2196f3;
+        padding-left: 10px;
+        
+      }
 
-    .contact-details {
-      display: flex;
-      flex-direction: column;
-    }
 
-    .contact-name {
-      font-weight: 500;
-    }
+      .new-contact {
+        background-color: #2a3647;
+        color: white;
+        border-radius: 6px;
+        width:200px;
+        height:40px;
+      }
 
-    .contact-email {
-      font-size: 10px;
-      color: #0077cc;
-    }
+      .editContact {
+        background-color: #eee;
+        padding: 20px;
+        border: 1px solid #ccc;
+        position: fixed;
+        top: 100px;
+        left: 500px;
+        width: 500px;
+        height: 500px;
+      }
 
-    .header-title {
-      font-size: 30px;
-      font-weight: bold;
-    }
+      .d_none {
+        display: none;
+      }
 
-    .header-subtitle {
-      color: #888;
-      font-size: 15px;
-      margin-left: 0.10px;
-      border-left: 3px solid #2196f3;
-      padding-left: 10px;
-    }
+      .left-side {
+        width: 300px;
+        background-color: #ffffff;
+        padding: 20px;
+        border-right: 1px solid #e0e0e0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* <-- zentriert vertikal */
+        align-items: center; /* <-- optional: zentriert horizontal */
+        gap: 20px;
+      }
+      .overlay{
+       margin-top:30px;
+      }
 
-    .header {
-      display: flex;
-      align-items: center;
-    }
-  </style>
-</head>
-<body>
+      .overlay-name {
+        display:flex;
+        align-items: center;
+        gap: 15px;
+      }
+    </style>
+  </head>
+  <body onload="fetchData()">
+    <div class="left-side">
+      <button class="new-contact" onclick="addContact()">
+        Add new contact
+      </button>
+      <div class="contact-panel" id="contactPanel"></div>
+    </div>
 
-  <div class="contact-panel">
-    <div class="add-contact">Add new contact</div>
-
-    <div class="letter-divider">B</div>
-    <div class="contact">
-      <div class="avatar" style="background-color: #7e57c2;">BZ</div>
-      <div class="contact-details">
-        <div class="contact-name">Benedikt Ziegler</div>
-        <div class="contact-email">benedikt@gmail.com</div>
+    <div class="main">
+      <div class="contact-info">
+        <div style="display:flex; align-items: center;">
+          <div class="contactInfo-title">Contacts</div>
+          <div class="contactInfo-subtitle">Better with a team</div>
+        </div>
+        <div class="overlay" id="overlay"></div>
       </div>
     </div>
-
-    <div class="letter-divider">D</div>
-    <div class="contact">
-      <div class="avatar" style="background-color: #f06292;">DE</div>
-      <div class="contact-details">
-        <div class="contact-name">David Eisenberg</div>
-        <div class="contact-email">davidberg@gmail.com</div>
-      </div>
-    </div>
-
-    <div class="letter-divider">E</div>
-    <div class="contact">
-      <div class="avatar" style="background-color: #ffb74d;">EF</div>
-      <div class="contact-details">
-        <div class="contact-name">Eva Fischer</div>
-        <div class="contact-email">eva@gmail.com</div>
-      </div>
-    </div>
-
-    <div class="contact">
-      <div class="avatar" style="background-color: #4db6ac;">EM</div>
-      <div class="contact-details">
-        <div class="contact-name">Emmanuel Mauer</div>
-        <div class="contact-email">emmanueld@gmail.com</div>
-      </div>
-    </div>
-
-    <div class="letter-divider">M</div>
-    <div class="contact">
-      <div class="avatar" style="background-color: #673ab7;">MB</div>
-      <div class="contact-details">
-        <div class="contact-name">Marcel Bauer</div>
-        <div class="contact-email">bauer@gmail.com</div>
-      </div>
-    </div>
-
-    <div class="letter-divider">T</div>
-    <div class="contact">
-      <div class="avatar" style="background-color: #e57373;">TW</div>
-      <div class="contact-details">
-        <div class="contact-name">Tatjana Wolf</div>
-        <div class="contact-email">wolf@gmail.com</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="main">
-    <div class="header">
-      <div class="header-title">Contacts</div>
-      <div class="header-subtitle">Better with a team</div>
-    </div>
-  </div>
-
-</body>
+    <div id="addContactForm" class="editContact d_none"></div>
+    <script src="contacts.js"></script>
+  </body>
 </html>

@@ -1,29 +1,19 @@
 body {
-  display: flex;
-} 
-
-
-
-
-header {
-  display: flex;
-  padding-left: 60px;
-  padding: 40px;
-  justify-content: space-between;
-  height: 60px;
-  width: calc(100vw - 250px);;
-}
-
-.sidebar {
+    margin: 0;
+    display: flex;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f6f8;
+  }
+  
+  .sidebar {
     background-color: #2A3647;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 250px;
+    width: 230px;
     height: 100vh;
     padding: 40px 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
   }
   
   .sidebar-logo {
@@ -38,7 +28,7 @@ header {
   .sidebar-nav {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
     padding-left: 20px;
   }
   
@@ -53,19 +43,15 @@ header {
     transition: background 0.3s, color 0.3s;
   }
   
-  .nav-item:hover {
-    background-color: #3e4e63;
+  .nav-item:hover,
+  .nav-item.active {
+    background-color: #091931;
     color: white;
   }
   
   .nav-item img {
     width: 20px;
     height: 20px;
-  }
-  
-  .nav-item.active {
-    background-color: #091931;
-    color: white;
   }
   
   .sidebar-footer {
@@ -86,6 +72,9 @@ header {
     opacity: 1;
   }
   
-  .header-profile {
-    gap: 8px;
+  .container {
+    flex-grow: 1;
+    padding: 40px;
+    padding-left: 60px;
   }
+  

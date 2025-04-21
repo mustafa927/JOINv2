@@ -4,19 +4,51 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kanban Dashboard</title>
+  <link rel="stylesheet" href="sidebar.css" />
   <link rel="stylesheet" href="summary.css" />
   <script defer src="summary.js"></script>
 </head>
 <body>
-  <header>
-    <div class="logo-title">Kanban Project Management Tool</div>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="img/sidebarLogo.svg" alt="Join Logo">
+    </div>
 
+    <nav class="sidebar-nav">
+      <a href="summary.html" class="nav-item active">
+        <img src="./img/Icons.svg" alt="">
+        <span>Summary</span>
+      </a>
+      <a href="add-task.html" class="nav-item">
+        <img src="./img/Icons (1).svg" alt="">
+        <span>Add Task</span>
+      </a>
+      <a href="board.html" class="nav-item">
+        <img src="./img/Icons (2).svg" alt="">
+        <span>Board</span>
+      </a>
+      <a href="contacts.html" class="nav-item">
+        <img src="./img/Icons (3).svg" alt="">
+        <span>Contacts</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="privacyPolicy.html">Privacy Policy</a>
+      <a href="legal-notice.html">Legal notice</a>
+    </div>
+  </aside>
+
+  <!-- Header oben -->
+  <header class="page-header">
+    <div class="logo-title">Kanban Project Management Tool</div>
     <div class="header-icons">
       <div class="help-icon">?</div>
       <div class="profile-wrapper">
         <div class="profile-circle" onclick="toggleMenu()">?</div>
         <div id="dropdownMenu" class="dropdown-menu">
-          <ul class="ul">
+          <ul>
             <li>Legal Notice</li>
             <li>Privacy Policy</li>
             <li>Log out</li>
@@ -26,8 +58,8 @@
     </div>
   </header>
 
+  <!-- Hauptinhalt -->
   <main class="container">
-
     <div class="headline">
       <h1 class="title">Join 360</h1>
       <div class="divider"></div>
@@ -80,10 +112,9 @@
         </div>
       </div>
 
-      <div class="greeting">
-        Good morning
-      </div>
+      <div class="greeting">Good morning</div>
     </div>
+
     <div class="status-card-row">
       <div class="status-card">
         <div class="status-number">?</div>

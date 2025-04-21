@@ -6,6 +6,7 @@
     <title>Join - Sign up</title>
     <link rel="stylesheet" href="style/loginStyle.css">
     <link rel="stylesheet" href="style/signUp.css">
+    <script src="./JavaScript/signUp.js"></script>
 </head>
 <body>
     <div class="page-logo">
@@ -20,7 +21,7 @@
         <h1>Sign up</h1>
         <div class="blue-line"></div>
         
-        <form class="signup-form">
+        <form class="signup-form" onsubmit="signup(event)">
             <div class="input-field">
                 <input type="text" id="name" placeholder="Name" required>
                 <img src="svg/person.svg" alt="Person icon" class="input-icon">
@@ -46,7 +47,7 @@
                 <label for="privacy-policy">I accept the <a href="privacyPolicy.html" class="privacy-link">Privacy policy</a></label>
             </div>
             
-            <button type="submit" class="signup-button">Sign up</button>
+            <button type="submit"  class="signup-button">Sign up</button>
         </form>
     </div>
     

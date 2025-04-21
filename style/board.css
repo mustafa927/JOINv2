@@ -2,18 +2,30 @@ body {
     display: flex;
 } 
 
+header {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: space-around;
+  height: 100px;
+}
 
+header h2 {
+  font-weight: 100;
+}
 
+.header-profile {
+  width: 100px;
+  display: flex;
+  justify-content: space-around;
+}
 
 .board-section {
     background-color: rgb(246,247,248);
-    /* height: 100vh; */
     margin: 0%;
-    padding-left: 40px;
-    padding-right: 40px;
     padding-top: 80px;
-    height: calc(100vh - 220px);
-    width: calc(100vw - 250px);;
+    height: calc(100vh - 80px);
+    width: calc(100vw - 230px);
 }
 
 h1 {
@@ -23,7 +35,7 @@ h1 {
 .Board-head {
     display: flex;
     justify-content: space-around;
-    padding-right: 40px;
+    /* padding-right: 40px; */
 }
 
 .add-find-task {
@@ -46,7 +58,7 @@ main {
     align-items: center;
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 8px 12px;
+    padding: 4px 8px;
     background-color: #f8f9fb;
     width: 250px;
 
@@ -74,6 +86,15 @@ main {
 
   }
   
+  .search-icon img:hover {
+    cursor: pointer;
+    background-color: #d0d0d0;
+    border-radius: 32px;
+  }
+
+  .search-icon img {
+    padding: 2px;
+  }
 
   .add-task-btn {
     background-color: #2d3a4a;
