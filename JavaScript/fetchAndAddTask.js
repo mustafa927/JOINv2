@@ -1,5 +1,29 @@
 let allTasks = [];
 
+let newTask = {
+  title: "Kanban UI bauen",
+  description: "UI für Task-Overlay erstellen",
+  dueDate: "2025-06-10",
+  priority: "High",
+  category: "Design",
+  status: "To-Do",
+  assignedTo: {
+    person1: "-OO2cpzcQaVpB2cvHgCp",
+    person2: "-OONRhAG3up-91-RGtpa"
+  },
+  subtasks: {
+    sub1: {
+      title: "HTML/CSS Grundstruktur",
+      done: false
+    },
+    sub2: {
+      title: "JS Integration",
+      done: true
+    }
+  }
+};
+
+
 async function fetchDataTasks() {
   console.log("fetchData gestartet");
   let response = await fetch(
@@ -29,33 +53,75 @@ async function fetchDataTasks() {
 }
 
 
-async function fetchTaskWithAssignedPerson() {
-    console.log(fetchstart);
-    try {
-      // Tasks laden
-      const taskRes = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/task1.json");
-      const task = await taskRes.json();
-  
-      // Person-ID aus Task extrahieren
-      const personId = task.assignedTo;
-  
-      // Person laden
-      const personRes = await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person/${personId}.json`);
-      const person = await personRes.json();
-  
-      // Kombinieren und loggen
-      const enrichedTask = {
-        ...task,
-        assignedPerson: {
-          id: personId,
-          ...person
-        }
-      };
-  
-      console.log("🧑‍💻 Enriched Task:", enrichedTask);
-      return enrichedTask;
-    } catch (error) {
-      console.error("Fehler beim Abrufen:", error);
+async function getAllTasksWithPeople() {
+  try {
+    // Alle Tasks abrufen
+    const tasksRes = await fetch(
+      "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json"
+    );
+    const tasksData = await tasksRes.json();
+
+    if (!tasksData) {
+      console.log("📭 Keine Tasks gefunden.");
+      return [];
     }
+
+    // Alle Personen abrufen
+    const peopleRes = await fetch(
+      "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json"
+    );
+    const peopleData = await peopleRes.json();
+
+    // Tasks mit Personendaten anreichern
+    const tasksArray = Object.entries(tasksData).map(([id, task]) => {
+      const assignedTo = task.assignedTo || {}; // z. B. { person1: "-OO2cpz..." }
+
+      const assignedPeople = Object.values(assignedTo).map(personId => {
+        const person = peopleData?.[personId];
+        return person ? { id: personId, ...person } : { id: personId, name: "Unbekannt" };
+      });
+
+      return {
+        id,
+        ...task,
+        assignedPeople
+      };
+    });
+
+    console.log("📋 Alle Tasks mit Personen:", tasksArray);
+    return tasksArray;
+
+  } catch (error) {
+    console.error("❌ Fehler beim Abrufen der Tasks mit Personen:", error);
+    return [];
   }
-  
+}
+
+
+
+// async function addNewTask(taskData) {
+//   try {
+//     const response = await fetch(
+//       "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json",
+//       {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify(taskData)
+//       }
+//     );
+
+//     const result = await response.json();
+//     console.log("✅ Task erfolgreich hinzugefügt:", result);
+//     return result; // enthält z.B. { name: "-NT...123" }
+//   } catch (error) {
+//     console.error("❌ Fehler beim Hinzufügen des Tasks:", error);
+//   }
+// }
+
+
+
+// addNewTask(newTask); 
+
+
