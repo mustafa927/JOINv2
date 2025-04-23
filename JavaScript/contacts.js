@@ -166,7 +166,7 @@ function editContact(name) {
           </div>
         </div>
         <div class="add-contact-buttons">
-          <button class="cancel-btn" onclick="closeOverlay()">Cancel <span>&times;</span></button>
+          <button class="cancel-btn" onclick="closeOverlay(); showContact('${name}');">Cancel <span>&times;</span></button>
           <button class="create-btn" onclick="updateContact('${contact.id || name}')">Save changes <span>&check;</span></button>
         </div>
       </div>
