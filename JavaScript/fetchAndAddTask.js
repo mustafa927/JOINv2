@@ -1,4 +1,6 @@
-let allTasks = [];
+// let allTasks = [];
+
+window.allTasks = []; 
 
 let newTask = {
   title: "Kanban UI bauen",
@@ -87,8 +89,9 @@ async function getAllTasksWithPeople() {
         assignedPeople
       };
     });
+    window.allTasks = tasksArray;
 
-    console.log("📋 Alle Tasks mit Personen:", tasksArray);
+    console.log("📋 allTasks globally gesetzt:", window.allTasks);
     return tasksArray;
 
   } catch (error) {
