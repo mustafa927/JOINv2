@@ -244,7 +244,29 @@ function closeOverlay(event) {
 }
 
 
-function deleteContact(name) {
-  alert("Löschen von " + name + " folgt bald.");
+async function deleteContact(name) {
+
+  // 1. Alle Daten aus Firebase laden
+  const res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
+  const data = await res.json();
+
+  // 2. Einträge in ein Array umwandeln, um .find() zu verwenden
+  const entries = Object.entries(data || {}); // [ [key, value], ... ]
+
+  // 3. Den passenden Kontakt anhand des Namens finden
+  const match = entries.find(([key, value]) => value.name === name);
+
+  const [keyToDelete] = match;
+
+  // 4. Lösche den Kontakt per DELETE
+  await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person/${keyToDelete}.json`, {
+    method: "DELETE"
+  });
+
+  // 5. Aktualisieren und Overlay schließen
+  fetchData();
+  closeOverlay();
 }
 
+
+// function die mir das overlay beim schließen von edit wieder anzeigt
