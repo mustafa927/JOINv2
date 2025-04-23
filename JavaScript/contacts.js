@@ -136,6 +136,43 @@ function createContact() {
     </div>`;
 }
 
+function editContact() {
+  const form = document.getElementById("addContactForm");
+  const modal = document.getElementById("modalBackdrop");
+  form.innerHTML = "";
+  document.getElementById("overlay").innerHTML = "";
+  modal.classList.remove("d_none");
+  document.body.classList.add("modal-open");
+
+  form.innerHTML = `
+    <div class="add-contact-overlay">
+      <div class="add-contact-left">
+        <img src="./svg/Capa 1.svg" class="add-contact-logo"><h2>Edit contact</h2>
+       <div class="underline"></div>
+      </div>
+      <div class="add-contact-right">
+        <div class="add-contact-avatar"><img src="./svg/person.svg"></div>
+        <div class="add-contact-inputs">
+          <div class="input-wrapper">
+            <input id="inputName" type="text" placeholder="Name">
+            <img src="./svg/person.svg" class="input-icon">
+          </div>
+          <div class="input-wrapper">
+            <input id="inputEmail" type="email" placeholder="Email">
+            <img src="./svg/mail.svg" class="input-icon">
+          </div>
+          <div class="input-wrapper">
+            <input id="inputPhone" type="tel" placeholder="Phone">
+            <img src="./svg/call.svg" class="input-icon">
+          </div>
+        </div>
+        <div class="add-contact-buttons">
+          <button class="cancel-btn" onclick="closeOverlay()">Cancel <span>&times;</span></button>
+          <button class="create-btn" onclick="saveContact()">Create contact <span>&check;</span></button>
+        </div>
+      </div>
+    </div>`;
+}
 async function saveContact() {
   const name = document.getElementById("inputName").value;
   const email = document.getElementById("inputEmail").value;
@@ -162,9 +199,6 @@ function closeOverlay(event) {
   document.body.classList.remove("modal-open");
 }
 
-function editContact(name) {
-  alert("Edit für " + name + " folgt bald.");
-}
 
 function deleteContact(name) {
   alert("Löschen von " + name + " folgt bald.");

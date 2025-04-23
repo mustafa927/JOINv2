@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="style/help.css">
     <link rel="stylesheet" href="style/header.css">
   </head>
-  <body onload="fetchDataTasks()">
+  <body onload="fetchDataTasks(); assignedToInput();">
     <aside class="sidebar">
       <div class="sidebar-logo">
         <img src="svg/sidebarLogo.svg" alt="Join Logo">
@@ -90,15 +90,18 @@
 
         <label for="assigned">Assigned to</label>
         <select id="assigned">
-          <option>Select contacts to assign</option>
+          <option disabled selected hidden>Select contacts to assign</option>
         </select>
 
         <label for="category"
           >Category<span class="required-note"> *</span></label
         >
         <select id="category" required>
-          <option>Select task category</option>
+          <option value="" disabled selected hidden>Bitte Kategorie wählen</option>
+          <option value="technical">Technical Task</option>
+          <option value="story">User Story</option>
         </select>
+        
         <div id="category-error" class="required-note">
           *This field is required
         </div>

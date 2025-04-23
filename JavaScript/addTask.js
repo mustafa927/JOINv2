@@ -66,3 +66,62 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+// firebase url
+
+let url = "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json";
+
+async function assignedToInput() {
+  let call = await fetch(url);
+  let data = await call.json();
+
+  let assigned = document.getElementById("assigned");
+  assigned.innerHTML = ""; // Vorherige Inhalte löschen
+
+  let keys = Object.keys(data);
+
+  for (let i = 0; i < keys.length; i++) {
+      let key = keys[i];
+      let person = data[key];
+      let initials = getInitials(person.name);
+      let color = getColorFromName(person.name);
+
+      let item = document.createElement("div");
+      item.classList.add("assigned-item");
+
+      item.innerHTML = `
+          <div class="avatar" style="background-color: ${color};">
+              ${initials}
+          </div>
+          <span class="name">${person.name}</span>
+      `;
+
+      assigned.appendChild(item);
+  }
+}
+
+
+window.assignedToInput = assignedToInput;
+
+function getInitials(name) {
+  if (!name) return "";
+  let parts = name.trim().split(" ");
+  let initials = parts[0][0];
+  if (parts.length > 1) initials += parts[1][0];
+  return initials.toUpperCase();
+}
+
+function getColorFromName(name) {
+  // Einfache Hash-Funktion für konsistente Farben
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#00BEE8', '#1FD7C1', '#0038FF'];
+  return colors[Math.abs(hash) % colors.length];
+}
+// vom design her brauche ich links noch die initialien in farben
+// ich brauche den current user 
+// ich brauche rechts eine checkbox die onclick dann einhakt
+// und ihc brauche multi auswahl und onclick auf den create task button 
