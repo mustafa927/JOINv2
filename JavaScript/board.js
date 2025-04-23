@@ -12,19 +12,37 @@ window.allowDrop = function(event) {
   event.preventDefault();
 }
 
-window.drop = function(event) {
+window.drop = async function handleDrop(event) {
   event.preventDefault();
   const dropzone = event.currentTarget;
 
-  if (draggedElement && dropzone.classList.contains('dropzone')) {
-    dropzone.appendChild(draggedElement);
+  if (!draggedElement || !dropzone.classList.contains('dropzone')) return;
 
-    const noTasksMessage = dropzone.querySelector('.no-tasks');
-    if (noTasksMessage) {
-      noTasksMessage.classList.add('d-none');
-    }
-    checkEmptySections();
+  moveTaskCardToDropzone(draggedElement, dropzone);
+  hideNoTasksMessage(dropzone);
+  checkEmptySections();
+
+  const taskId = extractTaskId(draggedElement.id);
+  const newStatus = getStatusFromDropzone(dropzone);
+
+  if (taskId && newStatus) {
+    await updateTaskStatus(taskId, newStatus);
   }
+};
+
+function moveTaskCardToDropzone(cardElement, dropzone) {
+  dropzone.appendChild(cardElement);
+}
+
+function hideNoTasksMessage(dropzone) {
+  const noTasksMessage = dropzone.querySelector('.no-tasks');
+  if (noTasksMessage) {
+    noTasksMessage.classList.add('d-none');
+  }
+}
+
+function extractTaskId(cardId) {
+  return cardId.replace("task-", "");
 }
 
 function checkEmptySections() {
@@ -39,6 +57,38 @@ function checkEmptySections() {
       }
     });
 }
+
+
+
+function getStatusFromDropzone(dropzone) {
+  const title = dropzone.querySelector(".to-do-header p")?.innerText.toLowerCase();
+
+  if (title.includes("to do")) return "To-Do";
+  if (title.includes("in progress")) return "In Progress";
+  if (title.includes("await feedback")) return "Await Feedback";
+  if (title.includes("done")) return "Done";
+
+  return null;
+}
+
+async function updateTaskStatus(taskId, newStatus) {
+  try {
+    await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}.json`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ Status: newStatus })
+    });
+
+    console.log(`✅ Task ${taskId} Status aktualisiert zu "${newStatus}"`);
+  } catch (error) {
+    console.error("❌ Fehler beim Status-Update:", error);
+  }
+}
+
+
+
 
 // Make toggleMenu globally available
 window.toggleMenu = function() {
