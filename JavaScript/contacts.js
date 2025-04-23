@@ -67,7 +67,6 @@ function contactCardTemplate(contact, initials) {
 function showContact(name) {
   let c = allContacts.find(c => c.name === name);
   let overlay = document.getElementById("overlay");
-  closeOverlay();
   let initials = getInitials(c.name);
   let bg = getColorForName(c.name);
   overlay.innerHTML = `
@@ -136,11 +135,11 @@ function createContact() {
     </div>`;
 }
 
-function editContact() {
+function editContact(name) {
+  const contact = allContacts.find(c => c.name === name);
   const form = document.getElementById("addContactForm");
   const modal = document.getElementById("modalBackdrop");
   form.innerHTML = "";
-  document.getElementById("overlay").innerHTML = "";
   modal.classList.remove("d_none");
   document.body.classList.add("modal-open");
 
@@ -148,31 +147,32 @@ function editContact() {
     <div class="add-contact-overlay">
       <div class="add-contact-left">
         <img src="./svg/Capa 1.svg" class="add-contact-logo"><h2>Edit contact</h2>
-       <div class="underline"></div>
+        <div class="underline"></div>
       </div>
       <div class="add-contact-right">
         <div class="add-contact-avatar"><img src="./svg/person.svg"></div>
         <div class="add-contact-inputs">
           <div class="input-wrapper">
-            <input id="inputName" type="text" placeholder="Name">
+            <input id="inputName" type="text" placeholder="Name" value="${contact.name}">
             <img src="./svg/person.svg" class="input-icon">
           </div>
           <div class="input-wrapper">
-            <input id="inputEmail" type="email" placeholder="Email">
+            <input id="inputEmail" type="email" placeholder="Email" value="${contact.email}">
             <img src="./svg/mail.svg" class="input-icon">
           </div>
           <div class="input-wrapper">
-            <input id="inputPhone" type="tel" placeholder="Phone">
+            <input id="inputPhone" type="tel" placeholder="Phone" value="${contact.phone || ""}">
             <img src="./svg/call.svg" class="input-icon">
           </div>
         </div>
         <div class="add-contact-buttons">
           <button class="cancel-btn" onclick="closeOverlay()">Cancel <span>&times;</span></button>
-          <button class="create-btn" onclick="saveContact()">Create contact <span>&check;</span></button>
+          <button class="create-btn" onclick="updateContact('${contact.id || name}')">Save changes <span>&check;</span></button>
         </div>
       </div>
     </div>`;
 }
+
 async function saveContact() {
   const name = document.getElementById("inputName").value;
   const email = document.getElementById("inputEmail").value;
@@ -191,6 +191,50 @@ async function saveContact() {
   closeOverlay();
 }
 
+async function updateContact(name) {
+  const inputName = document.getElementById("inputName").value;
+  const inputEmail = document.getElementById("inputEmail").value;
+  const inputPhone = document.getElementById("inputPhone").value;
+
+  if (!inputName || !inputEmail) {
+    alert("Name und Email sind Pflichtfelder!");
+    return;
+  }
+
+  // 1. Lade alle Daten aus Firebase
+  let res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
+  let data = await res.json();
+
+  // 2. Suche den Key (Firebase-ID) des Kontakts mit dem Namen
+  let foundKey = null;
+  for (let key in data) {
+    if (data[key].name === name) {
+      foundKey = key;
+      break;
+    }
+  }
+
+  if (!foundKey) {
+    alert("Kontakt wurde nicht gefunden.");
+    return;
+  }
+
+  // 3. Neue Daten speichern (überschreiben)
+  const updatedContact = {
+    name: inputName,
+    email: inputEmail,
+    phone: inputPhone
+  };
+
+  await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person/${foundKey}.json`, {
+    method: "PUT",
+    body: JSON.stringify(updatedContact),
+    headers: { "Content-Type": "application/json" }
+  });
+
+  fetchData(); // Aktualisiere Liste
+}
+
 function closeOverlay(event) {
   if (event && event.target.id !== "modalBackdrop") return;
   document.getElementById("modalBackdrop").classList.add("d_none");
@@ -204,9 +248,3 @@ function deleteContact(name) {
   alert("Löschen von " + name + " folgt bald.");
 }
 
-document.addEventListener("click", function (e) {
-  const card = document.querySelector(".contact-overlay-card");
-  if (card && !card.contains(e.target)) {
-    document.getElementById("overlay").innerHTML = "";
-  }
-});
