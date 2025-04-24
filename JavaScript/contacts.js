@@ -55,13 +55,28 @@ function groupByLetter(contacts) {
 function contactCardTemplate(contact, initials) {
   let color = getColorForName(contact.name);
   return `
-    <div class="contact-list" onclick="showContact('${contact.name}')">
+    <div class="contact-list" onclick="toggleShowContact('${contact.name}')">
       <div class="avatar" style="background:${color}">${initials}</div>
       <div>
         <div><strong>${contact.name}</strong></div>
         <div style="font-size:12px;color:#0077cc;">${contact.email}</div>
       </div>
     </div>`;
+}
+
+
+let currentlyOpenContact = null;
+
+function toggleShowContact(name) {
+  if (currentlyOpenContact === name) {
+    // Wenn derselbe Kontakt nochmal geklickt wird, ausblenden
+    document.getElementById("overlay").innerHTML = "";
+    currentlyOpenContact = null;
+  } else {
+    // Anderen Kontakt anzeigen
+    showContact(name);
+    currentlyOpenContact = name;
+  }
 }
 
 function showContact(name) {
@@ -232,7 +247,9 @@ async function updateContact(name) {
     headers: { "Content-Type": "application/json" }
   });
 
-  fetchData(); // Aktualisiere Liste
+  await fetchData(); // Aktualisiere Liste
+  closeOverlay();
+  showContact(inputName);
 }
 
 function closeOverlay(event) {
