@@ -1,9 +1,17 @@
 let allContacts = [];
 
 const avatarColors = [
-  "#FF7A00", "#FF5C01", "#FFBB2E", "#0095FF",
-  "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1",
-  "#FF4646", "#FFC700", "#BEE800"
+  "#FF7A00",
+  "#FF5C01",
+  "#FFBB2E",
+  "#0095FF",
+  "#6E52FF",
+  "#9327FF",
+  "#00BEE8",
+  "#1FD7C1",
+  "#FF4646",
+  "#FFC700",
+  "#BEE800",
 ];
 
 function getColorForName(name) {
@@ -23,10 +31,13 @@ function getInitials(name) {
 }
 
 async function fetchData() {
-  let res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/.json");
+  let res = await fetch(
+    "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/.json"
+  );
   let data = await res.json();
   allContacts = Object.values(data.person || {});
   renderContacts();
+  document.getElementById('new-contact').classList.remove('d_none');
 }
 
 function renderContacts() {
@@ -36,7 +47,7 @@ function renderContacts() {
   let grouped = groupByLetter(allContacts);
   for (let letter in grouped) {
     panel.innerHTML += `<div style="margin:20px 0 10px;font-weight:bold;">${letter}</div>`;
-    grouped[letter].forEach(c => {
+    grouped[letter].forEach((c) => {
       panel.innerHTML += contactCardTemplate(c, getInitials(c.name));
     });
   }
@@ -64,46 +75,67 @@ function contactCardTemplate(contact, initials) {
     </div>`;
 }
 
-
 let currentlyOpenContact = null;
 
 function toggleShowContact(name) {
+  const allContactElements = document.querySelectorAll('.contact-list');
+
+  // Entferne alle aktiven Klassen
+  allContactElements.forEach(el => el.classList.remove('active'));
+
   if (currentlyOpenContact === name) {
-    // Wenn derselbe Kontakt nochmal geklickt wird, ausblenden
+    // Wenn derselbe Kontakt erneut angeklickt wird: schließen
     document.getElementById("overlay").innerHTML = "";
     currentlyOpenContact = null;
   } else {
-    // Anderen Kontakt anzeigen
+    // Neuer Kontakt anzeigen und markieren
     showContact(name);
     currentlyOpenContact = name;
+
+    // Markiere den aktiven Kontakt im Panel
+    const contactElement = Array.from(allContactElements).find(el =>
+      el.textContent.includes(name)
+    );
+    if (contactElement) {
+      contactElement.classList.add('active');
+    }
   }
 }
 
+
 function showContact(name) {
-  let c = allContacts.find(c => c.name === name);
+  let c = allContacts.find((c) => c.name === name);
   let overlay = document.getElementById("overlay");
   let initials = getInitials(c.name);
   let bg = getColorForName(c.name);
   overlay.innerHTML = `
-    <div style="display:flex;flex-direction:column;gap:20px;max-width:400px;">
+    <div class="slide-in" style="display:flex;flex-direction:column;gap:20px;max-width:400px;">
       <div style="display:flex;align-items:center;gap:20px;">
         <div style="width:60px;height:60px;border-radius:50%;background:${bg};color:white;
         display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;">
-        ${initials}</div><h2 style="margin:0;">${c.name}</h2>
-      </div>
-      <div style="display:flex;justify-content:end;gap:15px; padding-right: 160px;">
-        <button onclick="editContact('${name}')" style="background:none;border:none;cursor:pointer;">
-          <img src="./svg/edit contacts.svg" alt="Edit" width="70">
+        ${initials}</div>
+        <div><h2 style="margin:0;">${c.name}</h2>
+        <div style="display:flex;margin-top:5px;">
+        <button onclick="editContact('${name}')" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:10px;">
+          <img style="height:15px;width:15px;" src="./svg/edit-black.svg" alt="Edit" width="70">Edit
         </button>
-        <button onclick="deleteContact('${name}')" style="background:none;border:none;cursor:pointer;">
-          <img src="./svg/Delete contact.svg" alt="Delete" width="70">
+        <button onclick="deleteContact('${name}')" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:10px;">
+          <img style="height:15px;width:15px;" src="./svg/delete.svg" alt="Delete" width="70">Delete
         </button>
       </div>
+        </div>
+      </div>
+      
       <div>
-      <h1><strong>Contact Information </strong></h1>
+      <h3 style="font-weight:200";>Contact Information</h3>
       <br>
-        <p><strong>Email</strong><br><a href="mailto:${c.email}">${c.email}</a></p>
-        <p><strong>Phone</strong><br>${c.phone}</p>
+      <div>
+        <p><strong>Email</strong></p><a href="mailto:${c.email}">${c.email}</a>
+        </div>
+        <div>
+        <p><strong>Phone</strong></p>
+        <p>${c.phone}</p>
+        </div>
       </div>
     </div>`;
 }
@@ -151,7 +183,7 @@ function createContact() {
 }
 
 function editContact(name) {
-  const contact = allContacts.find(c => c.name === name);
+  const contact = allContacts.find((c) => c.name === name);
   const form = document.getElementById("addContactForm");
   const modal = document.getElementById("modalBackdrop");
   form.innerHTML = "";
@@ -168,21 +200,29 @@ function editContact(name) {
         <div class="add-contact-avatar"><img src="./svg/person.svg"></div>
         <div class="add-contact-inputs">
           <div class="input-wrapper">
-            <input id="inputName" type="text" placeholder="Name" value="${contact.name}">
+            <input id="inputName" type="text" placeholder="Name" value="${
+              contact.name
+            }">
             <img src="./svg/person.svg" class="input-icon">
           </div>
           <div class="input-wrapper">
-            <input id="inputEmail" type="email" placeholder="Email" value="${contact.email}">
+            <input id="inputEmail" type="email" placeholder="Email" value="${
+              contact.email
+            }">
             <img src="./svg/mail.svg" class="input-icon">
           </div>
           <div class="input-wrapper">
-            <input id="inputPhone" type="tel" placeholder="Phone" value="${contact.phone || ""}">
+            <input id="inputPhone" type="tel" placeholder="Phone" value="${
+              contact.phone || ""
+            }">
             <img src="./svg/call.svg" class="input-icon">
           </div>
         </div>
         <div class="add-contact-buttons">
           <button class="cancel-btn" onclick="closeOverlay(); showContact('${name}');">Cancel <span>&times;</span></button>
-          <button class="create-btn" onclick="updateContact('${contact.id || name}')">Save changes <span>&check;</span></button>
+          <button class="create-btn" onclick="updateContact('${
+            contact.id || name
+          }')">Save changes <span>&check;</span></button>
         </div>
       </div>
     </div>`;
@@ -197,11 +237,14 @@ async function saveContact() {
     return;
   }
   const newContact = { name, email, phone };
-  await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json", {
-    method: "POST",
-    body: JSON.stringify(newContact),
-    headers: { "Content-Type": "application/json" }
-  });
+  await fetch(
+    "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json",
+    {
+      method: "POST",
+      body: JSON.stringify(newContact),
+      headers: { "Content-Type": "application/json" },
+    }
+  );
   fetchData();
   closeOverlay();
 }
@@ -217,7 +260,9 @@ async function updateContact(name) {
   }
 
   // 1. Lade alle Daten aus Firebase
-  let res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
+  let res = await fetch(
+    "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json"
+  );
   let data = await res.json();
 
   // 2. Suche den Key (Firebase-ID) des Kontakts mit dem Namen
@@ -238,14 +283,17 @@ async function updateContact(name) {
   const updatedContact = {
     name: inputName,
     email: inputEmail,
-    phone: inputPhone
+    phone: inputPhone,
   };
 
-  await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person/${foundKey}.json`, {
-    method: "PUT",
-    body: JSON.stringify(updatedContact),
-    headers: { "Content-Type": "application/json" }
-  });
+  await fetch(
+    `https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person/${foundKey}.json`,
+    {
+      method: "PUT",
+      body: JSON.stringify(updatedContact),
+      headers: { "Content-Type": "application/json" },
+    }
+  );
 
   await fetchData(); // Aktualisiere Liste
   closeOverlay();
@@ -260,11 +308,11 @@ function closeOverlay(event) {
   document.body.classList.remove("modal-open");
 }
 
-
 async function deleteContact(name) {
-
   // 1. Alle Daten aus Firebase laden
-  const res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
+  const res = await fetch(
+    "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json"
+  );
   const data = await res.json();
 
   // 2. Einträge in ein Array umwandeln, um .find() zu verwenden
@@ -276,14 +324,16 @@ async function deleteContact(name) {
   const [keyToDelete] = match;
 
   // 4. Lösche den Kontakt per DELETE
-  await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person/${keyToDelete}.json`, {
-    method: "DELETE"
-  });
+  await fetch(
+    `https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person/${keyToDelete}.json`,
+    {
+      method: "DELETE",
+    }
+  );
 
   // 5. Aktualisieren und Overlay schließen
   fetchData();
   closeOverlay();
 }
-
 
 // function die mir das overlay beim schließen von edit wieder anzeigt
