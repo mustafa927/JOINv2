@@ -2,6 +2,7 @@
 
 const avatarColors = ["#FF7A00", "#FF5C01", "#FFBB2E", "#0095FF", "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1", "#FF4646", "#FFC700", "#BEE800"];
 
+
 function getColorForName(name) {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
@@ -37,7 +38,8 @@ function createTaskCard(task) {
     }
   
     return `
-      <div class="card" draggable="true" ondragstart="startDragging(event)" id="task-${task.id}">
+      <div class="card" draggable="true" onclick="openOverlayFromCard('${task.id}')"
+      ondragstart="startDragging(event)" id="${task.id}">
         <div class="card-type">${task.category || "Task"}</div>
         <div class="card-title">${task.title}</div>
         <div class="card-description">${task.description || ""}</div>
@@ -110,4 +112,145 @@ function createTaskCard(task) {
   document.addEventListener("DOMContentLoaded", () => {
     loadBoardTasks();
   });
+
+  window.openOverlayFromCard = function(taskId) {
+    console.log("🟡 Suche nach Task mit ID:", taskId);
+    console.log("📦 Alle Tasks:", window.allTasks);
   
+    const task = window.allTasks.find(t => t.id === taskId);
+  
+    if (!task) {
+      console.warn("❌ Task nicht gefunden!");
+      return;
+    }
+  
+    console.log("✅ Task gefunden:", task);
+    showTaskOverlay(task);
+  };
+  
+  
+  
+  function showTaskOverlay(task) {
+    const overlayContainer = document.getElementById("overlay-container");
+    overlayContainer.innerHTML = buildOverlayHTML(task);
+    overlayContainer.style.display = "flex";
+  }
+  
+  function closeOverlay() {
+    const overlay = document.getElementById("overlay-container");
+    overlay.innerHTML = "";
+    overlay.style.display = "none";
+  }
+  
+  function buildOverlayHTML(task) {
+    const subtasksHtml = buildSubtasks(task.subtasks, task.id);
+    const peopleHtml = task.assignedPeople.map(person => {
+      const initials = getInitials(person.name);
+      const bg = getColorForName(person.name);
+      return `
+        <div class="task-card-person">
+          <div class="task-card-avatar" style="background-color:${bg};">${initials}</div>
+          <span class="task-card-name">${person.name}</span>
+        </div>`;
+    }).join("");
+  
+    return `
+      <div class="task-card-overlay">
+        <div class="task-card-label">${task.category || "Kategorie"}</div>
+        <div class="task-card-close-btn" onclick="closeOverlay()">&times;</div>
+  
+        <div class="task-card-title">${task.title || "Kein Titel"}</div>
+        <div class="task-card-description">${task.description || ""}</div>
+  
+        <div class="task-card-info"><strong>Due date:</strong> ${task.dueDate || "-"}</div>
+        <div class="task-card-info task-card-priority">
+          <strong>Priority:</strong> <span>${task.priority || "-"}</span>
+        </div>
+  
+        <div class="task-card-info"><strong>Assigned To:</strong></div>
+        <div class="task-card-assigned">${peopleHtml}</div>
+  
+        <div class="task-card-subtasks">
+          <strong>Subtasks</strong>
+          ${subtasksHtml}
+        </div>
+  
+        <div class="task-card-actions">
+          <button class="task-card-delete-btn">Delete</button>
+          <button class="task-card-edit-btn">Edit</button>
+        </div>
+      </div>`;
+  }
+  
+  // Baut Subtasks-HTML
+  function buildSubtasks(subtasks, taskId) {
+    if (!subtasks || typeof subtasks !== "object") {
+      return `<p style="font-style: italic; color: gray;">Keine Subtasks vorhanden</p>`;
+    }
+  
+    if (subtasks.title) {
+      return `<label>
+        <input type="checkbox" onchange="toggleSubtask('${taskId}', 'sub1', this.checked)">
+        ${subtasks.title}
+      </label>`;
+    }
+  
+    return Object.entries(subtasks).map(([key, sub]) => {
+      return `<label>
+        <input type="checkbox" onchange="toggleSubtask('${taskId}', '${key}', this.checked)" ${sub.done ? "checked" : ""}>
+        ${sub.title}
+      </label>`;
+    }).join("");
+  }
+  
+
+  async function toggleSubtask(taskId, subtaskKey, isChecked) {
+    const url = `https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}/subtasks/${subtaskKey}/done.json`;
+  
+    try {
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(isChecked)
+      });
+  
+      const result = await response.json();
+  
+      // Lokalen Task finden
+      const task = window.allTasks.find(t => t.id === taskId);
+      if (!task) {
+        console.warn("Task nicht in window.allTasks gefunden:", taskId);
+        return;
+      }
+  
+      if (!task.subtasks || !task.subtasks[subtaskKey]) {
+        console.warn("Subtask nicht gefunden im Task-Objekt:", subtaskKey);
+        return;
+      }
+  
+      // Subtask lokal aktualisieren
+      task.subtasks[subtaskKey].done = isChecked;
+  
+      // Card ersetzen
+      const card = document.getElementById(`${taskId}`);
+      if (!card) {
+        console.warn("⚠️ Card-Element im DOM nicht gefunden:", `${taskId}`);
+        return;
+      }
+  
+      const newCardHTML = createTaskCard(task);
+      card.outerHTML = newCardHTML;
+  
+    } catch (error) {
+      console.error("❌ Fehler beim Subtask-Update:", error);
+    }
+  }
+  
+  
+  
+
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    await getAllTasksWithPeople();     // 🔥 holt alle Tasks mit Personen
+
+  });
