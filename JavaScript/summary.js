@@ -49,3 +49,6 @@ async function sumOfTask() {
 }
 
 sumOfTask();
+
+// je nach login muss rechts good morning udn dann der user name stehen oder wenn guest login nur good morning , 
+// das abgabedatum bei urgent muss noch eingefügt werden , da muss glaube in der datenbank priority noch richtig gesetzt da steht high glaube das ist falsch
