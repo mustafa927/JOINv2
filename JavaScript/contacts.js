@@ -109,7 +109,7 @@ function showContact(name) {
   let initials = getInitials(c.name);
   let bg = getColorForName(c.name);
   overlay.innerHTML = `
-    <div class="slide-in" style="display:flex;flex-direction:column;gap:20px;max-width:400px;">
+    <div class="contact-info-box slide-in" style="display:flex;flex-direction:column;gap:20px;max-width:400px;">
       <div style="display:flex;align-items:center;gap:20px;">
         <div style="width:60px;height:60px;border-radius:50%;background:${bg};color:white;
         display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;">
@@ -141,12 +141,10 @@ function showContact(name) {
 }
 
 function addContact() {
-  createContact();
-}
-
-function createContact() {
   const form = document.getElementById("addContactForm");
   const modal = document.getElementById("modalBackdrop");
+
+  // Vorherigen Inhalt und Overlay zurücksetzen
   form.innerHTML = "";
   document.getElementById("overlay").innerHTML = "";
   modal.classList.remove("d_none");
@@ -155,11 +153,15 @@ function createContact() {
   form.innerHTML = `
     <div class="add-contact-overlay">
       <div class="add-contact-left">
-        <img src="./svg/Capa 1.svg" class="add-contact-logo"><h2>Add contact</h2>
-        <p>Tasks are better with a team!</p><div class="underline"></div>
+        <img src="./svg/Capa 1.svg" class="add-contact-logo">
+        <h2>Add contact</h2>
+        <p>Tasks are better with a team!</p>
+        <div class="underline"></div>
       </div>
+
       <div class="add-contact-right">
         <div class="add-contact-avatar"><img src="./svg/person.svg"></div>
+
         <div class="add-contact-inputs">
           <div class="input-wrapper">
             <input id="inputName" type="text" placeholder="Name">
@@ -174,12 +176,16 @@ function createContact() {
             <img src="./svg/call.svg" class="input-icon">
           </div>
         </div>
+
+        <div id="contactError" class="contact-error"></div> <!-- Hinweisbox -->
+
         <div class="add-contact-buttons">
           <button class="cancel-btn" onclick="closeOverlay()">Cancel <span>&times;</span></button>
           <button class="create-btn" onclick="saveContact()">Create contact <span>&check;</span></button>
         </div>
       </div>
-    </div>`;
+    </div>
+  `;
 }
 
 function editContact(name) {
@@ -205,6 +211,7 @@ function editContact(name) {
             }">
             <img src="./svg/person.svg" class="input-icon">
           </div>
+          <div id="contactError" class="contact-error"></div>
           <div class="input-wrapper">
             <input id="inputEmail" type="email" placeholder="Email" value="${
               contact.email
@@ -218,68 +225,85 @@ function editContact(name) {
             <img src="./svg/call.svg" class="input-icon">
           </div>
         </div>
+          <div id="contactError" class="contact-error"></div>
         <div class="add-contact-buttons">
           <button class="cancel-btn" onclick="closeOverlay(); showContact('${name}');">Cancel <span>&times;</span></button>
           <button class="create-btn" onclick="updateContact('${
             contact.id || name
-          }')">Save changes <span>&check;</span></button>
+          }')">Save <span>&check;</span></button>
         </div>
       </div>
-    </div>`;
+    </div>  
+`;
 }
 
 async function saveContact() {
-  const name = document.getElementById("inputName").value;
-  const email = document.getElementById("inputEmail").value;
-  const phone = document.getElementById("inputPhone").value;
-  if (!name || !email) {
-    alert("Name und Email sind Pflichtfelder!");
+  const name = document.getElementById("inputName").value.trim();
+  const email = document.getElementById("inputEmail").value.trim();
+  const phone = document.getElementById("inputPhone").value.trim();
+  const errorBox = document.getElementById("contactError");
+
+  if (!name || !email || !phone) {
+    errorBox.textContent = "❗ Alle drei Felder (Name, E-Mail, Telefonnummer) sind Pflicht!";
+    errorBox.style.display = "block";
+
+    // Fehler verschwindet nach 3 Sekunden
+    setTimeout(() => {
+      errorBox.style.display = "none";
+      errorBox.textContent = "";
+    }, 3000);
+
     return;
   }
+
   const newContact = { name, email, phone };
-  await fetch(
-    "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json",
-    {
-      method: "POST",
-      body: JSON.stringify(newContact),
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+
+  await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json", {
+    method: "POST",
+    body: JSON.stringify(newContact),
+    headers: { "Content-Type": "application/json" }
+  });
+
   fetchData();
   closeOverlay();
+  showSuccessMessage();
 }
 
-async function updateContact(name) {
-  const inputName = document.getElementById("inputName").value;
-  const inputEmail = document.getElementById("inputEmail").value;
-  const inputPhone = document.getElementById("inputPhone").value;
 
-  if (!inputName || !inputEmail) {
-    alert("Name und Email sind Pflichtfelder!");
+async function updateContact(name) {
+  const inputName = document.getElementById("inputName").value.trim();
+  const inputEmail = document.getElementById("inputEmail").value.trim();
+  const inputPhone = document.getElementById("inputPhone").value.trim();
+  const errorBox = document.getElementById("contactError");
+
+  if (!inputName || !inputEmail || !inputPhone) {
+    errorBox.textContent = "❗ Alle drei Felder (Name, E-Mail, Telefonnummer) sind Pflicht!";
+    errorBox.style.display = "block";
+
+    setTimeout(() => {
+      errorBox.style.display = "none";
+      errorBox.textContent = "";
+    }, 3000);
+
     return;
   }
 
-  // 1. Lade alle Daten aus Firebase
-  let res = await fetch(
+  // Firebase laden
+  const res = await fetch(
     "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json"
   );
-  let data = await res.json();
+  const data = await res.json();
 
-  // 2. Suche den Key (Firebase-ID) des Kontakts mit dem Namen
-  let foundKey = null;
-  for (let key in data) {
-    if (data[key].name === name) {
-      foundKey = key;
-      break;
-    }
-  }
+  const entries = Object.entries(data || {});
+  const match = entries.find(([_, value]) => value.name === name);
 
-  if (!foundKey) {
+  if (!match) {
     alert("Kontakt wurde nicht gefunden.");
     return;
   }
 
-  // 3. Neue Daten speichern (überschreiben)
+  const [key] = match;
+
   const updatedContact = {
     name: inputName,
     email: inputEmail,
@@ -287,7 +311,7 @@ async function updateContact(name) {
   };
 
   await fetch(
-    `https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person/${foundKey}.json`,
+    `https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person/${key}.json`,
     {
       method: "PUT",
       body: JSON.stringify(updatedContact),
@@ -295,10 +319,11 @@ async function updateContact(name) {
     }
   );
 
-  await fetchData(); // Aktualisiere Liste
+  await fetchData();
   closeOverlay();
   showContact(inputName);
 }
+
 
 function closeOverlay(event) {
   if (event && event.target.id !== "modalBackdrop") return;
@@ -331,9 +356,18 @@ async function deleteContact(name) {
     }
   );
 
+  
+
   // 5. Aktualisieren und Overlay schließen
   fetchData();
   closeOverlay();
 }
 
-// function die mir das overlay beim schließen von edit wieder anzeigt
+function showSuccessMessage() {
+  const toast = document.getElementById("successMessage");
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  }, 3000); // nach 3 Sekunden ausblenden
+}

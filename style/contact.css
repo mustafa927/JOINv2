@@ -307,3 +307,38 @@ body.modal-open {
 .d_none {
   display: none !important;
 }
+
+.contact-error {
+  color: #fff;
+  background-color: #d9534f;
+  padding: 10px;
+  margin-top: 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  display: none; /* Start hidden */
+}
+
+
+.contact-created {
+  position: fixed;
+  bottom:20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #2a3647; /* dunkelblau ähnlich wie dein Bild */
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-family: sans-serif;
+  z-index: 9999;
+  display: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+.contact-info-box {
+
+}
+
+
