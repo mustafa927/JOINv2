@@ -1,6 +1,7 @@
 import { auth, db } from './firebase.js';
 import { signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { updateUserInitials } from './userInitials.js';
 
 function showError(elementId, message) {
     const errorElement = document.getElementById(elementId);
@@ -66,6 +67,7 @@ async function handleLogin(event) {
 
         if (userDoc.exists()) {
             const userData = userDoc.data();
+            console.log('User data from Firestore:', userData); // Debug log
 
             // Update lastLogin timestamp
             await setDoc(userDocRef, {
@@ -74,10 +76,15 @@ async function handleLogin(event) {
             }, { merge: true });
 
             // Store user session
-            localStorage.setItem('currentUser', JSON.stringify({
+            const userDataToStore = {
                 uid: user.uid,
                 ...userData
-            }));
+            };
+            console.log('Storing user data:', userDataToStore); // Debug log
+            localStorage.setItem('currentUser', JSON.stringify(userDataToStore));
+
+            // Initialen aktualisieren
+            updateUserInitials();
 
             // Redirect to summary page
             window.location.href = 'summary.html';
@@ -100,6 +107,9 @@ async function handleLogin(event) {
                 uid: user.uid,
                 ...userData
             }));
+
+            // Initialen aktualisieren
+            updateUserInitials();
 
             // Redirect to summary page
             window.location.href = 'summary.html';
@@ -154,4 +164,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (guestLoginButton) {
         guestLoginButton.addEventListener('click', handleGuestLogin);
     }
-}); 
+});
+
+async function handleLogout() {
+    try {
+        await signOut(auth);
+        localStorage.removeItem('currentUser');
+        const initialElements = document.querySelectorAll('.user-initial-small');
+        initialElements.forEach(element => {
+            element.textContent = 'G';
+        });
+        window.location.href = 'index.html';
+    } catch (error) {
+        console.error('Error during logout:', error);
+    }
+} 

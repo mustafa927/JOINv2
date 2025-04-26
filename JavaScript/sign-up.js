@@ -1,6 +1,7 @@
 import { auth, db, checkNetworkStatus } from './firebase.js';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, setDoc, getDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { updateUserInitials } from './userInitials.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const signupForm = document.getElementById('signupForm');
@@ -22,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('privacy-policy').classList.remove('error');
         
         // Get form values
-        const name = document.getElementById('name').value;
+        const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
@@ -30,11 +31,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let hasError = false;
         
-        // Name validation
-        if (!name) {
+        // Name validation (muss Vor- und Nachname enthalten)
+        if (!name || !name.includes(' ')) {
             const nameError = document.getElementById('name-error');
             if (nameError) {
                 nameError.style.display = 'block';
+                nameError.textContent = 'Bitte geben Sie Vor- und Nachnamen ein (durch Leerzeichen getrennt)';
                 document.getElementById('name').classList.add('error');
             }
             hasError = true;
@@ -125,6 +127,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 uid: user.uid,
                 ...userData
             }));
+
+            // Initialen sofort aktualisieren
+            updateUserInitials();
 
             // Show success message
             successMessage.style.display = 'block';

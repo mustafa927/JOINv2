@@ -1,4 +1,4 @@
-let allContacts = [];
+export let allContacts = [];
 
 const avatarColors = [
   "#FF7A00",
@@ -30,7 +30,7 @@ function getInitials(name) {
   return initials.toUpperCase();
 }
 
-async function fetchData() {
+export async function fetchData() {
   let res = await fetch(
     "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/.json"
   );
@@ -77,7 +77,7 @@ function contactCardTemplate(contact, initials) {
 
 let currentlyOpenContact = null;
 
-function toggleShowContact(name) {
+export function toggleShowContact(name) {
   const allContactElements = document.querySelectorAll('.contact-list');
 
   // Entferne alle aktiven Klassen
@@ -140,7 +140,7 @@ function showContact(name) {
     </div>`;
 }
 
-function addContact() {
+export function addContact() {
   const form = document.getElementById("addContactForm");
   const modal = document.getElementById("modalBackdrop");
 
@@ -325,7 +325,7 @@ async function updateContact(name) {
 }
 
 
-function closeOverlay(event) {
+export function closeOverlay(event) {
   if (event && event.target.id !== "modalBackdrop") return;
   document.getElementById("modalBackdrop").classList.add("d_none");
   document.getElementById("addContactForm").innerHTML = "";
@@ -371,3 +371,5 @@ function showSuccessMessage() {
     toast.style.display = "none";
   }, 3000); // nach 3 Sekunden ausblenden
 }
+
+document.addEventListener('DOMContentLoaded', fetchData);

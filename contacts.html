@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="style/help.css">
     
   </head>
-  <body onload="fetchData()">
+  <body>
     <div id="successMessage" class="contact-created">Contact successfully created</div>
 
 
@@ -50,7 +50,7 @@
       <div class="header-icons">
         <div class="help-icon" id="helpIcon">?</div>
         <div class="profile-wrapper">
-          <div class="user-initial-small" onclick="toggleDropdown()">SM</div>
+          <div class="user-initial-small" onclick="toggleDropdown()"></div>
     
     <div class="dropdown-menu-small" id="userDropdown">
         <ul>
@@ -85,9 +85,17 @@
         <!-- Overlay wird per JS hier eingefügt -->
       </div>
     </div>
-    <script src="JavaScript/contacts.js"></script>
-    <script src="JavaScript/summary.js" type="module"></script>
-    <script src="JavaScript/navigation.js"></script>
+    <script src="JavaScript/userInitials.js" type="module"></script>
     <script src="JavaScript/dropdown-menu.js"></script>
+    <script src="JavaScript/contacts.js" type="module"></script>
+    <script src="JavaScript/navigation.js" type="module"></script>
+    <script type="module">
+        // Importieren Sie die benötigten Funktionen
+        import { fetchData, addContact, toggleShowContact, closeOverlay } from './JavaScript/contacts.js';
+        // Machen Sie die Funktionen global verfügbar
+        window.addContact = addContact;
+        window.toggleShowContact = toggleShowContact;
+        window.closeOverlay = closeOverlay;
+    </script>
   </body>
 </html>

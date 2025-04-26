@@ -1,3 +1,4 @@
+// Die Funktion für das Dropdown-Menü
 function toggleDropdown() {
     document.getElementById('userDropdown').classList.toggle('show');
 }
@@ -14,3 +15,14 @@ window.onclick = function(event) {
         }
     }
 }
+
+// Event Listener hinzufügen, wenn das DOM geladen ist
+document.addEventListener('DOMContentLoaded', () => {
+    const userInitialButton = document.querySelector('.user-initial-small');
+    if (userInitialButton) {
+        userInitialButton.addEventListener('click', toggleDropdown);
+    }
+});
+
+// Die Funktion global verfügbar machen
+window.toggleDropdown = toggleDropdown;
