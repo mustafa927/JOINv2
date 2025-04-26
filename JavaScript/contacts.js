@@ -188,7 +188,7 @@ export function addContact() {
   `;
 }
 
-function editContact(name) {
+export function editContact(name) {
   const contact = allContacts.find((c) => c.name === name);
   const form = document.getElementById("addContactForm");
   const modal = document.getElementById("modalBackdrop");
@@ -237,7 +237,7 @@ function editContact(name) {
 `;
 }
 
-async function saveContact() {
+export async function saveContact() {
   const name = document.getElementById("inputName").value.trim();
   const email = document.getElementById("inputEmail").value.trim();
   const phone = document.getElementById("inputPhone").value.trim();
@@ -270,7 +270,7 @@ async function saveContact() {
 }
 
 
-async function updateContact(name) {
+export async function updateContact(name) {
   const inputName = document.getElementById("inputName").value.trim();
   const inputEmail = document.getElementById("inputEmail").value.trim();
   const inputPhone = document.getElementById("inputPhone").value.trim();
@@ -333,7 +333,7 @@ export function closeOverlay(event) {
   document.body.classList.remove("modal-open");
 }
 
-async function deleteContact(name) {
+export async function deleteContact(name) {
   // 1. Alle Daten aus Firebase laden
   const res = await fetch(
     "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json"

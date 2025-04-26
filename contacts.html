@@ -50,16 +50,16 @@
       <div class="header-icons">
         <div class="help-icon" id="helpIcon">?</div>
         <div class="profile-wrapper">
-          <div class="user-initial-small" onclick="toggleDropdown()"></div>
-    
-    <div class="dropdown-menu-small" id="userDropdown">
-        <ul>
-            <li><a href="Legal-notice.html">Legal Notice</a></li>
-            <li><a href="privacyPolicy.html">Privacy Policy</a></li>
-            <li><a href="index.html">Log out</a></li>
-        </ul>
-    </div>
-</div>
+          <div class="user-initial-small" id="userInitialButton"></div>
+          
+          <div class="dropdown-menu-small" id="userDropdown">
+              <ul>
+                  <li><a href="Legal-notice.html">Legal Notice</a></li>
+                  <li><a href="privacyPolicy.html">Privacy Policy</a></li>
+                  <li><a href="index.html">Log out</a></li>
+              </ul>
+          </div>
+      </div>
     </header>
 
     <div class="left-side">
@@ -96,6 +96,14 @@
         window.addContact = addContact;
         window.toggleShowContact = toggleShowContact;
         window.closeOverlay = closeOverlay;
+        
+        // Import editContact and deleteContact functions
+        import { editContact, deleteContact, saveContact, updateContact } from './JavaScript/contacts.js';
+        // Make them globally available
+        window.editContact = editContact;
+        window.deleteContact = deleteContact;
+        window.saveContact = saveContact;
+        window.updateContact = updateContact;
     </script>
   </body>
 </html>
