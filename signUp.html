@@ -6,6 +6,7 @@
     <title>Join - Sign up</title>
     <link rel="stylesheet" href="style/loginStyle.css">
     <link rel="stylesheet" href="style/signUp.css">
+    <link rel="icon" type="image/x-icon" href="svg/Capa 2.svg">
 </head>
 <body>
     <div class="page-logo">
@@ -37,16 +38,18 @@
                 <div id="email-format-error" class="error-message">Please enter a valid email address.</div>
             </div>
             
-            <div class="input-field">
+            <div class="input-field" style="position:relative;">
                 <input type="password" id="password" name="password" placeholder="Password" required minlength="6">
-                <img src="svg/lock.svg" alt="Password icon" class="input-icon">
+                <img src="svg/lock.svg" alt="Password icon" class="input-icon" id="lockIconPassword" style="position:absolute; top:50%; transform:translateY(-50%); width:20px;">
+                <img src="svg/visibility.svg" alt="Show Password" id="togglePassword" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); cursor:pointer; width:20px; display:none;">
                 <div id="password-error" class="error-message">Please enter a password.</div>
                 <div id="password-length-error" class="error-message">The password must be at least 6 characters long.</div>
             </div>
             
-            <div class="input-field">
+            <div class="input-field" style="position:relative;">
                 <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required minlength="6">
-                <img src="svg/lock.svg" alt="Password icon" class="input-icon">
+                <img src="svg/lock.svg" alt="Password icon" class="input-icon" id="lockIconConfirm" style="position:absolute; top:50%; transform:translateY(-50%); width:20px;">
+                <img src="svg/visibility.svg" alt="Show Password" id="toggleConfirmPassword" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); cursor:pointer; width:20px; display:none;">
                 <div id="confirm-password-error" class="error-message">Please confirm your password.</div>
                 <div id="password-match-error" class="error-message">Your passwords do not match.</div>
             </div>
@@ -73,5 +76,6 @@
     <script src="JavaScript/logoAnimation.js"></script>
     <script src="JavaScript/sign-up.js" type="module"></script>
     <script src="JavaScript/database.js" type="module"></script>
+    <script src="JavaScript/showPassword.js"></script>
 </body>
 </html>
