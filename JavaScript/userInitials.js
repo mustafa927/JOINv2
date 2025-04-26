@@ -28,11 +28,7 @@ export function updateUserInitials() {
         
         initialElements.forEach(element => {
             element.textContent = initials;
-            element.style.backgroundColor = '#29ABE2';
-            element.style.color = 'white';
-            element.style.display = 'flex';
-            element.style.justifyContent = 'center';
-            element.style.alignItems = 'center';
+            element.style.color = '#29ABE2';
         });
     }
 }

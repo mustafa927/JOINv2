@@ -56,19 +56,6 @@
     margin-bottom: 10px;
 }
 
-.user-initial {
-    width: 42px;
-    height: 42px;
-    background-color: #29ABE2;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-}
-
 .header-container {
     display: flex;
     justify-content: space-between;
@@ -85,22 +72,16 @@
     display: inline-block;
 }
 
-/* Profile wrapper positioning */
-.profile-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
 /* Smaller user initial */
 .user-initial-small {
     width: 32px;
     height: 32px;
-    background-color: #29ABE2;
+    background-color: white;
+    border: 2px solid black;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
     font-weight: bold;
     font-size: 14px;
     cursor: pointer;
