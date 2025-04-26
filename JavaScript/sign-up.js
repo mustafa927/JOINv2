@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const nameError = document.getElementById('name-error');
             if (nameError) {
                 nameError.style.display = 'block';
-                nameError.textContent = 'Bitte geben Sie Vor- und Nachnamen ein (durch Leerzeichen getrennt)';
+                nameError.textContent = 'Please enter your Fullname (with space)';
                 document.getElementById('name').classList.add('error');
             }
             hasError = true;
