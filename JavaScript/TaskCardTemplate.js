@@ -176,7 +176,7 @@ function createTaskCard(task) {
         </div>
   
         <div class="task-card-actions">
-          <button class="task-card-delete-btn">Delete</button>
+          <button class="task-card-delete-btn" onclick="deleteTask('${task.id}')">Delete</button>
           <button class="task-card-edit-btn">Edit</button>
         </div>
       </div>`;
@@ -254,3 +254,39 @@ function createTaskCard(task) {
     await getAllTasksWithPeople();     // 🔥 holt alle Tasks mit Personen
 
   });
+
+
+  async function deleteTask(taskId) {
+    const url = `https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}.json`;
+  
+    try {
+      const response = await fetch(url, {
+        method: "DELETE"
+      });
+  
+      if (response.ok) {
+        console.log(`✅ Task ${taskId} wurde erfolgreich gelöscht.`);
+  
+        // 🧹 Jetzt auch aus window.allTasks entfernen
+        window.allTasks = window.allTasks.filter(task => task.id !== taskId);
+  
+        // 🧼 Und die Card im Board entfernen
+        const card = document.getElementById(taskId);
+        if (card) {
+          card.remove();
+        }
+  
+        // 🧼 Optional: Overlay schließen, wenn es offen war
+        closeOverlay();
+  
+      } else {
+        console.error("❌ Fehler beim Löschen:", response.statusText);
+      }
+  
+    } catch (error) {
+      console.error("❌ Fehler beim Löschen des Tasks:", error);
+    }
+    checkEmptySections()
+
+  }
+  
