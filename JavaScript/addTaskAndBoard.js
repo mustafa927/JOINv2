@@ -20,9 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (window.location.pathname.includes('boardsection.html')) {
-    loadTasks();
-  }
 });
 
 // --- Task anlegen
@@ -118,84 +115,84 @@ function showSuccessMessage() {
 }
 
 // --- Tasks laden aufs Board
-async function loadTasks() {
-  try {
-    const response = await fetch(TASKS_URL);
-    const data = await response.json();
-    const tasks = Object.entries(data || {});
+// async function loadTasks() {
+//   try {
+//     const response = await fetch(TASKS_URL);
+//     const data = await response.json();
+//     const tasks = Object.entries(data || {});
 
-    tasks.forEach(([id, task]) => {
-      if (task.status === 'To-Do') {
-        addTaskToBoard(task.title, task.description, id);
-      }
-    });
+//     tasks.forEach(([id, task]) => {
+//       if (task.status === 'To-Do') {
+//         addTaskToBoard(task.title, task.description, id);
+//       }
+//     });
 
-  } catch (error) {
-    console.error('Fehler beim Laden der Tasks:', error);
-  }
-}
+//   } catch (error) {
+//     console.error('Fehler beim Laden der Tasks:', error);
+//   }
+// }
 
 // --- Task als Card ins Board setzen
-function addTaskToBoard(title, description, id) {
-  const toDoSection = document.querySelector('.board-cards .progress-section:first-child');
+// function addTaskToBoard(title, description, id) {
+//   const toDoSection = document.querySelector('.board-cards .progress-section:first-child');
 
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.id = `task-${id}`;
-  card.draggable = true;
-  card.ondragstart = (e) => startDragging(e);
+//   const card = document.createElement('div');
+//   card.className = 'card';
+//   card.id = `task-${id}`;
+//   card.draggable = true;
+//   card.ondragstart = (e) => startDragging(e);
 
-  card.innerHTML = `
-    <h4>${title}</h4>
-    <p>${description || ''}</p>
-  `;
+//   card.innerHTML = `
+//     <h4>${title}</h4>
+//     <p>${description || ''}</p>
+//   `;
 
-  const noTasksMessage = toDoSection.querySelector('.no-tasks');
-  if (noTasksMessage) noTasksMessage.classList.add('d-none');
+//   const noTasksMessage = toDoSection.querySelector('.no-tasks');
+//   if (noTasksMessage) noTasksMessage.classList.add('d-none');
 
-  toDoSection.appendChild(card);
-}
+//   toDoSection.appendChild(card);
+// }
 
 // --- Dragging Funktionalität
-let draggedElement = null;
+// let draggedElement = null;
 
-function startDragging(event) {
-  draggedElement = event.target;
-}
+// function startDragging(event) {
+//   draggedElement = event.target;
+// }
 
 // --- Drop erlauben
-window.allowDrop = function(event) {
-  event.preventDefault();
-};
+// window.allowDrop = function(event) {
+//   event.preventDefault();
+// };
 
 // --- Task auf Dropzone ablegen
-window.drop = async function(event) {
-  event.preventDefault();
-  const dropzone = event.currentTarget;
+// window.drop = async function(event) {
+//   event.preventDefault();
+//   const dropzone = event.currentTarget;
 
-  if (!draggedElement || !dropzone.classList.contains('dropzone')) return;
+//   if (!draggedElement || !dropzone.classList.contains('dropzone')) return;
 
-  dropzone.appendChild(draggedElement);
+//   dropzone.appendChild(draggedElement);
 
-  const taskId = draggedElement.id.replace('task-', '');
-  const newStatus = getStatusFromDropzone(dropzone);
+//   const taskId = draggedElement.id.replace('task-', '');
+//   const newStatus = getStatusFromDropzone(dropzone);
 
-  if (taskId && newStatus) {
-    await updateTaskStatus(taskId, newStatus);
-  }
-};
+//   if (taskId && newStatus) {
+//     await updateTaskStatus(taskId, newStatus);
+//   }
+// };
 
 // --- Status erkennen anhand der Dropzone
-function getStatusFromDropzone(dropzone) {
-  const title = dropzone.querySelector(".to-do-header p")?.innerText.toLowerCase();
+// function getStatusFromDropzone(dropzone) {
+//   const title = dropzone.querySelector(".to-do-header p")?.innerText.toLowerCase();
 
-  if (title.includes("to do")) return "To-Do";
-  if (title.includes("in progress")) return "In Progress";
-  if (title.includes("await feedback")) return "Await Feedback";
-  if (title.includes("done")) return "Done";
+//   if (title.includes("to do")) return "To-Do";
+//   if (title.includes("in progress")) return "In Progress";
+//   if (title.includes("await feedback")) return "Await Feedback";
+//   if (title.includes("done")) return "Done";
 
-  return null;
-}
+//   return null;
+// }
 
 // --- Status in Firebase aktualisieren
 async function updateTaskStatus(taskId, newStatus) {
