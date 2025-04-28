@@ -290,3 +290,47 @@ function createTaskCard(task) {
 
   }
   
+  function checkEmptySections() {
+    document.querySelectorAll('.progress-section').forEach(section => {
+      const cards = Array.from(section.querySelectorAll('.card'));
+      const visibleCards = cards.filter(card => card.style.display !== "none");
+  
+      const noTasks = section.querySelector('.no-tasks');
+      
+      if (visibleCards.length === 0 && noTasks) {
+        noTasks.classList.remove('d-none');
+      } else if (visibleCards.length > 0 && noTasks) {
+        noTasks.classList.add('d-none');
+      }
+    });
+  }
+  
+function handleTaskSearch() {
+  const searchInput = document.getElementById('taskSearchInput').value.trim().toLowerCase();
+  const allCards = document.querySelectorAll('.card'); // holt alle Task-Cards
+
+  if (searchInput.length < 3) {
+    // Wenn weniger als 3 Buchstaben → alle zeigen
+    allCards.forEach(card => {
+      card.style.display = "block";
+    });
+    checkEmptySections();
+    return;
+    
+  }
+
+
+  allCards.forEach(card => {
+    const titleElement = card.querySelector('.card-title');
+    const title = titleElement ? titleElement.textContent.toLowerCase() : "";
+
+    if (title.includes(searchInput)) {
+      card.style.display = "block"; // Übereinstimmung → zeigen
+    } else {
+      card.style.display = "none";  // Keine Übereinstimmung → verstecken
+    }
+  });
+
+  checkEmptySections();
+
+}
