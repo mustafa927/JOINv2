@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Task (Overlay)</title>
+
+  <!-- Dein Stylesheet -->
+  <link rel="stylesheet" href="style/addtask.css">
+</head>
+<body onload="assignedToInput()">
+
+  <div class="maincontent">
+    <h1>Add Task</h1>
+    <form id="add-task-form">
+      <div class="form-section">
+        <label for="title">Title<span class="required-note"> *</span></label>
+        <input type="text" id="title" placeholder="Enter a title">
+        <div id="title-error" class="required-note d-none">
+          *This field is required
+        </div>
+
+        <label for="desc">Description</label>
+        <textarea id="desc" placeholder="Enter a Description"></textarea>
+
+        <label for="due-date">Due date</label>
+        <input type="date" id="due-date">
+      </div>
+
+      <div class="line"></div>
+
+      <div class="form-section">
+        <label>Priority</label>
+        <div class="priority-buttons">
+          <button type="button" class="priority-btn urgent">Urgent 🔺</button>
+          <button type="button" class="priority-btn medium">Medium 🟨</button>
+          <button type="button" class="priority-btn low">Low ✅</button>
+        </div>
+
+        <label for="assigned">Assigned to</label>
+        <select id="assigned">
+          <option disabled selected hidden>Select contacts to assign</option>
+        </select>
+
+        <label for="category">Category<span class="required-note"> *</span></label>
+        <select id="category" required>
+          <option value="" disabled selected hidden>Select a category</option>
+          <option value="technical">Technical Task</option>
+          <option value="story">User Story</option>
+        </select>
+
+        <div id="category-error" class="required-note d-none">
+          *This field is required
+        </div>
+
+        <label for="subtasks">Subtasks</label>
+        <div class="subtask-input-container">
+          <input type="text" placeholder="Add new subtask" class="subtask-input">
+          <button type="button" class="add-subtask-button">+</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="bottom-buttons">
+      <button type="button" class="clear-btn">Clear ✗</button>
+      <button type="submit" form="add-task-form" class="create-btn">Create Task ✔</button>
+    </div>
+  </div>
+
+  <div id="task-success-message" class="task-success d-none">
+    Task added to board <img src="svg/Icons.svg" alt="">
+  </div>
+
+  <!-- Dein JavaScript -->
+  <script src="JavaScript/addTaskOverlay.js" type="module"></script>
+</body>
+</html>
