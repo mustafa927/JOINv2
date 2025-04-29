@@ -3,7 +3,7 @@
 }
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: sans-serif;
   display: flex;
   height: 100vh;
   color: #333;
@@ -340,5 +340,4 @@ body.modal-open {
 .contact-info-box {
 
 }
-
 
