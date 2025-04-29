@@ -11,8 +11,9 @@
   <link rel="stylesheet" href="style/dropdown-menu.css">
   <link rel="stylesheet" href="style/header.css">
   <link rel="icon" type="image/x-icon" href="svg/Capa 2.svg">
+  <script src="JavaScript/summary.js"></script>
 </head>
-<body>
+<body onload="sumOfTask()">
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-logo">
@@ -117,7 +118,7 @@
           </div>
           <div class="urgent-divider"></div>
           <div class="urgent-right">
-            <div class="urgent-date">Datum</div>
+            <div id="urgent-date" class="urgent-date">Datum</div>
             <div class="urgent-subtext">Upcoming Deadline</div>
           </div>
         </div>
