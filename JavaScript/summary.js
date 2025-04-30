@@ -73,3 +73,24 @@ async function sumOfTask() {
         console.error("Fehler beim Abrufen der Tasks:", error);
     }
 }
+
+function updateGreetingMessage() {
+    const greetingElement = document.getElementById('greeting-message');
+    const storedUser = localStorage.getItem('currentUser');
+
+    if (storedUser) {
+        const user = JSON.parse(storedUser);
+        const userName = user.name ? user.name.trim().toLowerCase() : '';  // if user name exist then usernametrim ..
+
+        // Vergleiche gegen typische Gastnamen
+        const isGuest = userName === 'guest user'; // isGuest exists only if there is a userName "guest user"
+
+        if (user.name && !isGuest) {
+            greetingElement.textContent = `Good morning, ${user.name}`;
+        } else {
+            greetingElement.textContent = 'Good morning';
+        }
+    } else {
+        greetingElement.textContent = 'Good morning';
+    }
+}
