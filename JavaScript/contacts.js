@@ -197,7 +197,10 @@ function editContact(name) {
   document.body.classList.add("modal-open");
 
   form.innerHTML = `
-    <div class="add-contact-overlay">
+    <div class="add-contact-overlay" style="position: relative;">
+      <!-- NEU: Close Button oben rechts -->
+      <div style="position:absolute; top:20px; right:20px; cursor:pointer; font-size:24px;" onclick="closeOverlayDirectly()">&times;</div>
+
       <div class="add-contact-left">
         <img src="./svg/Capa 1.svg" class="add-contact-logo"><h2>Edit contact</h2>
         <div class="underline"></div>
@@ -206,36 +209,29 @@ function editContact(name) {
         <div class="add-contact-avatar"><img src="./svg/person.svg"></div>
         <div class="add-contact-inputs">
           <div class="input-wrapper">
-            <input id="inputName" type="text" placeholder="Name" value="${
-              contact.name
-            }">
+            <input id="inputName" type="text" placeholder="Name" value="${contact.name}">
             <img src="./svg/person.svg" class="input-icon">
           </div>
           <div id="contactError" class="contact-error"></div>
           <div class="input-wrapper">
-            <input id="inputEmail" type="email" placeholder="Email" value="${
-              contact.email
-            }">
+            <input id="inputEmail" type="email" placeholder="Email" value="${contact.email}">
             <img src="./svg/mail.svg" class="input-icon">
           </div>
           <div class="input-wrapper">
-            <input id="inputPhone" type="tel" placeholder="Phone" value="${
-              contact.phone || ""
-            }">
+            <input id="inputPhone" type="tel" placeholder="Phone" value="${contact.phone || ""}">
             <img src="./svg/call.svg" class="input-icon">
           </div>
         </div>
-          <div id="contactError" class="contact-error"></div>
+        <div id="contactError" class="contact-error"></div>
         <div class="add-contact-buttons">
-          <button class="cancel-btn" onclick="closeOverlay(); showContact('${name}');">Cancel <span>&times;</span></button>
-          <button class="create-btn" onclick="updateContact('${
-            contact.id || name
-          }')">Save <span>&check;</span></button>
+          <button class="cancel-btn" onclick="deleteContact('${name}');">Delete <span>&times;</span></button>
+          <button class="create-btn" onclick="updateContact('${contact.id || name}')">Save <span>&check;</span></button>
         </div>
       </div>
     </div>  
-`;
+  `;
 }
+
 
 async function saveContact() {
   const name = document.getElementById("inputName").value.trim();
@@ -269,6 +265,11 @@ async function saveContact() {
   showSuccessMessage();
 }
 
+function closeOverlayDirectly() {
+  document.getElementById("modalBackdrop").classList.add("d_none");
+  document.getElementById("addContactForm").innerHTML = "";
+  document.body.classList.remove("modal-open");
+}
 
 async function updateContact(name) {
   const inputName = document.getElementById("inputName").value.trim();
@@ -329,7 +330,6 @@ function closeOverlay(event) {
   if (event && event.target.id !== "modalBackdrop") return;
   document.getElementById("modalBackdrop").classList.add("d_none");
   document.getElementById("addContactForm").innerHTML = "";
-  document.getElementById("overlay").innerHTML = "";
   document.body.classList.remove("modal-open");
 }
 
@@ -357,7 +357,7 @@ async function deleteContact(name) {
   );
 
   
-
+document.getElementById("overlay").innerHTML="";
   // 5. Aktualisieren und Overlay schließen
   fetchData();
   closeOverlay();
