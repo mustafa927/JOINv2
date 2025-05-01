@@ -1,6 +1,8 @@
+/* === RESET === */
 * {
   /* box-sizing: border-box; */
 }
+
 body {
   margin: 0;
   font-family: sans-serif;
@@ -9,26 +11,46 @@ body {
   color: #333;
 }
 
+/* === LAYOUT === */
+.left-side {
+  width: 300px;
+  background-color: #ffffff;
+  padding: 150px 20px 20px;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.main {
+  flex: 1;
+  padding: 150px 40px 40px;
+  background-color: #fafafa;
+}
+
 .contact-panel {
   width: 300px;
-
   padding: 20px;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
 }
 
-.main {
-  flex: 1;
-  padding: 40px;
-  background-color: #fafafa;
-  padding-top: 150px;
+.overlay {
+  margin-top: 30px;
 }
 
+.editContact {
+  position: fixed;
+  top: 100px;
+  left: 500px;
+}
+
+/* === COMPONENTS === */
 .contact-list {
   display: flex;
   align-items: center;
   gap: 20px;
-
   padding: 10px;
   border-radius: 10px;
   cursor: pointer;
@@ -40,19 +62,10 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0%);
-    opacity: 1;
-  }
-}
-
-.slide-in {
-  animation: slideInRight 0.1s ease-out forwards;
+.contact-list.active {
+  background-color: #2a3647;
+  color: white;
+  border-radius: 8px;
 }
 
 .avatar {
@@ -73,7 +86,6 @@ body {
   font-weight: bold;
 }
 
-/* hier ist der blaue strich zwischen ocntacts und bette rwith  a team */
 .contactInfo-subtitle {
   color: #888;
   font-size: 20px;
@@ -81,12 +93,8 @@ body {
   border-left: 3px solid #2196f3;
   padding-left: 10px;
 }
-.contact-list.active {
-  background-color: #2a3647;
-  color: white;
-  border-radius: 8px;
-}
 
+/* === BUTTONS === */
 .new-contact {
   background-color: #2a3647;
   color: white;
@@ -106,46 +114,16 @@ body {
 .new-contact:hover {
   background-color: #29abe2;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
   transform: scale(1.05);
+  cursor: pointer;
 }
 
 .button-icon {
   width: 20px;
   height: 20px;
 }
-.editContact {
-  position: fixed;
-  top: 100px;
-  left: 500px;
-}
 
-.d_none {
-  display: none;
-}
-
-.left-side {
-  width: 300px;
-  background-color: #ffffff;
-  padding: 20px;
-  border-right: 1px solid #e0e0e0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* <-- zentriert vertikal */
-  align-items: center; /* <-- optional: zentriert horizontal */
-  gap: 20px;
-  padding-top: 150px;
-}
-.overlay {
-  margin-top: 30px;
-}
-
-.overlay-name {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
+/* === CONTACT OVERLAY === */
 .add-contact-overlay {
   position: relative;
   top: 80px;
@@ -182,8 +160,7 @@ body {
 
 .add-contact-left p {
   font-size: 16px;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  margin: 10px 0 20px;
 }
 
 .underline {
@@ -275,17 +252,7 @@ body {
   background-color: #29abe2;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
+/* === MODAL === */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -304,6 +271,7 @@ body.modal-open {
   pointer-events: auto;
 }
 
+/* === HELPERS === */
 .d_none {
   display: none !important;
 }
@@ -316,16 +284,15 @@ body.modal-open {
   border-radius: 5px;
   font-size: 14px;
   text-align: center;
-  display: none; /* Start hidden */
+  display: none;
 }
-
 
 .contact-created {
   position: fixed;
-  bottom:20px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #2a3647; /* dunkelblau ähnlich wie dein Bild */
+  background-color: #2a3647;
   color: #fff;
   padding: 12px 24px;
   border-radius: 999px;
@@ -333,11 +300,33 @@ body.modal-open {
   font-family: sans-serif;
   z-index: 9999;
   display: none;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
 }
 
-.contact-info-box {
-
+/* === ANIMATIONS === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
+.slide-in {
+  animation: slideInRight 0.1s ease-out forwards;
+}
