@@ -330,3 +330,39 @@ body.modal-open {
 .slide-in {
   animation: slideInRight 0.1s ease-out forwards;
 }
+
+
+@media (max-width:768px) {
+  .main {
+    display:none;
+  }
+
+  .left-side {
+    width:100%;
+  }
+
+  .contact-panel {
+    width:100%;
+  }
+
+  .new-contact {
+    position:absolute;
+    bottom:20px;
+    right:20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .new-contact .button-label {
+    display: none;
+  }
+
+  .new-contact .button-icon {
+    width: 24px;
+    height: 24px;
+    margin: 0;
+  }
+}
