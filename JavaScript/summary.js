@@ -2,74 +2,97 @@ async function sumOfTask() {
     const url = "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json";
 
     try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Fehler beim Abrufen der Daten: ${response.statusText}`);
-        }
+        const tasks = await fetchTasks(url);
+        const counts = countTasks(tasks);
+        const nextUrgentDate = findNextUrgentDate(tasks);
 
-        const data = await response.json();
-
-        let todoCount = 0;
-        let doneCount = 0;
-        let urgentCount = 0;
-        let tasksInBoardCount = 0;
-        let tasksInProgressCount = 0;
-        let awaitingFeedbackCount = 0;
-
-        // Für das nächste Urgent-Datum
-        let nextUrgentDate = null;
-
-        for (const key in data) {
-            const task = data[key];
-            tasksInBoardCount++;
-
-            const status = task.status;
-            const priority = task.priority;
-            const dueDate = task.dueDate;
-
-            if (status === "To-Do") {
-                todoCount++;
-            } else if (status === "Done") {
-                doneCount++;
-            } else if (status === "In Progress") {
-                tasksInProgressCount++;
-            } else if (status === "Awaiting Feedback") {
-                awaitingFeedbackCount++;
-            }
-
-            if (priority === "Urgent") {
-                urgentCount++;
-
-                if (dueDate) {
-                    const dateObj = new Date(dueDate);
-                    const today = new Date();
-
-                    // Nur zukünftige oder heutige Daten berücksichtigen
-                    if (dateObj >= today) {
-                        if (nextUrgentDate === null || dateObj < nextUrgentDate) {
-                            nextUrgentDate = dateObj;
-                        }
-                    }
-                }
-            }
-        }
-
-        // Textfelder im DOM aktualisieren
-        document.getElementById('todo').textContent = todoCount;
-        document.getElementById('done').textContent = doneCount;
-        document.getElementById('urgent').textContent = urgentCount;
-        document.getElementById('tasks-in-board').textContent = tasksInBoardCount;
-        document.getElementById('tasks-in-progress').textContent = tasksInProgressCount;
-        document.getElementById('awaiting-feedback').textContent = awaitingFeedbackCount;
-
-        // Nächstes Urgent-Datum setzen
-        if (nextUrgentDate) {
-            document.getElementById('urgent-date').textContent = nextUrgentDate.toLocaleDateString("de-DE");
-        } else {
-            document.getElementById('urgent-date').textContent = "Kein Datum";
-        }
-
+        updateDashboard(counts, nextUrgentDate);
     } catch (error) {
         console.error("Fehler beim Abrufen der Tasks:", error);
     }
+}
+
+async function fetchTasks(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(`Fehler beim Abrufen der Daten: ${response.statusText}`);
+    }
+    return await response.json();
+}
+
+function countTasks(tasks) {
+    let counts = {
+        todo: 0,
+        done: 0,
+        urgent: 0,
+        inProgress: 0,
+        awaiting: 0,
+        total: 0
+    };
+
+    for (const key in tasks) {
+        const task = tasks[key];
+        counts.total++;
+        updateStatusCount(task.status, counts);
+        if (task.priority === "Urgent") counts.urgent++;
+    }
+
+    return counts;
+}
+
+function updateStatusCount(status, counts) {
+    switch (status) {
+        case "To-Do": counts.todo++; break;
+        case "Done": counts.done++; break;
+        case "In Progress": counts.inProgress++; break;
+        case "Awaiting Feedback": counts.awaiting++; break;
+    }
+}
+
+function findNextUrgentDate(tasks) {
+    let nextDate = null;
+    const today = new Date();
+
+    for (const key in tasks) {
+        const task = tasks[key];
+        if (task.priority !== "Urgent" || !task.dueDate) continue;
+
+        const dueDate = new Date(task.dueDate);
+        if (dueDate >= today && (!nextDate || dueDate < nextDate)) {
+            nextDate = dueDate;
+        }
+    }
+
+    return nextDate;
+}
+
+function updateDashboard(counts, nextDate) {
+    setText("todo", counts.todo);
+    setText("done", counts.done);
+    setText("urgent", counts.urgent);
+    setText("tasks-in-board", counts.total);
+    setText("tasks-in-progress", counts.inProgress);
+    setText("awaiting-feedback", counts.awaiting);
+
+    const dateText = nextDate ? nextDate.toLocaleDateString("de-DE") : "Kein Datum";
+    setText("urgent-date", dateText);
+}
+
+function setText(id, value) {
+    document.getElementById(id).textContent = value;
+}
+
+function updateGreetingMessage() {
+    const greetingElement = document.getElementById('greeting-message');
+    const storedUser = localStorage.getItem('currentUser');
+
+    const name = getUserName(storedUser);
+    greetingElement.textContent = name ? `Good morning, ${name}` : "Good morning";
+}
+
+function getUserName(storedUser) {
+    if (!storedUser) return null;
+    const user = JSON.parse(storedUser);
+    const name = user.name?.trim().toLowerCase();
+    return name && name !== "guest user" ? user.name : null;
 }

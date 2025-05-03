@@ -50,23 +50,24 @@
       <div class="header-icons">
         <div class="help-icon" id="helpIcon">?</div>
         <div class="profile-wrapper">
-          <div class="user-initial-small" onclick="toggleDropdown()">SM</div>
-    
-    <div class="dropdown-menu-small" id="userDropdown">
-        <ul>
-            <li><a href="Legal-notice.html">Legal Notice</a></li>
-            <li><a href="privacyPolicy.html">Privacy Policy</a></li>
-            <li><a href="index.html">Log out</a></li>
-        </ul>
-    </div>
-</div>
+          <div class="user-initial-small" id="userInitialButton"></div>
+          
+          <div class="dropdown-menu-small" id="userDropdown">
+              <ul>
+                  <li><a href="Legal-notice.html">Legal Notice</a></li>
+                  <li><a href="privacyPolicy.html">Privacy Policy</a></li>
+                  <li><a href="index.html">Log out</a></li>
+              </ul>
+          </div>
+      </div>
     </header>
 
     <div class="left-side">
       <button class="new-contact d_none" id="new-contact" onclick="addContact()">
-        <img src="./svg/person_add.svg" alt="Emoji" style="width:20px; height:20px; vertical-align:middle; margin-right:8px;">
-        Add new contact
+        <img src="./svg/person_add.svg" alt="Add contact" class="button-icon" />
+        <span class="button-label">Add new contact</span>
       </button>
+      
       
   
       <div class="contact-panel" id="contactPanel"></div>
@@ -89,5 +90,7 @@
     <script src="JavaScript/summary.js" type="module"></script>
     <script src="JavaScript/navigation.js"></script>
     <script src="JavaScript/dropdown-menu.js"></script>
+    <script src="JavaScript/contactTemplate.js"></script>
+    <script src="JavaScript/userInitials.js" type="module"></script>
   </body>
 </html>

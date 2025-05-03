@@ -36,14 +36,16 @@ export function updateUserInitials() {
     }
 }
 
-// Initialisierung beim Laden der Seite
 document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(updateUserInitials, 100);
+    setTimeout(() => {
+        updateUserInitials();
+        updateGreetingMessage(); // hier aufrufen
+    }, 100);
 });
 
-// Zusätzlich beim vollständigen Laden der Seite
 window.addEventListener('load', () => {
     updateUserInitials();
+    updateGreetingMessage(); // hier ebenfalls
 });
 
 // Exportiere eine Funktion zum manuellen Aktualisieren
