@@ -17,41 +17,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const lookOn = 'svg/visibility_off.svg';      // Auge offen
     const lookOff = 'svg/visibility.svg'; // Auge durchgestrichen
 
-    fields.forEach(field => {
-        if (field.input && field.toggle && field.lock) {
-            // Zeige/verstecke Icons je nach Inhalt
-            field.input.addEventListener('input', function() {
-                if (this.value.length > 0) {
-                    field.toggle.style.display = 'block';
-                    field.lock.style.visibility = 'hidden';
-                } else {
-                    field.toggle.style.display = 'none';
-                    field.lock.style.visibility = 'visible';
-                    field.input.type = 'password'; // falls Auge aktiv war
-                    field.toggle.src = lookOn;     // Icon zurücksetzen
-                }
-            });
-
-            // Passwort anzeigen/verstecken beim Klick aufs Icon
-            field.toggle.addEventListener('click', function() {
-                if (field.input.type === 'password') {
-                    field.input.type = 'text';
-                    field.toggle.src = lookOff;
-                } else {
-                    field.input.type = 'password';
-                    field.toggle.src = lookOn;
-                }
-            });
-
-            // Initial-Check beim Laden (z.B. Autofill)
-            if (field.input.value.length > 0) {
-                field.toggle.style.display = 'block';
-                field.lock.style.visibility = 'hidden';
-            } else {
-                field.toggle.style.display = 'none';
-                field.lock.style.visibility = 'visible';
-                field.toggle.src = lookOn;
-            }
-        }
-    });
+    fields.forEach(field => setupPasswordField(field, lookOn, lookOff));
 });
+
+function setupPasswordField(field, lookOn, lookOff) {
+    if (field.input && field.toggle && field.lock) {
+        field.input.addEventListener('input', () => handleInput(field, lookOn));
+        field.toggle.addEventListener('click', () => togglePassword(field, lookOn, lookOff));
+        initialIconState(field, lookOn);
+    }
+}
+
+function handleInput(field, lookOn) {
+    if (field.input.value.length > 0) {
+        field.toggle.style.display = 'block';
+        field.lock.style.visibility = 'hidden';
+    } else {
+        resetField(field, lookOn);
+    }
+}
+
+function togglePassword(field, lookOn, lookOff) {
+    if (field.input.type === 'password') {
+        field.input.type = 'text';
+        field.toggle.src = lookOff;
+    } else {
+        field.input.type = 'password';
+        field.toggle.src = lookOn;
+    }
+}
+
+function initialIconState(field, lookOn) {
+    if (field.input.value.length > 0) {
+        field.toggle.style.display = 'block';
+        field.lock.style.visibility = 'hidden';
+    } else {
+        resetField(field, lookOn);
+    }
+}
+
+function resetField(field, lookOn) {
+    field.toggle.style.display = 'none';
+    field.lock.style.visibility = 'visible';
+    field.input.type = 'password';
+    field.toggle.src = lookOn;
+}

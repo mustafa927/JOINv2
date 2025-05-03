@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, setPersistence, browserLocalPersistence, browserSessionPersistence, connectAuthEmulator } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, initializeFirestore, CACHE_SIZE_UNLIMITED, connectFirestoreEmulator } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getAuth, setPersistence, browserLocalPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, initializeFirestore, CACHE_SIZE_UNLIMITED } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAiWyDIcK6gBjP7lipndlyQKRRTur3bMJM",
@@ -14,39 +14,35 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
-const db = initializeFirestore(app, {
-    cacheSizeBytes: CACHE_SIZE_UNLIMITED,
-    experimentalForceLongPolling: true,
-    useFetchStreams: false
-});
+const db = setupFirestore(app);
 
 let isOnline = navigator.onLine;
+setupNetworkListeners();
 
-window.addEventListener('online', () => {
-    isOnline = true;
-});
-
-window.addEventListener('offline', () => {
-    isOnline = false;
-});
-
-setPersistence(auth, browserLocalPersistence)
-    .catch((error) => {
-        console.warn('Local persistence failed, trying session persistence:', error);
-        return setPersistence(auth, browserSessionPersistence);
-    })
-    .catch((error) => {
-        console.error('All persistence attempts failed:', error);
-    });
+setAuthPersistence(auth);
 
 auth.useDeviceLanguage();
 
-// Configure Firestore
-const firestoreSettings = {
-    cacheSizeBytes: 10000000,
-    useFetchStreams: false
-};
+function setupFirestore(app) {
+    return initializeFirestore(app, {
+        cacheSizeBytes: CACHE_SIZE_UNLIMITED,
+        experimentalForceLongPolling: true,
+        useFetchStreams: false
+    });
+}
+
+function setupNetworkListeners() {
+    window.addEventListener('online', () => { isOnline = true; });
+    window.addEventListener('offline', () => { isOnline = false; });
+}
+
+function setAuthPersistence(auth) {
+    setPersistence(auth, browserLocalPersistence)
+        .catch(() => setPersistence(auth, browserSessionPersistence))
+        .catch((error) => {
+            console.error('All persistence attempts failed:', error);
+        });
+}
 
 function checkNetworkStatus() {
     if (!navigator.onLine) {
