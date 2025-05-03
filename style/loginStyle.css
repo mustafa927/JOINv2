@@ -71,9 +71,7 @@ body {
     align-items: center;
     gap: 16px;
     padding: 20px 0;
-    background-color: #F6F7F8;
     font-weight: 600;
-    position: absolute;
     bottom: 0;
     left: 0;
     text-align: center;
@@ -214,56 +212,70 @@ button {
 @media (max-width: 768px) {
     body {
         padding: 20px;
+        justify-content: center;
     }
 
     .login-container {
         width: 100%;
-        max-width: 100%;
-        padding: 20px;
+        max-width: 500px;
+        padding: 24px;
         margin: 0;
-        box-sizing: border-box;
-    }
-
-    .input-field {
-        width: 100%;
-    }
-
-    .input-field input {
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .button-group {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .btn-primary, .btn-secondary {
-        width: 100%;
-        margin: 0;
+        box-shadow: none;
     }
 
     .page-logo {
-        position: relative;
-        top: 0;
-        left: 0;
-        margin: 20px auto;
+        position: static;
+        margin-bottom: 40px;
         text-align: center;
     }
 
     .page-logo img {
-        width: 60px;
-        height: auto;
+        width: 64px;
+    }
+
+    .signup-container {
+        position: static;
+        margin-top: 20px;
+        justify-content: center;
     }
 
     h1 {
-        font-size: 32px;
+        font-size: 42px;
         margin-bottom: 20px;
     }
 
+    .button-group {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .btn-primary, .btn-secondary {
+        max-width: 100%;
+    }
+
     .page-footer {
-        position: relative;
-        margin-top: 20px;
+        position: static;
+        margin-top: 40px;
+        padding: 20px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 16px;
+    }
+
+    .login-container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    .input-field input {
+        padding: 10px 40px 10px 12px;
+        font-size: 14px;
     }
 }
 
