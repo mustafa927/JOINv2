@@ -42,10 +42,10 @@ function countTasks(tasks) {
 
 function updateStatusCount(status, counts) {
     switch (status) {
-        case "To-Do": counts.todo++; break;
+        case "To-Do": counts.todo++; break;       
         case "Done": counts.done++; break;
         case "In Progress": counts.inProgress++; break;
-        case "Awaiting Feedback": counts.awaiting++; break;
+        case "Awaiting Feedback": counts.awaiting++; break;  
     }
 }
 
