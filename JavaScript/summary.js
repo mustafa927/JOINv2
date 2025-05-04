@@ -3,13 +3,17 @@ async function sumOfTask() {
 
     try {
         const tasks = await fetchTasks(url);
+        console.log("Fetched tasks:", tasks);
         const counts = countTasks(tasks);
         const nextUrgentDate = findNextUrgentDate(tasks);
-
+        console.log("Ist geladen!");
+        console.log("Tasks:", tasks);
+        console.log("Zählwerte:", counts);
         updateDashboard(counts, nextUrgentDate);
     } catch (error) {
         console.error("Fehler beim Abrufen der Tasks:", error);
     }
+    
 }
 
 async function fetchTasks(url) {
@@ -33,7 +37,8 @@ function countTasks(tasks) {
     for (const key in tasks) {
         const task = tasks[key];
         counts.total++;
-        updateStatusCount(task.status, counts);
+        console.log("Task status:", task.status);
+        updateStatusCount(task.Status, counts);
         if (task.priority === "Urgent") counts.urgent++;
     }
 
@@ -45,7 +50,7 @@ function updateStatusCount(status, counts) {
         case "To-Do": counts.todo++; break;       
         case "Done": counts.done++; break;
         case "In Progress": counts.inProgress++; break;
-        case "Awaiting Feedback": counts.awaiting++; break;  
+        case "Await Feedback": counts.awaiting++; break;
     }
 }
 
