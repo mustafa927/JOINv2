@@ -149,12 +149,16 @@ main {
   padding: 24px;
   display: flex;
   flex-direction: column;
+  height: 50%;    /* optional: schöner Look */
 }
+
 
 .board-cards {
   display: flex;
   justify-content: center;
   gap: 24px;
+  height: 100%;         
+  align-items: stretch;  
 }
 
 /* Karten */
@@ -358,7 +362,7 @@ body.modal-open {
 }
 
 .task-card-title {
-  font-size: 22px;
+  font-size: 44px;
   font-weight: bold;
   margin-bottom: 0;
   line-height: 1.3;

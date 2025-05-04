@@ -37,10 +37,32 @@ function createTaskCard(task) {
       if (subtasks[key].done) done++;
     }
   
+    let priorityIcon = "";
+    switch ((task.priority || "").toLowerCase()) {
+      case "urgent":
+        priorityIcon = `<img src="svg/urgent.svg" alt="Urgent Icon" />`;
+        break;
+      case "medium":
+        priorityIcon = `<img src="svg/medium.svg" alt="Medium Icon" />`;
+        break;
+      case "low":
+        priorityIcon = `<img src="svg/low.svg" alt="Low Icon" />`;
+        break;
+      default:
+        priorityIcon = "";
+    }
+
+    let typeStyle = "";
+
+if ((task.category || "").toLowerCase() === "technical task") {
+  typeStyle = "background-color: turquoise;";
+}
+
+
     return `
       <div class="card" draggable="true" onclick="openOverlayFromCard('${task.id}')"
       ondragstart="startDragging(event)" id="${task.id}">
-        <div class="card-type">${task.category || "Task"}</div>
+      <div class="card-type" style="${typeStyle}">${task.category || "Task"}</div>
         <div class="card-title">${task.title}</div>
         <div class="card-description">${task.description || ""}</div>
         
@@ -53,7 +75,7 @@ function createTaskCard(task) {
   
         <div class="card-bottom">
           <div class="avatars">${assignedHTML}</div>
-          <div class="menu-icon">≡</div>
+          <div class="menu-icon">${priorityIcon}</div></div>
         </div>
       </div>
     `;
@@ -143,10 +165,30 @@ function createTaskCard(task) {
   }
   
   function buildOverlayHTML(task) {
+    const priorityIcon = (() => {
+      switch ((task.priority || "").toLowerCase()) {
+        case "urgent":
+          return `<img src="svg/urgent.svg" alt="Urgent Icon" style="height: 16px; vertical-align: middle; margin-left: 6px;">`;
+        case "medium":
+          return `<img src="svg/medium.svg" alt="Medium Icon" style="height: 16px; vertical-align: middle; margin-left: 6px;">`;
+        case "low":
+          return `<img src="svg/low.svg" alt="Low Icon" style="height: 16px; vertical-align: middle; margin-left: 6px;">`;
+        default:
+          return "";
+      }
+    })();
+    let categoryLabelStyle = "";
+
+if ((task.category || "").toLowerCase() === "technical task") {
+  categoryLabelStyle = "background-color: turquoise;";
+}
+
     const subtasksHtml = buildSubtasks(task.subtasks, task.id);
     const peopleHtml = task.assignedPeople.map(person => {
       const initials = getInitials(person.name);
       const bg = getColorForName(person.name);
+
+
       return `
         <div class="task-card-person">
           <div class="task-card-avatar" style="background-color:${bg};">${initials}</div>
@@ -156,15 +198,18 @@ function createTaskCard(task) {
   
     return `
       <div class="task-card-overlay">
-        <div class="task-card-label">${task.category || "Kategorie"}</div>
+      <div class="task-card-label" style="${categoryLabelStyle}">${task.category || "Kategorie"}</div>
         <div class="task-card-close-btn" onclick="closeOverlay()">&times;</div>
   
         <div class="task-card-title">${task.title || "Kein Titel"}</div>
         <div class="task-card-description">${task.description || ""}</div>
   
         <div class="task-card-info"><strong>Due date:</strong> ${task.dueDate || "-"}</div>
-        <div class="task-card-info task-card-priority">
-          <strong>Priority:</strong> <span>${task.priority || "-"}</span>
+        <div class="task-card-info ">
+          <strong>Priority:</strong>   <span>
+          ${task.priority || "-"}
+          ${priorityIcon}
+        </span>
         </div>
   
         <div class="task-card-info"><strong>Assigned To:</strong></div>
