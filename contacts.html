@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="style/dropdown-menu.css">
     <link rel="stylesheet" href="style/header.css">
     <link rel="stylesheet" href="style/help.css">
-    <link rel="icon" type="image/x-icon" href="svg/Capa 2.svg">
+    
   </head>
-  <body>
+  <body onload="fetchData()">
     <div id="successMessage" class="contact-created">Contact successfully created</div>
 
 
@@ -56,7 +56,7 @@
               <ul>
                   <li><a href="Legal-notice.html">Legal Notice</a></li>
                   <li><a href="privacyPolicy.html">Privacy Policy</a></li>
-                  <li><a href="index.html">Log out</a></li>
+                  <li><a href="Index.html">Log out</a></li>
               </ul>
           </div>
       </div>
@@ -64,9 +64,10 @@
 
     <div class="left-side">
       <button class="new-contact d_none" id="new-contact" onclick="addContact()">
-        <img src="./svg/person_add.svg" alt="Emoji" style="width:20px; height:20px; vertical-align:middle; margin-right:8px;">
-        Add new contact
+        <img src="./svg/person_add.svg" alt="Add contact" class="button-icon" />
+        <span class="button-label">Add new contact</span>
       </button>
+      
       
   
       <div class="contact-panel" id="contactPanel"></div>
@@ -85,25 +86,11 @@
         <!-- Overlay wird per JS hier eingefügt -->
       </div>
     </div>
-    <script src="JavaScript/userInitials.js" type="module"></script>
+    <script src="JavaScript/contacts.js"></script>
+    <script src="JavaScript/summary.js" type="module"></script>
+    <script src="JavaScript/navigation.js"></script>
     <script src="JavaScript/dropdown-menu.js"></script>
-    <script src="JavaScript/contacts.js" type="module"></script>
-    <script src="JavaScript/navigation.js" type="module"></script>
-    <script type="module">
-        // Importieren Sie die benötigten Funktionen
-        import { fetchData, addContact, toggleShowContact, closeOverlay } from './JavaScript/contacts.js';
-        // Machen Sie die Funktionen global verfügbar
-        window.addContact = addContact;
-        window.toggleShowContact = toggleShowContact;
-        window.closeOverlay = closeOverlay;
-        
-        // Import editContact and deleteContact functions
-        import { editContact, deleteContact, saveContact, updateContact } from './JavaScript/contacts.js';
-        // Make them globally available
-        window.editContact = editContact;
-        window.deleteContact = deleteContact;
-        window.saveContact = saveContact;
-        window.updateContact = updateContact;
-    </script>
+    <script src="JavaScript/contactTemplate.js"></script>
+    <script src="JavaScript/userInitials.js" type="module"></script>
   </body>
 </html>
