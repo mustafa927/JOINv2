@@ -26,7 +26,7 @@ async function sumOfTask() {
                 doneCount++;
             } else if (task.Status === "In Progress") {
                 tasksInProgressCount++;
-            } else if (task.Status === "Awaiting Feedback") {
+            } else if (task.Status === "Await Feedback") {
                 awaitingFeedbackCount++;
             }
 
