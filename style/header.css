@@ -53,6 +53,9 @@
     transform: scale(0.95);
   }
   
+  .header-logo {
+    display:none;
+  }
 
   @media (max-width:768px) {
     .page-header {
@@ -79,4 +82,7 @@
       width: 70px;
     }
     
+    .header-logo {
+      display:block;
+    }
   }
