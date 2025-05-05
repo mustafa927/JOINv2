@@ -39,13 +39,13 @@ export function updateUserInitials() {
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         updateUserInitials();
-        updateGreetingMessage(); // hier aufrufen
+        // updateGreetingMessage(); // hier aufrufen
     }, 100);
 });
 
 window.addEventListener('load', () => {
     updateUserInitials();
-    updateGreetingMessage(); // hier ebenfalls
+    // updateGreetingMessage(); // hier ebenfalls
 });
 
 // Exportiere eine Funktion zum manuellen Aktualisieren

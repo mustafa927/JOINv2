@@ -88,13 +88,24 @@
           <button type="button" class="priority-btn medium">Medium <img src="svg/medium.svg" alt="" srcset=""></button>
           <button type="button" class="priority-btn low">Low <img src="svg/low.svg" alt=""></button>
         </div>
+        <label for="assigned">Assigned to</label>
+        <div class="assigned-dropdown">
+          <div class="assigned-select" onclick="toggleAssignedDropdown()">
+            <input
+              type="text"
+              id="assigned-search"
+              class="assigned-search-input"
+              placeholder="Select contacts to assign"
+              oninput="filterAssignedList()"
+            />
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="assigned-options d-none" id="assigned-list"></div>
+        </div>
+        <div id="selected-avatars" class="selected-avatars"></div>
         
 
-        <label for="assigned">Assigned to</label>
-        <select id="assigned">
-          <option disabled selected hidden>Select contacts to assign</option>
-        </select>
-
+        
         <label for="category"
           >Category<span class="required-note"> *</span></label
         >
