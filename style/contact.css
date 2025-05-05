@@ -304,6 +304,11 @@ body.modal-open {
   transition: all 0.3s ease-in-out;
 }
 
+.contact-email{
+  font-size:12px;
+  color:#0077cc;
+}
+
 /* === ANIMATIONS === */
 @keyframes fadeIn {
   from {
@@ -334,102 +339,86 @@ body.modal-open {
 
 @media (max-width:768px) {
   .main {
-    display:none;
+    display: none;
   }
-
+  
   .left-side {
-    width:100%;
+    width: 100%;
   }
-
+  
   .contact-panel {
-    width:100%;
+    width: 100%;
   }
-
+  
   .new-contact {
-    position:absolute;
-    bottom:20px;
-    right:20px;
-    width: 56px;
-    height: 56px;
+    position: absolute;
+    bottom: 100px;
+    right: 20px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
     padding: 0;
     justify-content: center;
   }
-
+  
   .new-contact .button-label {
     display: none;
   }
-
+  
   .new-contact .button-icon {
-    width: 24px;
-    height: 24px;
+    width: 40px;
+    height: 40px;
     margin: 0;
   }
-
- 
-  .sidebar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100% !important;
-    height: 70px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    padding: 0;
-    z-index: 1000;
-  }
-
-  .sidebar-logo,
-  .sidebar-footer {
-    display: none;
-  }
-
-  .sidebar-nav {
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 0;
-    width: 100%;
-    gap: 0;
-  }
-
-  .nav-item {
-    flex: 1;
-    justify-content: center;
-    padding: 12px 0;
-  }
-
-  .nav-item span {
-    display: none; /* Text ausblenden, nur Icons */
-  }
-
-  .nav-item img {
-    margin: 0 auto;
-  }
-
+  
   .container {
-    padding-bottom: 80px; /* Platz lassen für die feste Bottom-Navigation */
+    padding-bottom: 80px;
   }
-
-  .page-header {
-    left:0 !important;
-    justify-content: space-between !important;
-  }
-
-  .help-icon {
-    display:none;
-  }
-
-  .logo-title {
-    display:none;
-  }
-
-  .help-icon {
-    display:none !important;
-  }
- 
+  
   .contact-list {
     justify-content: center;
+  }
+  
+  .contact-name {
+    width: 240px;
+    text-align: left;
+    font-size: 32px;
+    margin-top: 16px;
+    font-weight: 200;
+  }
+  
+  .contact-group-letter {
+    margin-left: 30px;
+    padding: 6%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.179);
+    font-size: 32px;
+  }
+  
+  .avatar {
+    width: 56px;
+    height: 56px;
+    margin-right: 40px;
+  }
+  
+  .contact-email {
+    font-size: 24px;
+    margin-top: 7px;
+  }
+  
+}
+
+
+@media (max-width:500px) {
+  .contact-name {
+    font-size:18px;
+    width: 140px;;
+  }
+
+  .contact-email {
+    font-size:16px;
+  }
+
+  .avatar {
+    margin-right:0;
   }
 }

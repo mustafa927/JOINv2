@@ -3,15 +3,16 @@ function contactCardTemplate(contact, initials) {
     return `
       <div class="contact-list" onclick="toggleShowContact('${contact.name}')">
         <div class="avatar" style="background:${color}">${initials}</div>
-        <div>
+        <div class="contact-name">
           <div><strong>${contact.name}</strong></div>
-          <div style="font-size:12px;color:#0077cc;">${contact.email}</div>
+          <div class="contact-email">${contact.email}</div>
         </div>
       </div>`;
   }
   
   function contactGroupTemplate(letter) {
-    return `<div style="margin:20px 0 10px;font-weight:bold;">${letter}</div>`;
+    return `<div class="contact-group-letter">${letter}</div>`;
+
   }
   
   function contactDetailTemplate(contact) {

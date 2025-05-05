@@ -53,3 +53,30 @@
     transform: scale(0.95);
   }
   
+
+  @media (max-width:768px) {
+    .page-header {
+      left: 0 !important;
+      justify-content: space-between !important;
+    }
+    
+    .help-icon {
+      display: none !important;
+    }
+    
+    .logo-title {
+      display: none;
+    }
+    
+    .user-initial-small {
+      height: 60px !important;
+      width: 60px !important;
+      font-size: 24px !important;
+    }
+    
+    header img {
+      height: 70px;
+      width: 70px;
+    }
+    
+  }
