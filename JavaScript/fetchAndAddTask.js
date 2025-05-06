@@ -8,7 +8,7 @@ let newTask = {
   dueDate: "2025-06-10",
   priority: "High",
   category: "Design",
-  status: "To-Do",
+  Status: "To-Do",
   assignedTo: {
     person1: "-OO2cpzcQaVpB2cvHgCp",
     person2: "-OONRhAG3up-91-RGtpa"
