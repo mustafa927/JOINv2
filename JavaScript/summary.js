@@ -101,3 +101,10 @@ function getUserName(storedUser) {
     const name = user.name?.trim().toLowerCase();
     return name && name !== "guest user" ? user.name : null;
 }
+
+
+
+
+window.addEventListener('load', () => {
+    updateGreetingMessage();
+});
