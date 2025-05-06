@@ -122,17 +122,24 @@ body {
     }
     
     .nav-item {
-      flex: 1;
+      width:70px;
       justify-content: center;
       padding: 12px 0;
-    }
+    
+        }
     
     .nav-item span {
       display: none;
     }
     
     .nav-item img {
-      margin: 0 auto;
+      
+      height:40px;
+      width:40px;
+    }
+
+    body {
+      overflow-x: hidden;
     }
     
   }
