@@ -20,67 +20,72 @@ function getInitials(name) {
 }
 
 
-
-
-
 function createTaskCard(task) {
-    const assignedHTML = (task.assignedPeople || []).map(person => {
-      const initials = getInitials(person.name);
-      const color = getColorForName(person.name);
-      return `<div class="avatar" style="background-color:${color}">${initials}</div>`;
-    }).join("");
-  
-    const subtasks = task.subtasks || {};
-    let total = 0, done = 0;
-    for (const key in subtasks) {
-      total++;
-      if (subtasks[key].done) done++;
-    }
-  
-    let priorityIcon = "";
-    switch ((task.priority || "").toLowerCase()) {
-      case "urgent":
-        priorityIcon = `<img src="svg/urgent.svg" alt="Urgent Icon" />`;
-        break;
-      case "medium":
-        priorityIcon = `<img src="svg/medium.svg" alt="Medium Icon" />`;
-        break;
-      case "low":
-        priorityIcon = `<img src="svg/low.svg" alt="Low Icon" />`;
-        break;
-      default:
-        priorityIcon = "";
-    }
+  const assignedHTML = renderAssignedPeople(task.assignedPeople || []);
+  const { total, done } = calculateSubtaskProgress(task.subtasks || {});
+  const priorityIcon = getPriorityIcon(task.priority);
+  const typeStyle = getCategoryStyle(task.category);
+  const progressPercent = (done / total) * 100;
 
-    let typeStyle = "";
-
-if ((task.category || "").toLowerCase() === "technical task") {
-  typeStyle = "background-color: turquoise;";
-}
-
-
-    return `
-      <div class="card" draggable="true" onclick="openOverlayFromCard('${task.id}')"
-      ondragstart="startDragging(event)" id="${task.id}">
+  return `
+    <div class="card" draggable="true" onclick="openOverlayFromCard('${task.id}')"
+         ondragstart="startDragging(event)" id="${task.id}">
+      
       <div class="card-type" style="${typeStyle}">${task.category || "Task"}</div>
-        <div class="card-title">${task.title}</div>
-        <div class="card-description">${task.description || ""}</div>
-        
-        ${total > 0 ? `
+      <div class="card-title">${task.title}</div>
+      <div class="card-description">${task.description || ""}</div>
+
+      ${total > 0 ? `
         <div class="card-footer">
           <div class="progress">
-            <div class="progress-bar" style="width: ${(done / total) * 100}%"></div>
+            <div class="progress-bar" style="width: ${progressPercent}%"></div>
           </div>
           <span class="subtasks">${done}/${total} Subtasks</span>
         </div>` : ""}
-  
-        <div class="card-bottom">
-          <div class="avatars">${assignedHTML}</div>
-          <div class="menu-icon">${priorityIcon}</div></div>
-        </div>
+
+      <div class="card-bottom">
+        <div class="avatars">${assignedHTML}</div>
+        <div class="menu-icon">${priorityIcon}</div>
       </div>
-    `;
+    </div>
+  `;
+}
+
+
+function renderAssignedPeople(people) {
+  return people.map(person => {
+    const initials = getInitials(person.name);
+    const color = getColorForName(person.name);
+    return `<div class="avatar" style="background-color:${color}">${initials}</div>`;
+  }).join("");
+}
+
+function calculateSubtaskProgress(subtasks) {
+  let total = 0, done = 0;
+  for (const key in subtasks) {
+    total++;
+    if (subtasks[key].done) done++;
   }
+  return { total, done };
+}
+
+function getPriorityIcon(priority) {
+  const icons = {
+    urgent: "urgent.svg",
+    medium: "medium.svg",
+    low: "low.svg"
+  };
+  const key = (priority || "").toLowerCase();
+  return icons[key] ? `<img src="svg/${icons[key]}" alt="${key} icon" />` : "";
+}
+
+function getCategoryStyle(category) {
+  return (category || "").toLowerCase() === "technical task"
+    ? "background-color: turquoise;"
+    : "";
+}
+
+
   
 
   async function loadBoardTasks() {
@@ -137,8 +142,6 @@ if ((task.category || "").toLowerCase() === "technical task") {
   });
 
   window.openOverlayFromCard = function(taskId) {
-    console.log("🟡 Suche nach Task mit ID:", taskId);
-    console.log("📦 Alle Tasks:", window.allTasks);
   
     const task = window.allTasks.find(t => t.id === taskId);
   
@@ -146,8 +149,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
       console.warn("❌ Task nicht gefunden!");
       return;
     }
-  
-    console.log("✅ Task gefunden:", task);
+
     showTaskOverlay(task);
   };
   

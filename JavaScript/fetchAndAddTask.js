@@ -43,27 +43,17 @@ async function fetchDataTasks() {
   let response = await fetch(
     "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json"
   );
-
   if (!response.ok) {
     console.error("Fehler beim Abrufen der Daten");
     return;
   }
-
-  let data = await response.json();
-  
-  // Prüfen, ob Tasks existieren
+  let data = await response.json(); 
   if (data) {
-    let tasks = Object.values(data); // Array aus den Tasks machen
-    console.log("Aufgaben geladen:", tasks);
-
-    // Hier das Array allTasks füllen
+    let tasks = Object.values(data); 
     allTasks = tasks;
   } else {
     console.log("Keine Aufgaben gefunden.");
   }
-
-  // Optional: Funktion zum Rendern der Aufgaben auf der Seite aufrufen
-  // renderTasks();
 }
 
 
@@ -194,84 +184,6 @@ function redirectToBoard() {
 }
 
 
-
-// function createTaskFromForm() {
-//   // 🟢 Titel prüfen
-//   const titleInput = document.getElementById("title").value.trim();
-//   if (!titleInput) {
-//     document.getElementById("title-error").classList.remove("d-none");
-//     return;
-//   }
-//   document.getElementById("title-error").classList.add("d-none");
-
-//   // 📝 Description
-//   const descriptionInput = document.getElementById("desc").value.trim();
-
-//   // 📅 Due Date
-//   const dueDateInput = document.getElementById("due-date").value;
-
-//   // 🔥 Priority (aktive Klasse erkennen)
-//   const priorityButtons = document.querySelectorAll(".priority-buttons .priority-btn");
-//   let selectedPriority = "";
-//   priorityButtons.forEach(btn => {
-//     if (btn.classList.contains("active-urgent")) selectedPriority = "Urgent";
-//     if (btn.classList.contains("active-medium")) selectedPriority = "Medium";
-//     if (btn.classList.contains("active-low")) selectedPriority = "Low";
-//   });
-
-//   // 🧠 Kategorie prüfen
-//   const categoryInput = document.getElementById("category").value;
-//   if (!categoryInput) {
-//     document.getElementById("category-error").classList.remove("d-none");
-//     return;
-//   }
-//   document.getElementById("category-error").classList.add("d-none");
-
-//   // ✅ Subtasks einsammeln
-//   const subtaskElements = document.querySelectorAll("#subtask-list .subtask-text");
-//   const subtasks = {};
-//   subtaskElements.forEach((el, index) => {
-//     const key = `sub${index + 1}`;
-//     subtasks[key] = {
-//       title: el.textContent.trim(),
-//       done: false
-//     };
-//   });
-
-//   // ✅ Assigned To IDs einsammeln
-//   const checkedBoxes = document.querySelectorAll(".assigned-checkbox:checked");
-//   const assignedTo = {};
-//   checkedBoxes.forEach((box, index) => {
-//     const userId = box.dataset.id;
-//     if (userId) {
-//       assignedTo[`person${index + 1}`] = userId;
-//     }
-//   });
-
-//   // 📦 newTask erstellen
-//   let newTask = {
-//     title: titleInput,
-//     description: descriptionInput,
-//     dueDate: dueDateInput,
-//     priority: selectedPriority,
-//     category: categoryInput,
-//     Status: "To-Do",
-//     assignedTo: assignedTo,
-//     subtasks: subtasks
-//   };
-
-//   console.log("📦 Finaler Task:", newTask);
-
-//   addNewTask(newTask);
-
-//   showSuccessMessage()
-
-//   setTimeout(() => {
-//     window.location.href = "boardsection.html";
-//   }, 1000);
-
-// }
-
 function showSuccessMessage() {
   const message = document.getElementById('task-success-message');
   if (!message) return;
@@ -298,10 +210,8 @@ async function addNewTask(taskData) {
         body: JSON.stringify(taskData)
       }
     );
-
     const result = await response.json();
-    console.log("✅ Task erfolgreich hinzugefügt:", result);
-    return result; // enthält z.B. { name: "-NT...123" }
+    return result; 
   } catch (error) {
     console.error("❌ Fehler beim Hinzufügen des Tasks:", error);
   }
