@@ -180,32 +180,50 @@ function createTaskFromForm() {
 
   console.log("📦 Finaler Task:", newTask);
 
-  // Hier kannst du z.B. addNewTask(newTask) aufrufen, wenn du willst
+  addNewTask(newTask);
+
+  showSuccessMessage()
+
+  setTimeout(() => {
+    window.location.href = "boardsection.html";
+  }, 1000);
+
+}
+
+function showSuccessMessage() {
+  const message = document.getElementById('task-success-message');
+  if (!message) return;
+
+  message.classList.remove('d-none');
+  message.classList.add('show');
+
+  setTimeout(() => {
+    message.classList.remove('show');
+    message.classList.add('d-none');
+  }, 1200);
 }
 
 
+async function addNewTask(taskData) {
+  try {
+    const response = await fetch(
+      "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(taskData)
+      }
+    );
 
-
-// async function addNewTask(taskData) {
-//   try {
-//     const response = await fetch(
-//       "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json",
-//       {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(taskData)
-//       }
-//     );
-
-//     const result = await response.json();
-//     console.log("✅ Task erfolgreich hinzugefügt:", result);
-//     return result; // enthält z.B. { name: "-NT...123" }
-//   } catch (error) {
-//     console.error("❌ Fehler beim Hinzufügen des Tasks:", error);
-//   }
-// }
+    const result = await response.json();
+    console.log("✅ Task erfolgreich hinzugefügt:", result);
+    return result; // enthält z.B. { name: "-NT...123" }
+  } catch (error) {
+    console.error("❌ Fehler beim Hinzufügen des Tasks:", error);
+  }
+}
 
 
 
