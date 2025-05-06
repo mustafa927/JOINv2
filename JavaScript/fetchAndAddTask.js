@@ -114,81 +114,163 @@ async function getAllTasksWithPeople() {
 
 
 function createTaskFromForm() {
-  // 🟢 Titel prüfen
-  const titleInput = document.getElementById("title").value.trim();
-  if (!titleInput) {
-    document.getElementById("title-error").classList.remove("d-none");
-    return;
-  }
-  document.getElementById("title-error").classList.add("d-none");
+  if (!validateTitle() || !validateCategory()) return;
 
-  // 📝 Description
-  const descriptionInput = document.getElementById("desc").value.trim();
-
-  // 📅 Due Date
-  const dueDateInput = document.getElementById("due-date").value;
-
-  // 🔥 Priority (aktive Klasse erkennen)
-  const priorityButtons = document.querySelectorAll(".priority-buttons .priority-btn");
-  let selectedPriority = "";
-  priorityButtons.forEach(btn => {
-    if (btn.classList.contains("active-urgent")) selectedPriority = "Urgent";
-    if (btn.classList.contains("active-medium")) selectedPriority = "Medium";
-    if (btn.classList.contains("active-low")) selectedPriority = "Low";
-  });
-
-  // 🧠 Kategorie prüfen
-  const categoryInput = document.getElementById("category").value;
-  if (!categoryInput) {
-    document.getElementById("category-error").classList.remove("d-none");
-    return;
-  }
-  document.getElementById("category-error").classList.add("d-none");
-
-  // ✅ Subtasks einsammeln
-  const subtaskElements = document.querySelectorAll("#subtask-list .subtask-text");
-  const subtasks = {};
-  subtaskElements.forEach((el, index) => {
-    const key = `sub${index + 1}`;
-    subtasks[key] = {
-      title: el.textContent.trim(),
-      done: false
-    };
-  });
-
-  // ✅ Assigned To IDs einsammeln
-  const checkedBoxes = document.querySelectorAll(".assigned-checkbox:checked");
-  const assignedTo = {};
-  checkedBoxes.forEach((box, index) => {
-    const userId = box.dataset.id;
-    if (userId) {
-      assignedTo[`person${index + 1}`] = userId;
-    }
-  });
-
-  // 📦 newTask erstellen
-  let newTask = {
-    title: titleInput,
-    description: descriptionInput,
-    dueDate: dueDateInput,
-    priority: selectedPriority,
-    category: categoryInput,
-    Status: "To-Do",
-    assignedTo: assignedTo,
-    subtasks: subtasks
-  };
-
+  const newTask = buildNewTask();
   console.log("📦 Finaler Task:", newTask);
 
   addNewTask(newTask);
+  showSuccessMessage();
+  redirectToBoard();
+}
 
-  showSuccessMessage()
 
+function validateTitle() {
+  const title = document.getElementById("title").value.trim();
+  const error = document.getElementById("title-error");
+  const isValid = !!title;
+  error.classList.toggle("d-none", isValid);
+  return isValid;
+}
+
+function validateCategory() {
+  const category = document.getElementById("category").value;
+  const error = document.getElementById("category-error");
+  const isValid = !!category;
+  error.classList.toggle(isValid);
+  return isValid;
+}
+
+function buildNewTask() {
+  return {
+    title: getValue("title"),
+    description: getValue("desc"),
+    dueDate: getValue("due-date"),
+    priority: getSelectedPriority(),
+    category: document.getElementById("category").value,
+    Status: "To-Do",
+    assignedTo: collectAssignedUserIds(),
+    subtasks: collectSubtasks()
+  };
+}
+
+function getValue(id) {
+  return document.getElementById(id).value.trim();
+}
+
+function getSelectedPriority() {
+  const buttons = document.querySelectorAll(".priority-btn");
+  for (let btn of buttons) {
+    if (btn.classList.contains("active-urgent")) return "Urgent";
+    if (btn.classList.contains("active-medium")) return "Medium";
+    if (btn.classList.contains("active-low")) return "Low";
+  }
+  return "";
+}
+
+function collectSubtasks() {
+  const elements = document.querySelectorAll("#subtask-list .subtask-text");
+  const subtasks = {};
+  elements.forEach((el, i) => {
+    subtasks[`sub${i + 1}`] = { title: el.textContent.trim(), done: false };
+  });
+  return subtasks;
+}
+
+function collectAssignedUserIds() {
+  const boxes = document.querySelectorAll(".assigned-checkbox:checked");
+  const assigned = {};
+  boxes.forEach((box, i) => {
+    const id = box.dataset.id;
+    if (id) assigned[`person${i + 1}`] = id;
+  });
+  return assigned;
+}
+
+function redirectToBoard() {
   setTimeout(() => {
     window.location.href = "boardsection.html";
   }, 1000);
-
 }
+
+
+
+// function createTaskFromForm() {
+//   // 🟢 Titel prüfen
+//   const titleInput = document.getElementById("title").value.trim();
+//   if (!titleInput) {
+//     document.getElementById("title-error").classList.remove("d-none");
+//     return;
+//   }
+//   document.getElementById("title-error").classList.add("d-none");
+
+//   // 📝 Description
+//   const descriptionInput = document.getElementById("desc").value.trim();
+
+//   // 📅 Due Date
+//   const dueDateInput = document.getElementById("due-date").value;
+
+//   // 🔥 Priority (aktive Klasse erkennen)
+//   const priorityButtons = document.querySelectorAll(".priority-buttons .priority-btn");
+//   let selectedPriority = "";
+//   priorityButtons.forEach(btn => {
+//     if (btn.classList.contains("active-urgent")) selectedPriority = "Urgent";
+//     if (btn.classList.contains("active-medium")) selectedPriority = "Medium";
+//     if (btn.classList.contains("active-low")) selectedPriority = "Low";
+//   });
+
+//   // 🧠 Kategorie prüfen
+//   const categoryInput = document.getElementById("category").value;
+//   if (!categoryInput) {
+//     document.getElementById("category-error").classList.remove("d-none");
+//     return;
+//   }
+//   document.getElementById("category-error").classList.add("d-none");
+
+//   // ✅ Subtasks einsammeln
+//   const subtaskElements = document.querySelectorAll("#subtask-list .subtask-text");
+//   const subtasks = {};
+//   subtaskElements.forEach((el, index) => {
+//     const key = `sub${index + 1}`;
+//     subtasks[key] = {
+//       title: el.textContent.trim(),
+//       done: false
+//     };
+//   });
+
+//   // ✅ Assigned To IDs einsammeln
+//   const checkedBoxes = document.querySelectorAll(".assigned-checkbox:checked");
+//   const assignedTo = {};
+//   checkedBoxes.forEach((box, index) => {
+//     const userId = box.dataset.id;
+//     if (userId) {
+//       assignedTo[`person${index + 1}`] = userId;
+//     }
+//   });
+
+//   // 📦 newTask erstellen
+//   let newTask = {
+//     title: titleInput,
+//     description: descriptionInput,
+//     dueDate: dueDateInput,
+//     priority: selectedPriority,
+//     category: categoryInput,
+//     Status: "To-Do",
+//     assignedTo: assignedTo,
+//     subtasks: subtasks
+//   };
+
+//   console.log("📦 Finaler Task:", newTask);
+
+//   addNewTask(newTask);
+
+//   showSuccessMessage()
+
+//   setTimeout(() => {
+//     window.location.href = "boardsection.html";
+//   }, 1000);
+
+// }
 
 function showSuccessMessage() {
   const message = document.getElementById('task-success-message');
