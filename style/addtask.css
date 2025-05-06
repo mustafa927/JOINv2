@@ -8,6 +8,7 @@ body {
 main {
   width: calc(100vw - 500px);
   align-items: center;
+  padding-top: 100px;
 }
 
 .maincontent {

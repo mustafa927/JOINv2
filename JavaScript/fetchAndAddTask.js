@@ -114,12 +114,23 @@ function createTaskFromForm() {
   redirectToBoard();
 }
 
+function createTaskFromFormOverlay() {
+  if (!validateTitle() || !validateCategory()) return;
+
+  const newTask = buildNewTask();
+  console.log("📦 Finaler Task:", newTask);
+
+  addNewTask(newTask);
+  showSuccessMessage();
+
+}
+
 
 function validateTitle() {
   const title = document.getElementById("title").value.trim();
   const error = document.getElementById("title-error");
   const isValid = !!title;
-  error.classList.toggle("d-none", isValid);
+  error.classList.toggle(isValid);
   return isValid;
 }
 
