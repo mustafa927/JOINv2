@@ -1,11 +1,11 @@
 async function sumOfTask() {
-    const url = "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json";
+    let url = "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json";
 
     try {
-        const tasks = await fetchTasks(url);
+        let tasks = await fetchTasks(url);
         console.log("Fetched tasks:", tasks);
-        const counts = countTasks(tasks);
-        const nextUrgentDate = findNextUrgentDate(tasks);
+        let counts = countTasks(tasks);
+        let nextUrgentDate = findNextUrgentDate(tasks);
         console.log("Ist geladen!");
         console.log("Tasks:", tasks);
         console.log("Zählwerte:", counts);
@@ -13,11 +13,10 @@ async function sumOfTask() {
     } catch (error) {
         console.error("Fehler beim Abrufen der Tasks:", error);
     }
-    
 }
 
 async function fetchTasks(url) {
-    const response = await fetch(url);
+    let response = await fetch(url);
     if (!response.ok) {
         throw new Error(`Fehler beim Abrufen der Daten: ${response.statusText}`);
     }
@@ -34,8 +33,8 @@ function countTasks(tasks) {
         total: 0
     };
 
-    for (const key in tasks) {
-        const task = tasks[key];
+    for (let key in tasks) {
+        let task = tasks[key];
         counts.total++;
         console.log("Task status:", task.status);
         updateStatusCount(task.Status, counts);
@@ -56,13 +55,13 @@ function updateStatusCount(status, counts) {
 
 function findNextUrgentDate(tasks) {
     let nextDate = null;
-    const today = new Date();
+    let today = new Date();
 
-    for (const key in tasks) {
-        const task = tasks[key];
+    for (let key in tasks) {
+        let task = tasks[key];
         if (task.priority !== "Urgent" || !task.dueDate) continue;
 
-        const dueDate = new Date(task.dueDate);
+        let dueDate = new Date(task.dueDate);
         if (dueDate >= today && (!nextDate || dueDate < nextDate)) {
             nextDate = dueDate;
         }
@@ -79,7 +78,7 @@ function updateDashboard(counts, nextDate) {
     setText("tasks-in-progress", counts.inProgress);
     setText("awaiting-feedback", counts.awaiting);
 
-    const dateText = nextDate ? nextDate.toLocaleDateString("de-DE") : "Kein Datum";
+    let dateText = nextDate ? nextDate.toLocaleDateString("de-DE") : "Kein Datum";
     setText("urgent-date", dateText);
 }
 
@@ -88,22 +87,20 @@ function setText(id, value) {
 }
 
 function updateGreetingMessage() {
-    const greetingElement = document.getElementById('greeting-message');
-    const storedUser = localStorage.getItem('currentUser');
+    let greetingElement = document.getElementById('greeting-message');
+    if (!greetingElement) return;
 
-    const name = getUserName(storedUser);
+    let storedUser = localStorage.getItem('currentUser');
+    let name = getUserName(storedUser);
     greetingElement.textContent = name ? `Good morning, ${name}` : "Good morning";
 }
 
 function getUserName(storedUser) {
     if (!storedUser) return null;
-    const user = JSON.parse(storedUser);
-    const name = user.name?.trim().toLowerCase();
+    let user = JSON.parse(storedUser);
+    let name = user.name?.trim().toLowerCase();
     return name && name !== "guest user" ? user.name : null;
 }
-
-
-
 
 window.addEventListener('load', () => {
     updateGreetingMessage();
