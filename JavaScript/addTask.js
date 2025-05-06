@@ -3,255 +3,210 @@ import { signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth
 
 let allUsers = [];
 
-// === PRIORITY BUTTONS ===
 const priorityButtons = document.querySelectorAll(".priority-btn");
 let activeButton = null;
 
-priorityButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const isActive =
-      button.classList.contains("active-urgent") ||
-      button.classList.contains("active-medium") ||
-      button.classList.contains("active-low");
 
-    priorityButtons.forEach((btn) => {
-      btn.classList.remove("active-urgent", "active-medium", "active-low");
-    });
+function handlePriorityClick(button) {
+  const isActive = button.classList.contains("active-urgent") ||
+                   button.classList.contains("active-medium") ||
+                   button.classList.contains("active-low");
 
-    if (!isActive) {
-      if (button.classList.contains("urgent")) {
-        button.classList.add("active-urgent");
-      } else if (button.classList.contains("medium")) {
-        button.classList.add("active-medium");
-      } else if (button.classList.contains("low")) {
-        button.classList.add("active-low");
-      }
-    }
+  priorityButtons.forEach(btn => {
+    btn.classList.remove("active-urgent", "active-medium", "active-low");
   });
-});
 
-// === MENU ===
-window.toggleMenu = function () {
+  if (!isActive) {
+    button.classList.add(getActiveClass(button));
+  }
+}
+
+
+function getActiveClass(button) {
+  if (button.classList.contains("urgent")) return "active-urgent";
+  if (button.classList.contains("medium")) return "active-medium";
+  if (button.classList.contains("low")) return "active-low";
+  return "";
+}
+
+
+function setupPriorityButtons() {
+  priorityButtons.forEach(button => {
+    button.addEventListener("click", () => handlePriorityClick(button));
+  });
+}
+
+
+function toggleMenu() {
   const menu = document.getElementById("dropdownMenu");
   if (menu) menu.classList.toggle("show");
-};
+}
 
-document.addEventListener("click", function (e) {
+
+function closeMenuOnOutsideClick(e) {
   const profile = document.querySelector(".profile-wrapper");
   const menu = document.getElementById("dropdownMenu");
   if (profile && menu && !profile.contains(e.target)) {
     menu.classList.remove("show");
   }
-});
+}
 
-// === LOGOUT ===
+
 async function handleLogout() {
   try {
     await signOut(auth);
     localStorage.removeItem("currentUser");
-    window.location.href = "Index.html";
+    window.location.href = "index.html";
   } catch (error) {
-    console.error("Error during logout:", error);
+    console.error("Logout error:", error);
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const logoutButton = document.querySelector(
-    '#dropdownMenu a[href="index.html"]'
-  );
-  if (logoutButton) {
-    logoutButton.addEventListener("click", (e) => {
+
+function setupLogout() {
+  const logoutBtn = document.querySelector('#dropdownMenu a[href="index.html"]');
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", e => {
       e.preventDefault();
       handleLogout();
     });
   }
-});
+}
 
-// === ASSIGNED TO DROPDOWN ===
-let url =
-  "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json";
 
 async function assignedToInput() {
-  let response = await fetch(url);
-  let data = await response.json();
-  let users = Object.values(data);
-
-  allUsers = users;
+  const response = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
+  const data = await response.json();
+  allUsers = Object.values(data);
   renderUserList();
-
-  let storedUser = localStorage.getItem("currentUser");
-  let currentUser = storedUser ? JSON.parse(storedUser) : null;
-  let currentName = currentUser?.name;
-  let isGuest = !currentName || currentName === "Guest User";
-
-  let container = document.getElementById("assigned-list");
-  container.innerHTML = "";
-
-  if (!isGuest && currentName) {
-    let initials = getInitials(currentName);
-    let color = getColorFromName(currentName);
-    container.innerHTML += `
-      <div class="assigned-row" onclick="toggleCheckbox(event)">
-        <div class="avatar" style="background-color: ${color}">${initials}</div>
-        <span>${currentName} (You)</span>
-        <input type="checkbox" class="assigned-checkbox" data-name="${currentName}">
-      </div>
-    `;
-  }
-
-  for (let i = 0; i < users.length; i++) {
-    let name = users[i].name;
-    if (isGuest || name !== currentName) {
-      let initials = getInitials(name);
-      let color = getColorFromName(name);
-      container.innerHTML += `
-        <div class="assigned-row" onclick="toggleCheckbox(event)">
-          <div class="avatar" style="background-color: ${color}">${initials}</div>
-          <span>${name}</span>
-          <input type="checkbox" class="assigned-checkbox" data-name="${name}">
-        </div>
-      `;
-    }
-  }
 }
+
+
 function renderUserList(filter = "") {
-  let container = document.getElementById("assigned-list");
+  const container = document.getElementById("assigned-list");
   container.innerHTML = "";
 
-  let storedUser = localStorage.getItem("currentUser");
-  let currentUser = storedUser ? JSON.parse(storedUser) : null;
-  let currentName = currentUser?.name;
-  let isGuest = !currentName || currentName === "Guest User";
+  const currentUser = getCurrentUser();
+  const currentName = currentUser?.name;
+  const isGuest = !currentName || currentName === "Guest User";
+  const lowerFilter = filter.toLowerCase();
 
-  let lowerFilter = filter.toLowerCase();
-
-  if (!isGuest && currentName && currentName.toLowerCase().includes(lowerFilter)) {
-    let initials = getInitials(currentName);
-    let color = getColorFromName(currentName);
-    container.innerHTML += `
-      <div class="assigned-row" onclick="toggleCheckbox(event)">
-        <div class="avatar" style="background-color: ${color}">${initials}</div>
-        <span>${currentName} (You)</span>
-        <input type="checkbox" class="assigned-checkbox" data-name="${currentName}">
-      </div>
-    `;
+  if (!isGuest && currentName?.toLowerCase().includes(lowerFilter)) {
+    container.innerHTML += createUserRow(currentName, true);
   }
 
   allUsers
-    .filter(user => {
-      if (!user.name) return false;
-      if (!isGuest && user.name === currentName) return false;
-      return user.name.toLowerCase().includes(lowerFilter);
-    })
+    .filter(user => user.name && (!currentName || user.name !== currentName))
+    .filter(user => user.name.toLowerCase().includes(lowerFilter))
     .forEach(user => {
-      let initials = getInitials(user.name);
-      let color = getColorFromName(user.name);
-      container.innerHTML += `
-        <div class="assigned-row" onclick="toggleCheckbox(event)">
-          <div class="avatar" style="background-color: ${color}">${initials}</div>
-          <span>${user.name}</span>
-          <input type="checkbox" class="assigned-checkbox" data-name="${user.name}">
-        </div>
-      `;
+      container.innerHTML += createUserRow(user.name);
     });
 }
 
 
+function createUserRow(name, isCurrent = false) {
+  const initials = getInitials(name);
+  const color = getColorFromName(name);
+  const youLabel = isCurrent ? " (You)" : "";
+
+  return `
+    <div class="assigned-row" onclick="toggleCheckbox(event)">
+      <div class="avatar" style="background-color: ${color}">${initials}</div>
+      <span>${name}${youLabel}</span>
+      <input type="checkbox" class="assigned-checkbox" data-name="${name}">
+    </div>
+  `;
+}
+
+
 function toggleAssignedDropdown() {
-  let dropdown = document.querySelector(".assigned-dropdown");
-  let options = document.getElementById("assigned-list");
+  const dropdown = document.querySelector(".assigned-dropdown");
+  const options = document.getElementById("assigned-list");
 
-  let isOpen = dropdown.classList.contains("open");
-
-  if (isOpen) {
-    dropdown.classList.remove("open");
-    options.classList.add("d-none");
-  } else {
-    dropdown.classList.add("open");
-    options.classList.remove("d-none");
-  }
+  const isOpen = dropdown.classList.contains("open");
+  dropdown.classList.toggle("open", !isOpen);
+  options.classList.toggle("d-none", isOpen);
 }
 
 
 function toggleCheckbox(event) {
   if (event.target.tagName !== "INPUT") {
-    let checkbox = event.currentTarget.querySelector('input[type="checkbox"]');
-    if (checkbox) {
-      checkbox.checked = !checkbox.checked;
-    }
+    const checkbox = event.currentTarget.querySelector('input[type="checkbox"]');
+    if (checkbox) checkbox.checked = !checkbox.checked;
   }
 
-  let row = event.currentTarget;
-  row.classList.toggle("active");
-
+  event.currentTarget.classList.toggle("active");
   updateSelectedAvatars();
 }
 
 
-// === HELPERS ===
+function updateSelectedAvatars() {
+  const container = document.getElementById("selected-avatars");
+  container.innerHTML = "";
+
+  document.querySelectorAll(".assigned-checkbox:checked").forEach(box => {
+    const name = box.dataset.name;
+    container.innerHTML += createSelectedAvatar(name);
+  });
+}
+
+
+function createSelectedAvatar(name) {
+  const initials = getInitials(name);
+  const color = getColorFromName(name);
+  return `<div class="selected-avatar" style="background-color: ${color}">${initials}</div>`;
+}
+
+
+function openAssignedDropdown() {
+  document.getElementById("assigned-list").classList.remove("d-none");
+  document.querySelector(".assigned-dropdown").classList.add("open");
+}
+
+
+function filterAssignedList() {
+  const value = document.getElementById("assigned-search").value;
+  renderUserList(value);
+}
+
+
 function getInitials(name) {
   if (!name) return "";
-  let parts = name.trim().split(" ");
-  let initials = parts[0][0];
-  if (parts.length > 1) initials += parts[1][0];
+  const parts = name.trim().split(" ");
+  const initials = parts[0][0] + (parts[1]?.[0] || "");
   return initials.toUpperCase();
 }
+
 
 function getColorFromName(name) {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     hash = name.charCodeAt(i) + ((hash << 5) - hash);
   }
-  const colors = [
-    "#FF7A00",
-    "#9327FF",
-    "#6E52FF",
-    "#FC71FF",
-    "#00BEE8",
-    "#1FD7C1",
-    "#0038FF",
-  ];
+  const colors = ["#FF7A00", "#9327FF", "#6E52FF", "#FC71FF", "#00BEE8", "#1FD7C1", "#0038FF"];
   return colors[Math.abs(hash) % colors.length];
 }
 
-function updateSelectedAvatars() {
-  let container = document.getElementById("selected-avatars");
-  container.innerHTML = "";
 
-  let checkedBoxes = document.querySelectorAll(".assigned-checkbox:checked");
-
-  checkedBoxes.forEach(box => {
-    let name = box.dataset.name;
-    let initials = getInitials(name);
-    let color = getColorFromName(name);
-
-    container.innerHTML += `
-      <div class="selected-avatar" style="background-color: ${color}">
-        ${initials}
-      </div>
-    `;
-  });
+function getCurrentUser() {
+  const stored = localStorage.getItem("currentUser");
+  return stored ? JSON.parse(stored) : null;
 }
 
-function openAssignedDropdown() {
-  let options = document.getElementById("assigned-list");
-  let wrapper = document.querySelector(".assigned-dropdown");
 
-  options.classList.remove("d-none");
-  wrapper.classList.add("open");
-}
-
-function filterAssignedList() {
-  let value = document.getElementById("assigned-search").value;
-  renderUserList(value);
-}
-
-window.filterAssignedList = filterAssignedList;
+document.addEventListener("DOMContentLoaded", () => {
+  setupPriorityButtons();
+  setupLogout();
+});
 
 
+document.addEventListener("click", closeMenuOnOutsideClick);
 
-// === GLOBAL REGISTRATION FOR HTML ===
+
+// Globale Registrierung
+window.toggleMenu = toggleMenu;
 window.toggleAssignedDropdown = toggleAssignedDropdown;
 window.assignedToInput = assignedToInput;
 window.toggleCheckbox = toggleCheckbox;
 window.openAssignedDropdown = openAssignedDropdown;
+window.filterAssignedList = filterAssignedList;
