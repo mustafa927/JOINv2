@@ -77,7 +77,8 @@ function setupLogout() {
 async function assignedToInput() {
   const response = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
   const data = await response.json();
-  allUsers = Object.values(data);
+  allUsers = Object.entries(data).map(([id, user]) => ({ id, ...user }));
+
   renderUserList();
 }
 
@@ -105,6 +106,8 @@ function renderUserList(filter = "") {
 
 
 function createUserRow(name, isCurrent = false) {
+  const user = allUsers.find(u => u.name === name); // ID finden
+  const userId = user?.id || "";
   const initials = getInitials(name);
   const color = getColorFromName(name);
   const youLabel = isCurrent ? " (You)" : "";
@@ -113,7 +116,7 @@ function createUserRow(name, isCurrent = false) {
     <div class="assigned-row" onclick="toggleCheckbox(event)">
       <div class="avatar" style="background-color: ${color}">${initials}</div>
       <span>${name}${youLabel}</span>
-      <input type="checkbox" class="assigned-checkbox" data-name="${name}">
+      <input type="checkbox" class="assigned-checkbox" data-name="${name}" data-id="${userId}">
     </div>
   `;
 }

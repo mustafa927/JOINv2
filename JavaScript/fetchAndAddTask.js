@@ -2,28 +2,40 @@
 
 window.allTasks = []; 
 
+// let newTask = {
+//   title: "Kanban UI bauen",
+//   description: "UI für Task-Overlay erstellen",
+//   dueDate: "2025-06-10",
+//   priority: "High",
+//   category: "Design",
+//   Status: "To-Do",
+//   assignedTo: {
+//     person1: "-OO2cpzcQaVpB2cvHgCp",
+//     person2: "-OONRhAG3up-91-RGtpa"
+//   },
+//   subtasks: {
+//     sub1: {
+//       title: "HTML/CSS Grundstruktur",
+//       done: false
+//     },
+//     sub2: {
+//       title: "JS Integration",
+//       done: true
+//     }
+//   }
+// };
+
 let newTask = {
-  title: "Kanban UI bauen",
-  description: "UI für Task-Overlay erstellen",
-  dueDate: "2025-06-10",
-  priority: "High",
-  category: "Design",
+  title: "",
+  description: "",
+  dueDate: "",
+  priority: "",
+  category: "",
   Status: "To-Do",
-  assignedTo: {
-    person1: "-OO2cpzcQaVpB2cvHgCp",
-    person2: "-OONRhAG3up-91-RGtpa"
-  },
-  subtasks: {
-    sub1: {
-      title: "HTML/CSS Grundstruktur",
-      done: false
-    },
-    sub2: {
-      title: "JS Integration",
-      done: true
-    }
-  }
+  assignedTo: {},
+  subtasks: {}
 };
+
 
 
 async function fetchDataTasks() {
@@ -99,6 +111,78 @@ async function getAllTasksWithPeople() {
     return [];
   }
 }
+
+
+function createTaskFromForm() {
+  // 🟢 Titel prüfen
+  const titleInput = document.getElementById("title").value.trim();
+  if (!titleInput) {
+    document.getElementById("title-error").classList.remove("d-none");
+    return;
+  }
+  document.getElementById("title-error").classList.add("d-none");
+
+  // 📝 Description
+  const descriptionInput = document.getElementById("desc").value.trim();
+
+  // 📅 Due Date
+  const dueDateInput = document.getElementById("due-date").value;
+
+  // 🔥 Priority (aktive Klasse erkennen)
+  const priorityButtons = document.querySelectorAll(".priority-buttons .priority-btn");
+  let selectedPriority = "";
+  priorityButtons.forEach(btn => {
+    if (btn.classList.contains("active-urgent")) selectedPriority = "Urgent";
+    if (btn.classList.contains("active-medium")) selectedPriority = "Medium";
+    if (btn.classList.contains("active-low")) selectedPriority = "Low";
+  });
+
+  // 🧠 Kategorie prüfen
+  const categoryInput = document.getElementById("category").value;
+  if (!categoryInput) {
+    document.getElementById("category-error").classList.remove("d-none");
+    return;
+  }
+  document.getElementById("category-error").classList.add("d-none");
+
+  // ✅ Subtasks einsammeln
+  const subtaskElements = document.querySelectorAll("#subtask-list .subtask-text");
+  const subtasks = {};
+  subtaskElements.forEach((el, index) => {
+    const key = `sub${index + 1}`;
+    subtasks[key] = {
+      title: el.textContent.trim(),
+      done: false
+    };
+  });
+
+  // ✅ Assigned To IDs einsammeln
+  const checkedBoxes = document.querySelectorAll(".assigned-checkbox:checked");
+  const assignedTo = {};
+  checkedBoxes.forEach((box, index) => {
+    const userId = box.dataset.id;
+    if (userId) {
+      assignedTo[`person${index + 1}`] = userId;
+    }
+  });
+
+  // 📦 newTask erstellen
+  let newTask = {
+    title: titleInput,
+    description: descriptionInput,
+    dueDate: dueDateInput,
+    priority: selectedPriority,
+    category: categoryInput,
+    Status: "To-Do",
+    assignedTo: assignedTo,
+    subtasks: subtasks
+  };
+
+  console.log("📦 Finaler Task:", newTask);
+
+  // Hier kannst du z.B. addNewTask(newTask) aufrufen, wenn du willst
+}
+
 
 
 

@@ -112,8 +112,8 @@
 
         <select id="category" required>
           <option value="" disabled selected hidden>Bitte Kategorie wählen</option>
-          <option value="technical">Technical Task</option>
-          <option value="story">User Story</option>
+          <option value="Technical Task">Technical Task</option>
+          <option value="User Story">User Story</option>
         </select>
         
         <div id="category-error" class="required-note">
@@ -136,7 +136,7 @@
 
     <div class="bottom-buttons">
       <button type="reset" class="clear-btn">Clear ✗</button>
-      <button type="submit" class="create-btn">Create Task ✔</button>
+      <button type="submit" class="create-btn" onclick="createTaskFromForm()">Create Task ✔</button>
     </div>
   </div>
   </main>

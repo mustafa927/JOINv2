@@ -1,29 +1,29 @@
 const TASKS_URL = "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json";
 
 
-document.addEventListener('DOMContentLoaded', () => {
-  initTaskFormButtons();
-});
+// document.addEventListener('DOMContentLoaded', () => {
+//   initTaskFormButtons();
+// });
 
 
-function initTaskFormButtons() {
-  const createBtn = document.querySelector('.create-btn');
-  const clearBtn = document.querySelector('.clear-btn');
+// function initTaskFormButtons() {
+//   const createBtn = document.querySelector('.create-btn');
+//   const clearBtn = document.querySelector('.clear-btn');
 
-  if (createBtn) {
-    createBtn.addEventListener('click', async (e) => {
-      e.preventDefault();
-      await handleCreateTask();
-    });
-  }
+//   if (createBtn) {
+//     createBtn.addEventListener('click', async (e) => {
+//       e.preventDefault();
+//       await handleCreateTask();
+//     });
+//   }
 
-  if (clearBtn) {
-    clearBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      clearForm();
-    });
-  }
-}
+//   if (clearBtn) {
+//     clearBtn.addEventListener('click', (e) => {
+//       e.preventDefault();
+//       clearForm();
+//     });
+//   }
+// }
 
 
 async function handleCreateTask() {
