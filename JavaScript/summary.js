@@ -92,7 +92,7 @@ function updateGreetingMessage() {
 
     let storedUser = localStorage.getItem('currentUser');
     let name = getUserName(storedUser);
-    greetingElement.textContent = name ? `Good morning, ${name}` : "Good morning";
+    greetingElement.innerHTML = name ? `Good morning, <br><span class="greeting-name">${name}</span>` : "Good morning";
 }
 
 function getUserName(storedUser) {
