@@ -66,12 +66,13 @@ if ((task.category || "").toLowerCase() === "technical task") {
         <div class="card-title">${task.title}</div>
         <div class="card-description">${task.description || ""}</div>
         
+        ${total > 0 ? `
         <div class="card-footer">
           <div class="progress">
-            <div class="progress-bar" style="width: ${(done / total) * 100 || 0}%"></div>
+            <div class="progress-bar" style="width: ${(done / total) * 100}%"></div>
           </div>
           <span class="subtasks">${done}/${total} Subtasks</span>
-        </div>
+        </div>` : ""}
   
         <div class="card-bottom">
           <div class="avatars">${assignedHTML}</div>
