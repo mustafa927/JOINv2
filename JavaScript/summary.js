@@ -78,7 +78,7 @@ function updateDashboard(counts, nextDate) {
     setText("tasks-in-progress", counts.inProgress);
     setText("awaiting-feedback", counts.awaiting);
 
-    let dateText = nextDate ? nextDate.toLocaleDateString("de-DE") : "Kein Datum";
+    let dateText = nextDate ? nextDate.toLocaleDateString("de-DE") : "";
     setText("urgent-date", dateText);
 }
 

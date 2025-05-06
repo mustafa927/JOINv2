@@ -34,7 +34,7 @@ body {
 .divider {
   width: 2.4px;
   height: 45px;
-  background-color: #29ABE2;
+  background-color: #29abe2;
 }
 
 .sub {
@@ -52,8 +52,6 @@ body {
   width: 100%;
 }
 
-
-
 .card {
   background-color: #ffffff;
   border-radius: 20px;
@@ -70,7 +68,6 @@ body {
   flex: 1; /* ← wichtig: nimmt verfügbaren Platz ein */
   min-width: 0;
 }
-
 
 .card-icon {
   width: 76px;
@@ -166,7 +163,7 @@ body {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background-color: #FF3D00;
+  background-color: #ff3d00;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -277,21 +274,48 @@ body {
   color: white;
 }
 
-
-
 #greeting-message {
   font-size: 30px;
-  font-weight:400;
-  display:flex;
+  font-weight: 400;
+  display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left:32px;
+  margin-left: 32px;
 }
 
 .greeting-name {
   color: #29abe2;
-  font-weight:bold;
-  font-size:40px;
-  margin-top:6px;
+  font-weight: bold;
+  font-size: 40px;
+  margin-top: 6px;
 }
 
+.divider-mobile {
+  display:none;
+}
+@media (max-width: 768px) {
+  .headline {
+    flex-direction: column;
+    align-items: start !important;
+    margin-top:30px;
+  }
+
+  .divider-mobile {
+    width: 100px;
+    height: 3px;
+    background-color: #29abe2;
+    display:block !important;
+  }
+
+  .divider {
+    display:none;
+  }
+
+  .sub {
+    padding-left:0;
+  }
+
+  .container {
+    margin-left:0;
+  }
+}
