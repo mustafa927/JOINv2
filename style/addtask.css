@@ -9,13 +9,13 @@ main {
   width: calc(100vw - 500px);
   align-items: center;
   padding-top: 100px;
-  margin-left:230px;
+  margin-left: 230px;
 }
 
 .maincontent {
   padding-left: 80px;
   padding-top: 30px;
-  max-width:1440px;
+  max-width: 1440px;
 }
 
 h1 {
@@ -32,12 +32,13 @@ form {
 
 .form-section {
   flex: 1;
-  min-width: 300px;
+  width:25vw;
 }
 
 label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  font-size: 28px;
 }
 
 input[type="text"],
@@ -45,34 +46,51 @@ input[type="date"],
 textarea,
 select {
   width: 100%;
-  padding: 10px;
+  padding: 15px;
+  font-size: 21px;
   border: 1px solid #ccc;
   border-radius: 6px;
-  font-size: 14px;
+  box-sizing: border-box;
+  min-height: 60px;
+  margin-bottom: 30px; /* Abstand zum nächsten Label */
 }
 
 textarea {
   resize: vertical;
-  height: 100px;
+  height: 180px;
 }
 
 /* === PRIORITY BUTTONS === */
-
 .priority-buttons {
-  display:grid;
+  display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap:10px;
+  gap: 10px;
   width: 100%;
+  margin-bottom: 30px;
 }
+
 .priority-buttons button {
-  padding: 10px 20px;
-  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 10px;            /* ⬅︎ Höhe ↑, Breite bleibt kompakt */
+  font-size: 13px;
+  line-height: 1.2;
   border: none;
   border-radius: 10px;
   cursor: pointer;
   background-color: #fff;
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  transition: all 0.2s ease;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height:60px;
 }
+
+
 
 .priority-buttons button:hover {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
@@ -101,8 +119,8 @@ textarea {
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 8px 12px;
-  height: 22px;
+  height: 60px;
+  margin-bottom: 30px;
 }
 
 .subtask-input {
@@ -110,9 +128,10 @@ textarea {
   background: transparent;
   flex: 1;
   outline: none;
-  font-size: 14px;
+  font-size: 21px;
   color: #333;
-  margin-bottom: 0 !important;
+  margin-bottom:0 !important;
+  height:60px !important;
 }
 
 .subtask-input::placeholder {
@@ -122,7 +141,7 @@ textarea {
 .add-subtask-button {
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 28px;
   color: #888;
   cursor: pointer;
   padding: 0 5px;
@@ -154,7 +173,7 @@ textarea {
 }
 
 .create-btn:hover {
-  background-color: rgb(13,153,255);
+  background-color: rgb(13, 153, 255);
 }
 
 /* === STATUS & FEEDBACK === */
@@ -203,6 +222,7 @@ textarea {
   position: relative;
   width: 100%;
   font-family: sans-serif;
+  margin-bottom: 30px;
 }
 
 .assigned-select {
@@ -213,7 +233,7 @@ textarea {
   border-radius: 8px;
   cursor: pointer;
   background-color: white;
-  min-height: 42px;
+  height: 60px;
   position: relative;
 }
 
@@ -221,9 +241,12 @@ textarea {
   flex: 1;
   border: none !important;
   outline: none;
-  font-size: 14px;
+  font-size: 21px;
   background-color: transparent;
   color: inherit;
+  padding-left: 12px;
+  height:60px !important;
+  margin-bottom:0 !important;
 }
 
 .assigned-dropdown.open .assigned-search-input::placeholder {
@@ -231,11 +254,13 @@ textarea {
 }
 
 .dropdown-arrow {
-  font-size: 14px;
+  font-size: 21px;
   color: #555;
   margin-left: 8px;
   flex-shrink: 0;
   text-align: end;
+  padding-right: 12px;
+  cursor: pointer;
 }
 
 .assigned-dropdown.open .dropdown-arrow {
@@ -267,6 +292,7 @@ textarea {
 .assigned-options div {
   padding: 10px 12px;
   cursor: pointer;
+  font-size: 21px;
 }
 
 .assigned-options div:hover {
@@ -280,6 +306,7 @@ textarea {
   gap: 12px;
   padding: 10px 12px;
   cursor: pointer;
+  font-size: 21px;
 }
 
 .assigned-row.active {
@@ -298,13 +325,13 @@ textarea {
 
 /* === AVATAR DISPLAY === */
 .avatar {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background-color: #ccc;
   color: white;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -318,13 +345,134 @@ textarea {
 }
 
 .selected-avatar {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   color: white;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
+@media (max-width: 1050px) {
+  /* input[type="text"],
+  input[type="date"],
+  textarea,
+  select {
+    width: 100% !important;
+  } */
+
+  /* .assigned-dropdown,
+  .subtask-input-container {
+    width: 90%;
+  }
+
+  .priority-buttons {
+    width: 90%;
+  } */
+  
+  .line {
+    margin:0 !important;
+  }
+
+  .maincontent {
+    margin-left:-40px;
+  }
+/* 
+  .form-section {
+   width:30%;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  
+  label {
+    font-size: 18px;
+  }
+  
+  input[type="text"],
+  input[type="date"],
+  textarea,
+  select {
+    font-size: 16px;
+  }
+  
+  .priority-buttons button {
+    font-size: 16px;
+  }
+  
+  .subtask-input {
+    font-size: 16px;
+  }
+  
+  .add-subtask-button {
+    font-size: 20px;
+  }
+  
+  .assigned-options div,
+  .assigned-row {
+    font-size: 16px;
+  }
+  
+  .avatar,
+  .selected-avatar {
+    font-size: 14px;
+  }
+  
+  .bottom-buttons button {
+    font-size: 15px;
+  }
+  
+  .task-success {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .priority-buttons button {
+    font-size: 12px;
+  }
+
+  .priority-buttons button img {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .priority-buttons button {
+    font-size: 11px;
+  }
+
+  .priority-buttons button img {
+    width: 14px;
+    height: 14px;
+  } */
+}
+
+@media (max-width: 800px) {
+  .priority-buttons button {
+    font-size: 10px;
+    padding: 8px 6px;
+  }
+
+  .priority-buttons button img {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .priority-buttons button {
+    font-size: 9px;
+    padding: 6px 4px;
+  }
+
+  .priority-buttons button img {
+    width: 10px;
+    height: 10px;
+  }
+}
+
