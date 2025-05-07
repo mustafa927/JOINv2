@@ -383,36 +383,74 @@ if ((task.category || "").toLowerCase() === "technical task") {
   }
   
 
-  // function getPriorityIcon(priority) {
-  //   const icons = {
-  //     urgent: "<img src='svg/urgent.svg' alt='Urgent Icon' style='height: 16px; vertical-align: middle; margin-left: 6px;'>",
-  //     medium: "<img src='svg/medium.svg' alt='Medium Icon' style='height: 16px; vertical-align: middle; margin-left: 6px;'>",
-  //     low: "<img src='svg/low.svg' alt='Low Icon' style='height: 16px; vertical-align: middle; margin-left: 6px;'>"
-  //   };
-  //   return icons[priority?.toLowerCase()] || "";
-  // }
   
   function getCategoryLabelStyle(category) {
     return (category || '').toLowerCase() === 'technical task' ? 'background-color: turquoise;' : '';
   }
   
-  // function buildAssignedPeopleHtml(people) {
-  //   return (people || []).map(person => {
-  //     const initials = getInitials(person.name);
-  //     const bg = getColorForName(person.name);
-  //     return `
-  //       <div class="task-card-person">
-  //         <div class="task-card-avatar" style="background-color:${bg};">${initials}</div>
-  //         <span class="task-card-name">${person.name}</span>
-  //       </div>`;
-  //   }).join("");
-  // }
+  async function saveTaskChanges(taskId) {
+    const originalTask = window.allTasks.find(t => t.id === taskId);
+    if (!originalTask) {
+      console.warn("❌ Task nicht gefunden!");
+      return;
+    }
+  
+    const updatedTask = {
+      title: document.getElementById("edit-title").value.trim(),
+      description: document.getElementById("edit-desc").value.trim(),
+      dueDate: document.getElementById("edit-due-date").value,
+      priority: getSelectedPriorityFromEditForm(),
+      category: document.getElementById("edit-category").value,
+      assignedTo: collectAssignedUserIds(),
+      subtasks: collectEditedSubtasks(),
+      Status: originalTask.Status // ✅ Bestehenden Status übernehmen (Großschreibung beachten!)
+    };
+  
+    try {
+      await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}.json`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedTask)
+      });
+  
+      console.log("✅ Task gespeichert:", updatedTask);
+      closeOverlay();
+      location.reload(); // 🔄 Seite neu laden, um Änderungen zu sehen
+    } catch (error) {
+      console.error("❌ Fehler beim Speichern:", error);
+    }
+  }
   
 
 
-
-
-
+  function getSelectedPriorityFromEditForm() {
+    const buttons = document.querySelectorAll(".priority-btn");
+    if (buttons[0].classList.contains("active-urgent")) return "Urgent";
+    if (buttons[1].classList.contains("active-medium")) return "Medium";
+    if (buttons[2].classList.contains("active-low")) return "Low";
+    return "";
+  }
+  
+  function collectAssignedUserIds() {
+    const assignedTo = {};
+    const checkboxes = document.querySelectorAll(".assigned-checkbox:checked");
+    checkboxes.forEach((box, i) => {
+      const id = box.dataset.id;
+      if (id) assignedTo[`person${i + 1}`] = id;
+    });
+    return assignedTo;
+  }
+  
+  function collectEditedSubtasks() {
+    const inputs = document.querySelectorAll(".edit-subtask-input");
+    const subtasks = {};
+    inputs.forEach((input, i) => {
+      const key = input.dataset.key || `sub${i + 1}`;
+      subtasks[key] = { title: input.value.trim(), done: false }; // done bleibt false beim Edit
+    });
+    return subtasks;
+  }
+  
 
 
   // Baut Subtasks-HTML
