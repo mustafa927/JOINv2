@@ -122,13 +122,15 @@ function createUserRow(name, isCurrent = false) {
 }
 
 
-function toggleAssignedDropdown() {
+function toggleAssignedDropdown(event) {
   const dropdown = document.querySelector(".assigned-dropdown");
   const options = document.getElementById("assigned-list");
 
   const isOpen = dropdown.classList.contains("open");
   dropdown.classList.toggle("open", !isOpen);
   options.classList.toggle("d-none", isOpen);
+
+  event.stopPropagation(); // verhindert Bubbling zu body
 }
 
 
@@ -161,11 +163,15 @@ function createSelectedAvatar(name) {
 }
 
 
-function openAssignedDropdown() {
-  document.getElementById("assigned-list").classList.remove("d-none");
-  document.querySelector(".assigned-dropdown").classList.add("open");
-}
+function openAssignedDropdown(event) {
+  const dropdown = document.querySelector(".assigned-dropdown");
+  const options = document.getElementById("assigned-list");
 
+  dropdown.classList.add("open");
+  options.classList.remove("d-none");
+
+  event.stopPropagation(); // verhindert Bubbling zu body
+}
 
 function filterAssignedList() {
   const value = document.getElementById("assigned-search").value;
