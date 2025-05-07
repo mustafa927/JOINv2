@@ -19,6 +19,15 @@ function getInitials(name) {
   return initials.toUpperCase();
 }
 
+function getColorFromName(name) {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const colors = ["#FF7A00", "#9327FF", "#6E52FF", "#FC71FF", "#00BEE8", "#1FD7C1", "#0038FF"];
+  return colors[Math.abs(hash) % colors.length];
+}
+
 
 function createTaskCard(task) {
   const assignedHTML = renderAssignedPeople(task.assignedPeople || []);
@@ -225,11 +234,187 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
         <div class="task-card-actions">
           <button class="task-card-delete-btn" onclick="deleteTask('${task.id}')">Delete</button>
-          <button class="task-card-edit-btn">Edit</button>
+          <button class="task-card-edit-btn" onclick="switchToEditMode('${task.id}')">Edit</button>
         </div>
       </div>`;
   }
   
+
+
+
+
+  
+
+
+  async function switchToEditMode(taskId) {
+    const task = window.allTasks.find(t => t.id === taskId);
+    if (!task) return;
+  
+    const overlay = document.getElementById("overlay-container");
+    overlay.innerHTML = buildEditTaskForm(task);
+    overlay.style.display = "flex";
+  
+    // Warten auf DOM, dann Setup
+    setTimeout(async () => {
+      setupPriorityButtons();                    // Priority Buttons aktivieren
+      await assignedToInput();                   // Kontakte laden
+      preselectAssignedUsers(task.assignedTo);   // Haken setzen
+      highlightPriorityButton(task.priority);    // Priority selektieren
+    }, 0);
+  }
+  
+  
+  function setupPriorityButtons() {
+    const buttons = document.querySelectorAll(".priority-btn");
+  
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        buttons.forEach(b => b.classList.remove("active-urgent", "active-medium", "active-low"));
+  
+        if (button.classList.contains("urgent")) button.classList.add("active-urgent");
+        if (button.classList.contains("medium")) button.classList.add("active-medium");
+        if (button.classList.contains("low")) button.classList.add("active-low");
+      });
+    });
+  }
+  
+  
+  function buildEditTaskForm(task) {
+    const subtasksHtml = Object.entries(task.subtasks || {}).map(([key, sub]) => `
+      <input type="text" value="${sub.title}" data-key="${key}" class="edit-subtask-input" />
+    `).join("");
+  
+    return `
+      <div class="task-card-overlay" style="max-height: 90vh; overflow-y: auto;">
+        <div class="task-card-close-btn" onclick="closeOverlay()">&times;</div>
+        <h2>Edit Task</h2>
+  
+        <label>Title</label>
+        <input type="text" id="edit-title" value="${task.title}" />
+  
+        <label>Description</label>
+        <textarea id="edit-desc">${task.description}</textarea>
+  
+        <label>Due Date</label>
+        <input type="date" id="edit-due-date" value="${task.dueDate}" />
+  
+        <label>Priority</label>
+        <div class="priority-buttons">
+          <button type="button" class="priority-btn urgent">Urgent <img src="svg/urgent.svg"></button>
+          <button type="button" class="priority-btn medium">Medium <img src="svg/medium.svg"></button>
+          <button type="button" class="priority-btn low">Low <img src="svg/low.svg"></button>
+        </div>
+  
+        <label for="assigned">Assigned to</label>
+        <div class="assigned-dropdown">
+          <div class="assigned-select" onclick="toggleAssignedDropdown(event)">
+            <input
+              type="text"
+              id="assigned-search"
+              class="assigned-search-input"
+              placeholder="Select contacts to assign"
+              oninput="filterAssignedList()"
+            />
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="assigned-options d-none" id="assigned-list"></div>
+        </div>
+        <div id="selected-avatars" class="selected-avatars"></div>
+  
+        <label>Category</label>
+        <select id="edit-category">
+          <option value="Technical Task" ${task.category === "Technical Task" ? "selected" : ""}>Technical Task</option>
+          <option value="User Story" ${task.category === "User Story" ? "selected" : ""}>User Story</option>
+        </select>
+  
+        <label>Subtasks</label>
+        ${subtasksHtml}
+  
+        <div class="task-card-actions">
+          <button class="task-card-edit-btn" onclick="saveTaskChanges('${task.id}')">Save</button>
+        </div>
+      </div>
+    `;
+  }
+
+  
+  
+  function highlightPriorityButton(priority) {
+    const buttons = document.querySelectorAll(".priority-btn");
+    buttons.forEach(btn => btn.classList.remove("active-urgent", "active-medium", "active-low"));
+  
+    const match = {
+      "urgent": "active-urgent",
+      "medium": "active-medium",
+      "low": "active-low"
+    }[(priority || "").toLowerCase()];
+  
+    if (match) {
+      const button = [...buttons].find(b => b.classList.contains(match.replace("active-", "")));
+      if (button) button.classList.add(match);
+    }
+  }
+
+  function preselectAssignedUsers(assignedToObj) {
+    if (!assignedToObj) return;
+  
+    const ids = Object.values(assignedToObj); // ["-xyz", "-abc"]
+    document.querySelectorAll(".assigned-checkbox").forEach(checkbox => {
+      if (ids.includes(checkbox.dataset.id)) {
+        checkbox.checked = true;
+        checkbox.closest(".assigned-row").classList.add("active");
+      }
+    });
+  
+    updateSelectedAvatars();
+  }
+  
+  function updateSelectedAvatars() {
+    const container = document.getElementById("selected-avatars");
+    container.innerHTML = "";
+  
+    document.querySelectorAll(".assigned-checkbox:checked").forEach(box => {
+      const name = box.dataset.name;
+      const initials = getInitials(name);
+      const bg = getColorFromName(name);
+      container.innerHTML += `
+        <div class="selected-avatar" style="background-color: ${bg}">${initials}</div>`;
+    });
+  }
+  
+
+  // function getPriorityIcon(priority) {
+  //   const icons = {
+  //     urgent: "<img src='svg/urgent.svg' alt='Urgent Icon' style='height: 16px; vertical-align: middle; margin-left: 6px;'>",
+  //     medium: "<img src='svg/medium.svg' alt='Medium Icon' style='height: 16px; vertical-align: middle; margin-left: 6px;'>",
+  //     low: "<img src='svg/low.svg' alt='Low Icon' style='height: 16px; vertical-align: middle; margin-left: 6px;'>"
+  //   };
+  //   return icons[priority?.toLowerCase()] || "";
+  // }
+  
+  function getCategoryLabelStyle(category) {
+    return (category || '').toLowerCase() === 'technical task' ? 'background-color: turquoise;' : '';
+  }
+  
+  // function buildAssignedPeopleHtml(people) {
+  //   return (people || []).map(person => {
+  //     const initials = getInitials(person.name);
+  //     const bg = getColorForName(person.name);
+  //     return `
+  //       <div class="task-card-person">
+  //         <div class="task-card-avatar" style="background-color:${bg};">${initials}</div>
+  //         <span class="task-card-name">${person.name}</span>
+  //       </div>`;
+  //   }).join("");
+  // }
+  
+
+
+
+
+
+
+
   // Baut Subtasks-HTML
   function buildSubtasks(subtasks, taskId) {
     if (!subtasks || typeof subtasks !== "object") {
