@@ -90,7 +90,7 @@
         </div>
         <label for="assigned">Assigned to</label>
         <div class="assigned-dropdown">
-          <div class="assigned-select" onclick="toggleAssignedDropdown()">
+          <div class="assigned-select" onclick="openAssignedDropdown(event)">
             <input
               type="text"
               id="assigned-search"
@@ -98,7 +98,7 @@
               placeholder="Select contacts to assign"
               oninput="filterAssignedList()"
             />
-            <span class="dropdown-arrow">▼</span>
+            <span class="dropdown-arrow" onclick="toggleAssignedDropdown(event)">▼</span>
           </div>
           <div class="assigned-options d-none" id="assigned-list"></div>
         </div>

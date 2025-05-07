@@ -3,18 +3,24 @@ body {
     display: flex;
     font-family: Arial, sans-serif;
     background-color: #f4f6f8;
+    padding:0;
+    height:100%;
   }
   
   .sidebar {
+    position: fixed;
+
+    left: 0;
+    height: 100vh;
+    width: 230px;
     background-color: #2A3647;
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
-    width: 230px !important;
-    /* height: 100vh; */
     padding: 40px 0;
     box-sizing: border-box;
+    z-index: 1000; /* damit sie über anderem Content bleibt */
   }
+  
   
   .sidebar-logo {
     text-align: center;

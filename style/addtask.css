@@ -9,11 +9,13 @@ main {
   width: calc(100vw - 500px);
   align-items: center;
   padding-top: 100px;
+  margin-left:230px;
 }
 
 .maincontent {
   padding-left: 80px;
   padding-top: 30px;
+  max-width:1440px;
 }
 
 h1 {
@@ -42,7 +44,7 @@ input[type="text"],
 input[type="date"],
 textarea,
 select {
-  width: 90%;
+  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -55,6 +57,13 @@ textarea {
 }
 
 /* === PRIORITY BUTTONS === */
+
+.priority-buttons {
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:10px;
+  width: 100%;
+}
 .priority-buttons button {
   padding: 10px 20px;
   margin-right: 10px;
@@ -93,7 +102,6 @@ textarea {
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 8px 12px;
-  width: 575px;
   height: 22px;
 }
 
@@ -194,7 +202,6 @@ textarea {
 .assigned-dropdown {
   position: relative;
   width: 100%;
-  max-width: 300px;
   font-family: sans-serif;
 }
 

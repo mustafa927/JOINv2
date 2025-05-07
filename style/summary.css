@@ -13,8 +13,8 @@ body {
 }
 
 .container {
-  margin-left: 120px;
-  margin-top: 96px;
+  margin-left: 280px;
+  margin-top: 88px;
   padding: 40px 30px;
   background-color: #f6f7f8;
 }
@@ -273,18 +273,19 @@ body {
 }
 
 #greeting-message {
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 400;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 32px;
+  margin-left: 64px;
+ 
 }
 
 .greeting-name {
   color: #29abe2;
   font-weight: bold;
-  font-size: 40px;
+  font-size: 56px;
   margin-top: 6px;
 }
 
@@ -293,13 +294,43 @@ body {
 }
 
 .button-container {
-  width:90vw;
+
+}
+
+.main-container {
+  display:flex;
+  width:100%;
+  max-width:1440px;
+}
+
+@media (max-width:1220px) {
+  #greeting-message{
+    font-size:24px;
+  }
+
+  .greeting-name {
+    font-size:32px;
+  }
+}
+
+@media (max-width:1020px) {
+  #greeting-message {
+    display:none;
+    
+  }
+.title {
+  font-size:30px;
+}
+
+.sub {
+  padding-left:20px;
+}
 }
 @media (max-width: 768px) {
   .headline {
     flex-direction: column;
     align-items: start !important;
-    margin-top:30px;
+    
   }
 
   .divider-mobile {
@@ -319,13 +350,118 @@ body {
 
   .container {
     margin-left:0;
+    padding-bottom:100px;
   }
   
   .card {
-    height: 100px;
+   height:auto;
+  }
+  
+  .card-row {
+    margin-top:30px;
   }
 
+  .status-card-row {
+    margin-top: 30px;
+  }
   #greeting-message {
     display:none;
+  }
+
+  .button-container {
+    width:90vw;
+  
+  }
+
+  .main-container {
+    display:flex;
+    justify-content: center;
+    
+    
+  }
+  .card-urgent {
+    height:auto;
+  }
+
+  .status-card {
+    height:auto;
+  }
+
+  .card-icon {
+    height:40px;
+    width:40px;
+  }
+
+  .urgent-divider {
+    height:40px;
+    margin:10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 2px;
+    margin-top: 150px;
+    padding-bottom: 100px; /* Abstand zur mobilen Sidebar */
+  }
+
+
+
+  .card,
+  .card-urgent,
+  .status-card {
+    height: auto;
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .svg-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .card-number,
+  .status-number {
+    font-size: 24px;
+  }
+
+  .card-label,
+  .status-label,
+  .urgent-label,
+  .urgent-subtext {
+    font-size: 12px;
+  }
+
+  .urgent-date {
+    font-size: 14px;
+  }
+
+  .urgent-divider {
+    height: 40px;
+    margin: 0 10px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .sub {
+    font-size: 14px;
+    padding-left: 20px;
+  }
+
+  .main-container {
+    gap: 12px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .button-container {
+    width: 100%;
   }
 }
