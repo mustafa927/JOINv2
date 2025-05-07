@@ -285,10 +285,9 @@ if ((task.category || "").toLowerCase() === "technical task") {
     `).join("");
   
     return `
-      <div class="task-card-overlay" style="max-height: 90vh; overflow-y: auto;">
+      <div class="task-card-overlay" style="max-height: 60vh; overflow-y: auto;">
         <div class="task-card-close-btn" onclick="closeOverlay()">&times;</div>
-        <h2>Edit Task</h2>
-  
+
         <label>Title</label>
         <input type="text" id="edit-title" value="${task.title}" />
   
