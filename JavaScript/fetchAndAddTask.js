@@ -114,17 +114,34 @@ function createTaskFromForm() {
   redirectToBoard();
 }
 
-function createTaskFromFormOverlay() {
+async function createTaskFromFormOverlay() {
   if (!validateTitle() || !validateCategory()) return;
 
   const newTask = buildNewTask();
   console.log("📦 Finaler Task:", newTask);
 
-  addNewTask(newTask);
-  showSuccessMessage();
+  try {
+    await addNewTask(newTask); // 🔁 warte bis Task wirklich gespeichert ist
 
+    // ✅ jetzt parent-Funktion zum Schließen + Neuladen aufrufen
+    window.parent.handleTaskCreated();
+  } catch (error) {
+    console.error("❌ Fehler beim Speichern des Tasks:", error);
+    alert("Task konnte nicht gespeichert werden.");
+  }
 }
 
+
+function closeAddTaskModal() {
+  document.getElementById("addTaskModal").classList.add("d-none");
+  // Optional: Reset iframe content
+  document.getElementById("addTaskIframe").src = "about:blank";
+}
+
+function handleTaskCreated() {
+  closeAddTaskModal();
+  location.reload(); // 🔁 Seite neu laden
+}
 
 function validateTitle() {
   const title = document.getElementById("title").value.trim();
