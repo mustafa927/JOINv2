@@ -1,38 +1,3 @@
-const priorityButtons = document.querySelectorAll('.priority-btn');
-
-
-function setupPriorityButtons() {
-  priorityButtons.forEach(button => {
-    button.addEventListener('click', () => handlePriorityClick(button));
-  });
-}
-
-
-function handlePriorityClick(button) {
-  const isActive = button.classList.contains('active-urgent') ||
-                   button.classList.contains('active-medium') ||
-                   button.classList.contains('active-low');
-
-  removePriorityClasses();
-
-  if (!isActive) {
-    addPriorityClass(button);
-  }
-}
-
-
-function removePriorityClasses() {
-  priorityButtons.forEach(btn => {
-    btn.classList.remove('active-urgent', 'active-medium', 'active-low');
-  });
-}
-
-
-function addPriorityClass(button) {
-  if (button.classList.contains('urgent')) button.classList.add('active-urgent');
-  if (button.classList.contains('medium')) button.classList.add('active-medium');
-  if (button.classList.contains('low')) button.classList.add('active-low');
-}
 
 
 function clearForm() {
