@@ -18,7 +18,7 @@ body {
 .page-logo {
     position: absolute;
     top: 40px;
-    left: 40px;
+    left: 77px;
 }
 
 .page-logo img {
@@ -217,33 +217,43 @@ body {
     max-width: 80%;
 }
 
-@media (max-width: 600px) {
-    .signup-card {
-        width: 90%;
-        padding: 30px 20px;
-    }
-    
-    h1 {
-        font-size: 36px;
-    }
+.page-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px 0;
+    background-color: transparent;
+    z-index: 10;
 }
-
 @media (max-width: 768px) {
     body {
         padding: 20px;
         justify-content: flex-start;
     }
 
-    .signup-card {
-        width: 100%;
-        max-width: 500px;
-        padding: 24px;
-        margin-top: 80px;
-        box-shadow: none;
+    .page-logo {
+        margin-top: 20px;
+        top: 30px;
+        left: 45px;
     }
 
     .page-logo img {
         width: 64px;
+        height: auto;
+    }
+
+    .signup-card {
+        width: 100%;
+        max-width: 500px;
+        padding: 24px;
+        margin-top: 180px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+        background-color: white;
     }
 
     h1 {
@@ -262,15 +272,18 @@ body {
     }
 
     .signup-button {
-        width: 100%;
+        width: 38%;
         max-width: none;
+        font-size: 15px;
     }
 
     .page-footer {
-        position: static;
-        margin-top: 40px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
         width: 100%;
-        justify-content: center;
+        padding: 15px 0;
+        background-color: #F6F7F8;
     }
 }
 
@@ -279,9 +292,19 @@ body {
         padding: 16px;
     }
 
+    .page-logo img {
+        width: 55px;
+        height: auto;
+    }
+
+    .page-logo {
+        top: 20px;
+        left: 30px;
+    }
+
     .signup-card {
         padding: 20px;
-        margin-top: 150px;
+        margin-top: 170px;
     }
 
     h1 {
@@ -295,5 +318,14 @@ body {
 
     .privacy-checkbox label {
         font-size: 14px;
+    }
+
+    .page-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 12px 0;
+        background-color: #F6F7F8;
     }
 }
