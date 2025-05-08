@@ -397,17 +397,17 @@ textarea {
 
   .create-btn {
     position: fixed;
-    bottom: 100px;
+    bottom: 80px;
     right: 20px;
     height: 60px;
-    width: 200px;
+    width: 150px;
   }
   .clear-btn {
     position: fixed;
-    bottom: 100px;
+    bottom: 80px;
     right: 240px;
     height: 60px;
-    width: 200px;
+    width: 150px;
     border: 2px solid black !important;
     background-color: #f6f7f8;
   }
