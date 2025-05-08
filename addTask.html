@@ -135,9 +135,11 @@
     </form>
 
     <div class="bottom-buttons">
-    <span class="required-note">* This field is required</span>
+      <div>    <span class="required-note">*</span> This field is required</div>
+
     <div>
-      <button type="reset" class="clear-btn">Clear ✗</button>
+      <button type="button" class="clear-btn" onclick="clearForm()">Clear ✗</button>
+
       <button type="button" class="create-btn" onclick="createTaskFromForm()">Create Task ✔</button>
       </div>  
     </div>

@@ -202,6 +202,51 @@ function getCurrentUser() {
   return stored ? JSON.parse(stored) : null;
 }
 
+function clearForm() {
+  // Eingabefelder leeren
+  document.getElementById("title").value = "";
+  document.getElementById("desc").value = "";
+  document.getElementById("due-date").value = "";
+  document.getElementById("category").value = "";
+
+  // Fehlermeldungen verstecken
+  const errors = ["title-error", "date-error", "category-error"];
+  errors.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add("d-none");
+  });
+
+  // Priorität zurücksetzen
+  document.querySelectorAll(".priority-btn").forEach(btn => {
+    btn.classList.remove("active-urgent", "active-medium", "active-low");
+  });
+
+  // Assigned Checkboxen deaktivieren
+  document.querySelectorAll(".assigned-checkbox").forEach(box => {
+    box.checked = false;
+    box.closest(".assigned-row")?.classList.remove("active");
+  });
+
+  // Avatare entfernen
+  const avatarContainer = document.getElementById("selected-avatars");
+  if (avatarContainer) avatarContainer.innerHTML = "";
+
+  // Subtasks löschen
+  window.subtasks = [];
+  renderSubtaskList();
+
+  // Suchfeld im Dropdown zurücksetzen
+  const assignedSearch = document.getElementById("assigned-search");
+  if (assignedSearch) assignedSearch.value = "";
+
+  // Assigned-Dropdown schließen
+  const dropdown = document.querySelector(".assigned-dropdown");
+  if (dropdown) dropdown.classList.remove("open");
+
+  const assignedList = document.getElementById("assigned-list");
+  if (assignedList) assignedList.classList.add("d-none");
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
   setupPriorityButtons();
@@ -212,13 +257,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-window.addEventListener("resize", handleResponsiveNote);
-window.addEventListener("DOMContentLoaded", handleResponsiveNote);
+
 
 document.addEventListener("click", closeMenuOnOutsideClick);
 
 
 // Globale Registrierung
+window.clearForm = clearForm;
+
 window.toggleMenu = toggleMenu;
 window.toggleAssignedDropdown = toggleAssignedDropdown;
 window.assignedToInput = assignedToInput;
