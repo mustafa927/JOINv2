@@ -253,6 +253,27 @@ document.addEventListener("DOMContentLoaded", () => {
   setupLogout();
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const statusFromURL = getStatusFromURL();
+  setInitialTaskStatus(statusFromURL);
+});
+
+function getStatusFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("status") || "To-Do";
+}
+
+function setInitialTaskStatus(status) {
+  // Wenn du ein verstecktes Feld für den Status hast
+  const hiddenStatusInput = document.getElementById("task-status");
+  if (hiddenStatusInput) {
+    hiddenStatusInput.value = status;
+  }
+
+  // Oder speichere es global für die spätere Verwendung
+  window.initialTaskStatus = status;
+}
+
 
 
 

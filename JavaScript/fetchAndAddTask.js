@@ -3,8 +3,10 @@
 window.allTasks = []; 
 
 function getTaskStatus() {
-  return window.parent?.currentTaskStatus || "To-Do";
+  const fromURL = new URLSearchParams(window.location.search).get("status");
+  return fromURL || window.parent?.currentTaskStatus || "To-Do";
 }
+
 
 
 // let newTask = {

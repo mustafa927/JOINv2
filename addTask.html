@@ -218,6 +218,11 @@ function toggleSubtaskDone(id) {
   const sub = subtasks.find(s => s.id === id);
   if (sub) sub.done = !sub.done;
 }
+function getStatusFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('status') || 'To-Do';
+}
+
 
   </script>
 <script type="module" src="JavaScript/addTask.js"></script>
