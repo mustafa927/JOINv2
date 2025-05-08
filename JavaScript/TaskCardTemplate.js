@@ -280,14 +280,10 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
   
   function buildEditTaskForm(task) {
-    const subtasksHtml = Object.entries(task.subtasks || {}).map(([key, sub]) => `
-      <input type="text" value="${sub.title}" data-key="${key}" class="edit-subtask-input" />
-    `).join("");
-  
     return `
       <div class="task-card-overlay" style="max-height: 60vh; overflow-y: auto;">
         <div class="task-card-close-btn" onclick="closeOverlay()">&times;</div>
-
+  
         <label>Title</label>
         <input type="text" id="edit-title" value="${task.title}" />
   
@@ -327,7 +323,25 @@ if ((task.category || "").toLowerCase() === "technical task") {
         </select>
   
         <label>Subtasks</label>
-        ${subtasksHtml}
+        <div class="subtasks-section">
+        <div class="subtask-input-wrapper">
+        <input type="text" id="edit-subtask-input" class="subtask-input" placeholder="Add new subtask" />
+        <button type="button" class="subtask-add-btn" onclick="addSubtaskInEditForm()">+</button>
+      </div>
+      
+          <ul id="subtask-list">
+            ${Object.entries(task.subtasks || {}).map(([id, sub]) => `
+              <li class="subtask-item" id="subtask-${id}">
+                <span class="subtask-title">${sub.title}</span>
+                <div class="subtask-actions">
+                  <img src="svg/edit-black.svg" class="subtask-icon" onclick="editSubtask('${id}')">
+                  <span class="divider"></span>
+                  <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
+                </div>
+              </li>
+            `).join("")}
+          </ul>
+        </div>
   
         <div class="task-card-actions">
           <button class="task-card-edit-btn" onclick="saveTaskChanges('${task.id}')">Save</button>
@@ -335,8 +349,62 @@ if ((task.category || "").toLowerCase() === "technical task") {
       </div>
     `;
   }
-
   
+  function addSubtaskInEditForm() {
+    const input = document.getElementById('edit-subtask-input');
+    const title = input.value.trim();
+    if (!title) return;
+  
+    const id = `sub${Date.now()}`; // sicheres, eindeutiges ID
+    const ul = document.getElementById('subtask-list');
+  
+    const li = document.createElement('li');
+    li.className = 'subtask-item';
+    li.id = `subtask-${id}`;
+    li.innerHTML = `
+      <span class="subtask-title">${title}</span>
+      <div class="subtask-actions">
+        <img src="svg/edit-black.svg" class="subtask-icon" onclick="editSubtask('${id}')">
+        <span class="divider"></span>
+        <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
+      </div>
+    `;
+    ul.appendChild(li);
+    input.value = '';
+  }
+  
+  function editSubtask(id) {
+    const li = document.getElementById(`subtask-${id}`);
+    const title = li.querySelector('.subtask-title').textContent;
+    li.innerHTML = `
+      <input type="text" class="edit-subtask-input" value="${title}" />
+      <div class="subtask-actions">
+        <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
+        <span class="divider"></span>
+        <span class="subtask-icon" onclick="saveSubtask('${id}')">✔</span>
+      </div>
+    `;
+  }
+  
+  function saveSubtask(id) {
+    const li = document.getElementById(`subtask-${id}`);
+    const newTitle = li.querySelector('.edit-subtask-input').value.trim();
+    if (!newTitle) return;
+  
+    li.innerHTML = `
+      <span class="subtask-title">${newTitle}</span>
+      <div class="subtask-actions">
+        <img src="svg/edit-black.svg" class="subtask-icon" onclick="editSubtask('${id}')">
+        <span class="divider"></span>
+        <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
+      </div>
+    `;
+  }
+  
+  function deleteSubtask(id) {
+    const li = document.getElementById(`subtask-${id}`);
+    if (li) li.remove();
+  }
   
   function highlightPriorityButton(priority) {
     const buttons = document.querySelectorAll(".priority-btn");
@@ -441,14 +509,23 @@ if ((task.category || "").toLowerCase() === "technical task") {
   }
   
   function collectEditedSubtasks() {
-    const inputs = document.querySelectorAll(".edit-subtask-input");
+    const items = document.querySelectorAll("#subtask-list .subtask-item");
     const subtasks = {};
-    inputs.forEach((input, i) => {
-      const key = input.dataset.key || `sub${i + 1}`;
-      subtasks[key] = { title: input.value.trim(), done: false }; // done bleibt false beim Edit
+    items.forEach(el => {
+      const id = el.id.replace("subtask-", "");
+  
+      const input = el.querySelector(".edit-subtask-input");
+      const title = input
+        ? input.value.trim()
+        : el.querySelector(".subtask-title")?.textContent.trim();
+  
+      if (title) {
+        subtasks[id] = { title, done: false };
+      }
     });
     return subtasks;
   }
+  
   
 
 

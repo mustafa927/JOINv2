@@ -2,6 +2,11 @@
 
 window.allTasks = []; 
 
+function getTaskStatus() {
+  return window.parent?.currentTaskStatus || "To-Do";
+}
+
+
 // let newTask = {
 //   title: "Kanban UI bauen",
 //   description: "UI für Task-Overlay erstellen",
@@ -198,11 +203,12 @@ function buildNewTask() {
     dueDate: getValue("due-date"),
     priority: getSelectedPriority(),
     category: document.getElementById("category").value,
-    Status: "To-Do",
+    Status: getTaskStatus(), // ← hier ändert sich was
     assignedTo: collectAssignedUserIds(),
     subtasks: collectSubtasks()
   };
 }
+
 
 function getValue(id) {
   return document.getElementById(id).value.trim();
@@ -219,11 +225,23 @@ function getSelectedPriority() {
 }
 
 function collectSubtasks() {
-  const elements = document.querySelectorAll("#subtask-list .subtask-text");
+  const elements = document.querySelectorAll("#subtask-list .subtask-item");
   const subtasks = {};
-  elements.forEach((el, i) => {
-    subtasks[`sub${i + 1}`] = { title: el.textContent.trim(), done: false };
+
+  elements.forEach(el => {
+    const id = el.id.replace("subtask-", "");
+
+    // Prüfe, ob edit-Input vorhanden ist, sonst fallback auf Text-Span
+    const input = el.querySelector(".edit-subtask-input");
+    const title = input
+      ? input.value.trim()
+      : el.querySelector(".subtask-title")?.textContent.trim();
+
+    if (title) {
+      subtasks[id] = { title, done: false };
+    }
   });
+
   return subtasks;
 }
 

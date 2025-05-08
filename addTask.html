@@ -160,18 +160,57 @@ function addSubtask() {
   const subtaskId = `sub${subtasks.length + 1}`;
   subtasks.push({ id: subtaskId, title, done: false });
 
-  renderSubtaskList();
+  renderSubtaskList(subtaskId, title);
   input.value = ""; // 🧼 Feld leeren
 }
 
-function renderSubtaskList() {
-  const container = document.getElementById('subtask-list');
-  container.innerHTML = subtasks.map(sub => `
-    <div class="subtask-row">
-      <span class="checkmark">✔️</span>
-      <span class="subtask-text">${sub.title}</span>
+function renderSubtaskList(id, title) {
+  const li = document.createElement('li');
+  li.className = 'subtask-item';
+  li.id = `subtask-${id}`;
+  li.innerHTML = `
+    <span class="subtask-title">${title}</span>
+    <div class="subtask-actions">
+      <img src="svg/edit-black.svg" class="subtask-icon" onclick="editSubtask('${id}')">
+      <span class="divider"></span>
+      <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
     </div>
-  `).join('');
+  `;
+  document.getElementById('subtask-list').appendChild(li);
+}
+
+function editSubtask(id) {
+  const li = document.getElementById(`subtask-${id}`);
+  const title = li.querySelector('.subtask-title').textContent;
+  li.innerHTML = `
+  <input type="text" class="edit-subtask-input" value="${title}" />
+<div class="subtask-actions">
+  <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
+  <span class="divider"></span>
+  <span class="subtask-icon" onclick="saveSubtask('${id}')">✔</span>
+</div>
+
+  `;
+}
+
+function saveSubtask(id) {
+  const li = document.getElementById(`subtask-${id}`);
+  const newTitle = li.querySelector('.edit-subtask-input').value.trim();
+  if (!newTitle) return;
+
+  li.innerHTML = `
+    <span class="subtask-title">${newTitle}</span>
+    <div class="subtask-actions">
+      <img src="svg/edit-black.svg" class="subtask-icon" onclick="editSubtask('${id}')">
+      <span class="divider"></span>
+      <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
+    </div>
+  `;
+}
+
+function deleteSubtask(id) {
+  const li = document.getElementById(`subtask-${id}`);
+  li.remove();
 }
 
 

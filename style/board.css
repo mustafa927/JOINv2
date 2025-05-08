@@ -55,6 +55,7 @@ main {
   padding: 4px 8px;
   background-color: #f8f9fb;
   width: 250px;
+  height: 36px;
 }
 
 .search-container input {
@@ -64,6 +65,8 @@ main {
   background-color: transparent;
   font-size: 14px;
   color: #555;
+  text-align: center;
+  margin-bottom: 0;
 }
 
 .search-container input::placeholder {
@@ -451,4 +454,41 @@ body.modal-open {
 
 .task-card-edit-btn {
   background-color: #e0e0e0;
+}
+
+.subtask-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin-bottom: 10px;
+  background-color: white;
+}
+
+.subtask-input {
+  border: none;
+  outline: none;
+  flex-grow: 1;
+  font-size: 14px;
+  color: #333;
+  padding: 6px;
+}
+
+.subtask-input::placeholder {
+  color: #ccc;
+}
+
+.subtask-add-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #1a1a1a;
+  cursor: pointer;
+  padding: 0 6px;
+  transition: color 0.2s;
+}
+
+.subtask-add-btn:hover {
+  color: #007bff;
 }

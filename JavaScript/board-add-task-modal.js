@@ -1,10 +1,14 @@
-function openAddTaskModal() {
+function openAddTaskModal(status = "To-Do") {
   const modal = document.getElementById('addTaskModal');
   if (modal) {
     modal.classList.remove('d-none');
     document.body.classList.add('modal-open');
+
+    // Status im globalen Fenster speichern, damit das Modal (iframe) ihn abrufen kann
+    window.currentTaskStatus = status;
   }
 }
+
 
 
 function closeAddTaskModal() {
@@ -20,10 +24,26 @@ function registerModalOpeners() {
   document.querySelectorAll('.add-task-btn, .icon-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.preventDefault();
-      openAddTaskModal();
+
+      // Standard-Status
+      let status = "To-Do";
+
+      // Suche nach dem Eltern-Container, der den Status im DOM sichtbar macht
+      const section = btn.closest('.progress-section');
+      if (section) {
+        const headerText = section.querySelector('.to-do-header p')?.textContent.trim().toLowerCase();
+
+        if (headerText === "in progress") status = "In Progress";
+        else if (headerText === "await feedback") status = "Await Feedback";
+        else if (headerText === "done") status = "Done";
+        else if (headerText === "to do") status = "To-Do";
+      }
+
+      openAddTaskModal(status);
     });
   });
 }
+
 
 
 function registerModalCloseOnClick() {
