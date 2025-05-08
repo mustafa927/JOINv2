@@ -104,7 +104,7 @@ async function getAllTasksWithPeople() {
 
 
 function createTaskFromForm() {
-  if (!validateTitle() || !validateCategory()) return;
+  if (!validateRequiredFields()) return;
 
   const newTask = buildNewTask();
   console.log("📦 Finaler Task:", newTask);
@@ -112,6 +112,38 @@ function createTaskFromForm() {
   addNewTask(newTask);
   showSuccessMessage();
   redirectToBoard();
+}
+
+function validateRequiredFields() {
+  const title = document.getElementById("title").value.trim();
+  const date = document.getElementById("due-date").value.trim();
+  const category = document.getElementById("category").value;
+
+  const titleError = document.getElementById("title-error");
+  const dateError = document.getElementById("date-error");
+  const categoryError = document.getElementById("category-error");
+
+  let valid = true;
+
+  if (!title) {
+    titleError.classList.remove("d-none");
+    setTimeout(() => titleError.classList.add("d-none"), 3000);
+    valid = false;
+  }
+
+  if (!date) {
+    dateError.classList.remove("d-none");
+    setTimeout(() => dateError.classList.add("d-none"), 3000);
+    valid = false;
+  }
+
+  if (!category) {
+    categoryError.classList.remove("d-none");
+    setTimeout(() => categoryError.classList.add("d-none"), 3000);
+    valid = false;
+  }
+
+  return valid;
 }
 
 async function createTaskFromFormOverlay() {

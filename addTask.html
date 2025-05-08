@@ -79,6 +79,7 @@
 
         <label for="due-date">Due date<span class="required-note">*</span></label>
         <input type="date" id="due-date" />
+        <div id="date-error" class="required-note d-none">Due date is required</div>
       </div>
       <div class="line"></div>
       <div class="form-section">
@@ -135,7 +136,7 @@
 
     <div class="bottom-buttons">
       <button type="reset" class="clear-btn">Clear ✗</button>
-      <button type="submit" class="create-btn" onclick="createTaskFromForm()">Create Task ✔</button>
+      <button type="button" class="create-btn" onclick="createTaskFromForm()">Create Task ✔</button>
     </div>
     <div id="required-responsive-note"></div>
   </div>

@@ -223,6 +223,8 @@ function handleResponsiveNote() {
   }
 }
 
+
+
 window.addEventListener("resize", handleResponsiveNote);
 window.addEventListener("DOMContentLoaded", handleResponsiveNote);
 
