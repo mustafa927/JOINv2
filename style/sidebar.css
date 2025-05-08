@@ -86,6 +86,7 @@ body {
   .sidebar-footer-active {
     font-size: 21px;
     color: #29ABE2 !important;
+    background-color: #161b23 !important;
   }
   
   .sidebar-footer a:hover {
@@ -97,9 +98,8 @@ body {
     padding: 40px;
     padding-left: 60px;
   }
-  
 
-  @media (max-width:768px) {
+  @media (max-width: 768px) {
     .sidebar {
       position: fixed;
       bottom: 0;
@@ -111,41 +111,49 @@ body {
       justify-content: space-around;
       padding: 0;
       z-index: 1000;
+      background-color: #2A3647;
     }
     
-    .sidebar-logo,
-    .sidebar-footer {
+    .sidebar-logo{
       display: none;
     }
     
-    .sidebar-nav {
+    .sidebar-footer {
+      display: flex;
       flex-direction: row;
+      width: 50%;
+      margin: 0;
+      padding: 0;
+      opacity: 1;
       justify-content: space-around;
       align-items: center;
-      margin-top: 0;
-      width: 100%;
-      gap: 0;
+      height: 100%;
     }
     
-    .nav-item {
-      width:70px;
+    .sidebar-footer a {
+      color: white;
+      text-decoration: none;
+      font-size: 13px;
+      padding: 15px 0;
+      text-align: center;
+      flex: 1;
+      display: flex;
+      align-items: center;
       justify-content: center;
-      padding: 12px 0;
-    
-        }
-    
-    .nav-item span {
-      display: none;
     }
     
-    .nav-item img {
-      
-      height:40px;
-      width:40px;
+    .login-icon {
+      margin-right: 8px;
     }
 
-    body {
-      overflow-x: hidden;
+    .sidebar-nav{
+      margin: 0;
     }
-    
+}
+
+@media (max-width: 480px) {
+  .sidebar-footer{
+    width: 100%;
   }
+  
+}

@@ -212,7 +212,7 @@ body {
     transform: translate(-50%, -50%);
     z-index: 100;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-    display: none; /* Hidden by default */
+    display: none; 
     width: auto;
     max-width: 80%;
 }
@@ -293,18 +293,18 @@ body {
     }
 
     .page-logo img {
-        width: 55px;
+        width: 45px;
         height: auto;
     }
 
     .page-logo {
-        top: 20px;
-        left: 30px;
+        top: 10px;
+        left: 25px;
     }
 
     .signup-card {
         padding: 20px;
-        margin-top: 170px;
+        margin-top: 100px;
     }
 
     h1 {
