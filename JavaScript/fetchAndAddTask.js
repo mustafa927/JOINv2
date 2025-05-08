@@ -219,11 +219,23 @@ function getSelectedPriority() {
 }
 
 function collectSubtasks() {
-  const elements = document.querySelectorAll("#subtask-list .subtask-text");
+  const elements = document.querySelectorAll("#subtask-list .subtask-item");
   const subtasks = {};
-  elements.forEach((el, i) => {
-    subtasks[`sub${i + 1}`] = { title: el.textContent.trim(), done: false };
+
+  elements.forEach(el => {
+    const id = el.id.replace("subtask-", "");
+
+    // Prüfe, ob edit-Input vorhanden ist, sonst fallback auf Text-Span
+    const input = el.querySelector(".edit-subtask-input");
+    const title = input
+      ? input.value.trim()
+      : el.querySelector(".subtask-title")?.textContent.trim();
+
+    if (title) {
+      subtasks[id] = { title, done: false };
+    }
   });
+
   return subtasks;
 }
 

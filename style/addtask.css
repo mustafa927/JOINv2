@@ -444,3 +444,42 @@ textarea {
     font-size:12px !important;
   }
 }
+
+
+.subtask-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  cursor: default;
+}
+
+.subtask-item:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.subtask-title {
+  flex-grow: 1;
+}
+
+.subtask-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.subtask-icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  color: black;
+}
+
+.divider {
+  width: 1px;
+  height: 16px;
+  background-color: #ccc;
+}
