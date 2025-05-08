@@ -492,3 +492,145 @@ body.modal-open {
 .subtask-add-btn:hover {
   color: #007bff;
 }
+
+
+.round-plus-btn {
+  display: none !important;  
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: #2e3a59;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+ margin-top: 24px;
+}
+
+.round-plus-btn:hover {
+  background-color: #1e293b;
+  cursor: pointer;
+}
+
+.header-and-Button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+@media (max-width:1300px) {
+
+  .progress-section {
+    padding: 6px;
+  }
+
+}
+
+@media (max-width:1200px) {
+
+  .card {
+    width: 140px;
+  }
+
+}
+
+
+@media (max-width: 990px) {
+  .Board-head {
+    flex-direction: column;
+  }
+
+  .header-and-Button {
+    justify-content: space-between;
+    margin: 12px;
+  }
+
+  .round-plus-btn {
+    display: block !important;
+  }
+
+  .add-task-btn {
+    display: none;
+  }
+
+  .add-find-task {
+    margin: 12px;
+    margin-bottom: 140px;
+  }
+
+  .search-container {
+    width: 100%;
+  }
+
+  .board-cards {
+    flex-direction: column;
+    gap: 12px;
+   
+  }
+
+
+
+  /* 🆕 Horizontal scroll für Card-Bucket */
+  .card-bucket {
+    display: flex;
+
+    gap: 12px;
+    padding-bottom: 8px;
+
+  }
+
+  /* 🆕 Optional: Card Snap-Style fürs bessere Scroll-Erlebnis */
+  .card {
+    min-width: 220px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+}
+
+
+@media (max-width:768px) {
+  .board-section {
+    margin-left: 10px;
+    width: 100vw;
+  }
+
+  .card-bucket {
+    display: flex;
+    overflow-x: auto;
+    width: 95vw;
+    gap: 12px;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;        /* Firefox */
+    -ms-overflow-style: none;     /* IE 10+ */
+  }
+
+
+  .card-bucket::-webkit-scrollbar {
+    display: none;                /* Chrome, Safari */
+  }
+  
+  /* 🆕 Optional: Card Snap-Style fürs bessere Scroll-Erlebnis */
+  .card {
+    min-width: 220px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  body {
+    margin-bottom: 700px;
+    justify-content: space-around;
+  }
+
+  .add-find-task {
+    margin: 12px;
+    margin-bottom: 14px;
+  }
+}

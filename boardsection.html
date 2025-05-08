@@ -68,7 +68,11 @@
     <!-- Board Section -->
     <section class="board-section">
       <div class="Board-head">
-        <h1>Board</h1>
+
+        <div class="header-and-Button">
+        <h1>Board</h1> 
+        <button id="hiddenAddBtn" class="round-plus-btn" onclick="">+</button>
+        </div>
         <div class="add-find-task">
           <div class="search-container">
             <input type="text" id="taskSearchInput" placeholder="Find Task" oninput="handleTaskSearch()"/>
@@ -90,9 +94,12 @@
             <p>To do</p>
             <button class="icon-btn"><span class="plus-icon">+</span></button>
           </div>
+          
           <div class="no-tasks"><p>No tasks To Do</p></div>
-        </div>
 
+          
+        </div>
+        
         <!-- In progress -->
         <div class="progress-section dropzone" ondragover="allowDrop(event)" ondrop="drop(event)">
           <div class="to-do-header">

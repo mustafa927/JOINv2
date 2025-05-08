@@ -15,7 +15,6 @@ window.allowDrop = function(event) {
 window.drop = async function handleDrop(event) {
   event.preventDefault();
   const dropzone = event.currentTarget;
-
   if (!draggedElement || !dropzone.classList.contains('dropzone')) return;
 
   moveTaskCardToDropzone(draggedElement, dropzone);
@@ -31,8 +30,18 @@ window.drop = async function handleDrop(event) {
 };
 
 function moveTaskCardToDropzone(cardElement, dropzone) {
-  dropzone.appendChild(cardElement);
+  let bucket = dropzone.querySelector('.card-bucket');
+
+  // Falls kein Bucket existiert (z. B. nach Drag aus leerer Spalte), erstellen
+  if (!bucket) {
+    bucket = document.createElement('div');
+    bucket.classList.add('card-bucket');
+    dropzone.appendChild(bucket);
+  }
+
+  bucket.appendChild(cardElement);
 }
+
 
 function hideNoTasksMessage(dropzone) {
   const noTasksMessage = dropzone.querySelector('.no-tasks');

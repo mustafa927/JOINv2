@@ -37,12 +37,15 @@ function createTaskCard(task) {
   const progressPercent = (done / total) * 100;
 
   return `
+
+
     <div class="card" draggable="true" onclick="openOverlayFromCard('${task.id}')"
          ondragstart="startDragging(event)" id="${task.id}">
       
       <div class="card-type" style="${typeStyle}">${task.category || "Task"}</div>
       <div class="card-title">${task.title}</div>
       <div class="card-description">${task.description || ""}</div>
+  
 
       ${total > 0 ? `
         <div class="card-footer">
@@ -57,6 +60,7 @@ function createTaskCard(task) {
         <div class="menu-icon">${priorityIcon}</div>
       </div>
     </div>
+ 
   `;
 }
 
@@ -138,12 +142,23 @@ function getCategoryStyle(category) {
         return;
     }
   
+    // ✅ no-tasks verstecken, wenn vorhanden
     const container = document.querySelector(`${columnSelector} .no-tasks`);
     if (container) container.classList.add("d-none");
   
+    // ✅ Card-Bucket prüfen oder erstellen
     const column = document.querySelector(columnSelector);
-    column.insertAdjacentHTML("beforeend", createTaskCard(task));
+    let bucket = column.querySelector('.card-bucket');
+    if (!bucket) {
+      bucket = document.createElement('div');
+      bucket.classList.add('card-bucket');
+      column.appendChild(bucket);
+    }
+  
+    // ✅ Card in den Bucket einfügen
+    bucket.insertAdjacentHTML("beforeend", createTaskCard(task));
   }
+  
   
 
   document.addEventListener("DOMContentLoaded", () => {
