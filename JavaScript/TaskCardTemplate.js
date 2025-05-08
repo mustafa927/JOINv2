@@ -324,10 +324,11 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
         <label>Subtasks</label>
         <div class="subtasks-section">
-          <div class="subtask-input-wrapper">
-            <input type="text" id="edit-subtask-input" class="subtask-input" placeholder="Add new subtask" />
-            <button type="button" onclick="addSubtaskInEditForm()">+</button>
-          </div>
+        <div class="subtask-input-wrapper">
+        <input type="text" id="edit-subtask-input" class="subtask-input" placeholder="Add new subtask" />
+        <button type="button" class="subtask-add-btn" onclick="addSubtaskInEditForm()">+</button>
+      </div>
+      
           <ul id="subtask-list">
             ${Object.entries(task.subtasks || {}).map(([id, sub]) => `
               <li class="subtask-item" id="subtask-${id}">
