@@ -367,7 +367,7 @@ textarea {
 
 @media (max-width: 768px) {
   .priority-buttons button {
-    font-size: 20px;
+    font-size: 15px;
     padding: 6px 4px;
   }
   body {
