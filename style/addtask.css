@@ -429,3 +429,18 @@ textarea {
     padding-left: 0;
   }
 }
+
+@media(max-width:600px) {
+  .clear-btn {
+    width:100px;
+    height:50px;
+    margin-right:-110px;
+    font-size:12px !important;
+  }
+
+  .create-btn {
+    width:100px;
+    height:50px;
+    font-size:12px !important;
+  }
+}

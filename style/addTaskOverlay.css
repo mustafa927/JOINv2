@@ -1,0 +1,14 @@
+main {
+    margin-left:0;
+    width:100%;
+}
+
+.bottom-buttoms {
+    display:flex;
+    justify-content:end !important;
+}
+
+.maincontent {
+    padding-left:0;
+    padding:20px;
+}
