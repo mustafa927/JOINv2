@@ -562,7 +562,7 @@ body.modal-open {
 
   .add-find-task {
     margin: 12px;
-    margin-bottom: 140px;
+
   }
 
   .search-container {
@@ -584,6 +584,13 @@ body.modal-open {
     gap: 12px;
     padding-bottom: 8px;
 
+  }
+h1 {
+  border-bottom: 0 !important;
+}
+
+  .board-cards {
+    height: auto;
   }
 
   /* 🆕 Optional: Card Snap-Style fürs bessere Scroll-Erlebnis */
@@ -612,6 +619,9 @@ body.modal-open {
     -ms-overflow-style: none;     /* IE 10+ */
   }
 
+  .board-cards {
+    height: auto;
+  }
 
   .card-bucket::-webkit-scrollbar {
     display: none;                /* Chrome, Safari */
@@ -631,6 +641,6 @@ body.modal-open {
 
   .add-find-task {
     margin: 12px;
-    margin-bottom: 14px;
+
   }
 }
