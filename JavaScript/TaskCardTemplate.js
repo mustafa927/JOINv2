@@ -249,7 +249,6 @@ if ((task.category || "").toLowerCase() === "technical task") {
   async function switchToEditMode(taskId) {
     const task = window.allTasks.find(t => t.id === taskId);
     if (!task) return;
-  
     const overlay = document.getElementById("overlay-container");
     overlay.innerHTML = buildEditTaskForm(task);
     overlay.style.display = "flex";
@@ -512,13 +511,11 @@ if ((task.category || "").toLowerCase() === "technical task") {
     const items = document.querySelectorAll("#subtask-list .subtask-item");
     const subtasks = {};
     items.forEach(el => {
-      const id = el.id.replace("subtask-", "");
-  
+      const id = el.id.replace("subtask-", ""); 
       const input = el.querySelector(".edit-subtask-input");
       const title = input
         ? input.value.trim()
-        : el.querySelector(".subtask-title")?.textContent.trim();
-  
+        : el.querySelector(".subtask-title")?.textContent.trim(); 
       if (title) {
         subtasks[id] = { title, done: false };
       }
@@ -641,7 +638,6 @@ if ((task.category || "").toLowerCase() === "technical task") {
     document.querySelectorAll('.progress-section').forEach(section => {
       const cards = Array.from(section.querySelectorAll('.card'));
       const visibleCards = cards.filter(card => card.style.display !== "none");
-  
       const noTasks = section.querySelector('.no-tasks');
       
       if (visibleCards.length === 0 && noTasks) {
