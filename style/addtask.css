@@ -128,7 +128,7 @@ textarea {
   font-size: 14.7px;
   color: #333;
   margin-bottom: 0 !important;
-  height: 60px !important;
+  height: 30px !important;
 }
 
 .subtask-input::placeholder {
@@ -465,7 +465,7 @@ textarea {
   flex-grow: 1;
 }
 
-.subtask-actions {
+.subtask-actions { 
   display: flex;
   align-items: center;
   gap: 6px;
