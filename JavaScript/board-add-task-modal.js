@@ -39,7 +39,14 @@ function registerModalOpeners() {
         else if (headerText === "to do") status = "To-Do";
       }
 
-      openAddTaskModal(status);
+      // Prüfe Bildschirmbreite
+      if (window.innerWidth < 768) {
+        // Mobile: Weiterleitung zur AddTask-Seite mit Status-Parameter
+        window.location.href = `addTask.html?status=${encodeURIComponent(status)}`;
+      } else {
+        // Desktop: Modal öffnen
+        openAddTaskModal(status);
+      }
     });
   });
 }
