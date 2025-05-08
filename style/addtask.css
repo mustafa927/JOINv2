@@ -148,6 +148,8 @@ textarea {
 /* === BOTTOM BUTTONS === */
 .bottom-buttons {
   margin-top: 20px;
+  display:flex;
+  justify-content: space-between;
 }
 
 .bottom-buttons button {
