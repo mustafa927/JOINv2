@@ -183,12 +183,13 @@ function editSubtask(id) {
   const li = document.getElementById(`subtask-${id}`);
   const title = li.querySelector('.subtask-title').textContent;
   li.innerHTML = `
-    <input type="text" class="edit-subtask-input" value="${title}" />
-    <div class="subtask-actions">
-      <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
-      <span class="divider"></span>
-      <img src="svg/check.svg" class="subtask-icon" onclick="saveSubtask('${id}')">
-    </div>
+  <input type="text" class="edit-subtask-input" value="${title}" />
+<div class="subtask-actions">
+  <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
+  <span class="divider"></span>
+  <span class="subtask-icon" onclick="saveSubtask('${id}')">✔</span>
+</div>
+
   `;
 }
 
