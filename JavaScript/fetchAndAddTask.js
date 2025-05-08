@@ -2,6 +2,11 @@
 
 window.allTasks = []; 
 
+function getTaskStatus() {
+  return window.parent?.currentTaskStatus || "To-Do";
+}
+
+
 // let newTask = {
 //   title: "Kanban UI bauen",
 //   description: "UI für Task-Overlay erstellen",
@@ -198,11 +203,12 @@ function buildNewTask() {
     dueDate: getValue("due-date"),
     priority: getSelectedPriority(),
     category: document.getElementById("category").value,
-    Status: "To-Do",
+    Status: getTaskStatus(), // ← hier ändert sich was
     assignedTo: collectAssignedUserIds(),
     subtasks: collectSubtasks()
   };
 }
+
 
 function getValue(id) {
   return document.getElementById(id).value.trim();

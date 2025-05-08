@@ -1,5 +1,6 @@
 
 
+
 function clearForm() {
   resetInputs();
   hideErrors();
@@ -25,6 +26,7 @@ function hideErrors() {
     if (el) el.classList.add('d-none');
   });
 }
+
 
 
 // async function assignedToInput() {
