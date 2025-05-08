@@ -70,14 +70,12 @@
       <div class="form-section">
         <label for="title">Title<span class="required-note"> *</span></label>
         <input type="text" id="title" placeholder="Enter a title" />
-        <div id="title-error" class="required-note">
-          *This field is required
-        </div>
+    
 
         <label for="desc">Description</label>
         <textarea id="desc" placeholder="Enter a Description"></textarea>
 
-        <label for="due-date">Due date</label>
+        <label for="due-date">Due date<span class="required-note">*</span></label>
         <input type="date" id="due-date" />
       </div>
       <div class="line"></div>
@@ -116,9 +114,7 @@
           <option value="User Story">User Story</option>
         </select>
         
-        <div id="category-error" class="required-note">
-          *This field is required
-        </div>
+      
         
         
 
@@ -138,7 +134,9 @@
       <button type="reset" class="clear-btn">Clear ✗</button>
       <button type="submit" class="create-btn" onclick="createTaskFromForm()">Create Task ✔</button>
     </div>
+    <div id="required-responsive-note"></div>
   </div>
+
   </main>
 
   <script>

@@ -208,6 +208,23 @@ document.addEventListener("DOMContentLoaded", () => {
   setupLogout();
 });
 
+document.getElementById("required-responsive-note");
+
+function handleResponsiveNote() {
+  const note = document.getElementById("required-responsive-note");
+  if (!note) return;
+
+  if (window.innerWidth < 768) {
+    note.textContent = "*This field is required";
+    note.style.display = "block";
+  } else {
+    note.textContent = "";
+    note.style.display = "none";
+  }
+}
+
+window.addEventListener("resize", handleResponsiveNote);
+window.addEventListener("DOMContentLoaded", handleResponsiveNote);
 
 document.addEventListener("click", closeMenuOnOutsideClick);
 
