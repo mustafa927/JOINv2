@@ -68,3 +68,17 @@ profile-wrapper {
 .dropdown-menu-small.show {
     display: block;
 }
+
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: block;
+    }
+    
+    .help-icon {
+        display: none;
+    }
+}

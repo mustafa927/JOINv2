@@ -3,7 +3,6 @@
     align-items: center;
     justify-content: flex-end;
     margin-bottom: 20px;
-    padding-top: 60px;
 }
 
 .back-button a {
@@ -66,13 +65,11 @@
     color: #29ABE2;
 }
 
-/* Profile wrapper positioning */
 .profile-wrapper {
     position: relative;
     display: inline-block;
 }
 
-/* Smaller user initial */
 .user-initial-small {
     width: 32px;
     height: 32px;
