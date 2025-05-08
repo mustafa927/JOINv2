@@ -113,10 +113,19 @@ body {
       z-index: 1000;
       background-color: #2A3647;
     }
+
+    .nav-item img {
+      width: 35px;
+      height: 35px;
+  }
     
     .sidebar-logo{
       display: none;
     }
+
+    .nav-item span {
+      display: none;
+  }
     
     .sidebar-footer {
       display: flex;
@@ -147,13 +156,19 @@ body {
     }
 
     .sidebar-nav{
-      margin: 0;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 0;
+        width: 100%;
+        gap: 0;
     }
 }
 
 @media (max-width: 480px) {
   .sidebar-footer{
     width: 100%;
+    display: none;
   }
   
 }
