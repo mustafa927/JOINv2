@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Array mit allen Feldern und zugehörigen Icons
     const fields = [
         {
             input: document.getElementById('password'),
@@ -13,9 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
 
-    // Die Pfade zu den Icons
-    const lookOn = 'svg/visibility_off.svg';      // Auge offen
-    const lookOff = 'svg/visibility.svg'; // Auge durchgestrichen
+    const lookOn = 'svg/visibility_off.svg';
+    const lookOff = 'svg/visibility.svg';
 
     fields.forEach(field => setupPasswordField(field, lookOn, lookOff));
 });
