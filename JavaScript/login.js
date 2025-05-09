@@ -106,11 +106,19 @@ async function processUserLogin(user) {
     }
     storeUserSession(user, userData);
     updateUserInitials();
+    
+    // Set flag for new login to show greeting
+    sessionStorage.setItem('newLogin', 'true');
+    
     window.location.href = 'summary.html';
 }
 
 function handleGuestLogin() {
     localStorage.setItem('currentUser', JSON.stringify({ isGuest: true, name: 'Guest User' }));
+    
+    // Set flag for new login to show greeting
+    sessionStorage.setItem('newLogin', 'true');
+    
     window.location.href = 'summary.html';
 }
 
