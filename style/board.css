@@ -338,6 +338,18 @@ body.modal-open {
   user-select: none;
 }
 
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+
 .task-card-overlay {
   background-color: #fff;
   border-radius: 16px;
@@ -348,6 +360,10 @@ body.modal-open {
   display: flex;
   flex-direction: column;
   gap: 30px;
+}
+
+.task-card-overlay.animate-in {
+  animation: slideInFromRight 0.3s ease-out;
 }
 
 .task-card-label {

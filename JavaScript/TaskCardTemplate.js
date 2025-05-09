@@ -179,7 +179,14 @@ function getCategoryStyle(category) {
     const overlayContainer = document.getElementById("overlay-container");
     overlayContainer.innerHTML = buildOverlayHTML(task);
     overlayContainer.style.display = "flex";
+  
+    // ✨ Nur hier wird Animation aktiviert
+    const overlay = overlayContainer.querySelector('.task-card-overlay');
+    if (overlay) {
+      overlay.classList.add('animate-in');
+    }
   }
+  
   
   function closeOverlay() {
     const overlay = document.getElementById("overlay-container");
@@ -251,7 +258,20 @@ if ((task.category || "").toLowerCase() === "technical task") {
   }
   
 
-
+  document.addEventListener("click", function (event) {
+    const overlay = document.getElementById("overlay-container");
+    const card = document.querySelector(".task-card-overlay");
+  
+    if (
+      overlay.style.display === "flex" &&
+      overlay.contains(event.target) &&
+      card &&
+      !card.contains(event.target)
+    ) {
+      closeOverlay();
+    }
+  });
+  
 
 
   

@@ -4,7 +4,6 @@ function openAddTaskModal(status = "To-Do") {
     modal.classList.remove('d-none');
     document.body.classList.add('modal-open');
 
-    // Status im globalen Fenster speichern, damit das Modal (iframe) ihn abrufen kann
     window.currentTaskStatus = status;
   }
 }
@@ -25,10 +24,8 @@ function registerModalOpeners() {
     btn.addEventListener('click', e => {
       e.preventDefault();
 
-      // Standard-Status
       let status = "To-Do";
 
-      // Suche nach dem Eltern-Container, der den Status im DOM sichtbar macht
       const section = btn.closest('.progress-section');
       if (section) {
         const headerText = section.querySelector('.to-do-header p')?.textContent.trim().toLowerCase();
@@ -39,12 +36,12 @@ function registerModalOpeners() {
         else if (headerText === "to do") status = "To-Do";
       }
 
-      // Prüfe Bildschirmbreite
+   
       if (window.innerWidth < 768) {
-        // Mobile: Weiterleitung zur AddTask-Seite mit Status-Parameter
+
         window.location.href = `addTask.html?status=${encodeURIComponent(status)}`;
       } else {
-        // Desktop: Modal öffnen
+
         openAddTaskModal(status);
       }
     });
