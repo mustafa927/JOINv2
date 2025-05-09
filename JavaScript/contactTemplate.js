@@ -58,7 +58,7 @@ function contactCardTemplate(contact, initials) {
           <div class="underline"></div>
         </div>
         <div class="add-contact-right">
-          <div class="add-contact-avatar"><img src="./svg/person.svg"></div>
+          <img id="contactImage" src="./svg/person.svg" class="profile-responsive-middle" alt="Contact Icon">
           <div class="add-contact-inputs">
             <div class="input-wrapper">
               <input id="inputName" type="text" placeholder="Name">

@@ -89,7 +89,15 @@ function addContact() {
   clearOverlay();
   openModal("modalBackdrop");
   document.getElementById("addContactForm").innerHTML = contactAddFormTemplate();
+
+  let contactImage = document.getElementById("contactImage");
+  if (window.innerWidth <= 768) {
+    contactImage.src = "./svg/AddContactProfile.svg";
+  } else {
+    contactImage.src = "./svg/person.svg";
+  }
 }
+
 
 function editContact(name) {
   let contact = allContacts.find(c => c.name === name);
