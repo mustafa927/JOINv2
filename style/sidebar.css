@@ -125,13 +125,14 @@ body {
     .nav-item {
       width:70px;
       justify-content: center;
-      padding: 12px 0;
-    
+      padding: 6px 0;
+      flex-direction: column;
+      gap: 0;
         }
     
-    .nav-item span {
-      display: none;
-    }
+    /* .nav-item span {
+      display: none; 
+    } */
     
     .nav-item img {
       
