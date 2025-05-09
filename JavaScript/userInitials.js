@@ -1,7 +1,7 @@
-// Funktion zum Generieren der Initialen
+
 export function getInitialsFromName(fullName) {
     if (!fullName || !fullName.includes(' ')) {
-        return 'G'; // Fallback für Gäste oder unvollständige Namen
+        return 'G'; 
     }
     
     const [firstName, ...lastNameParts] = fullName.split(' ');
@@ -12,7 +12,7 @@ export function getInitialsFromName(fullName) {
     return (firstInitial + lastInitial).toUpperCase();
 }
 
-// Funktion zum Aktualisieren der Initialen im UI
+
 export function updateUserInitials() {
     const storedUser = localStorage.getItem('currentUser');
     
@@ -46,7 +46,7 @@ window.addEventListener('load', () => {
     updateUserInitials();
 });
 
-// Exportiere eine Funktion zum manuellen Aktualisieren
+
 export function initializeUserInitials() {
     updateUserInitials();
 } 

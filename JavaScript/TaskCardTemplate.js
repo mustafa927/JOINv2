@@ -142,11 +142,9 @@ function getCategoryStyle(category) {
         return;
     }
   
-    // ✅ no-tasks verstecken, wenn vorhanden
     const container = document.querySelector(`${columnSelector} .no-tasks`);
     if (container) container.classList.add("d-none");
   
-    // ✅ Card-Bucket prüfen oder erstellen
     const column = document.querySelector(columnSelector);
     let bucket = column.querySelector('.card-bucket');
     if (!bucket) {
@@ -155,7 +153,6 @@ function getCategoryStyle(category) {
       column.appendChild(bucket);
     }
   
-    // ✅ Card in den Bucket einfügen
     bucket.insertAdjacentHTML("beforeend", createTaskCard(task));
   }
   
@@ -173,7 +170,6 @@ function getCategoryStyle(category) {
       console.warn("❌ Task nicht gefunden!");
       return;
     }
-
     showTaskOverlay(task);
   };
   
@@ -484,7 +480,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
       category: document.getElementById("edit-category").value,
       assignedTo: collectAssignedUserIds(),
       subtasks: collectEditedSubtasks(),
-      Status: originalTask.Status // ✅ Bestehenden Status übernehmen (Großschreibung beachten!)
+      Status: originalTask.Status 
     };
   
     try {
@@ -496,7 +492,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
       console.log("✅ Task gespeichert:", updatedTask);
       closeOverlay();
-      location.reload(); // 🔄 Seite neu laden, um Änderungen zu sehen
+      location.reload();
     } catch (error) {
       console.error("❌ Fehler beim Speichern:", error);
     }
@@ -540,8 +536,6 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
   
 
-
-  // Baut Subtasks-HTML
   function buildSubtasks(subtasks, taskId) {
     if (!subtasks || typeof subtasks !== "object") {
       return `<p style="font-style: italic; color: gray;">Keine Subtasks vorhanden</p>`;
@@ -575,7 +569,6 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
       const result = await response.json();
   
-      // Lokalen Task finden
       const task = window.allTasks.find(t => t.id === taskId);
       if (!task) {
         console.warn("Task nicht in window.allTasks gefunden:", taskId);
@@ -587,10 +580,8 @@ if ((task.category || "").toLowerCase() === "technical task") {
         return;
       }
   
-      // Subtask lokal aktualisieren
       task.subtasks[subtaskKey].done = isChecked;
   
-      // Card ersetzen
       const card = document.getElementById(`${taskId}`);
       if (!card) {
         console.warn("⚠️ Card-Element im DOM nicht gefunden:", `${taskId}`);
@@ -610,7 +601,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
 
 
   document.addEventListener("DOMContentLoaded", async () => {
-    await getAllTasksWithPeople();     // 🔥 holt alle Tasks mit Personen
+    await getAllTasksWithPeople();     
 
   });
 
@@ -625,17 +616,14 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
       if (response.ok) {
         console.log(`✅ Task ${taskId} wurde erfolgreich gelöscht.`);
-  
-        // 🧹 Jetzt auch aus window.allTasks entfernen
+
         window.allTasks = window.allTasks.filter(task => task.id !== taskId);
-  
-        // 🧼 Und die Card im Board entfernen
+ 
         const card = document.getElementById(taskId);
         if (card) {
           card.remove();
         }
-  
-        // 🧼 Optional: Overlay schließen, wenn es offen war
+ 
         closeOverlay();
   
       } else {
@@ -665,10 +653,9 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
 function handleTaskSearch() {
   const searchInput = document.getElementById('taskSearchInput').value.trim().toLowerCase();
-  const allCards = document.querySelectorAll('.card'); // holt alle Task-Cards
+  const allCards = document.querySelectorAll('.card'); 
 
   if (searchInput.length < 3) {
-    // Wenn weniger als 3 Buchstaben → alle zeigen
     allCards.forEach(card => {
       card.style.display = "block";
     });
@@ -683,9 +670,9 @@ function handleTaskSearch() {
     const title = titleElement ? titleElement.textContent.toLowerCase() : "";
 
     if (title.includes(searchInput)) {
-      card.style.display = "block"; // Übereinstimmung → zeigen
+      card.style.display = "block"; 
     } else {
-      card.style.display = "none";  // Keine Übereinstimmung → verstecken
+      card.style.display = "none"; 
     }
   });
 

@@ -130,7 +130,7 @@ function toggleAssignedDropdown(event) {
   dropdown.classList.toggle("open", !isOpen);
   options.classList.toggle("d-none", isOpen);
 
-  event.stopPropagation(); // verhindert Bubbling zu body
+  event.stopPropagation(); 
 }
 
 
@@ -227,19 +227,15 @@ function clearForm() {
     box.closest(".assigned-row")?.classList.remove("active");
   });
 
-  // Avatare entfernen
   const avatarContainer = document.getElementById("selected-avatars");
   if (avatarContainer) avatarContainer.innerHTML = "";
 
-  // Subtasks löschen
   window.subtasks = [];
   renderSubtaskList();
 
-  // Suchfeld im Dropdown zurücksetzen
   const assignedSearch = document.getElementById("assigned-search");
   if (assignedSearch) assignedSearch.value = "";
 
-  // Assigned-Dropdown schließen
   const dropdown = document.querySelector(".assigned-dropdown");
   if (dropdown) dropdown.classList.remove("open");
 
@@ -264,13 +260,12 @@ function getStatusFromURL() {
 }
 
 function setInitialTaskStatus(status) {
-  // Wenn du ein verstecktes Feld für den Status hast
+
   const hiddenStatusInput = document.getElementById("task-status");
   if (hiddenStatusInput) {
     hiddenStatusInput.value = status;
   }
 
-  // Oder speichere es global für die spätere Verwendung
   window.initialTaskStatus = status;
 }
 
@@ -283,7 +278,6 @@ function setInitialTaskStatus(status) {
 document.addEventListener("click", closeMenuOnOutsideClick);
 
 
-// Globale Registrierung
 window.clearForm = clearForm;
 
 window.toggleMenu = toggleMenu;
