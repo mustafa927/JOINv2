@@ -1,6 +1,6 @@
 function contactCardTemplate(contact, initials) {
-    const color = getColorForName(contact.name);
-    return `
+  const color = getColorForName(contact.name);
+  return `
       <div class="contact-list" onclick="toggleShowContact('${contact.name}')">
         <div class="avatar" style="background:${color}">${initials}</div>
         <div class="contact-name">
@@ -8,17 +8,16 @@ function contactCardTemplate(contact, initials) {
           <div class="contact-email">${contact.email}</div>
         </div>
       </div>`;
-  }
-  
-  function contactGroupTemplate(letter) {
-    return `<div class="contact-group-letter">${letter}</div>`;
+}
 
-  }
-  
-  function contactDetailTemplate(contact) {
-    const initials = getInitials(contact.name);
-    const bg = getColorForName(contact.name);
-    return `
+function contactGroupTemplate(letter) {
+  return `<div class="contact-group-letter">${letter}</div>`;
+}
+
+function contactDetailTemplate(contact) {
+  const initials = getInitials(contact.name);
+  const bg = getColorForName(contact.name);
+  return `
     <div class="contact-responsive-header">
       <div><h1>Contacts</h1>
       <span class="header-infoline">Better with a team
@@ -45,12 +44,26 @@ function contactCardTemplate(contact, initials) {
           <p><strong>Email</strong></p><a href="mailto:${contact.email}">${contact.email}</a>
           <p><strong>Phone</strong></p><p>${contact.phone}</p>
         </div>
-      </div>`;
-  }
-  
-  function contactAddFormTemplate() {
-    return `
+        
+ 
+
+      </div>
+       <img class="menu-contact-options" id="menu-contact-options" onclick="toggleContactMenu()" src="./svg/MenuContactOptions.svg" alt="Options">
+       <div class="custom-dropdown" id="contactMenu">
+  <button onclick="editContact('${contact.name}')">
+    <img src="./svg/edit.svg" alt="Edit"> Edit
+  </button>
+  <button onclick="deleteContact('John Doe')">
+    <img src="./svg/delete.svg" alt="Delete"> Delete
+  </button>
+</div>
+`;
+}
+
+function contactAddFormTemplate() {
+  return `
       <div class="add-contact-overlay">
+         <div style="position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color:black;" onclick="closeOverlayDirectly()">×</div>
         <div class="add-contact-left">
           <img src="./svg/Capa 1.svg" class="add-contact-logo">
           <h2>Add contact</h2>
@@ -58,6 +71,8 @@ function contactCardTemplate(contact, initials) {
           <div class="underline"></div>
         </div>
         <div class="add-contact-right">
+     
+
           <img id="contactImage" src="./svg/person.svg" class="profile-responsive-middle" alt="Contact Icon">
           <div class="add-contact-inputs">
             <div class="input-wrapper">
@@ -79,13 +94,17 @@ function contactCardTemplate(contact, initials) {
             <button class="create-btn" onclick="saveContact()">Create contact <span>&check;</span></button>
           </div>
         </div>
-      </div>`;
-  }
-  
-  function contactEditFormTemplate(contact) {
-    return `
+      </div>
+      
+`;
+}
+
+function contactEditFormTemplate(contact) {
+  return `
       <div class="add-contact-overlay" style="position: relative;">
-        <div style="position:absolute; top:20px; right:20px; cursor:pointer; font-size:24px;" onclick="closeOverlayDirectly()">&times;</div>
+        <div style="position:absolute; top:20px; right:20px; cursor:pointer; font-size:24px;" onclick="closeOverlayDirectly() ; showContact('${
+          contact.name
+        }') ">&times;</div>
         <div class="add-contact-left">
           <img src="./svg/Capa 1.svg" class="add-contact-logo"><h2>Edit contact</h2>
           <div class="underline"></div>
@@ -94,24 +113,33 @@ function contactCardTemplate(contact, initials) {
           <div class="add-contact-avatar"><img src="./svg/person.svg"></div>
           <div class="add-contact-inputs">
             <div class="input-wrapper">
-              <input id="inputName" type="text" placeholder="Name" value="${contact.name}">
+              <input id="inputName" type="text" placeholder="Name" value="${
+                contact.name
+              }">
               <img src="./svg/person.svg" class="input-icon">
             </div>
             <div id="contactError" class="contact-error"></div>
             <div class="input-wrapper">
-              <input id="inputEmail" type="email" placeholder="Email" value="${contact.email}">
+              <input id="inputEmail" type="email" placeholder="Email" value="${
+                contact.email
+              }">
               <img src="./svg/mail.svg" class="input-icon">
             </div>
             <div class="input-wrapper">
-              <input id="inputPhone" type="tel" placeholder="Phone" value="${contact.phone || ""}">
+              <input id="inputPhone" type="tel" placeholder="Phone" value="${
+                contact.phone || ""
+              }">
               <img src="./svg/call.svg" class="input-icon">
             </div>
           </div>
           <div class="add-contact-buttons">
-            <button class="cancel-btn" onclick="deleteContact('${contact.name}');">Delete <span>&times;</span></button>
-            <button class="create-btn" onclick="updateContact('${contact.id || contact.name}')">Save <span>&check;</span></button>
+            <button class="cancel-btn" onclick="deleteContact('${
+              contact.name
+            }');">Delete <span>&times;</span></button>
+            <button class="create-btn" onclick="updateContact('${
+              contact.id || contact.name
+            }')">Save <span>&check;</span></button>
           </div>
         </div>
       </div>`;
-  }
-  
+}

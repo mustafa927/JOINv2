@@ -177,6 +177,7 @@ async function deleteContact(name) {
     method: "DELETE"
   });
 
+ 
   closeContactOverlay();
   fetchData();
   closeOverlay();
@@ -223,4 +224,9 @@ function toggleShowContactMobile(name) {
 
   // Modal öffnen
   openModal("modalBackdrop");
+}
+
+function toggleContactMenu() {
+  const menu = document.getElementById("contactMenu");
+  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
 }
