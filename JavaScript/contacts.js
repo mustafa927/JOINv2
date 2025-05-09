@@ -56,6 +56,11 @@ function toggleShowContact(name) {
   let allContactElements = document.querySelectorAll('.contact-list');
   allContactElements.forEach(el => el.classList.remove('active'));
 
+  if (window.innerWidth < 768) {
+    toggleShowContactMobile(name);
+    return;
+  }
+
   if (currentlyOpenContact === name) {
     closeContactOverlay();
   } else {
@@ -199,4 +204,15 @@ function showSuccessMessage() {
   let toast = document.getElementById("successMessage");
   toast.style.display = "block";
   setTimeout(() => (toast.style.display = "none"), 3000);
+}
+
+function toggleShowContactMobile(name) {
+  let contact = allContacts.find(c => c.name === name);
+  if (!contact) return;
+
+  // Inhalt ins Modal setzen
+  document.getElementById("addContactForm").innerHTML = contactDetailTemplate(contact);
+
+  // Modal öffnen
+  openModal("modalBackdrop");
 }

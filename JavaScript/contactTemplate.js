@@ -19,10 +19,15 @@ function contactCardTemplate(contact, initials) {
     const initials = getInitials(contact.name);
     const bg = getColorForName(contact.name);
     return `
-      <div class="contact-info-box slide-in" style="display:flex;flex-direction:column;gap:20px;max-width:400px;">
+    <div class="contact-responsive-header">
+      <div><h1>Contacts</h1>
+      <span class="header-infoline">Better with a team
+      </div>
+      <div class="arrow-back" onclick="closeOverlayDirectly()"> &#8592;</div>
+      </div>
+      <div class="contact-info-box slide-in" >
         <div style="display:flex;align-items:center;gap:20px;">
-          <div style="width:60px;height:60px;border-radius:50%;background:${bg};color:white;
-          display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;">
+          <div class="edit-contact-avatar" style="background:${bg};">
           ${initials}</div>
           <div><h2 style="margin:0;">${contact.name}</h2>
           <div style="display:flex;margin-top:5px;">
