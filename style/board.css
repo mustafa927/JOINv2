@@ -591,6 +591,7 @@ h1 {
 
   .board-cards {
     height: auto;
+    width: 100%;
   }
 
   /* 🆕 Optional: Card Snap-Style fürs bessere Scroll-Erlebnis */
@@ -611,6 +612,7 @@ h1 {
   .card-bucket {
     display: flex;
     overflow-x: auto;
+    min-height: 200px;
     width: 95vw;
     gap: 12px;
     padding-bottom: 8px;
@@ -621,6 +623,7 @@ h1 {
 
   .board-cards {
     height: auto;
+
   }
 
   .card-bucket::-webkit-scrollbar {
@@ -643,4 +646,28 @@ h1 {
     margin: 12px;
 
   }
+
+
+
+  .progress-section {
+    width: auto;
+  }
+}
+
+
+@media (max-height:862px) {
+
+  .task-card-overlay {
+    gap: 10px;
+
+  }
+}
+
+@media (max-height:700px) {
+
+  .task-card-overlay {
+    gap: 5px;
+
+  }
+
 }
