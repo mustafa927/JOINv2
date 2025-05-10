@@ -26,14 +26,14 @@ function contactDetailTemplate(contact) {
       </div>
       <div class="contact-info-box slide-in" >
         <div style="display:flex;align-items:center;gap:20px;">
-          <div class="edit-contact-avatar" style="background:${bg};">
+          <div class="show-contact-avatar" style="background:${bg};">
           ${initials}</div>
           <div><h2 style="margin:0;">${contact.name}</h2>
           <div style="display:flex;margin-top:5px;">
-          <button onclick="editContact('${contact.name}')" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:10px;">
+          <button onclick="editContact('${contact.name}')" class="contact-detail-buttons">
             <img style="height:15px;width:15px;" src="./svg/edit-black.svg" alt="Edit">Edit
           </button>
-          <button onclick="deleteContact('${contact.name}')" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:10px;">
+          <button onclick="deleteContact('${contact.name}')" class="contact-detail-buttons">
             <img style="height:15px;width:15px;" src="./svg/delete.svg" alt="Delete">Delete
           </button>
           </div>
@@ -51,9 +51,9 @@ function contactDetailTemplate(contact) {
        <img class="menu-contact-options" id="menu-contact-options" onclick="toggleContactMenu()" src="./svg/MenuContactOptions.svg" alt="Options">
        <div class="custom-dropdown" id="contactMenu">
   <button onclick="editContact('${contact.name}')">
-    <img src="./svg/edit.svg" alt="Edit"> Edit
+    <img src="./svg/edit-black.svg" alt="Edit"> Edit
   </button>
-  <button onclick="deleteContact('John Doe')">
+  <button onclick="deleteContact('${contact.name}')">
     <img src="./svg/delete.svg" alt="Delete"> Delete
   </button>
 </div>
@@ -63,7 +63,7 @@ function contactDetailTemplate(contact) {
 function contactAddFormTemplate() {
   return `
       <div class="add-contact-overlay">
-         <div style="position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color:black;" onclick="closeOverlayDirectly()">×</div>
+         <div class="close-btn" onclick="closeOverlayDirectly()">×</div>
         <div class="add-contact-left">
           <img src="./svg/Capa 1.svg" class="add-contact-logo">
           <h2>Add contact</h2>
@@ -71,9 +71,9 @@ function contactAddFormTemplate() {
           <div class="underline"></div>
         </div>
         <div class="add-contact-right">
-     
-
-          <img id="contactImage" src="./svg/person.svg" class="profile-responsive-middle" alt="Contact Icon">
+          <div>
+          <div style="margin-top:70px; display:flex; align-items:center;">
+          <img id="contactImage" src="./svg/addContactPic.svg" class="profile-responsive-middle" alt="Contact Icon">
           <div class="add-contact-inputs">
             <div class="input-wrapper">
               <input id="inputName" type="text" placeholder="Name">
@@ -88,58 +88,58 @@ function contactAddFormTemplate() {
               <img src="./svg/call.svg" class="input-icon">
             </div>
           </div>
+          </div>
+          </div>
           <div id="contactError" class="contact-error"></div>
           <div class="add-contact-buttons">
             <button class="cancel-btn" onclick="closeOverlay()">Cancel <span>&times;</span></button>
-            <button class="create-btn" onclick="saveContact()">Create contact <span>&check;</span></button>
+            <button class="create-btn" onclick="saveContact();">Create contact <span>&check;</span></button>
           </div>
         </div>
       </div>
       
 `;
 }
-
 function contactEditFormTemplate(contact) {
+  const initials = getInitials(contact.name);
+  const color = getColorForName(contact.name);
+
   return `
-      <div class="add-contact-overlay" style="position: relative;">
-        <div style="position:absolute; top:20px; right:20px; cursor:pointer; font-size:24px;" onclick="closeOverlayDirectly() ; showContact('${
-          contact.name
-        }') ">&times;</div>
-        <div class="add-contact-left">
-          <img src="./svg/Capa 1.svg" class="add-contact-logo"><h2>Edit contact</h2>
-          <div class="underline"></div>
+    <div class="add-contact-overlay">
+      <div class="close-btn" onclick="closeOverlayDirectly(); showContact('${contact.name}')">&times;</div>
+      <div class="add-contact-left">
+        <img src="./svg/Capa 1.svg" class="add-contact-logo">
+        <h2>Edit contact</h2>
+        <div class="underline"></div>
+      </div>
+      <div class="add-contact-right">
+        <div>
+          <div style="margin-top:70px; display:flex; align-items:center;">
+        <div class="edit-contact-avatar" style="background: ${color};">
+          ${initials}
         </div>
-        <div class="add-contact-right">
-          <div class="add-contact-avatar"><img src="./svg/person.svg"></div>
-          <div class="add-contact-inputs">
-            <div class="input-wrapper">
-              <input id="inputName" type="text" placeholder="Name" value="${
-                contact.name
-              }">
-              <img src="./svg/person.svg" class="input-icon">
-            </div>
-            <div id="contactError" class="contact-error"></div>
-            <div class="input-wrapper">
-              <input id="inputEmail" type="email" placeholder="Email" value="${
-                contact.email
-              }">
-              <img src="./svg/mail.svg" class="input-icon">
-            </div>
-            <div class="input-wrapper">
-              <input id="inputPhone" type="tel" placeholder="Phone" value="${
-                contact.phone || ""
-              }">
-              <img src="./svg/call.svg" class="input-icon">
-            </div>
+        <div class="add-contact-inputs">
+          <div class="input-wrapper">
+            <input id="inputName" type="text" placeholder="Name" value="${contact.name}">
+            <img src="./svg/person.svg" class="input-icon">
           </div>
-          <div class="add-contact-buttons">
-            <button class="cancel-btn" onclick="deleteContact('${
-              contact.name
-            }');">Delete <span>&times;</span></button>
-            <button class="create-btn" onclick="updateContact('${
-              contact.id || contact.name
-            }')">Save <span>&check;</span></button>
+          <div id="contactError" class="contact-error"></div>
+          <div class="input-wrapper">
+            <input id="inputEmail" type="email" placeholder="Email" value="${contact.email}">
+            <img src="./svg/mail.svg" class="input-icon">
+          </div>
+          <div class="input-wrapper">
+            <input id="inputPhone" type="tel" placeholder="Phone" value="${contact.phone}">
+            <img src="./svg/call.svg" class="input-icon">
           </div>
         </div>
-      </div>`;
+        </div>
+        </div>
+        <div class="add-contact-buttons">
+          <button class="cancel-btn" onclick="deleteContact('${contact.name}')">Delete <span>&times;</span></button>
+          <button class="create-btn" onclick="updateContact('${contact.id || contact.name}')">Save <span>&check;</span></button>
+        </div>
+      </div>
+    </div>`;
 }
+

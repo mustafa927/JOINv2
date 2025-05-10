@@ -188,6 +188,7 @@ body {
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #ccc;
+  position:fixed;
 }
 
 .add-contact-inputs {
@@ -295,7 +296,7 @@ body.modal-open {
 
 .contact-created {
   position: fixed;
-  bottom: 20px;
+  bottom: 100px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #2a3647;
@@ -351,7 +352,7 @@ body.modal-open {
 
 .edit-contact-avatar {
   width: 100px;
-  height: 100px;
+  height: 80px;
   border-radius: 50%;
   color: white;
   display: flex;
@@ -359,8 +360,22 @@ body.modal-open {
   justify-content: center;
   font-size: 20px;
   font-weight: bold;
+  margin-right: 20px;
 }
 
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: black;
+  z-index: 10;
+}
+.profile-responsive-middle {
+  height:80px;
+  padding:20px;
+}
 .contact-info-box {
   display: flex;
   flex-direction: column;
@@ -371,215 +386,48 @@ body.modal-open {
 .menu-contact-options {
   display:none;
 }
-@media (max-width: 768px) {
-  .main {
-    display: none;
-  }
-  .add-contact-overlay {
-    display:block;
-    top:85px;
-    width:93%;
-    position:fixed;
-    height:calc(100% - 160px);
-  }
 
-  .add-contact-left {
-    width:100%;
-    height:50%;
-  }
-  .add-contact-logo {
-    display:none;
-  }
-  .add-contact-inputs {
-    margin-top:40px;
-  }
-  .cancel-btn {
-    display:none;
-  }
-
-  .profile-responsive-middle {
-    position:fixed;
-    top:52%;
-  }
-  .modal-backdrop {
-    top: 87px;
-    bottom: 70px;
-    height: calc(100vh - 160px);
-    background-color: #f6f7f8;
-}
-  
-  .contact-responsive-header {
-    display: block;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 64px;
-    width:90%;
-  }
-
-  .contact-responsive-header h1 {
-    font-size: 64px;
-    margin-block-end: 0.2em;
-  }
-
-  .header-infoline {
-    border-bottom: 4px solid #29abe2;
-    padding-bottom: 10px;
-    font-size: 32px;
-  }
-  .editContact {
-    left: 0;
-    top: 100px;
-    height: calc(100% - 170px);
-    width: 100%;
-    background-color: #f6f7f8;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-
-  .editContact h2 {
-    font-size: 48px;
-  }
-
-  .arrow-back {
-    color:#29abe2;
-    font-size:50px;
-    cursor:pointer;
-  }
-  .new-contact .button-icon {
-    width: 30px;
-    height: 30px;
-    margin: 0;
-  }
-  .left-side {
-    width: 100%;
-    margin-left: 0;
-  }
-
-  .contact-panel {
-    width: 100%;
-  }
-
-  .menu-contact-options {
-    display:block;
-    position: absolute;
-    bottom:20px;
-    right:20px;
-    height:80px;
-    width:80px;
-
-  }
-  .custom-dropdown {
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background: #fff;
-    border-radius: 12px 12px 0 12px; /* eckig unten rechts */
-    box-shadow:
-      0px 2px 4px rgba(0, 0, 0, 0.08),
-      0px 4px 8px rgba(0, 0, 0, 0.12);
-    padding: 10px 0;
-    display: none;
-    flex-direction: column;
-    width: 140px;
-    z-index: 1000;
-  }
-  
-  .custom-dropdown button {
-    background: none;
-    border: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    width: 100%;
-    font-size: 14px;
-    color: #2a3647;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-  
-  .custom-dropdown button:hover {
-    background-color: #f5f5f5;
-  }
-  
-  .custom-dropdown img {
-    width: 18px;
-    height: 18px;
-    object-fit: contain;
-  }
-  
-  .new-contact {
-    position: absolute;
-    bottom: 100px;
-    right: 20px;
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    padding: 0;
-    justify-content: center;
-  }
-
-  .new-contact .button-label {
-    display: none;
-  }
-
-  .new-contact .button-icon {
-    width: 40px;
-    height: 40px;
-    margin: 0;
-  }
-
-  .container {
-    padding-bottom: 80px;
-  }
-
-  .contact-list {
-    justify-content: center;
-  }
-
-  .contact-name {
-    width: 240px;
-    text-align: left;
-    font-size: 32px;
-    margin-top: 16px;
-    font-weight: 200;
-  }
-
-  .contact-group-letter {
-    margin-left: 30px;
-    padding: 6%;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.179);
-    font-size: 32px;
-  }
-
-  .avatar {
-    width: 56px;
-    height: 56px;
-    margin-right: 40px;
-  }
-
-  .contact-email {
-    font-size: 24px;
-    margin-top: 7px;
-  }
+.contact-detail-buttons {
+  background:none;
+  border:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
-@media (max-width: 500px) {
-  .contact-name {
-    font-size: 18px;
-    width: 140px;
-  }
+.custom-dropdown {
+  display:none;
+}
 
-  .contact-email {
-    font-size: 16px;
-  }
+.show-contact-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 20px;
+}
 
-  .avatar {
-    margin-right: 0;
-  }
-  .new-contact .button-icon {
-    width: 25px;
-    height: 25px;
-    margin: 0;
-  }
+.contact-created-image {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: white;
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s ease;
+}
+
+.contact-created-image img {
+  height: 40px;
+  width: auto;
+  display: block;
 }

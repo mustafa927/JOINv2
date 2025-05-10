@@ -98,7 +98,6 @@ function addContact() {
   }
 }
 
-
 function editContact(name) {
   let contact = allContacts.find(c => c.name === name);
   clearOverlay();
@@ -177,7 +176,6 @@ async function deleteContact(name) {
     method: "DELETE"
   });
 
- 
   closeContactOverlay();
   fetchData();
   closeOverlay();
@@ -219,14 +217,49 @@ function toggleShowContactMobile(name) {
   let contact = allContacts.find(c => c.name === name);
   if (!contact) return;
 
-  // Inhalt ins Modal setzen
-  document.getElementById("addContactForm").innerHTML = contactDetailTemplate(contact);
+  currentlyOpenContact = name; // <- HINZUGEFÜGT!
 
-  // Modal öffnen
+  document.getElementById("addContactForm").innerHTML = contactDetailTemplate(contact);
   openModal("modalBackdrop");
 }
 
 function toggleContactMenu() {
   const menu = document.getElementById("contactMenu");
-  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+
+  if (menu.style.display === "flex") {
+    // Zurücksetzen
+    menu.style.display = "none";
+    menu.style.animation = "";
+  } else {
+    menu.style.display = "flex";
+    menu.style.animation = "slideInFromRight 0.6s ease-out forwards";
+  }
+}
+
+
+window.addEventListener("resize", function () {
+  let backdrop = document.getElementById("modalBackdrop");
+  let addContactForm = document.getElementById("addContactForm");
+
+  let isMobileContactOpen =
+    backdrop &&
+    backdrop.style.display !== "none" &&
+    addContactForm.innerHTML.includes("contact-info-box");
+
+  if (isMobileContactOpen && window.innerWidth > 768) {
+    closeOverlayDirectly();
+    if (currentlyOpenContact) {
+      showContact(currentlyOpenContact);
+    }
+  }
+});
+
+
+function showSuccessImage() {
+  let imageBox = document.getElementById("contactCreatedImage");
+  imageBox.classList.remove("d_none");
+
+  setTimeout(() => {
+    imageBox.classList.add("d_none");
+  }, 3000);
 }
