@@ -1,57 +1,40 @@
 const TASKS_URL = "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json";
 
-
-
 async function handleCreateTask() {
   if (!validateForm()) return;
-
-  const task = collectFormData();
+  let task = collectFormData();
   await saveTaskToFirebase(task);
-
   clearForm();
   showSuccessMessage();
-
   setTimeout(() => {
     window.location.href = 'boardsection.html';
   }, 1500);
 }
 
-
 function validateForm() {
-  const title = document.getElementById('title').value.trim();
-  const category = document.getElementById('category').value;
-
   let valid = true;
-
+  let title = document.getElementById('title').value.trim();
+  let category = document.getElementById('category').value;
   if (!title) {
     showError('title-error');
     valid = false;
-  } else {
-    hideError('title-error');
-  }
-
+  } else hideError('title-error');
   if (!category) {
     showError('category-error');
     valid = false;
-  } else {
-    hideError('category-error');
-  }
-
+  } else hideError('category-error');
   return valid;
 }
 
-
 function showError(id) {
-  const el = document.getElementById(id);
+  let el = document.getElementById(id);
   if (el) el.style.display = 'block';
 }
 
-
 function hideError(id) {
-  const el = document.getElementById(id);
+  let el = document.getElementById(id);
   if (el) el.style.display = 'none';
 }
-
 
 function collectFormData() {
   return {
@@ -63,31 +46,24 @@ function collectFormData() {
   };
 }
 
-
 async function saveTaskToFirebase(task) {
   try {
-    const response = await fetch(TASKS_URL, {
+    let response = await fetch(TASKS_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(task),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(task)
     });
-
-    const result = await response.json();
-    console.log('Task gespeichert mit ID:', result.name);
+    let result = await response.json();
   } catch (error) {
     console.error('Fehler beim Speichern:', error);
   }
 }
-
 
 function clearForm() {
   resetFieldValues();
   resetPriorityButtons();
   clearSubtaskInput();
 }
-
 
 function resetFieldValues() {
   document.getElementById('title').value = '';
@@ -96,33 +72,27 @@ function resetFieldValues() {
   document.getElementById('category').selectedIndex = 0;
 }
 
-
 function resetPriorityButtons() {
   document.querySelectorAll('.priority-btn').forEach(btn => {
     btn.classList.remove('active-urgent', 'active-medium', 'active-low');
   });
 }
 
-
 function clearSubtaskInput() {
-  const input = document.querySelector('.subtask-input');
+  let input = document.querySelector('.subtask-input');
   if (input) input.value = '';
 }
 
-
 function showSuccessMessage() {
-  const message = document.getElementById('task-success-message');
+  let message = document.getElementById('task-success-message');
   if (!message) return;
-
   message.classList.remove('d-none');
   message.classList.add('show');
-
   setTimeout(() => {
     message.classList.remove('show');
     message.classList.add('d-none');
   }, 1200);
 }
-
 
 async function updateTaskStatus(taskId, newStatus) {
   try {
@@ -131,8 +101,6 @@ async function updateTaskStatus(taskId, newStatus) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: newStatus })
     });
-
-    console.log(`Task ${taskId} Status geändert zu: ${newStatus}`);
   } catch (error) {
     console.error('Fehler beim Status-Update:', error);
   }

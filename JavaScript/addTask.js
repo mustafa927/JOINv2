@@ -2,25 +2,86 @@ import { auth } from "./firebase.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 let allUsers = [];
-
-const priorityButtons = document.querySelectorAll(".priority-btn");
+let priorityButtons = document.querySelectorAll(".priority-btn");
 let activeButton = null;
+let subtasks = [];
 
+function addSubtask() {
+  const input = document.querySelector('.subtask-input');
+  const title = input.value.trim();
+  if (!title) return;
+
+  const subtaskId = `sub${subtasks.length + 1}`;
+  subtasks.push({ id: subtaskId, title, done: false });
+
+  renderSubtaskList(subtaskId, title);
+  input.value = ""; // 🧼 Feld leeren
+}
+
+function renderSubtaskList(id, title) {
+  const li = document.createElement('li');
+  li.className = 'subtask-item';
+  li.id = `subtask-${id}`;
+  li.innerHTML = `
+    <span class="subtask-title">${title}</span>
+    <div class="subtask-actions">
+      <img src="svg/edit-black.svg" class="subtask-icon" onclick="editSubtask('${id}')">
+      <span class="divider"></span>
+      <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
+    </div>
+  `;
+  document.getElementById('subtask-list').appendChild(li);
+}
+
+function editSubtask(id) {
+  const li = document.getElementById(`subtask-${id}`);
+  const title = li.querySelector('.subtask-title').textContent;
+  li.innerHTML = `
+  <input type="text" class="edit-subtask-input" value="${title}" />
+<div class="subtask-actions">
+  <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
+  <span class="divider"></span>
+  <span class="subtask-icon" onclick="saveSubtask('${id}')">✔</span>
+</div>
+
+  `;
+}
+
+function saveSubtask(id) {
+  const li = document.getElementById(`subtask-${id}`);
+  const newTitle = li.querySelector('.edit-subtask-input').value.trim();
+  if (!newTitle) return;
+
+  li.innerHTML = `
+    <span class="subtask-title">${newTitle}</span>
+    <div class="subtask-actions">
+      <img src="svg/edit-black.svg" class="subtask-icon" onclick="editSubtask('${id}')">
+      <span class="divider"></span>
+      <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
+    </div>
+  `;
+}
+
+function deleteSubtask(id) {
+  const li = document.getElementById(`subtask-${id}`);
+  li.remove();
+}
+
+
+function toggleSubtaskDone(id) {
+  const sub = subtasks.find(s => s.id === id);
+  if (sub) sub.done = !sub.done;
+}
 
 function handlePriorityClick(button) {
-  const isActive = button.classList.contains("active-urgent") ||
-                   button.classList.contains("active-medium") ||
-                   button.classList.contains("active-low");
-
+  let isActive = button.classList.contains("active-urgent") ||
+                 button.classList.contains("active-medium") ||
+                 button.classList.contains("active-low");
   priorityButtons.forEach(btn => {
     btn.classList.remove("active-urgent", "active-medium", "active-low");
   });
-
-  if (!isActive) {
-    button.classList.add(getActiveClass(button));
-  }
+  if (!isActive) button.classList.add(getActiveClass(button));
 }
-
 
 function getActiveClass(button) {
   if (button.classList.contains("urgent")) return "active-urgent";
@@ -29,28 +90,20 @@ function getActiveClass(button) {
   return "";
 }
 
-
 function setupPriorityButtons() {
-  priorityButtons.forEach(button => {
-    button.addEventListener("click", () => handlePriorityClick(button));
-  });
+  priorityButtons.forEach(btn => btn.addEventListener("click", () => handlePriorityClick(btn)));
 }
 
-
 function toggleMenu() {
-  const menu = document.getElementById("dropdownMenu");
+  let menu = document.getElementById("dropdownMenu");
   if (menu) menu.classList.toggle("show");
 }
 
-
 function closeMenuOnOutsideClick(e) {
-  const profile = document.querySelector(".profile-wrapper");
-  const menu = document.getElementById("dropdownMenu");
-  if (profile && menu && !profile.contains(e.target)) {
-    menu.classList.remove("show");
-  }
+  let profile = document.querySelector(".profile-wrapper");
+  let menu = document.getElementById("dropdownMenu");
+  if (profile && menu && !profile.contains(e.target)) menu.classList.remove("show");
 }
-
 
 async function handleLogout() {
   try {
@@ -62,56 +115,132 @@ async function handleLogout() {
   }
 }
 
-
 function setupLogout() {
-  const logoutBtn = document.querySelector('#dropdownMenu a[href="index.html"]');
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", e => {
-      e.preventDefault();
-      handleLogout();
-    });
-  }
+  let logoutBtn = document.querySelector('#dropdownMenu a[href="index.html"]');
+  if (logoutBtn) logoutBtn.addEventListener("click", e => {
+    e.preventDefault();
+    handleLogout();
+  });
 }
 
-
 async function assignedToInput() {
-  const response = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
-  const data = await response.json();
+  let res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
+  let data = await res.json();
   allUsers = Object.entries(data).map(([id, user]) => ({ id, ...user }));
-
   renderUserList();
 }
 
-
 function renderUserList(filter = "") {
-  const container = document.getElementById("assigned-list");
+  let container = document.getElementById("assigned-list");
   container.innerHTML = "";
-
-  const currentUser = getCurrentUser();
-  const currentName = currentUser?.name;
-  const isGuest = !currentName || currentName === "Guest User";
-  const lowerFilter = filter.toLowerCase();
-
-  if (!isGuest && currentName?.toLowerCase().includes(lowerFilter)) {
-    container.innerHTML += createUserRow(currentName, true);
-  }
-
-  allUsers
-    .filter(user => user.name && (!currentName || user.name !== currentName))
-    .filter(user => user.name.toLowerCase().includes(lowerFilter))
-    .forEach(user => {
-      container.innerHTML += createUserRow(user.name);
-    });
+  let current = getCurrentUser();
+  let currentName = current?.name;
+  let isGuest = !currentName || currentName === "Guest User";
+  let lower = filter.toLowerCase();
+  if (!isGuest && currentName?.toLowerCase().includes(lower)) container.innerHTML += userRowTemplate(currentName, true);
+  allUsers.filter(u => u.name && (!currentName || u.name !== currentName) && u.name.toLowerCase().includes(lower)).forEach(u => {
+    container.innerHTML += userRowTemplate(u.name);
+  });
 }
 
+function toggleAssignedDropdown(e) {
+  let dropdown = document.querySelector(".assigned-dropdown");
+  let options = document.getElementById("assigned-list");
+  let isOpen = dropdown.classList.contains("open");
+  dropdown.classList.toggle("open", !isOpen);
+  options.classList.toggle("d-none", isOpen);
+  e.stopPropagation();
+}
 
-function createUserRow(name, isCurrent = false) {
-  const user = allUsers.find(u => u.name === name); // ID finden
-  const userId = user?.id || "";
-  const initials = getInitials(name);
-  const color = getColorFromName(name);
-  const youLabel = isCurrent ? " (You)" : "";
+function toggleCheckbox(e) {
+  if (e.target.tagName !== "INPUT") {
+    let checkbox = e.currentTarget.querySelector('input[type="checkbox"]');
+    if (checkbox) checkbox.checked = !checkbox.checked;
+  }
+  e.currentTarget.classList.toggle("active");
+  updateSelectedAvatars();
+}
 
+function updateSelectedAvatars() {
+  let container = document.getElementById("selected-avatars");
+  container.innerHTML = "";
+  document.querySelectorAll(".assigned-checkbox:checked").forEach(box => {
+    container.innerHTML += avatarTemplate(box.dataset.name);
+  });
+}
+
+function openAssignedDropdown(e) {
+  let dropdown = document.querySelector(".assigned-dropdown");
+  let options = document.getElementById("assigned-list");
+  dropdown.classList.add("open");
+  options.classList.remove("d-none");
+  e.stopPropagation();
+}
+
+function filterAssignedList() {
+  let value = document.getElementById("assigned-search").value;
+  renderUserList(value);
+}
+
+function getInitials(name) {
+  if (!name) return "";
+  let parts = name.trim().split(" ");
+  return (parts[0][0] + (parts[1]?.[0] || "")).toUpperCase();
+}
+
+function getColorFromName(name) {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  let colors = ["#FF7A00", "#9327FF", "#6E52FF", "#FC71FF", "#00BEE8", "#1FD7C1", "#0038FF"];
+  return colors[Math.abs(hash) % colors.length];
+}
+
+function getCurrentUser() {
+  let stored = localStorage.getItem("currentUser");
+  return stored ? JSON.parse(stored) : null;
+}
+
+function clearForm() {
+  ["title", "desc", "due-date", "category"].forEach(id => document.getElementById(id).value = "");
+  ["title-error", "date-error", "category-error"].forEach(id => document.getElementById(id)?.classList.add("d-none"));
+  document.querySelectorAll(".priority-btn").forEach(btn => btn.classList.remove("active-urgent", "active-medium", "active-low"));
+  document.querySelectorAll(".assigned-checkbox").forEach(box => {
+    box.checked = false;
+    box.closest(".assigned-row")?.classList.remove("active");
+  });
+  document.getElementById("selected-avatars").innerHTML = "";
+  window.subtasks = [];
+  renderSubtaskList();
+  document.getElementById("assigned-search").value = "";
+  document.querySelector(".assigned-dropdown")?.classList.remove("open");
+  document.getElementById("assigned-list")?.classList.add("d-none");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  setupPriorityButtons();
+  setupLogout();
+  let status = new URLSearchParams(window.location.search).get("status") || "To-Do";
+  let statusInput = document.getElementById("task-status");
+  if (statusInput) statusInput.value = status;
+  window.initialTaskStatus = status;
+});
+
+document.addEventListener("click", closeMenuOnOutsideClick);
+
+window.clearForm = clearForm;
+window.toggleMenu = toggleMenu;
+window.toggleAssignedDropdown = toggleAssignedDropdown;
+window.assignedToInput = assignedToInput;
+window.toggleCheckbox = toggleCheckbox;
+window.openAssignedDropdown = openAssignedDropdown;
+window.filterAssignedList = filterAssignedList;
+
+function userRowTemplate(name, isCurrent = false) {
+  let user = allUsers.find(u => u.name === name);
+  let userId = user?.id || "";
+  let initials = getInitials(name);
+  let color = getColorFromName(name);
+  let youLabel = isCurrent ? " (You)" : "";
   return `
     <div class="assigned-row" onclick="toggleCheckbox(event)">
       <div class="avatar" style="background-color: ${color}">${initials}</div>
@@ -121,168 +250,8 @@ function createUserRow(name, isCurrent = false) {
   `;
 }
 
-
-function toggleAssignedDropdown(event) {
-  const dropdown = document.querySelector(".assigned-dropdown");
-  const options = document.getElementById("assigned-list");
-
-  const isOpen = dropdown.classList.contains("open");
-  dropdown.classList.toggle("open", !isOpen);
-  options.classList.toggle("d-none", isOpen);
-
-  event.stopPropagation(); 
-}
-
-
-function toggleCheckbox(event) {
-  if (event.target.tagName !== "INPUT") {
-    const checkbox = event.currentTarget.querySelector('input[type="checkbox"]');
-    if (checkbox) checkbox.checked = !checkbox.checked;
-  }
-
-  event.currentTarget.classList.toggle("active");
-  updateSelectedAvatars();
-}
-
-
-function updateSelectedAvatars() {
-  const container = document.getElementById("selected-avatars");
-  container.innerHTML = "";
-
-  document.querySelectorAll(".assigned-checkbox:checked").forEach(box => {
-    const name = box.dataset.name;
-    container.innerHTML += createSelectedAvatar(name);
-  });
-}
-
-
-function createSelectedAvatar(name) {
-  const initials = getInitials(name);
-  const color = getColorFromName(name);
+function avatarTemplate(name) {
+  let initials = getInitials(name);
+  let color = getColorFromName(name);
   return `<div class="selected-avatar" style="background-color: ${color}">${initials}</div>`;
 }
-
-
-function openAssignedDropdown(event) {
-  const dropdown = document.querySelector(".assigned-dropdown");
-  const options = document.getElementById("assigned-list");
-
-  dropdown.classList.add("open");
-  options.classList.remove("d-none");
-
-  event.stopPropagation(); // verhindert Bubbling zu body
-}
-
-function filterAssignedList() {
-  const value = document.getElementById("assigned-search").value;
-  renderUserList(value);
-}
-
-
-function getInitials(name) {
-  if (!name) return "";
-  const parts = name.trim().split(" ");
-  const initials = parts[0][0] + (parts[1]?.[0] || "");
-  return initials.toUpperCase();
-}
-
-
-function getColorFromName(name) {
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const colors = ["#FF7A00", "#9327FF", "#6E52FF", "#FC71FF", "#00BEE8", "#1FD7C1", "#0038FF"];
-  return colors[Math.abs(hash) % colors.length];
-}
-
-
-function getCurrentUser() {
-  const stored = localStorage.getItem("currentUser");
-  return stored ? JSON.parse(stored) : null;
-}
-
-function clearForm() {
-  // Eingabefelder leeren
-  document.getElementById("title").value = "";
-  document.getElementById("desc").value = "";
-  document.getElementById("due-date").value = "";
-  document.getElementById("category").value = "";
-
-  // Fehlermeldungen verstecken
-  const errors = ["title-error", "date-error", "category-error"];
-  errors.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.classList.add("d-none");
-  });
-
-  // Priorität zurücksetzen
-  document.querySelectorAll(".priority-btn").forEach(btn => {
-    btn.classList.remove("active-urgent", "active-medium", "active-low");
-  });
-
-  // Assigned Checkboxen deaktivieren
-  document.querySelectorAll(".assigned-checkbox").forEach(box => {
-    box.checked = false;
-    box.closest(".assigned-row")?.classList.remove("active");
-  });
-
-  const avatarContainer = document.getElementById("selected-avatars");
-  if (avatarContainer) avatarContainer.innerHTML = "";
-
-  window.subtasks = [];
-  renderSubtaskList();
-
-  const assignedSearch = document.getElementById("assigned-search");
-  if (assignedSearch) assignedSearch.value = "";
-
-  const dropdown = document.querySelector(".assigned-dropdown");
-  if (dropdown) dropdown.classList.remove("open");
-
-  const assignedList = document.getElementById("assigned-list");
-  if (assignedList) assignedList.classList.add("d-none");
-}
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  setupPriorityButtons();
-  setupLogout();
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const statusFromURL = getStatusFromURL();
-  setInitialTaskStatus(statusFromURL);
-});
-
-function getStatusFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get("status") || "To-Do";
-}
-
-function setInitialTaskStatus(status) {
-
-  const hiddenStatusInput = document.getElementById("task-status");
-  if (hiddenStatusInput) {
-    hiddenStatusInput.value = status;
-  }
-
-  window.initialTaskStatus = status;
-}
-
-
-
-
-
-
-
-document.addEventListener("click", closeMenuOnOutsideClick);
-
-
-window.clearForm = clearForm;
-
-window.toggleMenu = toggleMenu;
-window.toggleAssignedDropdown = toggleAssignedDropdown;
-window.assignedToInput = assignedToInput;
-window.toggleCheckbox = toggleCheckbox;
-window.openAssignedDropdown = openAssignedDropdown;
-window.filterAssignedList = filterAssignedList;

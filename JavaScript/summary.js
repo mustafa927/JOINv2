@@ -3,12 +3,8 @@ async function sumOfTask() {
 
     try {
         let tasks = await fetchTasks(url);
-        console.log("Fetched tasks:", tasks);
         let counts = countTasks(tasks);
         let nextUrgentDate = findNextUrgentDate(tasks);
-        console.log("Ist geladen!");
-        console.log("Tasks:", tasks);
-        console.log("Zählwerte:", counts);
         updateDashboard(counts, nextUrgentDate);
     } catch (error) {
         console.error("Fehler beim Abrufen der Tasks:", error);
@@ -36,7 +32,6 @@ function countTasks(tasks) {
     for (let key in tasks) {
         let task = tasks[key];
         counts.total++;
-        console.log("Task status:", task.status);
         updateStatusCount(task.Status, counts);
         if (task.priority === "Urgent") counts.urgent++;
     }
@@ -46,7 +41,7 @@ function countTasks(tasks) {
 
 function updateStatusCount(status, counts) {
     switch (status) {
-        case "To-Do": counts.todo++; break;       
+        case "To-Do": counts.todo++; break;
         case "Done": counts.done++; break;
         case "In Progress": counts.inProgress++; break;
         case "Await Feedback": counts.awaiting++; break;
@@ -106,21 +101,12 @@ window.addEventListener('load', () => {
     updateGreetingMessage();
 });
 
-/**
- * Shows a temporary mobile greeting after login
- * Displays differently for guest users vs registered users
- * Only appears on mobile devices and after fresh login
- */
 function showMobileGreeting() {
-    // Only run on mobile devices
     if (window.innerWidth >= 768) return;
-    
-    // Check if this is a fresh login
     if (!sessionStorage.getItem('newLogin')) return;
-    
-    // Create mobile greeting overlay if it doesn't exist
+
     if (!document.getElementById('mobile-greeting-overlay')) {
-        const overlay = document.createElement('div');
+        let overlay = document.createElement('div');
         overlay.id = 'mobile-greeting-overlay';
         overlay.style.cssText = `
             position: fixed;
@@ -136,8 +122,8 @@ function showMobileGreeting() {
             align-items: center;
             font-family: Arial, sans-serif;
         `;
-        
-        const greetingText = document.createElement('div');
+
+        let greetingText = document.createElement('div');
         greetingText.id = 'mobile-greeting-text';
         greetingText.style.cssText = `
             font-size: 32px;
@@ -145,52 +131,48 @@ function showMobileGreeting() {
             margin-bottom: 10px;
         `;
         greetingText.textContent = 'Good morning';
-        
-        const userName = document.createElement('div');
+
+        let userName = document.createElement('div');
         userName.id = 'mobile-greeting-name';
         userName.style.cssText = `
             font-size: 48px;
             font-weight: bold;
             color: #29abe2;
         `;
-        
+
         overlay.appendChild(greetingText);
         overlay.appendChild(userName);
         document.body.appendChild(overlay);
     }
-    
-    // Get user data and update greeting
-    const storedUser = localStorage.getItem('currentUser');
+
+    let storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
-        const user = JSON.parse(storedUser);
-        const nameElement = document.getElementById('mobile-greeting-name');
-        
+        let user = JSON.parse(storedUser);
+        let nameElement = document.getElementById('mobile-greeting-name');
+
         if (user.isGuest) {
             nameElement.textContent = '';
         } else {
             nameElement.textContent = user.name || '';
         }
     }
-    
-    // Remove the greeting after 3 seconds
+
     setTimeout(() => {
-        const overlay = document.getElementById('mobile-greeting-overlay');
+        let overlay = document.getElementById('mobile-greeting-overlay');
         if (overlay) {
             overlay.style.opacity = '0';
             overlay.style.transition = 'opacity 0.5s ease';
-            
+
             setTimeout(() => {
                 if (overlay && overlay.parentNode) {
                     overlay.parentNode.removeChild(overlay);
                 }
-                // Clear the new login flag
                 sessionStorage.removeItem('newLogin');
             }, 500);
         }
     }, 3000);
 }
 
-// Run the mobile greeting function when the page loads
 window.addEventListener('load', () => {
     showMobileGreeting();
 });
