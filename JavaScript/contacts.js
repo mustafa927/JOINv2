@@ -155,34 +155,38 @@ function editContact(name) {
   document.getElementById("addContactForm").innerHTML = contactEditFormTemplate(contact);
 }
 
-/**
- * Saves a new contact to Firebase, if name, email, and phone are valid.
- * Shows success message and refreshes the contact list.
- * 
- * @async
- */
 async function saveContact() {
+  const form = document.getElementById("contactForm");
+  const submitBtn = document.getElementById("createContactBtn");
+
+  // HTML5-Formularvalidierung
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  // Button deaktivieren und Spinner anzeigen (optional)
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = `Creating...`;
+
   const { name, email, phone } = getInputValues();
-  const errorBox = document.getElementById("contactError");
-
-  // Regex checks
-  const nameRegex = /^[A-Za-z\s]+$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^\d+$/;
-
-
   const newContact = { name, email, phone };
 
-  await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json", {
-    method: "POST",
-    body: JSON.stringify(newContact),
-    headers: { "Content-Type": "application/json" }
-  });
+    await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json", {
+      method: "POST",
+      body: JSON.stringify(newContact),
+      headers: { "Content-Type": "application/json" }
+    }); 
 
-  fetchData();
-  closeOverlay();
-  showSuccessMessage();
+    await fetchData();
+    closeOverlay();
+    showSuccessMessage();
+    // Button wieder aktivieren (falls Overlay nicht geschlossen wird)
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = `Create contact <span>&check;</span>`;
+  
 }
+
 
 
 /**

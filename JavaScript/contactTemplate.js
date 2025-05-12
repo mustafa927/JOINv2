@@ -1,7 +1,6 @@
-
 /**
  * Template generator for a contact card in the list.
- * 
+ *
  * @param {Object} contact - The contact object.
  * @param {string} initials - Initials for the avatar.
  * @returns {string} - HTML string.
@@ -20,7 +19,7 @@ function contactCardTemplate(contact, initials) {
 
 /**
  * Template for a grouped contact list by letter.
- * 
+ *
  * @param {string} letter - First letter of contact name.
  * @returns {string} - HTML string.
  */
@@ -30,7 +29,7 @@ function contactGroupTemplate(letter) {
 
 /**
  * Template for detailed contact view.
- * 
+ *
  * @param {Object} contact - Contact object.
  * @returns {string} - HTML string.
  */
@@ -137,7 +136,10 @@ function contactAddFormTemplate() {
           </div>
           <div class="add-contact-buttons">
             <button type="button" class="cancel-btn" onclick="closeOverlay()">Cancel <span>&times;</span></button>
-            <button type="submit" class="create-btn">Create contact <span>&check;</span></button>
+            <button id="createContactBtn" type="submit" class="create-btn">
+              Create contact <span>&check;</span>
+            </button>
+
           </div>
         </form>
       </div>
@@ -157,14 +159,18 @@ function contactEditFormTemplate(contact) {
 
   return `
     <div class="add-contact-overlay">
-      <div class="close-btn" onclick="closeOverlayDirectly(); showContact('${contact.name}')">&times;</div>
+      <div class="close-btn" onclick="closeOverlayDirectly(); showContact('${
+        contact.name
+      }')">&times;</div>
       <div class="add-contact-left">
         <img src="./svg/Capa 1.svg" class="add-contact-logo">
         <h2>Edit contact</h2>
         <div class="underline"></div>
       </div>
       <div class="add-contact-right">
-        <form id="contactForm" onsubmit="event.preventDefault(); updateContact('${contact.id || contact.name}');" novalidate>
+        <form id="contactForm" onsubmit="event.preventDefault(); updateContact('${
+          contact.id || contact.name
+        }');" novalidate>
           <div style="margin-top:70px; display:flex; align-items:center;">
             <div class="edit-contact-avatar" style="background: ${color};">${initials}</div>
             <div class="add-contact-inputs">
@@ -206,7 +212,9 @@ function contactEditFormTemplate(contact) {
             </div>
           </div>
           <div class="add-contact-buttons">
-            <button type="button" class="cancel-btn" onclick="deleteContact('${contact.name}')">Delete <span>&times;</span></button>
+            <button type="button" class="cancel-btn" onclick="deleteContact('${
+              contact.name
+            }')">Delete <span>&times;</span></button>
             <button type="submit" class="create-btn">Save <span>&check;</span></button>
           </div>
         </form>
@@ -214,4 +222,3 @@ function contactEditFormTemplate(contact) {
     </div>
   `;
 }
-
