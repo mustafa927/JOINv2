@@ -491,7 +491,6 @@ if ((task.category || "").toLowerCase() === "technical task") {
       console.warn("❌ Task nicht gefunden!");
       return;
     }
-  
     const updatedTask = {
       title: document.getElementById("edit-title").value.trim(),
       description: document.getElementById("edit-desc").value.trim(),
