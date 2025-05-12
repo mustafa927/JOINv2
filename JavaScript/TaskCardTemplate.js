@@ -180,7 +180,6 @@ function getCategoryStyle(category) {
     overlayContainer.innerHTML = buildOverlayHTML(task);
     overlayContainer.style.display = "flex";
   
-    // ✨ Nur hier wird Animation aktiviert
     const overlay = overlayContainer.querySelector('.task-card-overlay');
     if (overlay) {
       overlay.classList.add('animate-in');
@@ -284,7 +283,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
     overlay.innerHTML = buildEditTaskForm(task);
     overlay.style.display = "flex";
   
-    // Warten auf DOM, dann Setup
+
     setTimeout(async () => {
       setupPriorityButtons();                    // Priority Buttons aktivieren
       await assignedToInput();                   // Kontakte laden
@@ -385,7 +384,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
     const title = input.value.trim();
     if (!title) return;
   
-    const id = `sub${Date.now()}`; // sicheres, eindeutiges ID
+    const id = `sub${Date.now()}`; 
     const ul = document.getElementById('subtask-list');
   
     const li = document.createElement('li');
@@ -455,7 +454,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
   function preselectAssignedUsers(assignedToObj) {
     if (!assignedToObj) return;
   
-    const ids = Object.values(assignedToObj); // ["-xyz", "-abc"]
+    const ids = Object.values(assignedToObj); 
     document.querySelectorAll(".assigned-checkbox").forEach(checkbox => {
       if (ids.includes(checkbox.dataset.id)) {
         checkbox.checked = true;
@@ -509,7 +508,6 @@ if ((task.category || "").toLowerCase() === "technical task") {
         body: JSON.stringify(updatedTask)
       });
   
-      console.log("✅ Task gespeichert:", updatedTask);
       closeOverlay();
       location.reload();
     } catch (error) {
@@ -611,7 +609,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
       card.outerHTML = newCardHTML;
   
     } catch (error) {
-      console.error("❌ Fehler beim Subtask-Update:", error);
+      console.error(" Fehler beim Subtask-Update:", error);
     }
   }
   
@@ -634,23 +632,18 @@ if ((task.category || "").toLowerCase() === "technical task") {
       });
   
       if (response.ok) {
-        console.log(`✅ Task ${taskId} wurde erfolgreich gelöscht.`);
-
         window.allTasks = window.allTasks.filter(task => task.id !== taskId);
- 
         const card = document.getElementById(taskId);
         if (card) {
           card.remove();
         }
- 
         closeOverlay();
   
       } else {
-        console.error("❌ Fehler beim Löschen:", response.statusText);
+        console.error("Fehler beim Löschen:", response.statusText);
       }
-  
     } catch (error) {
-      console.error("❌ Fehler beim Löschen des Tasks:", error);
+      console.error("Fehler beim Löschen des Tasks:", error);
     }
     checkEmptySections()
 
