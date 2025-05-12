@@ -8,7 +8,12 @@ let currentlyOpenContact = null;
 
 let justOpenedMenu = false;
 
-
+/**
+ * This function is used to generate a color for a contact name
+ * 
+ * @param {string} name - The name of the contact 
+ * @returns {string} - a color string
+ */
 function getColorForName(name) {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
@@ -17,12 +22,23 @@ function getColorForName(name) {
   return avatarColors[Math.abs(hash % avatarColors.length)];
 }
 
+/**
+ * Gets initials from full name, f.e. RE
+ * 
+ * @param {string} name - full name
+ * @returns {string} - initials in uppercase
+ */
 function getInitials(name) {
   if (!name) return "";
   let parts = name.trim().split(" ");
   return (parts[0][0] + (parts[1]?.[0] || "")).toUpperCase();
 }
 
+/**
+ * Fetches all contact data from Firebase and renders them.
+ * shown on the left side
+ * 
+ */
 async function fetchData() {
   let res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/.json");
   let data = await res.json();
@@ -30,7 +46,10 @@ async function fetchData() {
   renderContacts();
   document.getElementById('new-contact').classList.remove('d_none');
 }
-
+/**
+ * Renders the list of contacts grouped by the first letter.
+ * sorts from a - z
+ */
 function renderContacts() {
   let panel = document.getElementById("contactPanel");
   panel.innerHTML = "";
@@ -45,7 +64,12 @@ function renderContacts() {
     });
   }
 }
-
+/**
+ * Groups contacts by the first letter of their name.
+ * 
+ * @param {Array<Object>} contacts - Array of contact objects.
+ * @returns {Object} - Grouped contacts.
+ */
 function groupByLetter(contacts) {
   let grouped = {};
   for (let c of contacts) {
@@ -56,6 +80,11 @@ function groupByLetter(contacts) {
   return grouped;
 }
 
+/**
+ * Toggles the display of a contact’s detail view.
+ * 
+ * @param {string} name - The contact's name.
+ */
 function toggleShowContact(name) {
   let allContactElements = document.querySelectorAll('.contact-list');
   allContactElements.forEach(el => el.classList.remove('active'));
@@ -78,17 +107,29 @@ function toggleShowContact(name) {
   }
 }
 
+/**
+ * closes the shown contact
+ */
 function closeContactOverlay() {
   document.getElementById("overlay").innerHTML = "";
   currentlyOpenContact = null;
 }
 
+/**
+ * Displays contact details in the overlay.
+ * 
+ * @param {string} name - The contact's name.
+ */
 function showContact(name) {
   let contact = allContacts.find(c => c.name === name);
   let overlay = document.getElementById("overlay");
   overlay.innerHTML = contactDetailTemplate(contact);
 }
 
+/**
+ * Opens the form overlay to add a new contact.
+ * 
+ */
 function addContact() {
   clearOverlay();
   openModal("modalBackdrop");
@@ -102,6 +143,11 @@ function addContact() {
   }
 }
 
+/**
+ * Opens the form to edit a contact’s information.
+ * 
+ * @param {string} name - The contact's name.
+ */
 function editContact(name) {
   let contact = allContacts.find(c => c.name === name);
   clearOverlay();
@@ -109,6 +155,13 @@ function editContact(name) {
   document.getElementById("addContactForm").innerHTML = contactEditFormTemplate(contact);
 }
 
+/**
+ * Saves a new contact to Firebase, if name , email and phone is entered
+ * reloads the fetch 
+ * shows success message 
+ * 
+ * @async
+ */
 async function saveContact() {
   let { name, email, phone } = getInputValues();
   let errorBox = document.getElementById("contactError");
@@ -128,6 +181,10 @@ async function saveContact() {
   showSuccessMessage();
 }
 
+/**
+ * Collects values from form inputs.
+ * @returns {{name: string, email: string, phone: string}} - Contact details.
+ */
 function getInputValues() {
   return {
     name: document.getElementById("inputName").value.trim(),
@@ -136,6 +193,10 @@ function getInputValues() {
   };
 }
 
+/**
+ * Shows a form error message if validation fails.
+ * @param {HTMLElement} errorBox - The error message container.
+ */
 function showFormError(errorBox) {
   errorBox.textContent = "❗ Alle drei Felder (Name, E-Mail, Telefonnummer) sind Pflicht!";
   errorBox.style.display = "block";
@@ -145,9 +206,13 @@ function showFormError(errorBox) {
   }, 3000);
 }
 
+/**
+ * Updates an existing contact in Firebase.
+ * @param {string} name - The original name of the contact.
+ * @async
+ */
 async function updateContact(name) {
   let { name: newName, email, phone } = getInputValues();
-  let errorBox = document.getElementById("contactError");
 
   if (!newName || !email || !phone) return showFormError(errorBox);
 
@@ -155,8 +220,6 @@ async function updateContact(name) {
   let data = await res.json();
 
   let [key] = Object.entries(data || {}).find(([_, val]) => val.name === name) || [];
-
-  if (!key) return alert("Kontakt wurde nicht gefunden.");
 
   await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person/${key}.json`, {
     method: "PUT",
@@ -169,6 +232,11 @@ async function updateContact(name) {
   showContact(newName);
 }
 
+/**
+ * Deletes a contact from Firebase.
+ * @param {string} name - The contact's name.
+ * @async
+ */
 async function deleteContact(name) {
   let res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
   let data = await res.json();
@@ -185,38 +253,61 @@ async function deleteContact(name) {
   closeOverlay();
 }
 
+/**
+ * Close the overlay in mobile view
+ */
 function closeOverlay(event) {
   if (event && event.target.id !== "modalBackdrop") return;
   clearOverlay();
   closeModal("modalBackdrop");
 }
 
+/**
+ * Closes the overlay immediately without checks.
+ */
 function closeOverlayDirectly() {
   clearOverlay();
   closeModal("modalBackdrop");
 }
 
+/**
+ * sets html in the add or edit contact form "" and closes overlay
+ */
 function clearOverlay() {
   document.getElementById("addContactForm").innerHTML = "";
   document.getElementById("overlay").innerHTML = "";
 }
 
+/**
+ * Opens modal for adding or editing contact
+ * @param {string} id - The ID of the modal element.
+ */
 function openModal(id) {
   document.getElementById(id).classList.remove("d_none");
   document.body.classList.add("modal-open");
 }
-
+/**
+ * Closes modal for adding or editing contact
+ * @param {string} id - The ID of the modal element.
+ */
 function closeModal(id) {
   document.getElementById(id).classList.add("d_none");
   document.body.classList.remove("modal-open");
 }
-
+/**
+ * Displays a temporary success message after creating a contact
+ * 
+ */
 function showSuccessMessage() {
   let toast = document.getElementById("successMessage");
   toast.style.display = "block";
   setTimeout(() => (toast.style.display = "none"), 3000);
 }
 
+/**
+ * Displays a contact’s details in a modal on mobile version.
+ * @param {string} name - The contact’s name.
+ */
 function toggleShowContactMobile(name) {
   let contact = allContacts.find(c => c.name === name);
   if (!contact) return;
@@ -227,6 +318,10 @@ function toggleShowContactMobile(name) {
   openModal("modalBackdrop");
 }
 
+/**
+ * Toggles the visibility of the contact options dropdown menu.
+ * 
+ */
 function toggleContactMenu() {
   const menu = document.getElementById("contactMenu");
 
@@ -239,7 +334,10 @@ function toggleContactMenu() {
   }
 }
 
-
+/**
+ * Handles responsive changes when resizing the browser.
+ * Closes the mobile modal view on desktop.
+ */
 
 window.addEventListener("resize", function () {
   let backdrop = document.getElementById("modalBackdrop");
@@ -259,6 +357,9 @@ window.addEventListener("resize", function () {
 });
 
 
+/**
+ * Shows a success image when a contact is created.
+ */
 
 function showSuccessImage() {
   let imageBox = document.getElementById("contactCreatedImage");

@@ -1,3 +1,11 @@
+
+/**
+ * Template generator for a contact card in the list.
+ * 
+ * @param {Object} contact - The contact object.
+ * @param {string} initials - Initials for the avatar.
+ * @returns {string} - HTML string.
+ */
 function contactCardTemplate(contact, initials) {
   const color = getColorForName(contact.name);
   return `
@@ -10,9 +18,22 @@ function contactCardTemplate(contact, initials) {
       </div>`;
 }
 
+/**
+ * Template for a grouped contact list by letter.
+ * 
+ * @param {string} letter - First letter of contact name.
+ * @returns {string} - HTML string.
+ */
 function contactGroupTemplate(letter) {
   return `<div class="contact-group-letter">${letter}</div>`;
 }
+
+/**
+ * Template for detailed contact view.
+ * 
+ * @param {Object} contact - Contact object.
+ * @returns {string} - HTML string.
+ */
 
 function contactDetailTemplate(contact) {
   const initials = getInitials(contact.name);
@@ -60,6 +81,11 @@ function contactDetailTemplate(contact) {
 `;
 }
 
+/**
+ * Template for the contact add form.
+ * 
+ * @returns {string} - HTML string.
+ */
 function contactAddFormTemplate() {
   return `
       <div class="add-contact-overlay">
@@ -100,6 +126,13 @@ function contactAddFormTemplate() {
       
 `;
 }
+
+/**
+ * Template for the contact edit form.
+ * 
+ * @param {Object} contact - Contact object.
+ * @returns {string} - HTML string.
+ */
 function contactEditFormTemplate(contact) {
   const initials = getInitials(contact.name);
   const color = getColorForName(contact.name);
