@@ -5,6 +5,10 @@ let avatarColors = [
 ];
 let currentlyOpenContact = null;
 
+
+let justOpenedMenu = false;
+
+
 function getColorForName(name) {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
@@ -226,15 +230,20 @@ function toggleShowContactMobile(name) {
 function toggleContactMenu() {
   const menu = document.getElementById("contactMenu");
 
+  console.log("[toggle] clicked toggle icon");
+  console.log("[toggle] menu currently:", menu?.style.display);
+
   if (menu.style.display === "flex") {
-    // Zurücksetzen
     menu.style.display = "none";
     menu.style.animation = "";
+    console.log("[toggle] → closed");
   } else {
     menu.style.display = "flex";
     menu.style.animation = "slideInFromRight 0.6s ease-out forwards";
+    console.log("[toggle] → opened");
   }
 }
+
 
 
 window.addEventListener("resize", function () {
@@ -263,3 +272,22 @@ function showSuccessImage() {
     imageBox.classList.add("d_none");
   }, 3000);
 }
+
+document.addEventListener("click", function (event) {
+  const form = document.getElementById("addContactForm");
+  const menu = document.getElementById("contactMenu");
+  const toggle = document.getElementById("menu-contact-options");
+
+  if (!form || !menu || !toggle) return;
+
+  const clickedInsideForm = form.contains(event.target);
+  const menuIsVisible = menu.style.display === "flex";
+  const clickedOnToggle = toggle.contains(event.target);
+
+  if (clickedInsideForm && menuIsVisible && !clickedOnToggle) {
+    console.log("✅ Click inside form, menu open, NOT toggle → toggling menu");
+    toggleContactMenu();
+  } else if (clickedOnToggle) {
+    console.log("🟡 Clicked toggle icon → allow native toggle");
+  }
+}, true);
