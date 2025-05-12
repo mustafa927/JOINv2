@@ -111,7 +111,7 @@
     }
   
     .contact-panel {
-      width: 100%;
+      width: 90%;
       margin-bottom:100px;
     }
   
@@ -235,7 +235,7 @@
     }
   
     .contact-email {
-      font-size: 16px;
+      font-size: 12px;
     }
   
     .avatar {
@@ -248,7 +248,7 @@
     }
   
     .left-side {
-      padding: 150px 0 0;
+      padding: 150px 10px 10px;
     }
   }
   
