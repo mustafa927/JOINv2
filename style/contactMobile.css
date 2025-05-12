@@ -15,10 +15,11 @@
     }
   
     .edit-contact-avatar {
-      position:fixed;
-      top:53%;
-      height:110px;
-      left:42%;
+      position:absolute;
+      top: -11%;
+      left:45%;
+      padding:0;
+      height:100px;
     }
     .add-contact-overlay {
       display:block;
@@ -26,6 +27,7 @@
       width:93%;
       position:fixed;
       height:calc(100% - 160px);
+      overflow-y: auto;
     }
   
     .add-contact-left {
@@ -45,9 +47,9 @@
       left:45%;
     }
     .profile-responsive-middle {
-      position:fixed;
-      top:54%;
-      left:44%;
+      position:absolute;
+      top: -9%;
+      left:45%;
       padding:0;
     }
     .modal-backdrop {
@@ -86,6 +88,7 @@
       background-color: #f6f7f8;
       padding: 20px;
       box-sizing: border-box;
+      overflow-y:scroll;
     }
   
     .editContact h2 {
