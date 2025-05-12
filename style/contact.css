@@ -353,7 +353,7 @@ body.modal-open {
 
 .edit-contact-avatar {
   width: 100px;
-  height: 80px;
+  height: 75px;
   border-radius: 50%;
   color: white;
   display: flex;
