@@ -13,9 +13,9 @@ body {
 
 /* === LAYOUT === */
 .left-side {
-  width: 250px;
+  width: 350px;
   background-color: #ffffff;
-  padding: 150px 20px 20px;
+  padding: 100px 20px 20px;
   border-right: 1px solid #e0e0e0;
   display: flex;
   flex-direction: column;
@@ -51,7 +51,7 @@ body {
 .contact-list {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 40px;
   padding: 10px;
   border-radius: 10px;
   cursor: pointer;
@@ -101,7 +101,7 @@ body {
   background-color: #2a3647;
   color: white;
   border-radius: 6px;
-  width: 170px;
+  width: 80%;
   height: 70px;
   font-weight: bold;
   font-size: 14px;
@@ -316,7 +316,7 @@ body.modal-open {
   font-size: 24px;
 }
 .contact-email {
-  font-size: 12px;
+  font-size: 18px;
   color: #0077cc;
 }
 

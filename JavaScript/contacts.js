@@ -156,19 +156,37 @@ function editContact(name) {
 }
 
 /**
- * Saves a new contact to Firebase, if name , email and phone is entered
- * reloads the fetch 
- * shows success message 
+ * Saves a new contact to Firebase, if name, email, and phone are valid.
+ * Shows success message and refreshes the contact list.
  * 
  * @async
  */
 async function saveContact() {
-  let { name, email, phone } = getInputValues();
-  let errorBox = document.getElementById("contactError");
+  const { name, email, phone } = getInputValues();
+  const errorBox = document.getElementById("contactError");
 
-  if (!name || !email || !phone) return showFormError(errorBox);
+  // Regex checks
+  const nameRegex = /^[A-Za-z\s]+$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^\d+$/;
 
-  let newContact = { name, email, phone };
+  if (!name || !email || !phone) {
+    return showFormError(errorBox, "❗ All fields (Name, Email, Phone) are required!");
+  }
+
+  if (!nameRegex.test(name)) {
+    return showFormError(errorBox, "❗ Name must contain letters only.");
+  }
+
+  if (!emailRegex.test(email)) {
+    return showFormError(errorBox, "❗ Please enter a valid email address.");
+  }
+
+  if (!phoneRegex.test(phone)) {
+    return showFormError(errorBox, "❗ Phone number must contain digits only.");
+  }
+
+  const newContact = { name, email, phone };
 
   await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json", {
     method: "POST",
@@ -180,6 +198,7 @@ async function saveContact() {
   closeOverlay();
   showSuccessMessage();
 }
+
 
 /**
  * Collects values from form inputs.
@@ -194,11 +213,12 @@ function getInputValues() {
 }
 
 /**
- * Shows a form error message if validation fails.
+ * Shows a form error message.
  * @param {HTMLElement} errorBox - The error message container.
+ * @param {string} [message] - Custom error message.
  */
-function showFormError(errorBox) {
-  errorBox.textContent = "❗ Alle drei Felder (Name, E-Mail, Telefonnummer) sind Pflicht!";
+function showFormError(errorBox, message = "❗ All fields (Name, Email, Phone) are required!") {
+  errorBox.textContent = message;
   errorBox.style.display = "block";
   setTimeout(() => {
     errorBox.style.display = "none";
@@ -207,29 +227,43 @@ function showFormError(errorBox) {
 }
 
 /**
- * Updates an existing contact in Firebase.
- * @param {string} name - The original name of the contact.
+ * Updates an existing contact in Firebase, using HTML5 form validation.
+ * 
+ * @param {string} name - The original name or ID of the contact.
  * @async
  */
 async function updateContact(name) {
-  let { name: newName, email, phone } = getInputValues();
+  const form = document.getElementById("contactForm");
 
-  if (!newName || !email || !phone) return showFormError(errorBox);
+  // Check if form fields are valid (HTML5)
+  if (!form.checkValidity()) {
+    form.reportValidity(); // shows built-in browser message
+    return;
+  }
 
-  let res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
-  let data = await res.json();
+  const { name: newName, email, phone } = getInputValues();
 
-  let [key] = Object.entries(data || {}).find(([_, val]) => val.name === name) || [];
+  // Fetch existing data to find the right contact key
+  const res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
+  const data = await res.json();
 
+  const [key] = Object.entries(data || {}).find(([_, val]) => val.name === name || val.id === name) || [];
+
+  if (!key) {
+    alert("Contact not found.");
+    return;
+  }
+
+  // Update contact data in Firebase
   await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person/${key}.json`, {
     method: "PUT",
     body: JSON.stringify({ name: newName, email, phone }),
     headers: { "Content-Type": "application/json" }
   });
 
-  await fetchData();
-  closeOverlay();
-  showContact(newName);
+  await fetchData();          // Refresh list
+  closeOverlay();             // Close modal
+  showContact(newName);       // Show updated contact
 }
 
 /**

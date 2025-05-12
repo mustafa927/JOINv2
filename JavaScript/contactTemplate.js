@@ -82,54 +82,72 @@ function contactDetailTemplate(contact) {
 }
 
 /**
- * Template for the contact add form.
- * 
+ * Template for the contact add form with HTML5 validation.
+ *
  * @returns {string} - HTML string.
  */
 function contactAddFormTemplate() {
   return `
-      <div class="add-contact-overlay">
-         <div class="close-btn" onclick="closeOverlayDirectly()">×</div>
-        <div class="add-contact-left">
-          <img src="./svg/Capa 1.svg" class="add-contact-logo">
-          <h2>Add contact</h2>
-          <p>Tasks are better with a team!</p>
-          <div class="underline"></div>
-        </div>
-        <div class="add-contact-right">
-          <div>
-          <div style="margin-top:70px; display:flex; align-items:center;">
-          <img id="contactImage" src="./svg/addContactPic.svg" class="profile-responsive-middle" alt="Contact Icon">
-          <div class="add-contact-inputs">
-            <div class="input-wrapper">
-              <input id="inputName" type="text" placeholder="Name">
-              <img src="./svg/person.svg" class="input-icon">
-            </div>
-            <div class="input-wrapper">
-              <input id="inputEmail" type="email" placeholder="Email">
-              <img src="./svg/mail.svg" class="input-icon">
-            </div>
-            <div class="input-wrapper">
-              <input id="inputPhone" type="tel" placeholder="Phone">
-              <img src="./svg/call.svg" class="input-icon">
-            </div>
-          </div>
-          </div>
-          </div>
-          <div id="contactError" class="contact-error"></div>
-          <div class="add-contact-buttons">
-            <button class="cancel-btn" onclick="closeOverlay()">Cancel <span>&times;</span></button>
-            <button class="create-btn" onclick="saveContact();">Create contact <span>&check;</span></button>
-          </div>
-        </div>
+    <div class="add-contact-overlay">
+      <div class="close-btn" onclick="closeOverlayDirectly()">×</div>
+      <div class="add-contact-left">
+        <img src="./svg/Capa 1.svg" class="add-contact-logo">
+        <h2>Add contact</h2>
+        <p>Tasks are better with a team!</p>
+        <div class="underline"></div>
       </div>
-      
-`;
+      <div class="add-contact-right">
+        <form id="contactForm" onsubmit="event.preventDefault(); saveContact();">
+          <div style="margin-top:70px; display:flex; align-items:center;">
+            <img id="contactImage" src="./svg/addContactPic.svg" class="profile-responsive-middle" alt="Contact Icon">
+            <div class="add-contact-inputs">
+              <div class="input-wrapper">
+                <input 
+                  id="inputName" 
+                  type="text" 
+                  placeholder="Name" 
+                  pattern="[A-Za-z\\s]+" 
+                  title="Only letters and spaces are allowed"
+                  required
+                >
+                <img src="./svg/person.svg" class="input-icon">
+              </div>
+              <div class="input-wrapper">
+                <input 
+                  id="inputEmail" 
+                  type="email" 
+                  placeholder="Email" 
+                  title="Please enter a valid email address"
+                  required
+                >
+                <img src="./svg/mail.svg" class="input-icon">
+              </div>
+              <div class="input-wrapper">
+                <input 
+                  id="inputPhone" 
+                  type="tel" 
+                  placeholder="Phone" 
+                  pattern="\\d+" 
+                  title="Only digits are allowed"
+                  required
+                >
+                <img src="./svg/call.svg" class="input-icon">
+              </div>
+            </div>
+          </div>
+          <div class="add-contact-buttons">
+            <button type="button" class="cancel-btn" onclick="closeOverlay()">Cancel <span>&times;</span></button>
+            <button type="submit" class="create-btn">Create contact <span>&check;</span></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
 }
 
 /**
- * Template for the contact edit form.
- * 
+ * Template for the contact edit form with HTML5 validation.
+ *
  * @param {Object} contact - Contact object.
  * @returns {string} - HTML string.
  */
@@ -146,33 +164,54 @@ function contactEditFormTemplate(contact) {
         <div class="underline"></div>
       </div>
       <div class="add-contact-right">
-        <div>
+        <form id="contactForm" onsubmit="event.preventDefault(); updateContact('${contact.id || contact.name}');" novalidate>
           <div style="margin-top:70px; display:flex; align-items:center;">
-        <div class="edit-contact-avatar" style="background: ${color};">
-          ${initials}
-        </div>
-        <div class="add-contact-inputs">
-          <div class="input-wrapper">
-            <input id="inputName" type="text" placeholder="Name" value="${contact.name}">
-            <img src="./svg/person.svg" class="input-icon">
+            <div class="edit-contact-avatar" style="background: ${color};">${initials}</div>
+            <div class="add-contact-inputs">
+              <div class="input-wrapper">
+                <input 
+                  id="inputName" 
+                  type="text" 
+                  placeholder="Name" 
+                  value="${contact.name}" 
+                  pattern="[A-Za-z\\s]+" 
+                  title="Only letters and spaces are allowed"
+                  required
+                >
+                <img src="./svg/person.svg" class="input-icon">
+              </div>
+              <div class="input-wrapper">
+                <input 
+                  id="inputEmail" 
+                  type="email" 
+                  placeholder="Email" 
+                  value="${contact.email}" 
+                  title="Please enter a valid email address"
+                  required
+                >
+                <img src="./svg/mail.svg" class="input-icon">
+              </div>
+              <div class="input-wrapper">
+                <input 
+                  id="inputPhone" 
+                  type="tel" 
+                  placeholder="Phone" 
+                  value="${contact.phone}" 
+                  pattern="\\d+" 
+                  title="Only digits are allowed"
+                  required
+                >
+                <img src="./svg/call.svg" class="input-icon">
+              </div>
+            </div>
           </div>
-          <div id="contactError" class="contact-error"></div>
-          <div class="input-wrapper">
-            <input id="inputEmail" type="email" placeholder="Email" value="${contact.email}">
-            <img src="./svg/mail.svg" class="input-icon">
+          <div class="add-contact-buttons">
+            <button type="button" class="cancel-btn" onclick="deleteContact('${contact.name}')">Delete <span>&times;</span></button>
+            <button type="submit" class="create-btn">Save <span>&check;</span></button>
           </div>
-          <div class="input-wrapper">
-            <input id="inputPhone" type="tel" placeholder="Phone" value="${contact.phone}">
-            <img src="./svg/call.svg" class="input-icon">
-          </div>
-        </div>
-        </div>
-        </div>
-        <div class="add-contact-buttons">
-          <button class="cancel-btn" onclick="deleteContact('${contact.name}')">Delete <span>&times;</span></button>
-          <button class="create-btn" onclick="updateContact('${contact.id || contact.name}')">Save <span>&check;</span></button>
-        </div>
+        </form>
       </div>
-    </div>`;
+    </div>
+  `;
 }
 
