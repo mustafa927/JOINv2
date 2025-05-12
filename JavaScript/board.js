@@ -3,7 +3,6 @@ import { signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth
 
 let draggedElement;
 
-// Make drag-and-drop functions globally available
 window.startDragging = function(event) {
   draggedElement = event.target;
 }
@@ -32,7 +31,6 @@ window.drop = async function handleDrop(event) {
 function moveTaskCardToDropzone(cardElement, dropzone) {
   let bucket = dropzone.querySelector('.card-bucket');
 
-  // Falls kein Bucket existiert (z. B. nach Drag aus leerer Spalte), erstellen
   if (!bucket) {
     bucket = document.createElement('div');
     bucket.classList.add('card-bucket');
@@ -99,7 +97,6 @@ async function updateTaskStatus(taskId, newStatus) {
 
 
 
-// Make toggleMenu globally available
 window.toggleMenu = function() {
     const menu = document.getElementById("dropdownMenu");
     if (menu) {
@@ -107,7 +104,6 @@ window.toggleMenu = function() {
     }
 }
 
-// Make toggleDropdown globally available
 window.toggleDropdown = function() {
     const dropdown = document.getElementById("userDropdown");
     if (dropdown) {
@@ -115,7 +111,6 @@ window.toggleDropdown = function() {
     }
 }
 
-// Close menu when clicking outside
 document.addEventListener("click", function (e) {
     const profile = document.querySelector(".profile-wrapper");
     const menu = document.getElementById("dropdownMenu");
@@ -124,7 +119,6 @@ document.addEventListener("click", function (e) {
     }
 });
 
-// Handle logout
 async function handleLogout() {
     try {
         await signOut(auth);
@@ -135,7 +129,6 @@ async function handleLogout() {
     }
 }
 
-// Add event listener for logout button
 document.addEventListener('DOMContentLoaded', () => {
     const logoutButton = document.querySelector('#dropdownMenu a[href="index.html"]');
     if (logoutButton) {

@@ -230,17 +230,12 @@ function toggleShowContactMobile(name) {
 function toggleContactMenu() {
   const menu = document.getElementById("contactMenu");
 
-  console.log("[toggle] clicked toggle icon");
-  console.log("[toggle] menu currently:", menu?.style.display);
-
   if (menu.style.display === "flex") {
     menu.style.display = "none";
     menu.style.animation = "";
-    console.log("[toggle] → closed");
   } else {
     menu.style.display = "flex";
     menu.style.animation = "slideInFromRight 0.6s ease-out forwards";
-    console.log("[toggle] → opened");
   }
 }
 
@@ -264,6 +259,7 @@ window.addEventListener("resize", function () {
 });
 
 
+
 function showSuccessImage() {
   let imageBox = document.getElementById("contactCreatedImage");
   imageBox.classList.remove("d_none");
@@ -285,9 +281,7 @@ document.addEventListener("click", function (event) {
   const clickedOnToggle = toggle.contains(event.target);
 
   if (clickedInsideForm && menuIsVisible && !clickedOnToggle) {
-    console.log("✅ Click inside form, menu open, NOT toggle → toggling menu");
     toggleContactMenu();
   } else if (clickedOnToggle) {
-    console.log("🟡 Clicked toggle icon → allow native toggle");
   }
 }, true);
