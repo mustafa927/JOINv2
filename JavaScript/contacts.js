@@ -170,21 +170,6 @@ async function saveContact() {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^\d+$/;
 
-  if (!name || !email || !phone) {
-    return showFormError(errorBox, "❗ All fields (Name, Email, Phone) are required!");
-  }
-
-  if (!nameRegex.test(name)) {
-    return showFormError(errorBox, "❗ Name must contain letters only.");
-  }
-
-  if (!emailRegex.test(email)) {
-    return showFormError(errorBox, "❗ Please enter a valid email address.");
-  }
-
-  if (!phoneRegex.test(phone)) {
-    return showFormError(errorBox, "❗ Phone number must contain digits only.");
-  }
 
   const newContact = { name, email, phone };
 
@@ -212,19 +197,6 @@ function getInputValues() {
   };
 }
 
-/**
- * Shows a form error message.
- * @param {HTMLElement} errorBox - The error message container.
- * @param {string} [message] - Custom error message.
- */
-function showFormError(errorBox, message = "❗ All fields (Name, Email, Phone) are required!") {
-  errorBox.textContent = message;
-  errorBox.style.display = "block";
-  setTimeout(() => {
-    errorBox.style.display = "none";
-    errorBox.textContent = "";
-  }, 3000);
-}
 
 /**
  * Updates an existing contact in Firebase, using HTML5 form validation.
