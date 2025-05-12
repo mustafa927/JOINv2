@@ -66,6 +66,8 @@ body {
     text-decoration: none;
     padding: 10px 15px;
     border-radius: 8px;
+    width:160px;
+    margin:0 auto;
     transition: background 0.3s, color 0.3s;
   }
 
