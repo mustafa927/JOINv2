@@ -1,4 +1,4 @@
-// let allTasks = [];
+
 
 window.allTasks = []; 
 
@@ -66,7 +66,6 @@ async function fetchDataTasks() {
 
 async function getAllTasksWithPeople() {
   try {
-    // Alle Tasks abrufen
     const tasksRes = await fetch(
       "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json"
     );
@@ -77,15 +76,13 @@ async function getAllTasksWithPeople() {
       return [];
     }
 
-    // Alle Personen abrufen
     const peopleRes = await fetch(
       "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json"
     );
     const peopleData = await peopleRes.json();
 
-    // Tasks mit Personendaten anreichern
     const tasksArray = Object.entries(tasksData).map(([id, task]) => {
-      const assignedTo = task.assignedTo || {}; // z. B. { person1: "-OO2cpz..." }
+      const assignedTo = task.assignedTo || {}; 
 
       const assignedPeople = Object.values(assignedTo).map(personId => {
         const person = peopleData?.[personId];
@@ -99,8 +96,6 @@ async function getAllTasksWithPeople() {
       };
     });
     window.allTasks = tasksArray;
-
-    console.log("📋 allTasks globally gesetzt:", window.allTasks);
     return tasksArray;
 
   } catch (error) {
@@ -160,9 +155,7 @@ async function createTaskFromFormOverlay() {
   console.log("📦 Finaler Task:", newTask);
 
   try {
-    await addNewTask(newTask); // 🔁 warte bis Task wirklich gespeichert ist
-
-    // ✅ jetzt parent-Funktion zum Schließen + Neuladen aufrufen
+    await addNewTask(newTask); 
     window.parent.handleTaskCreated();
   } catch (error) {
     console.error("❌ Fehler beim Speichern des Tasks:", error);
@@ -173,13 +166,12 @@ async function createTaskFromFormOverlay() {
 
 function closeAddTaskModal() {
   document.getElementById("addTaskModal").classList.add("d-none");
-  // Optional: Reset iframe content
   document.getElementById("addTaskIframe").src = "about:blank";
 }
 
 function handleTaskCreated() {
   closeAddTaskModal();
-  location.reload(); // 🔁 Seite neu laden
+  location.reload(); 
 }
 
 function validateTitle() {
@@ -205,7 +197,7 @@ function buildNewTask() {
     dueDate: getValue("due-date"),
     priority: getSelectedPriority(),
     category: document.getElementById("category").value,
-    Status: getTaskStatus(), // ← hier ändert sich was
+    Status: getTaskStatus(), 
     assignedTo: collectAssignedUserIds(),
     subtasks: collectSubtasks()
   };
@@ -232,18 +224,14 @@ function collectSubtasks() {
 
   elements.forEach(el => {
     const id = el.id.replace("subtask-", "");
-
-    // Prüfe, ob edit-Input vorhanden ist, sonst fallback auf Text-Span
     const input = el.querySelector(".edit-subtask-input");
     const title = input
       ? input.value.trim()
       : el.querySelector(".subtask-title")?.textContent.trim();
-
     if (title) {
       subtasks[id] = { title, done: false };
     }
   });
-
   return subtasks;
 }
 
