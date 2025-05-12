@@ -45,7 +45,7 @@ function contactDetailTemplate(contact) {
       <div class="arrow-back" onclick="closeOverlayDirectly()"> &#8592;</div>
       </div>
       <div class="contact-info-box slide-in" >
-        <div style="display:flex;align-items:center;gap:20px;">
+        <div class="contact-name-box">
           <div class="show-contact-avatar" style="background:${bg};">
           ${initials}</div>
           <div><h2 style="margin:0;">${contact.name}</h2>

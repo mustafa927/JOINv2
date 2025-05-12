@@ -9,6 +9,7 @@ body {
   display: flex;
   height: 100vh;
   color: #333;
+  overflow-x: hidden;
 }
 
 /* === LAYOUT === */
@@ -411,6 +412,7 @@ body.modal-open {
   font-size: 20px;
   font-weight: bold;
   margin-right: 20px;
+  flex-shrink: 0;
 }
 
 .contact-created-image {
@@ -430,4 +432,50 @@ body.modal-open {
   height: 40px;
   width: auto;
   display: block;
+}
+
+.contact-name-box {
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+@media (max-width:1000px) {
+
+  .left-side {
+    width:220px;
+  }
+
+  .contact-name {
+    font-size:14px;
+  }
+
+  .contact-email {
+    font-size:12px;
+  }
+
+  .contact-info-box h2 {
+    font-size:20px;
+  }
+
+  .contact-name-box {
+    gap:0;
+  }
+
+  .show-contact-avatar {
+    height:60px;
+    width:60px;
+  }
+
+  .main {
+    padding:150px 12px 12px;
+  }
+
+  .contactInfo-subtitle {
+    font-size:15px;
+    margin-left:15px;
+  }
+  .contact-list {
+    gap:20px;
+  }
 }
