@@ -87,10 +87,8 @@ async function updateTaskStatus(taskId, newStatus) {
       },
       body: JSON.stringify({ Status: newStatus })
     });
-
-    console.log(`✅ Task ${taskId} Status aktualisiert zu "${newStatus}"`);
   } catch (error) {
-    console.error("❌ Fehler beim Status-Update:", error);
+    console.error("Fehler beim Status-Update:", error);
   }
 }
 

@@ -167,7 +167,7 @@ function getCategoryStyle(category) {
     const task = window.allTasks.find(t => t.id === taskId);
   
     if (!task) {
-      console.warn("❌ Task nicht gefunden!");
+      console.warn(" Task nicht gefunden!");
       return;
     }
     showTaskOverlay(task);
@@ -487,7 +487,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
   async function saveTaskChanges(taskId) {
     const originalTask = window.allTasks.find(t => t.id === taskId);
     if (!originalTask) {
-      console.warn("❌ Task nicht gefunden!");
+      console.warn(" Task nicht gefunden!");
       return;
     }
     const updatedTask = {
@@ -511,7 +511,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
       closeOverlay();
       location.reload();
     } catch (error) {
-      console.error("❌ Fehler beim Speichern:", error);
+      console.error(" Fehler beim Speichern:", error);
     }
   }
   

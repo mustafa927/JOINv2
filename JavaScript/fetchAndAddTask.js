@@ -99,7 +99,7 @@ async function getAllTasksWithPeople() {
     return tasksArray;
 
   } catch (error) {
-    console.error("❌ Fehler beim Abrufen der Tasks mit Personen:", error);
+    console.error(" Fehler beim Abrufen der Tasks mit Personen:", error);
     return [];
   }
 }

@@ -23,7 +23,6 @@ function registerModalOpeners() {
   document.querySelectorAll('.add-task-btn, .icon-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.preventDefault();
-
       let status = "To-Do";
 
       const section = btn.closest('.progress-section');
@@ -35,8 +34,6 @@ function registerModalOpeners() {
         else if (headerText === "done") status = "Done";
         else if (headerText === "to do") status = "To-Do";
       }
-
-   
       if (window.innerWidth < 768) {
 
         window.location.href = `addTask.html?status=${encodeURIComponent(status)}`;
