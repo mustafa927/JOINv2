@@ -230,17 +230,12 @@ function toggleShowContactMobile(name) {
 function toggleContactMenu() {
   const menu = document.getElementById("contactMenu");
 
-  console.log("[toggle] clicked toggle icon");
-  console.log("[toggle] menu currently:", menu?.style.display);
-
   if (menu.style.display === "flex") {
     menu.style.display = "none";
     menu.style.animation = "";
-    console.log("[toggle] → closed");
   } else {
     menu.style.display = "flex";
     menu.style.animation = "slideInFromRight 0.6s ease-out forwards";
-    console.log("[toggle] → opened");
   }
 }
 
