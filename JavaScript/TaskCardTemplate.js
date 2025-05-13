@@ -106,7 +106,6 @@ function getCategoryStyle(category) {
       fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json"),
       fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json")
     ]);
-  
     const tasksData = await tasksRes.json();
     const peopleData = await peopleRes.json();
   
@@ -114,39 +113,45 @@ function getCategoryStyle(category) {
       const personIds = Object.values(task.assignedTo || {});
       const assignedPeople = personIds.map(pid => peopleData[pid]).filter(Boolean);
       const fullTask = { id, ...task, assignedPeople };
-  
       insertTaskIntoColumn(fullTask);
     }
   }
   
 
   function insertTaskIntoColumn(task) {
+    const columnSelector = getColumnSelector(task);
+    if (!columnSelector) return;
+  
+    hideNoTasksMessage(columnSelector);
+    insertTaskCard(columnSelector, task);
+  }
+  
+  function getColumnSelector(task) {
     const status = (task.Status || task.status || "").toLowerCase();
-    let columnSelector;
+    const map = {
+      "to-do": 1,
+      "in progress": 2,
+      "await feedback": 3,
+      "done": 4
+    };
   
-    switch (status) {
-      case "to-do":
-        columnSelector = ".board-cards .progress-section:nth-child(1)";
-        break;
-      case "in progress":
-        columnSelector = ".board-cards .progress-section:nth-child(2)";
-        break;
-      case "await feedback":
-        columnSelector = ".board-cards .progress-section:nth-child(3)";
-        break;
-      case "done":
-        columnSelector = ".board-cards .progress-section:nth-child(4)";
-        break;
-      default:
-        console.warn("Unbekannter Status:", status);
-        return;
-    }
+    const index = map[status];
+    if (!index) {
+      console.warn("Unbekannter Status:", status);
+      return null;
+    } 
+    return `.board-cards .progress-section:nth-child(${index})`;
+  }
   
-    const container = document.querySelector(`${columnSelector} .no-tasks`);
+  function hideNoTasksMessage(selector) {
+    const container = document.querySelector(`${selector} .no-tasks`);
     if (container) container.classList.add("d-none");
+  }
   
-    const column = document.querySelector(columnSelector);
+  function insertTaskCard(selector, task) {
+    const column = document.querySelector(selector);
     let bucket = column.querySelector('.card-bucket');
+  
     if (!bucket) {
       bucket = document.createElement('div');
       bucket.classList.add('card-bucket');
@@ -157,13 +162,12 @@ function getCategoryStyle(category) {
   }
   
   
+  
 
   document.addEventListener("DOMContentLoaded", () => {
     loadBoardTasks();
   });
-
   window.openOverlayFromCard = function(taskId) {
-  
     const task = window.allTasks.find(t => t.id === taskId);
   
     if (!task) {
@@ -383,7 +387,6 @@ if ((task.category || "").toLowerCase() === "technical task") {
     const input = document.getElementById('edit-subtask-input');
     const title = input.value.trim();
     if (!title) return;
-  
     const id = `sub${Date.now()}`; 
     const ul = document.getElementById('subtask-list');
   
@@ -438,7 +441,6 @@ if ((task.category || "").toLowerCase() === "technical task") {
   function highlightPriorityButton(priority) {
     const buttons = document.querySelectorAll(".priority-btn");
     buttons.forEach(btn => btn.classList.remove("active-urgent", "active-medium", "active-low"));
-  
     const match = {
       "urgent": "active-urgent",
       "medium": "active-medium",
@@ -453,7 +455,6 @@ if ((task.category || "").toLowerCase() === "technical task") {
 
   function preselectAssignedUsers(assignedToObj) {
     if (!assignedToObj) return;
-  
     const ids = Object.values(assignedToObj); 
     document.querySelectorAll(".assigned-checkbox").forEach(checkbox => {
       if (ids.includes(checkbox.dataset.id)) {
