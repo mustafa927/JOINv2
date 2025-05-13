@@ -109,7 +109,6 @@ function createTaskFromForm() {
   if (!validateRequiredFields()) return;
 
   const newTask = buildNewTask();
-  console.log("📦 Finaler Task:", newTask);
 
   addNewTask(newTask);
   showSuccessMessage();
@@ -117,48 +116,38 @@ function createTaskFromForm() {
 }
 
 function validateRequiredFields() {
-  const title = document.getElementById("title").value.trim();
-  const date = document.getElementById("due-date").value.trim();
-  const category = document.getElementById("category").value;
-
-  const titleError = document.getElementById("title-error");
-  const dateError = document.getElementById("date-error");
-  const categoryError = document.getElementById("category-error");
-
-  let valid = true;
-
-  if (!title) {
-    titleError.classList.remove("d-none");
-    setTimeout(() => titleError.classList.add("d-none"), 3000);
-    valid = false;
-  }
-
-  if (!date) {
-    dateError.classList.remove("d-none");
-    setTimeout(() => dateError.classList.add("d-none"), 3000);
-    valid = false;
-  }
-
-  if (!category) {
-    categoryError.classList.remove("d-none");
-    setTimeout(() => categoryError.classList.add("d-none"), 3000);
-    valid = false;
-  }
-
-  return valid;
+  const titleValid = validateField("title", "title-error");
+  const dateValid = validateField("due-date", "date-error");
+  const categoryValid = validateField("category", "category-error");
+  return titleValid && dateValid && categoryValid;
 }
+
+function validateField(inputId, errorId) {
+  const value = document.getElementById(inputId).value.trim();
+  const error = document.getElementById(errorId);
+
+  if (!value) {
+    showTemporaryError(error);
+    return false;
+  }
+  return true;
+}
+
+function showTemporaryError(errorElement) {
+  errorElement.classList.remove("d-none");
+  setTimeout(() => errorElement.classList.add("d-none"), 3000);
+}
+
 
 async function createTaskFromFormOverlay() {
   if (!validateTitle() || !validateCategory()) return;
-
   const newTask = buildNewTask();
-  console.log("📦 Finaler Task:", newTask);
 
   try {
     await addNewTask(newTask); 
     window.parent.handleTaskCreated();
   } catch (error) {
-    console.error("❌ Fehler beim Speichern des Tasks:", error);
+    console.error(" Fehler beim Speichern des Tasks:", error);
     alert("Task konnte nicht gespeichert werden.");
   }
 }
@@ -221,7 +210,6 @@ function getSelectedPriority() {
 function collectSubtasks() {
   const elements = document.querySelectorAll("#subtask-list .subtask-item");
   const subtasks = {};
-
   elements.forEach(el => {
     const id = el.id.replace("subtask-", "");
     const input = el.querySelector(".edit-subtask-input");
