@@ -486,34 +486,56 @@ if ((task.category || "").toLowerCase() === "technical task") {
   }
   
   async function saveTaskChanges(taskId) {
-    const originalTask = window.allTasks.find(t => t.id === taskId);
-    if (!originalTask) {
-      console.warn(" Task nicht gefunden!");
-      return;
-    }
-    const updatedTask = {
-      title: document.getElementById("edit-title").value.trim(),
-      description: document.getElementById("edit-desc").value.trim(),
-      dueDate: document.getElementById("edit-due-date").value,
-      priority: getSelectedPriorityFromEditForm(),
-      category: document.getElementById("edit-category").value,
-      assignedTo: collectAssignedUserIds(),
-      subtasks: collectEditedSubtasks(),
-      Status: originalTask.Status 
-    };
+    const originalTask = findOriginalTask(taskId);
+    if (!originalTask) return;
+  
+    const updatedTask = buildUpdatedTask(originalTask);
   
     try {
-      await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}.json`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedTask)
-      });
-  
-      closeOverlay();
-      location.reload();
+      await saveTaskToDatabase(taskId, updatedTask);
+      handleSuccessfulSave();
     } catch (error) {
-      console.error(" Fehler beim Speichern:", error);
+      console.error("❌ Fehler beim Speichern:", error);
     }
+  }
+  
+  function findOriginalTask(taskId) {
+    const task = window.allTasks.find(t => t.id === taskId);
+    if (!task) {
+      console.warn("❗ Task nicht gefunden:", taskId);
+    }
+    return task;
+  }
+  
+  function buildUpdatedTask(originalTask) {
+    return {
+      title: getInputValue("edit-title"),
+      description: getInputValue("edit-desc"),
+      dueDate: getInputValue("edit-due-date"),
+      priority: getSelectedPriorityFromEditForm(),
+      category: getInputValue("edit-category"),
+      assignedTo: collectAssignedUserIds(),
+      subtasks: collectEditedSubtasks(),
+      Status: originalTask.Status
+    };
+  }
+  
+  function getInputValue(id) {
+    return document.getElementById(id)?.value.trim();
+  }
+  
+  async function saveTaskToDatabase(taskId, data) {
+    const url = `https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}.json`;
+    await fetch(url, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+  }
+  
+  function handleSuccessfulSave() {
+    closeOverlay();
+    location.reload();
   }
   
 
