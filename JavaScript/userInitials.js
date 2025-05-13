@@ -1,4 +1,9 @@
 
+/**
+ * Extracts initials from a user's full name
+ * @param {string} fullName - The user's full name
+ * @returns {string} - The user's initials (first letter of first and last name)
+ */
 export function getInitialsFromName(fullName) {
     if (!fullName || !fullName.includes(' ')) {
         return 'G'; 
@@ -13,6 +18,9 @@ export function getInitialsFromName(fullName) {
 }
 
 
+/**
+ * Updates user initials in the UI based on localStorage data
+ */
 export function updateUserInitials() {
     const storedUser = localStorage.getItem('currentUser');
     

@@ -3,6 +3,11 @@ import { signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/fir
 import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { updateUserInitials } from './userInitials.js';
 
+/**
+ * Displays an error message in the specified element
+ * @param {string} elementId - The ID of the error element to show
+ * @param {string} message - The error message to display
+ */
 function showError(elementId, message) {
     const errorElement = document.getElementById(elementId);
     if (errorElement) {
@@ -11,6 +16,10 @@ function showError(elementId, message) {
     }
 }
 
+/**
+ * Hides the error message in the specified element
+ * @param {string} elementId - The ID of the error element to hide
+ */
 function hideError(elementId) {
     const errorElement = document.getElementById(elementId);
     if (errorElement) {
@@ -19,6 +28,12 @@ function hideError(elementId) {
     }
 }
 
+/**
+ * Validates email and password inputs
+ * @param {string} email - The email to validate
+ * @param {string} password - The password to validate
+ * @returns {string} - Empty string if valid, error message otherwise
+ */
 function validateInputs(email, password) {
     if (!email || !password) return 'Please enter your email and password.';
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -27,6 +42,10 @@ function validateInputs(email, password) {
     return '';
 }
 
+/**
+ * Sets the login button state (enabled/disabled) and text
+ * @param {boolean} loading - Whether the login is in progress
+ */
 function setLoginButtonState(loading) {
     const loginButton = document.querySelector('.btn-primary');
     if (loginButton) {
@@ -35,16 +54,32 @@ function setLoginButtonState(loading) {
     }
 }
 
+/**
+ * Stores user session data in localStorage
+ * @param {Object} user - The Firebase user object
+ * @param {Object} userData - Additional user data
+ */
 function storeUserSession(user, userData) {
     const userDataToStore = { uid: user.uid, ...userData };
     localStorage.setItem('currentUser', JSON.stringify(userDataToStore));
 }
 
+/**
+ * Updates the user document in Firestore with login timestamp
+ * @param {Object} user - The Firebase user object
+ * @param {Object} userData - The user data to update
+ * @returns {Promise<void>}
+ */
 async function updateUserDoc(user, userData) {
     const userDocRef = doc(db, "users", user.uid);
     await setDoc(userDocRef, { ...userData, lastLogin: new Date().toISOString() }, { merge: true });
 }
 
+/**
+ * Creates a new user document in Firestore
+ * @param {Object} user - The Firebase user object
+ * @returns {Promise<Object>} - The created user data
+ */
 async function createUserDoc(user) {
     const userData = {
         name: user.displayName || 'User',
@@ -58,6 +93,10 @@ async function createUserDoc(user) {
     return userData;
 }
 
+/**
+ * Handles login errors and displays appropriate messages
+ * @param {Error} error - The Firebase authentication error
+ */
 function handleLoginError(error) {
     if (error.code === 'auth/invalid-credential') {
         showError('general-error', 'Invalid email or password. Please check your login details.');
@@ -74,6 +113,11 @@ function handleLoginError(error) {
     }
 }
 
+/**
+ * Handles the login form submission
+ * @param {Event} event - The form submission event
+ * @returns {Promise<void>}
+ */
 async function handleLogin(event) {
     event.preventDefault();
     hideError('email-error'); hideError('password-error'); hideError('general-error');
@@ -94,6 +138,11 @@ async function handleLogin(event) {
     }
 }
 
+/**
+ * Processes a successful user login
+ * @param {Object} user - The Firebase user object
+ * @returns {Promise<void>}
+ */
 async function processUserLogin(user) {
     const userDocRef = doc(db, "users", user.uid);
     const userDoc = await getDoc(userDocRef);
@@ -113,6 +162,9 @@ async function processUserLogin(user) {
     window.location.href = 'summary.html';
 }
 
+/**
+ * Handles guest login
+ */
 function handleGuestLogin() {
     localStorage.setItem('currentUser', JSON.stringify({ isGuest: true, name: 'Guest User' }));
     
@@ -131,6 +183,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (guestLoginButton) guestLoginButton.addEventListener('click', handleGuestLogin);
 });
 
+/**
+ * Handles user logout
+ * @returns {Promise<void>}
+ */
 async function handleLogout() {
     try {
         await signOut(auth);
