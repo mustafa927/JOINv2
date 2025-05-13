@@ -610,7 +610,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
       updateTaskCardDOM(taskId, task);
   
     } catch (error) {
-      console.error("❌ Fehler beim Subtask-Update:", error);
+      console.error(" Fehler beim Subtask-Update:", error);
     }
   }
   
@@ -629,7 +629,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
   function findTask(taskId) {
     const task = window.allTasks.find(t => t.id === taskId);
     if (!task) {
-      console.warn("❗ Task nicht in window.allTasks gefunden:", taskId);
+      console.warn(" Task nicht in window.allTasks gefunden:", taskId);
     }
     return task;
   }
@@ -637,7 +637,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
   function validateSubtaskExists(task, subtaskKey) {
     const exists = task.subtasks && task.subtasks[subtaskKey];
     if (!exists) {
-      console.warn("❗ Subtask nicht gefunden im Task-Objekt:", subtaskKey);
+      console.warn(" Subtask nicht gefunden im Task-Objekt:", subtaskKey);
     }
     return exists;
   }
@@ -669,12 +669,10 @@ if ((task.category || "").toLowerCase() === "technical task") {
 
   async function deleteTask(taskId) {
     const url = `https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}.json`;
-  
     try {
       const response = await fetch(url, {
         method: "DELETE"
       });
-  
       if (response.ok) {
         window.allTasks = window.allTasks.filter(task => task.id !== taskId);
         const card = document.getElementById(taskId);
@@ -682,7 +680,6 @@ if ((task.category || "").toLowerCase() === "technical task") {
           card.remove();
         }
         closeOverlay();
-  
       } else {
         console.error("Fehler beim Löschen:", response.statusText);
       }
@@ -690,7 +687,6 @@ if ((task.category || "").toLowerCase() === "technical task") {
       console.error("Fehler beim Löschen des Tasks:", error);
     }
     checkEmptySections()
-
   }
   
   function checkEmptySections() {
