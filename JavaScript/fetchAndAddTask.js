@@ -63,46 +63,46 @@ async function fetchDataTasks() {
   }
 }
 
-
 async function getAllTasksWithPeople() {
   try {
-    const tasksRes = await fetch(
-      "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json"
-    );
-    const tasksData = await tasksRes.json();
-
+    const tasksData = await fetchTasks();
+    const peopleData = await fetchPeople();
     if (!tasksData) {
       console.log("📭 Keine Tasks gefunden.");
       return [];
     }
-
-    const peopleRes = await fetch(
-      "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json"
-    );
-    const peopleData = await peopleRes.json();
-
-    const tasksArray = Object.entries(tasksData).map(([id, task]) => {
-      const assignedTo = task.assignedTo || {}; 
-
-      const assignedPeople = Object.values(assignedTo).map(personId => {
-        const person = peopleData?.[personId];
-        return person ? { id: personId, ...person } : { id: personId, name: "Unbekannt" };
-      });
-
-      return {
-        id,
-        ...task,
-        assignedPeople
-      };
-    });
+    const tasksArray = enrichTasksWithPeople(tasksData, peopleData);
     window.allTasks = tasksArray;
     return tasksArray;
-
   } catch (error) {
     console.error(" Fehler beim Abrufen der Tasks mit Personen:", error);
     return [];
   }
 }
+
+async function fetchTasks() {
+  const response = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json");
+  return await response.json();
+}
+
+async function fetchPeople() {
+  const response = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
+  return await response.json();
+}
+
+function enrichTasksWithPeople(tasksData, peopleData) {
+  return Object.entries(tasksData).map(([id, task]) => {
+    const assignedTo = task.assignedTo || {};
+
+    const assignedPeople = Object.values(assignedTo).map(personId => {
+      const person = peopleData?.[personId];
+      return person ? { id: personId, ...person } : { id: personId, name: "Unbekannt" };
+    });
+
+    return { id, ...task, assignedPeople };
+  });
+}
+
 
 
 function createTaskFromForm() {
