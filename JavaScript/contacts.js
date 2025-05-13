@@ -352,7 +352,6 @@ function toggleContactMenu() {
 window.addEventListener("resize", function () {
   let backdrop = document.getElementById("modalBackdrop");
   let addContactForm = document.getElementById("addContactForm");
-
   let isMobileContactOpen =
     backdrop &&
     backdrop.style.display !== "none" &&
@@ -386,7 +385,6 @@ document.addEventListener("click", function (event) {
   const toggle = document.getElementById("menu-contact-options");
 
   if (!form || !menu || !toggle) return;
-
   const clickedInsideForm = form.contains(event.target);
   const menuIsVisible = menu.style.display === "flex";
   const clickedOnToggle = toggle.contains(event.target);

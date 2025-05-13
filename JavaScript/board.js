@@ -15,14 +15,12 @@ window.drop = async function handleDrop(event) {
   event.preventDefault();
   const dropzone = event.currentTarget;
   if (!draggedElement || !dropzone.classList.contains('dropzone')) return;
-
   moveTaskCardToDropzone(draggedElement, dropzone);
   hideNoTasksMessage(dropzone);
   checkEmptySections();
 
   const taskId = extractTaskId(draggedElement.id);
   const newStatus = getStatusFromDropzone(dropzone);
-
   if (taskId && newStatus) {
     await updateTaskStatus(taskId, newStatus);
   }

@@ -281,7 +281,7 @@ async function addNewTask(taskData) {
     const result = await response.json();
     return result; 
   } catch (error) {
-    console.error("❌ Fehler beim Hinzufügen des Tasks:", error);
+    console.error(" Fehler beim Hinzufügen des Tasks:", error);
   }
 }
 
