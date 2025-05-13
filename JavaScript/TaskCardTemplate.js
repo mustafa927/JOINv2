@@ -495,14 +495,14 @@ if ((task.category || "").toLowerCase() === "technical task") {
       await saveTaskToDatabase(taskId, updatedTask);
       handleSuccessfulSave();
     } catch (error) {
-      console.error("❌ Fehler beim Speichern:", error);
+      console.error("Fehler beim Speichern:", error);
     }
   }
   
   function findOriginalTask(taskId) {
     const task = window.allTasks.find(t => t.id === taskId);
     if (!task) {
-      console.warn("❗ Task nicht gefunden:", taskId);
+      console.warn("Task nicht gefunden:", taskId);
     }
     return task;
   }
@@ -598,42 +598,63 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
 
   async function toggleSubtask(taskId, subtaskKey, isChecked) {
-    const url = `https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}/subtasks/${subtaskKey}/done.json`;
-  
     try {
-      const response = await fetch(url, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(isChecked)
-      });
+      await updateSubtaskStatusInDB(taskId, subtaskKey, isChecked);
   
-      const result = await response.json();
+      const task = findTask(taskId);
+      if (!task) return;
   
-      const task = window.allTasks.find(t => t.id === taskId);
-      if (!task) {
-        console.warn("Task nicht in window.allTasks gefunden:", taskId);
-        return;
-      }
+      if (!validateSubtaskExists(task, subtaskKey)) return;
   
-      if (!task.subtasks || !task.subtasks[subtaskKey]) {
-        console.warn("Subtask nicht gefunden im Task-Objekt:", subtaskKey);
-        return;
-      }
-  
-      task.subtasks[subtaskKey].done = isChecked;
-  
-      const card = document.getElementById(`${taskId}`);
-      if (!card) {
-        console.warn("⚠️ Card-Element im DOM nicht gefunden:", `${taskId}`);
-        return;
-      }
-  
-      const newCardHTML = createTaskCard(task);
-      card.outerHTML = newCardHTML;
+      updateLocalSubtaskStatus(task, subtaskKey, isChecked);
+      updateTaskCardDOM(taskId, task);
   
     } catch (error) {
-      console.error(" Fehler beim Subtask-Update:", error);
+      console.error("❌ Fehler beim Subtask-Update:", error);
     }
+  }
+  
+  async function updateSubtaskStatusInDB(taskId, subtaskKey, isChecked) {
+    const url = `https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}/subtasks/${subtaskKey}/done.json`;
+  
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(isChecked)
+    });
+  
+    return await response.json();
+  }
+  
+  function findTask(taskId) {
+    const task = window.allTasks.find(t => t.id === taskId);
+    if (!task) {
+      console.warn("❗ Task nicht in window.allTasks gefunden:", taskId);
+    }
+    return task;
+  }
+  
+  function validateSubtaskExists(task, subtaskKey) {
+    const exists = task.subtasks && task.subtasks[subtaskKey];
+    if (!exists) {
+      console.warn("❗ Subtask nicht gefunden im Task-Objekt:", subtaskKey);
+    }
+    return exists;
+  }
+  
+  function updateLocalSubtaskStatus(task, subtaskKey, isChecked) {
+    task.subtasks[subtaskKey].done = isChecked;
+  }
+  
+  function updateTaskCardDOM(taskId, task) {
+    const card = document.getElementById(`${taskId}`);
+    if (!card) {
+      console.warn("⚠️ Card-Element im DOM nicht gefunden:", taskId);
+      return;
+    }
+  
+    const newCardHTML = createTaskCard(task);
+    card.outerHTML = newCardHTML;
   }
   
   
