@@ -276,7 +276,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1999;
+  z-index: 6000;
 }
 
 .modal-content {
