@@ -287,7 +287,6 @@ if ((task.category || "").toLowerCase() === "technical task") {
     overlay.innerHTML = buildEditTaskForm(task);
     overlay.style.display = "flex";
   
-
     setTimeout(async () => {
       setupPriorityButtons();                    // Priority Buttons aktivieren
       await assignedToInput();                   // Kontakte laden
@@ -389,8 +388,8 @@ if ((task.category || "").toLowerCase() === "technical task") {
     if (!title) return;
     const id = `sub${Date.now()}`; 
     const ul = document.getElementById('subtask-list');
-  
     const li = document.createElement('li');
+
     li.className = 'subtask-item';
     li.id = `subtask-${id}`;
     li.innerHTML = `
@@ -432,6 +431,13 @@ if ((task.category || "").toLowerCase() === "technical task") {
       </div>
     `;
   }
+
+  /**
+   * 
+   * This function deletes the Subtask in our databank
+   * 
+   * @param {string} id 
+   */
   
   function deleteSubtask(id) {
     const li = document.getElementById(`subtask-${id}`);

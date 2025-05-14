@@ -3,13 +3,33 @@ import { signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth
 
 let draggedElement;
 
+/**
+ * starts dragging element
+ * @param {string} event 
+ */
+
 window.startDragging = function(event) {
   draggedElement = event.target;
 }
 
+/**
+ * allows to drop Element 
+ * @param {string} event 
+ */
+
 window.allowDrop = function(event) {
   event.preventDefault();
 }
+
+/**
+ * Handles the drop event during a drag-and-drop operation on a task card.
+ * Moves the dragged task to the dropzone, updates the UI accordingly,
+ * and sends the new status to the database.
+ *
+ * @param {DragEvent} event - The drag-and-drop event triggered when a task card is dropped.
+ * 
+ */
+
 
 window.drop = async function handleDrop(event) {
   event.preventDefault();
@@ -26,6 +46,16 @@ window.drop = async function handleDrop(event) {
   }
 };
 
+
+/**
+ * Moves a task card element into a given dropzone.
+ * If the dropzone does not yet contain a `.card-bucket` container,
+ * it creates one and appends the card into it.
+ *
+ * @param {HTMLElement} cardElement - The task card element being moved.
+ * @param {HTMLElement} dropzone - The target container where the card should be dropped.
+ */
+
 function moveTaskCardToDropzone(cardElement, dropzone) {
   let bucket = dropzone.querySelector('.card-bucket');
 
@@ -39,6 +69,11 @@ function moveTaskCardToDropzone(cardElement, dropzone) {
 }
 
 
+/**
+ * checks if the sections are empty and toggles D:none on the div NO Tasks To Do
+ */
+
+
 function hideNoTasksMessage(dropzone) {
   const noTasksMessage = dropzone.querySelector('.no-tasks');
   if (noTasksMessage) {
@@ -46,25 +81,39 @@ function hideNoTasksMessage(dropzone) {
   }
 }
 
+/**
+ * 
+ * builds the correct Task Id 
+ * 
+ * @param {string} cardId 
+ * @returns 
+ */
+
 function extractTaskId(cardId) {
   return cardId.replace("task-", "");
 }
 
-function checkEmptySections() {
-    document.querySelectorAll('.progress-section').forEach(section => {
-      const cards = section.querySelectorAll('.card');
-      const noTasks = section.querySelector('.no-tasks');
+
+
+
+// function checkEmptySections() {
+//     document.querySelectorAll('.progress-section').forEach(section => {
+//       const cards = section.querySelectorAll('.card');
+//       const noTasks = section.querySelector('.no-tasks');
       
-      if (cards.length === 0 && noTasks) {
-        noTasks.classList.remove('d-none');
-      } else if (cards.length > 0 && noTasks) {
-        noTasks.classList.add('d-none');
-      }
-    });
-}
+//       if (cards.length === 0 && noTasks) {
+//         noTasks.classList.remove('d-none');
+//       } else if (cards.length > 0 && noTasks) {
+//         noTasks.classList.add('d-none');
+//       }
+//     });
+// }
 
-
-
+/**
+ * returns in wich dropzone the element is currently in
+ * @param {string} dropzone 
+ * @returns 
+ */
 function getStatusFromDropzone(dropzone) {
   const title = dropzone.querySelector(".to-do-header p")?.innerText.toLowerCase();
 
@@ -75,6 +124,13 @@ function getStatusFromDropzone(dropzone) {
 
   return null;
 }
+
+
+/**
+ * Updates current Status of task in databank
+ * @param {string} taskId 
+ * @param {string} newStatus 
+ */
 
 async function updateTaskStatus(taskId, newStatus) {
   try {
@@ -91,7 +147,9 @@ async function updateTaskStatus(taskId, newStatus) {
 }
 
 
-
+/**
+ * toggles the dropdown menu
+ */
 
 window.toggleMenu = function() {
     const menu = document.getElementById("dropdownMenu");
@@ -100,12 +158,27 @@ window.toggleMenu = function() {
     }
 }
 
+/**
+ * Toggles the visibility of the user dropdown menu.
+ * Adds or removes the "show" class on the element with ID "userDropdown".
+ *
+
+ */
+
 window.toggleDropdown = function() {
     const dropdown = document.getElementById("userDropdown");
     if (dropdown) {
         dropdown.classList.toggle("show");
     }
 }
+
+/**
+ * Global click event listener that closes the dropdown menu
+ * if a click occurs outside the profile wrapper element.
+ *
+ * @param {MouseEvent} e - The click event object.
+ * 
+ */
 
 document.addEventListener("click", function (e) {
     const profile = document.querySelector(".profile-wrapper");
@@ -114,6 +187,11 @@ document.addEventListener("click", function (e) {
         menu.classList.remove("show");
     }
 });
+
+
+/**
+ * Logout for current user
+ */
 
 async function handleLogout() {
     try {
@@ -124,6 +202,13 @@ async function handleLogout() {
         console.error('Error during logout:', error);
     }
 }
+
+/**
+ * Sets up the logout button behavior after the DOM has fully loaded.
+ * Attaches a click event to the logout link inside the dropdown menu,
+ * preventing default navigation and triggering the logout logic.
+ *
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
     const logoutButton = document.querySelector('#dropdownMenu a[href="index.html"]');
