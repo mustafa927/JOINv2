@@ -452,11 +452,17 @@ body {
 
   .title {
     font-size: 28px;
+    padding-left:10px;
   }
 
   .sub {
     font-size: 14px;
-    padding-left: 20px;
+    padding-left: 10px;
+  }
+
+  .divider-mobile {
+    margin-left:10px;
+    width:50px;
   }
 
   .main-container {
