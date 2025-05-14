@@ -19,10 +19,9 @@ header h2 {
 /* Boardbereich */
 .board-section {
   background-color: rgb(246, 247, 248);
-  padding-top: 80px;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 90px);
   width: calc(100vw - 230px);
-  margin-left: 230px;
+  
 }
 
 h1 {
@@ -43,7 +42,8 @@ h1 {
 main {
   flex-grow: 1;
   background-color: #fff;
-
+  margin-top: 90px;
+  padding-top: 0 !important;
 }
 
 /* Suchleiste */
@@ -161,8 +161,7 @@ main {
 .board-cards {
   display: flex;
   justify-content: center;
-  gap: 6px;
-  height: 100%;         
+  gap: 6px;        
   align-items: stretch;  
 }
 
@@ -621,7 +620,7 @@ h1 {
 
 @media (max-width:768px) {
   .board-section {
-    margin-left: 10px;
+    margin-left: 0px;
     width: 100vw;
   }
 
@@ -642,6 +641,7 @@ h1 {
 
   }
 
+ 
   .card-bucket::-webkit-scrollbar {
     display: none;                /* Chrome, Safari */
   }
