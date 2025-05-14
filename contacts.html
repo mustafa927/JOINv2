@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contacts</title>
+    <title>Join - Contacts</title>
     <link rel="stylesheet" href="style/boss.css" />
     <link rel="stylesheet" href="style/sidebar.css">
     <link rel="stylesheet" href="./style/contact.css">
@@ -16,7 +16,6 @@
   <body onload="fetchData()">
     <div id="successMessage" class="contact-created">Contact successfully created</div>
 
-
     <aside class="sidebar">
       <div class="sidebar-logo">
         <img src="svg/sidebarLogo.svg" alt="Join Logo">
@@ -24,27 +23,40 @@
     
       <nav class="sidebar-nav">
         <a href="summary.html" class="nav-item">
-          <img src="svg/Vector.svg" alt="">
-          <span>Summary</span>
+          <div class="nav-item-content">
+            <img src="./svg/Icons.svg" alt="">
+            <span>Summary</span>
+          </div>
         </a>
+    
         <a href="addTask.html" class="nav-item">
-          <img src="svg/Icons (1).svg" alt="">
-          <span>Add Task</span>
+          <div class="nav-item-content">
+            <img src="./svg/Icons (1).svg" alt="">
+            <span>Add Task</span>
+          </div>
         </a>
+    
         <a href="boardsection.html" class="nav-item">
-          <img src="svg/Vector (1) 2.svg" alt="">
-          <span>Board</span>
+          <div class="nav-item-content">
+            <img src="./svg/Vector (1) 2.svg" alt="">
+            <span>Board</span>
+          </div>
         </a>
-        <a href="#" class="nav-item  active">
-          <img src="svg/Icons (2).svg" alt="">
-          <span>Contacts</span>
+    
+        <a href="contacts.html" class="nav-item active">
+          <div class="nav-item-content">
+            <img src="./svg/Icons (3).svg" alt="">
+            <span>Contacts</span>
+          </div>
         </a>
       </nav>
+    
       <div class="sidebar-footer">
         <a href="privacyPolicy.html">Privacy Policy</a>
-        <a href="Legal-notice.html">Legal notice</a>
+        <a href="legal-notice.html">Legal notice</a>
       </div>
     </aside>
+    
 
     <header class="page-header">
       <div class="logo-title">Kanban Project Management Tool</div>

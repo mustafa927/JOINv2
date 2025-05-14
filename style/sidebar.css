@@ -59,18 +59,19 @@ body {
   }
   
   .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
     color: #CDCDCD;
-    text-decoration: none;
-    padding: 10px 15px;
+    width: 100%;
+    padding: 12px 0;
     border-radius: 8px;
-    width:110px;
-    margin:0 auto;
     transition: background 0.3s, color 0.3s;
   }
-
+  .nav-item-content {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Abstand zwischen Icon und Text */
+    margin:0 auto;
+    width:50%;
+  }
   .nav-item-mobile{
     display: flex;
     align-items: center;
