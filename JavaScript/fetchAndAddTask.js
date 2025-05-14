@@ -2,35 +2,15 @@
 
 window.allTasks = []; 
 
+/**
+ * Determines the task status based on the URL or parent window context.
+ * 
+ * @returns {string} - The current task status (default: "To-Do")
+ */
 function getTaskStatus() {
   const fromURL = new URLSearchParams(window.location.search).get("status");
   return fromURL || window.parent?.currentTaskStatus || "To-Do";
 }
-
-
-
-// let newTask = {
-//   title: "Kanban UI bauen",
-//   description: "UI für Task-Overlay erstellen",
-//   dueDate: "2025-06-10",
-//   priority: "High",
-//   category: "Design",
-//   Status: "To-Do",
-//   assignedTo: {
-//     person1: "-OO2cpzcQaVpB2cvHgCp",
-//     person2: "-OONRhAG3up-91-RGtpa"
-//   },
-//   subtasks: {
-//     sub1: {
-//       title: "HTML/CSS Grundstruktur",
-//       done: false
-//     },
-//     sub2: {
-//       title: "JS Integration",
-//       done: true
-//     }
-//   }
-// };
 
 let newTask = {
   title: "",
@@ -44,7 +24,11 @@ let newTask = {
 };
 
 
-
+/**
+ * Fetches tasks from Firebase and stores them in the global `allTasks` array.
+ * 
+ * @async
+ */
 async function fetchDataTasks() {
   console.log("fetchData gestartet");
   let response = await fetch(
@@ -63,6 +47,11 @@ async function fetchDataTasks() {
   }
 }
 
+/**
+ * Fetches all tasks and enriches them with user data.
+ * 
+ * @returns {Promise<Array>} - List of enriched task objects
+ */
 async function getAllTasksWithPeople() {
   try {
     const tasksData = await fetchTasks();
@@ -80,16 +69,33 @@ async function getAllTasksWithPeople() {
   }
 }
 
+/**
+ * Fetches task data from Firebase.
+ * 
+ * @returns {Promise<Object>} - Raw tasks data
+ */
 async function fetchTasks() {
   const response = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json");
   return await response.json();
 }
 
+/**
+ * Fetches user data from Firebase.
+ * 
+ * @returns {Promise<Object>} - Raw people data
+ */
 async function fetchPeople() {
   const response = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
   return await response.json();
 }
 
+/**
+ * Enriches tasks with corresponding user data.
+ * 
+ * @param {Object} tasksData - Task data from Firebase
+ * @param {Object} peopleData - People data from Firebase
+ * @returns {Array} - Array of tasks with assignedPeople info
+ */
 function enrichTasksWithPeople(tasksData, peopleData) {
   return Object.entries(tasksData).map(([id, task]) => {
     const assignedTo = task.assignedTo || {};
@@ -105,6 +111,10 @@ function enrichTasksWithPeople(tasksData, peopleData) {
 
 
 
+/**
+ * Validates form fields, builds task, submits it and redirects.
+ * 
+ */
 function createTaskFromForm() {
   if (!validateRequiredFields()) return;
 
@@ -115,6 +125,11 @@ function createTaskFromForm() {
   redirectToBoard();
 }
 
+/**
+ * Validates required input fields.
+ * 
+ * @returns {boolean} - True if all required fields are valid
+ */
 function validateRequiredFields() {
   const titleValid = validateField("title", "title-error");
   const dateValid = validateField("due-date", "date-error");
@@ -122,6 +137,13 @@ function validateRequiredFields() {
   return titleValid && dateValid && categoryValid;
 }
 
+/**
+ * Validates a single input field.
+ * 
+ * @param {string} inputId - ID of input element
+ * @param {string} errorId - ID of error element
+ * @returns {boolean} - True if valid
+ */
 function validateField(inputId, errorId) {
   const value = document.getElementById(inputId).value.trim();
   const error = document.getElementById(errorId);
@@ -133,12 +155,21 @@ function validateField(inputId, errorId) {
   return true;
 }
 
+/**
+ * Temporarily displays an error element.
+ * 
+ * @param {HTMLElement} errorElement - Element to show
+ */
 function showTemporaryError(errorElement) {
   errorElement.classList.remove("d-none");
   setTimeout(() => errorElement.classList.add("d-none"), 3000);
 }
 
 
+/**
+ * Form handler for modal-based task creation.
+ * 
+ */
 async function createTaskFromFormOverlay() {
   if (!validateTitle() || !validateCategory()) return;
   const newTask = buildNewTask();
@@ -152,17 +183,29 @@ async function createTaskFromFormOverlay() {
   }
 }
 
-
+/**
+ * Closes the task creation modal and clears its contents.
+ * 
+ */
 function closeAddTaskModal() {
   document.getElementById("addTaskModal").classList.add("d-none");
   document.getElementById("addTaskIframe").src = "about:blank";
 }
 
+/**
+ * Called after a task is created from within an iframe/modal.
+ * 
+ */
 function handleTaskCreated() {
   closeAddTaskModal();
   location.reload(); 
 }
 
+/**
+ * Validates task title.
+ * 
+ * @returns {boolean} - True if valid
+ */
 function validateTitle() {
   const title = document.getElementById("title").value.trim();
   const error = document.getElementById("title-error");
@@ -171,6 +214,11 @@ function validateTitle() {
   return isValid;
 }
 
+/**
+ * Validates task category.
+ * 
+ * @returns {boolean} - True if valid
+ */
 function validateCategory() {
   const category = document.getElementById("category").value;
   const error = document.getElementById("category-error");
@@ -179,6 +227,11 @@ function validateCategory() {
   return isValid;
 }
 
+/**
+ * Builds a new task object based on form inputs.
+ * 
+ * @returns {Object} - Task object
+ */
 function buildNewTask() {
   return {
     title: getValue("title"),
@@ -192,11 +245,21 @@ function buildNewTask() {
   };
 }
 
-
+/**
+ * Gets the trimmed value of an input field by ID.
+ * 
+ * @param {string} id - Input element ID
+ * @returns {string}
+ */
 function getValue(id) {
   return document.getElementById(id).value.trim();
 }
 
+/**
+ * Determines which priority button is currently selected.
+ * 
+ * @returns {string} - Priority string (Urgent, Medium, Low, or empty)
+ */
 function getSelectedPriority() {
   const buttons = document.querySelectorAll(".priority-btn");
   for (let btn of buttons) {
@@ -207,6 +270,11 @@ function getSelectedPriority() {
   return "";
 }
 
+/**
+ * Collects subtasks from the DOM and builds a subtasks object.
+ * 
+ * @returns {Object} - Subtask entries by ID
+ */
 function collectSubtasks() {
   const elements = document.querySelectorAll("#subtask-list .subtask-item");
   const subtasks = {};
@@ -223,6 +291,11 @@ function collectSubtasks() {
   return subtasks;
 }
 
+/**
+ * Collects checked user IDs from assigned checkboxes.
+ * 
+ * @returns {Object} - Assigned users keyed by personX
+ */
 function collectAssignedUserIds() {
   const boxes = document.querySelectorAll(".assigned-checkbox:checked");
   const assigned = {};
@@ -233,6 +306,10 @@ function collectAssignedUserIds() {
   return assigned;
 }
 
+/**
+ * Redirects the user to the board page after task creation.
+ * 
+ */
 function redirectToBoard() {
   setTimeout(() => {
     window.location.href = "boardsection.html";
@@ -240,6 +317,10 @@ function redirectToBoard() {
 }
 
 
+/**
+ * Displays the "Task created" success message briefly.
+ * 
+ */
 function showSuccessMessage() {
   const message = document.getElementById('task-success-message');
   if (!message) return;
@@ -253,7 +334,12 @@ function showSuccessMessage() {
   }, 1200);
 }
 
-
+/**
+ * Sends a new task to Firebase for saving.
+ * 
+ * @param {Object} taskData - The task object to store
+ * @returns {Promise<Object>} - Firebase response
+ */
 async function addNewTask(taskData) {
   try {
     const response = await fetch(

@@ -1,13 +1,21 @@
 
 
-
+/**
+ * Clears the task creation form by resetting inputs, hiding error messages,
+ * and removing any active priority button classes.
+ * 
+ */
 function clearForm() {
   resetInputs();
   hideErrors();
   removePriorityClasses();
 }
 
-
+/**
+ * Resets all form input fields to their default values,
+ * including title, description, due date, category, and subtasks.
+ * 
+ */
 function resetInputs() {
   document.getElementById('title').value = '';
   document.getElementById('desc').value = '';
@@ -19,7 +27,11 @@ function resetInputs() {
   if (subtask) subtask.value = '';
 }
 
-
+/**
+ * Hides all error message elements by adding the 'd-none' class.
+ * Currently targets title and category error elements.
+ * 
+ */
 function hideErrors() {
   ['title-error', 'category-error'].forEach(id => {
     const el = document.getElementById(id);

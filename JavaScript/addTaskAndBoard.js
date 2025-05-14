@@ -1,5 +1,10 @@
 const TASKS_URL = "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json";
 
+/**
+ * Handles task creation: validates input, saves to Firebase, clears form,
+ * shows a success message, and redirects to the board after a delay.
+ * 
+ */
 async function handleCreateTask() {
   if (!validateForm()) return;
   let task = collectFormData();
@@ -11,6 +16,12 @@ async function handleCreateTask() {
   }, 1500);
 }
 
+/**
+ * Validates the required form fields: title and category.
+ * Shows or hides error messages accordingly.
+ * 
+ * @returns {boolean} - Returns true if the form is valid, false otherwise.
+ */
 function validateForm() {
   let valid = true;
   let title = document.getElementById('title').value.trim();
@@ -26,16 +37,31 @@ function validateForm() {
   return valid;
 }
 
+/**
+ * Displays an error message by showing the element with the given ID.
+ * 
+ * @param {string} id - The ID of the element to display.
+ */
 function showError(id) {
   let el = document.getElementById(id);
   if (el) el.style.display = 'block';
 }
 
+/**
+ * Hides an error message by hiding the element with the given ID.
+ * 
+ * @param {string} id - The ID of the element to hide.
+ */
 function hideError(id) {
   let el = document.getElementById(id);
   if (el) el.style.display = 'none';
 }
 
+/**
+ * Collects data from the form fields and structures it into a task object.
+ * 
+ * @returns {Object} - The task object with title, description, date, category, and default status.
+ */
 function collectFormData() {
   return {
     title: document.getElementById('title').value,
@@ -46,6 +72,12 @@ function collectFormData() {
   };
 }
 
+/**
+ * Saves the given task object to Firebase via POST request.
+ * 
+ * @param {Object} task - The task object to save.
+ * 
+ */
 async function saveTaskToFirebase(task) {
   try {
     let response = await fetch(TASKS_URL, {
@@ -59,12 +91,21 @@ async function saveTaskToFirebase(task) {
   }
 }
 
+
+/**
+ * Clears the entire task form and resets UI elements.
+ * 
+ */
 function clearForm() {
   resetFieldValues();
   resetPriorityButtons();
   clearSubtaskInput();
 }
 
+/**
+ * Resets all standard input fields to their default state.
+ * 
+ */
 function resetFieldValues() {
   document.getElementById('title').value = '';
   document.getElementById('desc').value = '';
@@ -72,17 +113,29 @@ function resetFieldValues() {
   document.getElementById('category').selectedIndex = 0;
 }
 
+/**
+ * Removes all active classes from priority buttons.
+ * 
+ */
 function resetPriorityButtons() {
   document.querySelectorAll('.priority-btn').forEach(btn => {
     btn.classList.remove('active-urgent', 'active-medium', 'active-low');
   });
 }
 
+/**
+ * Clears the subtask input field value.
+ * 
+ */
 function clearSubtaskInput() {
   let input = document.querySelector('.subtask-input');
   if (input) input.value = '';
 }
 
+/**
+ * Displays a task-created success message for a short duration.
+ * 
+ */
 function showSuccessMessage() {
   let message = document.getElementById('task-success-message');
   if (!message) return;
@@ -94,6 +147,12 @@ function showSuccessMessage() {
   }, 1200);
 }
 
+/**
+ * Updates the status of an existing task in Firebase.
+ * 
+ * @param {string} taskId - The ID of the task to update.
+ * @param {string} newStatus - The new status to set for the task.
+ */
 async function updateTaskStatus(taskId, newStatus) {
   try {
     await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}.json`, {
