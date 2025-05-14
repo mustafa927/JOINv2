@@ -9,7 +9,7 @@
     top: 0;
     right: 0;
     left: 232px; /* Width of sidebar */
-    z-index: 100;
+    z-index: 5000;
 }
 
 .logo-title {
