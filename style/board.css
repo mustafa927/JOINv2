@@ -154,7 +154,7 @@ main {
   padding: 24px;
   display: flex;
   flex-direction: column;
-  height: 50%;    /* optional: schöner Look */
+  height: 60vh;    /* optional: schöner Look */
 }
 
 
@@ -615,6 +615,10 @@ h1 {
     scroll-snap-align: start;
     flex-shrink: 0;
   }
+
+  .progress-section {
+    height: auto;
+  }
 }
 
 
@@ -667,6 +671,7 @@ h1 {
 
   .progress-section {
     width: auto;
+    height: auto;
   }
 }
 
