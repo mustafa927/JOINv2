@@ -3,6 +3,14 @@
 const avatarColors = ["#FF7A00", "#FF5C01", "#FFBB2E", "#0095FF", "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1", "#FF4646", "#FFC700", "#BEE800"];
 
 
+/**
+ * Generates a consistent avatar background color based on a user's name.
+ * Hashes the name string and maps it to one of the predefined colors.
+ *
+ * @param {string} name - The user's full name.
+ * @returns {string} A hex color code from the avatarColors array.
+ */
+
 function getColorForName(name) {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
@@ -11,6 +19,13 @@ function getColorForName(name) {
   return avatarColors[Math.abs(hash % avatarColors.length)];
 }
 
+
+/**
+ * Generates a consistent avatar Initials  based on a user's name.
+ *
+ * @param {string} name - The user's full name.
+ */
+
 function getInitials(name) {
   if (!name) return "";
   let parts = name.trim().split(" ");
@@ -18,6 +33,14 @@ function getInitials(name) {
   if (parts.length > 1) initials += parts[1][0];
   return initials.toUpperCase();
 }
+
+/**
+ * Returns a deterministic background color based on a given name.
+ * This is used to generate visually distinct avatar colors.
+ *
+ * @param {string} name - The name used to generate a color hash.
+ * @returns {string} A hex color code selected from a predefined palette.
+ */
 
 function getColorFromName(name) {
   let hash = 0;
@@ -28,6 +51,15 @@ function getColorFromName(name) {
   return colors[Math.abs(hash) % colors.length];
 }
 
+
+/**
+ * Creates an HTML string representing a task card for the Kanban board.
+ * The card includes title, description, priority icon, category styling,
+ * assigned users, and subtask progress. It is also draggable and clickable.
+ *
+ * @param {Object} task - The task object containing all relevant data.
+ * @returns {string} HTML string representing the rendered task card.
+ */
 
 function createTaskCard(task) {
   const assignedHTML = renderAssignedPeople(task.assignedPeople || []);
@@ -65,6 +97,14 @@ function createTaskCard(task) {
 }
 
 
+/**
+ * Generates HTML for displaying avatars of assigned people.
+ * Each avatar shows the initials of the person's name and a background color
+ *
+ * @param {Array<Object>} people - Array of person objects.
+ * @returns {string} HTML string containing styled avatar elements.
+ */
+
 function renderAssignedPeople(people) {
   return people.map(person => {
     const initials = getInitials(person.name);
@@ -72,6 +112,15 @@ function renderAssignedPeople(people) {
     return `<div class="avatar" style="background-color:${color}">${initials}</div>`;
   }).join("");
 }
+
+
+/**
+ * calculates the progress on subtasks 
+ * 
+ * 
+ * @param {string} subtasks 
+ * @returns total amount of subtasks and finished amount of subtasks
+ */
 
 function calculateSubtaskProgress(subtasks) {
   let total = 0, done = 0;
@@ -81,6 +130,14 @@ function calculateSubtaskProgress(subtasks) {
   }
   return { total, done };
 }
+
+/**
+ * Returns an HTML string for the corresponding priority icon.
+ * Converts the priority string to lowercase and maps it to an SVG file.
+ *
+ * @param {string} priority - The priority level ("Urgent", "Medium", or "Low").
+ * @returns {string} An HTML <img> element as a string, or an empty string if unknown.
+ */
 
 function getPriorityIcon(priority) {
   const icons = {
@@ -92,6 +149,12 @@ function getPriorityIcon(priority) {
   return icons[key] ? `<img src="svg/${icons[key]}" alt="${key} icon" />` : "";
 }
 
+/**
+ * checks if category is technical task if true 
+ * @param {string} category 
+ * @returns backround colour tourquise
+ */
+
 function getCategoryStyle(category) {
   return (category || "").toLowerCase() === "technical task"
     ? "background-color: turquoise;"
@@ -99,7 +162,19 @@ function getCategoryStyle(category) {
 }
 
 
-  
+  /**
+ * Loads all tasks and people data from the backend and renders the tasks onto the board.
+ * Each task is enriched with assigned people data before being inserted into its column.
+ *
+ * Fetches:
+ * - Task data from the "Tasks" endpoint
+ * - Person data from the "person" endpoint
+ *
+ * Calls `insertTaskIntoColumn` for each task with resolved person assignments.
+ *
+ * @function loadBoardTasks
+ * @returns 
+ */
 
   async function loadBoardTasks() {
     const [tasksRes, peopleRes] = await Promise.all([
@@ -117,7 +192,13 @@ function getCategoryStyle(category) {
     }
   }
   
-
+/**
+ * Inserts a task card into the appropriate board column based on its status.
+ * If the column doesn't exist or the status is unknown, the function exits early.
+ * Hides the "no tasks" placeholder and appends the task card to a bucket container.
+ *
+ * @param {Object} task - The task object to insert.
+ */
   function insertTaskIntoColumn(task) {
     const columnSelector = getColumnSelector(task);
     if (!columnSelector) return;
@@ -126,6 +207,14 @@ function getCategoryStyle(category) {
     insertTaskCard(columnSelector, task);
   }
   
+
+  /**
+ * Returns the CSS selector string for the board column corresponding to the task's status.
+ * Normalizes the status to lowercase and maps it to a column index using a predefined map.
+ * If the status is unknown, logs a warning and returns null.
+ *
+ * @param {Object} task - The task object containing status information.
+ */
   function getColumnSelector(task) {
     const status = (task.Status || task.status || "").toLowerCase();
     const map = {
@@ -143,11 +232,25 @@ function getCategoryStyle(category) {
     return `.board-cards .progress-section:nth-child(${index})`;
   }
   
+/**
+ * if there is a task in the sector the NoTask Message dissapears 
+ * @param {string} selector 
+ */
+
   function hideNoTasksMessage(selector) {
     const container = document.querySelector(`${selector} .no-tasks`);
     if (container) container.classList.add("d-none");
   }
   
+/**
+ * Inserts a task card into the specified board column.
+ * Ensures that a container with class `.card-bucket` exists within the column.
+ * If the bucket is missing, it creates and appends it before adding the task card.
+ *
+ * @param {string} selector - CSS selector for the target column (e.g., ".board-cards .progress-section:nth-child(1)").
+ * @param {Object} task - Task object used to render the task card.
+ */
+
   function insertTaskCard(selector, task) {
     const column = document.querySelector(selector);
     let bucket = column.querySelector('.card-bucket');
@@ -162,11 +265,26 @@ function getCategoryStyle(category) {
   }
   
   
-  
+  /**
+ * Initializes the board by loading tasks once the DOM is fully loaded.
+ * Ensures that tasks are fetched and rendered into the correct board columns.
+ *
+ * @event DOMContentLoaded
+ */
 
   document.addEventListener("DOMContentLoaded", () => {
     loadBoardTasks();
   });
+
+
+/**
+ * Opens the task detail overlay for the given task ID.
+ * Searches for the task in the globally stored task list and renders the overlay.
+ * Logs a warning if the task cannot be found.
+ *
+ * @param {string} taskId - The unique ID of the task to display in the overlay.
+ */
+
   window.openOverlayFromCard = function(taskId) {
     const task = window.allTasks.find(t => t.id === taskId);
   
@@ -178,7 +296,12 @@ function getCategoryStyle(category) {
   };
   
   
-  
+  /**
+ * Displays the task detail overlay for the provided task.
+ * Injects the HTML markup into the overlay container and applies an animation class.
+ *
+ * @param {Object} task - The task object to display in the overlay.
+ */
   function showTaskOverlay(task) {
     const overlayContainer = document.getElementById("overlay-container");
     overlayContainer.innerHTML = buildOverlayHTML(task);
@@ -190,13 +313,24 @@ function getCategoryStyle(category) {
     }
   }
   
-  
+  /**
+   * close the Overlay
+   */
   function closeOverlay() {
     const overlay = document.getElementById("overlay-container");
     overlay.innerHTML = "";
     overlay.style.display = "none";
   }
   
+
+/**
+ * Builds and returns the HTML markup for the task overlay.
+ * Includes task details such as title, description, due date, priority icon, assigned people, and subtasks.
+ *
+ * @param {Object} task - The task object containing all necessary task data.
+ * @returns {string} - HTML string representing the full overlay view.
+ */
+
   function buildOverlayHTML(task) {
     const priorityIcon = (() => {
       switch ((task.priority || "").toLowerCase()) {
@@ -261,6 +395,8 @@ if ((task.category || "").toLowerCase() === "technical task") {
   }
   
 
+
+
   document.addEventListener("click", function (event) {
     const overlay = document.getElementById("overlay-container");
     const card = document.querySelector(".task-card-overlay");
@@ -278,7 +414,13 @@ if ((task.category || "").toLowerCase() === "technical task") {
 
 
   
-
+/**
+ * Switches the task overlay to edit mode for the given task ID.
+ * Renders the edit form, shows the overlay, and initializes interactive elements such as priority buttons and assigned contacts.
+ *
+ * @async
+ * @param {string} taskId - The ID of the task to be edited.
+ */
 
   async function switchToEditMode(taskId) {
     const task = window.allTasks.find(t => t.id === taskId);
@@ -295,7 +437,11 @@ if ((task.category || "").toLowerCase() === "technical task") {
     }, 0);
   }
   
-  
+  /**
+ * Initializes click event listeners on priority buttons.
+ * Ensures only one priority (urgent, medium, or low) is active at a time
+ * by applying the appropriate CSS class to the selected button.
+ */
   function setupPriorityButtons() {
     const buttons = document.querySelectorAll(".priority-btn");
   
@@ -310,6 +456,14 @@ if ((task.category || "").toLowerCase() === "technical task") {
     });
   }
   
+
+  /**
+ * Builds and returns the HTML markup for the edit task form overlay.
+ * 
+ * @param {Object} task - The task object containing data to populate the form.
+ * 
+ * @returns {string} HTML string representing the complete editable task form.
+ */
   
   function buildEditTaskForm(task) {
     return `
@@ -382,6 +536,18 @@ if ((task.category || "").toLowerCase() === "technical task") {
     `;
   }
   
+
+  /**
+ * Adds a new subtask entry to the subtask list in the edit task form.
+ * 
+ * - Reads the input field for a new subtask title.
+ * - If valid, generates a unique ID using the current timestamp.
+ * - Creates a new list item with appropriate HTML structure.
+ * - Appends it to the subtask list in the DOM.
+ * - Clears the input field afterward.
+ * 
+ * Does nothing if the input field is empty.
+ */
   function addSubtaskInEditForm() {
     const input = document.getElementById('edit-subtask-input');
     const title = input.value.trim();
@@ -404,6 +570,16 @@ if ((task.category || "").toLowerCase() === "technical task") {
     input.value = '';
   }
   
+
+
+  /**
+ * Switches a subtask list item into edit mode.
+ * 
+ * - Replaces the static subtask title with an input field.
+ * - Provides action icons for saving or deleting the subtask.
+ * 
+ * @param {string} id - The unique identifier of the subtask to be edited.
+ */
   function editSubtask(id) {
     const li = document.getElementById(`subtask-${id}`);
     const title = li.querySelector('.subtask-title').textContent;
@@ -417,6 +593,16 @@ if ((task.category || "").toLowerCase() === "technical task") {
     `;
   }
   
+
+  /**
+ * Saves the edited subtask title and exits edit mode.
+ * 
+ * - Retrieves the new title from the input field.
+ * - Replaces the input with the updated static subtask title.
+ * - Restores edit and delete icons.
+ * 
+ * @param {string} id - The unique identifier of the subtask being saved.
+ */
   function saveSubtask(id) {
     const li = document.getElementById(`subtask-${id}`);
     const newTitle = li.querySelector('.edit-subtask-input').value.trim();
@@ -444,6 +630,15 @@ if ((task.category || "").toLowerCase() === "technical task") {
     if (li) li.remove();
   }
   
+
+  /**
+ * Highlights the priority button that matches the given priority.
+ *
+ * - Clears existing active priority classes.
+ * - Applies the corresponding active class based on the priority string.
+ *
+ * @param {string} priority - The priority level to highlight ("Urgent", "Medium", or "Low").
+ */
   function highlightPriorityButton(priority) {
     const buttons = document.querySelectorAll(".priority-btn");
     buttons.forEach(btn => btn.classList.remove("active-urgent", "active-medium", "active-low"));
@@ -459,6 +654,17 @@ if ((task.category || "").toLowerCase() === "technical task") {
     }
   }
 
+
+/**
+ * Preselects users in the edit form based on their IDs.
+ *
+ * - Checks checkboxes of users whose IDs exist in the given assignedTo object.
+ * - Visually highlights the selected rows.
+ * - Updates the selected avatars display.
+ *
+ * @param {Object} assignedToObj - An object mapping keys to user IDs (e.g., { person1: "-xyz", person2: "-abc" }).
+ */
+
   function preselectAssignedUsers(assignedToObj) {
     if (!assignedToObj) return;
     const ids = Object.values(assignedToObj); 
@@ -472,6 +678,14 @@ if ((task.category || "").toLowerCase() === "technical task") {
     updateSelectedAvatars();
   }
   
+
+  /**
+ * Updates the avatar display for all currently selected (checked) assigned users.
+ *
+ * - Clears the existing avatars.
+ * - For each checked checkbox, extracts the user’s name, generates initials and background color.
+ * - Inserts a new avatar element into the container.
+ */
   function updateSelectedAvatars() {
     const container = document.getElementById("selected-avatars");
     container.innerHTML = "";
@@ -486,11 +700,21 @@ if ((task.category || "").toLowerCase() === "technical task") {
   }
   
 
-  
+  /**
+ * Returns the inline CSS style string for the task category label.
+ *
+ * @param {string} category - The category name of the task.
+ * @returns {string} A style string to apply background color if category is "technical task", otherwise an empty string.
+ */
   function getCategoryLabelStyle(category) {
     return (category || '').toLowerCase() === 'technical task' ? 'background-color: turquoise;' : '';
   }
   
+/**
+ * Saves the updated changes of a task to the database.
+ *
+ * @param {string} taskId - The ID of the task to be updated.
+ */
   async function saveTaskChanges(taskId) {
     const originalTask = findOriginalTask(taskId);
     if (!originalTask) return;
@@ -505,6 +729,12 @@ if ((task.category || "").toLowerCase() === "technical task") {
     }
   }
   
+/**
+ * Retrieves the original task object from the global task list using the task ID.
+ *
+ * @param {string} taskId - The ID of the task to find.
+ */
+
   function findOriginalTask(taskId) {
     const task = window.allTasks.find(t => t.id === taskId);
     if (!task) {
@@ -513,6 +743,12 @@ if ((task.category || "").toLowerCase() === "technical task") {
     return task;
   }
   
+/**
+ * Constructs an updated task object based on the form input values and the original task's status.
+ *
+ * @param {Object} originalTask - The original task object containing at least the Status property.
+ */
+
   function buildUpdatedTask(originalTask) {
     return {
       title: getInputValue("edit-title"),
@@ -530,6 +766,14 @@ if ((task.category || "").toLowerCase() === "technical task") {
     return document.getElementById(id)?.value.trim();
   }
   
+
+  /**
+ * Sends an updated task object to the Firebase database using a PATCH request.
+ *
+ * @param {string} taskId - The ID of the task to be updated.
+ * @param {Object} data - The task data to be saved.
+ */
+
   async function saveTaskToDatabase(taskId, data) {
     const url = `https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}.json`;
     await fetch(url, {
@@ -539,12 +783,20 @@ if ((task.category || "").toLowerCase() === "technical task") {
     });
   }
   
+/**
+ * if the task is succesfully saved the overlay closes and the site reloads
+ */
+
   function handleSuccessfulSave() {
     closeOverlay();
     location.reload();
   }
   
-
+/**
+ * Retrieves the selected priority from the edit form based on which priority button is active.
+ *
+ * @returns {string} The selected priority: "Urgent", "Medium", "Low", or an empty string if none are selected.
+ */
 
   function getSelectedPriorityFromEditForm() {
     const buttons = document.querySelectorAll(".priority-btn");
@@ -554,6 +806,11 @@ if ((task.category || "").toLowerCase() === "technical task") {
     return "";
   }
   
+/**
+ * Collects the IDs of all checked assigned users from the form and maps them to person keys.
+ *
+ */
+
   function collectAssignedUserIds() {
     const assignedTo = {};
     const checkboxes = document.querySelectorAll(".assigned-checkbox:checked");
@@ -563,6 +820,14 @@ if ((task.category || "").toLowerCase() === "technical task") {
     });
     return assignedTo;
   }
+
+  /**
+ * Collects all edited subtasks from the DOM and constructs a subtasks object.
+ * It extracts either the edited input value or the displayed title from each subtask item.
+ *
+ * @returns {Object} An object containing subtask entries keyed by their ID,
+ *                   each with a `title` and a default `done: false` status.
+ */
   
   function collectEditedSubtasks() {
     const items = document.querySelectorAll("#subtask-list .subtask-item");
@@ -581,7 +846,14 @@ if ((task.category || "").toLowerCase() === "technical task") {
   }
   
   
-
+/**
+ * Builds the HTML markup for displaying subtasks with checkboxes.
+ * Falls back to a placeholder if no subtasks exist.
+ *
+ * @param {Object} subtasks - An object where each key maps to a subtask with a `title` and `done` boolean.
+ * @param {string} taskId - The ID of the task the subtasks belong to.
+ * @returns {string} HTML string representing the subtasks list.
+ */
   function buildSubtasks(subtasks, taskId) {
     if (!subtasks || typeof subtasks !== "object") {
       return `<p style="font-style: italic; color: gray;">Keine Subtasks vorhanden</p>`;
@@ -602,7 +874,14 @@ if ((task.category || "").toLowerCase() === "technical task") {
     }).join("");
   }
   
-
+/**
+ * Toggles the completion status of a subtask both in the database and locally,
+ * then updates the DOM to reflect the changes.
+ *
+ * @param {string} taskId - The ID of the task containing the subtask.
+ * @param {string} subtaskKey - The key identifying the subtask.
+ * @param {boolean} isChecked - The new completion status of the subtask.
+ */
   async function toggleSubtask(taskId, subtaskKey, isChecked) {
     try {
       await updateSubtaskStatusInDB(taskId, subtaskKey, isChecked);
@@ -619,7 +898,14 @@ if ((task.category || "").toLowerCase() === "technical task") {
       console.error(" Fehler beim Subtask-Update:", error);
     }
   }
-  
+  /**
+ * Updates the completion status of a specific subtask in the Firebase database.
+ *
+ * @param {string} taskId - The ID of the task that contains the subtask.
+ * @param {string} subtaskKey - The key of the subtask to update.
+ * @param {boolean} isChecked - The new completion status (true or false).
+ */
+
   async function updateSubtaskStatusInDB(taskId, subtaskKey, isChecked) {
     const url = `https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}/subtasks/${subtaskKey}/done.json`;
   
@@ -632,6 +918,13 @@ if ((task.category || "").toLowerCase() === "technical task") {
     return await response.json();
   }
   
+
+/**
+ * Finds a task in the global window.allTasks array by its ID.
+ *
+ * @param {string} taskId - The ID of the task to find.
+ */
+
   function findTask(taskId) {
     const task = window.allTasks.find(t => t.id === taskId);
     if (!task) {
@@ -640,6 +933,14 @@ if ((task.category || "").toLowerCase() === "technical task") {
     return task;
   }
   
+/**
+ * Checks whether a specific subtask exists within a task object.
+ *
+ * @param {object} task - The task object containing subtasks.
+ * @param {string} subtaskKey - The key of the subtask to validate.
+ * @returns {boolean} True if the subtask exists, false otherwise.
+ */
+
   function validateSubtaskExists(task, subtaskKey) {
     const exists = task.subtasks && task.subtasks[subtaskKey];
     if (!exists) {
@@ -648,14 +949,29 @@ if ((task.category || "").toLowerCase() === "technical task") {
     return exists;
   }
   
+
+  /**
+ * Updates the local status of a subtask (done/undone) within a given task object.
+ *
+ * @param {object} task - The task object containing subtasks.
+ * @param {string} subtaskKey - The key of the subtask to update.
+ * @param {boolean} isChecked - The new completion status of the subtask.
+ */
   function updateLocalSubtaskStatus(task, subtaskKey, isChecked) {
     task.subtasks[subtaskKey].done = isChecked;
   }
   
+/**
+ * Replaces the existing task card in the DOM with an updated version based on the provided task data.
+ *
+ * @param {string} taskId - The ID of the task whose card should be updated.
+ * @param {object} task - The updated task object used to regenerate the card's HTML.
+ */
+
   function updateTaskCardDOM(taskId, task) {
     const card = document.getElementById(`${taskId}`);
     if (!card) {
-      console.warn("⚠️ Card-Element im DOM nicht gefunden:", taskId);
+      console.warn(" Card-Element im DOM nicht gefunden:", taskId);
       return;
     }
   
@@ -665,14 +981,22 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
   
   
-
+/**
+ * Initializes the application once the DOM is fully loaded.
+ * Loads all tasks with their assigned people and stores them globally.
+ */
 
   document.addEventListener("DOMContentLoaded", async () => {
     await getAllTasksWithPeople();     
 
   });
 
-
+/**
+ * Deletes a task from the Firebase database and updates the UI accordingly.
+ *
+ * @param {string} taskId - The ID of the task to delete.
+ *
+ */
   async function deleteTask(taskId) {
     const url = `https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}.json`;
     try {
@@ -695,6 +1019,11 @@ if ((task.category || "").toLowerCase() === "technical task") {
     checkEmptySections()
   }
   
+
+  /**
+ * Checks all progress sections on the board and toggles the visibility
+ * of the "no tasks" message depending on whether any task cards are present.
+ */
   function checkEmptySections() {
     document.querySelectorAll('.progress-section').forEach(section => {
       const cards = Array.from(section.querySelectorAll('.card'));
@@ -709,6 +1038,14 @@ if ((task.category || "").toLowerCase() === "technical task") {
     });
   }
   
+/**
+ * Filters visible task cards on the board based on the search input.
+ * If the input length is less than 3 characters, all cards are shown.
+ * Otherwise, only cards with titles matching the search term are displayed.
+ * 
+ * Also triggers a check to update the "no tasks" message per section.
+ */
+
 function handleTaskSearch() {
   const searchInput = document.getElementById('taskSearchInput').value.trim().toLowerCase();
   const allCards = document.querySelectorAll('.card'); 
@@ -722,7 +1059,16 @@ function handleTaskSearch() {
     
   }
 
-
+/**
+ * Filters task cards based on the user's search input.
+ * 
+ * - If the input has fewer than 3 characters, all task cards are shown.
+ * - If the input is 3 or more characters long, only task cards whose title
+ *   includes the search term (case-insensitive) will be displayed.
+ * 
+ * After filtering, it triggers a check to show or hide "no tasks" messages
+ * in each board column, depending on whether cards remain visible.
+ */
   allCards.forEach(card => {
     const titleElement = card.querySelector('.card-title');
     const title = titleElement ? titleElement.textContent.toLowerCase() : "";

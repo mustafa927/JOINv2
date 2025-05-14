@@ -1,5 +1,12 @@
 let subtasks = [];
   
+
+
+/** 
+ * adds subtask via subtask-input value to Subtasklist
+ * @returns 
+ */
+
 function addSubtask() {
   const input = document.querySelector('.subtask-input');
   const title = input.value.trim();
