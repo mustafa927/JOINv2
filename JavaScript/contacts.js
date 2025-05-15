@@ -46,6 +46,8 @@ async function fetchData() {
   renderContacts();
   document.getElementById('new-contact').classList.remove('d_none');
 }
+
+
 /**
  * Renders the list of contacts grouped by the first letter.
  * sorts from a - z
@@ -64,6 +66,8 @@ function renderContacts() {
     });
   }
 }
+
+
 /**
  * Groups contacts by the first letter of their name.
  * 
