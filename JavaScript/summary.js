@@ -1,3 +1,13 @@
+
+/**
+ * Fetches all tasks from the backend, calculates summary statistics,
+ * identifies the next urgent task due date, and updates the dashboard UI.
+ *
+ * @async
+ * @function sumOfTask
+ * @returns {Promise<void>}
+ * @throws {Error} If fetching or processing tasks fails.
+ */
 async function sumOfTask() {
     let url = "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json";
 
@@ -11,6 +21,16 @@ async function sumOfTask() {
     }
 }
 
+
+/**
+ * Fetches task data from the given URL and returns the parsed JSON response.
+ *
+ * @async
+ * @function fetchTasks
+ * @param {string} url - The endpoint from which to fetch the task data.
+ * @returns  The parsed JSON object containing tasks.
+ * @throws {Error} If the HTTP response is not OK.
+ */
 async function fetchTasks(url) {
     let response = await fetch(url);
     if (!response.ok) {
@@ -19,6 +39,14 @@ async function fetchTasks(url) {
     return await response.json();
 }
 
+
+/**
+ * Counts tasks by their status and priority and returns a summary object.
+ *
+ * @function countTasks
+ * @param {Object} tasks - An object containing task entries keyed by ID.
+ * @returns {Object} An object containing counts for different task categories:
+ */
 function countTasks(tasks) {
     let counts = {
         todo: 0,
@@ -39,6 +67,14 @@ function countTasks(tasks) {
     return counts;
 }
 
+
+/**
+ * Increments the corresponding count in the counts object based on the given task status.
+ *
+ * @function updateStatusCount
+ * @param {string} status - The status of the task (e.g. "To-Do", "Done", "In Progress", "Await Feedback").
+ * @param {Object} counts - An object containing count fields that will be updated.
+ */
 function updateStatusCount(status, counts) {
     switch (status) {
         case "To-Do": counts.todo++; break;
@@ -48,6 +84,13 @@ function updateStatusCount(status, counts) {
     }
 }
 
+/**
+ * Finds the nearest upcoming due date among tasks marked as "Urgent".
+ *
+ * @function findNextUrgentDate
+ * @param {Object} tasks - An object where each key is a task ID and the value is a task object.
+ * @returns  The closest future due date of an urgent task, or null if none found.
+ */
 function findNextUrgentDate(tasks) {
     let nextDate = null;
     let today = new Date();
@@ -65,6 +108,12 @@ function findNextUrgentDate(tasks) {
     return nextDate;
 }
 
+/**
+ * Updates the dashboard UI elements with task statistics and the next urgent due date.
+ *
+ * @function updateDashboard
+ * @param {Object} counts - An object containing count statistics for tasks.
+ */
 function updateDashboard(counts, nextDate) {
     setText("todo", counts.todo);
     setText("done", counts.done);
@@ -77,10 +126,21 @@ function updateDashboard(counts, nextDate) {
     setText("urgent-date", dateText);
 }
 
+/**
+ * Sets the text content of a DOM element by its ID.
+ *
+ * @param {string} id - The ID of the HTML element to update.
+ * @param {string|number} value - The text or number to set as the element's content.
+ */
 function setText(id, value) {
     document.getElementById(id).textContent = value;
 }
 
+/**
+ * Updates the greeting message in the UI based on the current user stored in localStorage.
+ * If a user is found, it displays a personalized greeting with their name.
+ * If not, it defaults to a generic greeting.
+ */
 function updateGreetingMessage() {
     let greetingElement = document.getElementById('greeting-message');
     if (!greetingElement) return;
@@ -90,6 +150,13 @@ function updateGreetingMessage() {
     greetingElement.innerHTML = name ? `Good morning, <br><span class="greeting-name">${name}</span>` : "Good morning";
 }
 
+/**
+ * Extracts and validates the user's name from a stored JSON string.
+ * Returns the name if it's not empty or "guest user"; otherwise, returns null.
+ *
+ * @param {string|null} storedUser - The JSON string of the stored user from localStorage.
+ * @returns {string|null} - The validated user name or null if invalid.
+ */
 function getUserName(storedUser) {
     if (!storedUser) return null;
     let user = JSON.parse(storedUser);
@@ -101,6 +168,17 @@ window.addEventListener('load', () => {
     updateGreetingMessage();
 });
 
+/**
+ * Displays a full-screen greeting overlay for mobile users upon first login.
+ * The overlay is shown only if the screen width is less than 768px
+ * and the 'newLogin' flag is present in sessionStorage.
+ * It uses the stored user from localStorage to display a personalized name,
+ * unless the user is marked as a guest.
+ *
+ * - Creates the overlay dynamically if it does not already exist.
+ * - Styles and appends the greeting elements.
+ * - Removes the name display if the user is a guest.
+ */
 function showMobileGreeting() {
     if (window.innerWidth >= 768) return;
     if (!sessionStorage.getItem('newLogin')) return;
