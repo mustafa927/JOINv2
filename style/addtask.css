@@ -13,12 +13,11 @@ main {
 
 .maincontent {
   padding-left: 80px;
-  padding-top: 30px;
   max-width: 1440px;
 }
 
 h1 {
-  font-size: 32px;
+  
   margin-bottom: 20px;
 }
 
@@ -37,7 +36,7 @@ form {
 label {
   display: block;
   margin-bottom: 10px;
-  font-size: 28px;
+  font-size: 18px;
 }
 
 input[type="text"],
@@ -46,7 +45,7 @@ textarea,
 select {
   width: 100%;
   padding: 15px;
-  font-size: 14.7px;
+  font-size: 18px;
   border: 1px solid #ccc;
   border-radius: 6px;
   box-sizing: border-box;
@@ -74,7 +73,7 @@ textarea {
   justify-content: center;
   gap: 6px;
   padding: 10px 10px;
-  font-size: 13px;
+  font-size: 18px;
   line-height: 1.2;
   border: none;
   border-radius: 10px;
@@ -125,7 +124,7 @@ textarea {
   background: transparent;
   flex: 1;
   outline: none;
-  font-size: 14.7px;
+  font-size: 18px;
   color: #333;
   margin-bottom: 0 !important;
   height: 30px !important;
@@ -156,7 +155,7 @@ textarea {
   padding: 10px 20px;
   border: none;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 18px;
   cursor: pointer;
 }
 
@@ -200,7 +199,7 @@ textarea {
 }
 
 .required-note {
-  font-size: 12px;
+  font-size: 18px;
   color: rgb(255, 0, 0);
   margin-top: 4px;
   margin-bottom: 10px;
@@ -240,7 +239,7 @@ textarea {
   flex: 1;
   border: none !important;
   outline: none;
-  font-size: 14.7px;
+  font-size: 18px;
   background-color: transparent;
   color: inherit;
   padding-left: 12px;
@@ -291,7 +290,7 @@ textarea {
 .assigned-options div {
   padding: 10px 12px;
   cursor: pointer;
-  font-size: 14.7px;
+  font-size: 18px;
 }
 
 .assigned-options div:hover {
@@ -305,7 +304,7 @@ textarea {
   gap: 12px;
   padding: 10px 12px;
   cursor: pointer;
-  font-size: 14.7px;
+  font-size: 18px;
 }
 
 .assigned-row.active {
@@ -367,7 +366,7 @@ textarea {
 
 @media (max-width: 768px) {
   .priority-buttons button {
-    font-size: 15px;
+    font-size: 18px;
     padding: 6px 4px;
   }
   body {
@@ -417,12 +416,12 @@ textarea {
     border-bottom: 2px solid rgba(0, 0, 0, 0.185);
   }
   .required-note {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   #required-responsive-note {
     color: red;
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .maincontent {
@@ -435,13 +434,13 @@ textarea {
     width:100px;
     height:50px;
     margin-right:-110px;
-    font-size:12px !important;
+    font-size:18px !important;
   }
 
   .create-btn {
     width:100px;
     height:50px;
-    font-size:12px !important;
+    font-size:18px !important;
   }
 }
 
