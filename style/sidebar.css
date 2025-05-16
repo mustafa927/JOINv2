@@ -167,12 +167,13 @@ body {
       bottom: 0;
       left: 0;
       width: 100% !important;
-      height: 70px;
+      height: 80px;
       flex-direction: row;
       align-items: center;
       justify-content: space-around;
       padding: 0;
       z-index: 1000;
+      background-color: #2A3647;
     }
 
     .sidebar-mobile {
@@ -180,12 +181,13 @@ body {
       bottom: 0;
       left: 0;
       width: 100% !important;
-      height: 70px;
+      height: 80px;
       flex-direction: row;
       align-items: center;
       justify-content: space-around;
       padding: 0;
       z-index: 1000;
+      background-color: #2A3647;
     }
     
     .sidebar-logo,
@@ -204,43 +206,61 @@ body {
 
     .sidebar-nav-mobile {
       flex-direction: row;
+      justify-content: space-around;
       align-items: center;
       margin-top: 0;
-      width: 30%;
+      width: 100%;
       gap: 0;
     }
     
     .nav-item {
-      width:70px;
-      justify-content: center;
-      padding: 6px 0;
+      width: 25%;
+      display: flex;
       flex-direction: column;
-      gap: 0;
-        }
+      align-items: center;
+      justify-content: center;
+      padding: 8px 0;
+      gap: 4px;
+      text-align: center;
+      text-decoration: none;
+    }
 
-      .nav-item-mobile {
-        width:70px;
-        justify-content: center;
-        padding: 6px 0;
-        flex-direction: column;
-        gap: 0;
-      }   
+    .nav-item-mobile {
+      width: 25%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 0;
+      gap: 4px;
+      text-align: center;
+    }
     
     .nav-item img {
-      height:40px;
-      width:40px;
+      width: 24px;
+      height: 24px;
+      margin-bottom: 4px;
     }
-
-    .sidebar-footer-mobile {
+    
+    .nav-item span {
+      font-size: 16px;
+    }
+    
+    .nav-item-content {
       display: flex;
-      flex-direction: row;
-      gap: 25px;
-      font-size: 14px;
-      padding-right: 20px;
-      opacity: 0.6;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      margin: 0;
     }
-
-    body {
-      overflow-x: hidden;
+    
+    .nav-item.active {
+      background-color: #091931;
+      border-radius: 0;
+    }
+    
+    .container {
+      padding-bottom: 100px;
     }
   }
