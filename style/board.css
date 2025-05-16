@@ -592,13 +592,16 @@ body.modal-open {
 
 
 
-  /* 🆕 Horizontal scroll für Card-Bucket */
   .card-bucket {
     display: flex;
-
+    overflow-x: auto;
+    min-height: 200px;
+    width: 72vw;
     gap: 12px;
     padding-bottom: 8px;
-
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;        /* Firefox */
+    -ms-overflow-style: none;     /* IE 10+ */
   }
 h1 {
   border-bottom: 0 !important;
@@ -609,7 +612,7 @@ h1 {
     width: 100%;
   }
 
-  /* 🆕 Optional: Card Snap-Style fürs bessere Scroll-Erlebnis */
+
   .card {
     min-width: 220px;
     scroll-snap-align: start;
