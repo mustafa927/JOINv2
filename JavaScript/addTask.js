@@ -15,11 +15,35 @@ function handlePriorityClick(button) {
   let isActive = button.classList.contains("active-urgent") ||
                  button.classList.contains("active-medium") ||
                  button.classList.contains("active-low");
+
   priorityButtons.forEach(btn => {
     btn.classList.remove("active-urgent", "active-medium", "active-low");
+
+    // Stelle Standard-Icons wieder her
+    if (btn.classList.contains("urgent")) {
+      btn.querySelector("img").src = "svg/urgent.svg";
+    } else if (btn.classList.contains("medium")) {
+      btn.querySelector("img").src = "svg/medium.svg";
+    } else if (btn.classList.contains("low")) {
+      btn.querySelector("img").src = "svg/low.svg";
+    }
   });
-  if (!isActive) button.classList.add(getActiveClass(button));
+
+  if (!isActive) {
+    const activeClass = getActiveClass(button);
+    button.classList.add(activeClass);
+
+    // Setze aktives Icon
+    if (button.classList.contains("urgent")) {
+      button.querySelector("img").src = "svg/urgentwhite.svg";
+    } else if (button.classList.contains("medium")) {
+      button.querySelector("img").src = "svg/mediumwhite.svg";
+    } else if (button.classList.contains("low")) {
+      button.querySelector("img").src = "svg/lowwhite.svg";
+    }
+  }
 }
+
 
 /**
  * Returns the appropriate active class name based on the priority button.
@@ -288,3 +312,25 @@ function avatarTemplate(name) {
   let color = getColorFromName(name);
   return `<div class="selected-avatar" style="background-color: ${color}">${initials}</div>`;
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const dropdown = document.getElementById("assigned-select");
+
+  dropdown.addEventListener("focusin", () => {
+    dropdown.classList.add("input-focus");
+  });
+
+  dropdown.addEventListener("focusout", () => {
+    dropdown.classList.remove("input-focus");
+  });
+});
+
+ document.addEventListener("click", function (event) {
+    const dropdown = document.querySelector(".assigned-dropdown");
+    const assignedList = document.getElementById("assigned-list");
+
+    if (dropdown && !dropdown.contains(event.target)) {
+      dropdown.classList.remove("open");
+      assignedList.classList.add("d-none");
+    }
+  });

@@ -80,37 +80,40 @@
     <h1>Add Task</h1>
     <form>
       <div class="form-section">
+
         <label for="title">Title<span class="required-note"> *</span></label>
-        <input type="text" id="title" placeholder="Enter a title" />
+        <input type="text" id="title" placeholder="Enter a title" onfocus="this.classList.add('input-focus')" onblur="this.classList.remove('input-focus')"/>
         <div id="title-error" class="required-note d-none">Title is required</div>
 
 
         <label for="desc">Description</label>
-        <textarea id="desc" placeholder="Enter a Description"></textarea>
+        <textarea id="desc" placeholder="Enter a Description"   onfocus="this.classList.add('input-focus')" onblur="this.classList.remove('input-focus')"></textarea>
 
         <label for="due-date">Due date<span class="required-note">*</span></label>
-        <input type="date" id="due-date" />
+        <input type="date" id="due-date" onfocus="this.classList.add('input-focus')" onblur="this.classList.remove('input-focus')"/>
         <div id="date-error" class="required-note d-none">Due date is required</div>
+
       </div>
       <div class="line"></div>
       <div class="form-section">
         <label>Priority</label>
         <div class="priority-buttons">
           <button type="button" class="priority-btn urgent">&nbsp;Urgent&nbsp; <img src="svg/urgent.svg" alt="" srcset=""></button>
-          <button type="button" class="priority-btn medium">Medium <img src="svg/medium.svg" alt="" srcset=""></button>
+          <button type="button" class="priority-btn medium active-medium">Medium <img src="svg/mediumwhite.svg" alt="" srcset=""></button>
           <button type="button" class="priority-btn low"> &nbsp;&nbsp;&nbsp;Low&nbsp;&nbsp;&nbsp;  <img src="svg/low.svg" alt=""></button>
         </div>
         <label for="assigned">Assigned to</label>
-        <div class="assigned-dropdown">
-          <div class="assigned-select" onclick="openAssignedDropdown(event)">
+        <div class="assigned-dropdown" id="assigned-dropdown"  >
+          <div class="assigned-select" id="assigned-select" onclick="openAssignedDropdown(event)">
             <input
               type="text"
               id="assigned-search"
               class="assigned-search-input"
               placeholder="Select contacts to assign"
               oninput="filterAssignedList()"
+            
             />
-            <span class="dropdown-arrow" onclick="toggleAssignedDropdown(event)">▼</span>
+            <img src="./svg/dropdownArrowDown.svg" class="dropdown-arrow" onclick="toggleAssignedDropdown(event); document.getElementById('assigned-select').classList.remove('input-focus')">
           </div>
           <div class="assigned-options d-none" id="assigned-list"></div>
         </div>
@@ -122,8 +125,8 @@
           Category<span class="required-note"> *</span>
         </label>
 
-        <select id="category" required>
-          <option value="" disabled selected hidden>Bitte Kategorie wählen</option>
+        <select id="category" required onfocus="this.classList.add('input-focus')" onblur="this.classList.remove('input-focus')">
+          <option value="" disabled selected hidden>Select task category</option>
           <option value="Technical Task">Technical Task</option>
           <option value="User Story">User Story</option>
         </select>
@@ -133,14 +136,17 @@
         
         
 
-        <label for="subtasks">Subtasks</label>
-        <div class="subtask-input-container">
-          <input type="text" placeholder="Add new subtask" class="subtask-input" />
-          <button type="button" class="add-subtask-button" onclick="addSubtask()">+</button>
-         
+       <label for="subtasks">Subtasks</label>
+<div class="subtask-input-container" id="subtask-input-container">
+  <input type="text" placeholder="Add new subtask" class="subtask-input"  oninput="toggleSubtaskButtons(this)" />
+  <div class="subtask-buttons">
+    <button type="button" class="add-subtask-button" onclick="document.querySelector('.subtask-input').focus()">+</button>
+    <button type="button" class="cancel-subtask-button d-none" onclick="clearSubtaskInput(this)">✕</button>
+    <button type="button" class="confirm-subtask-button d-none" onclick="addSubtask(this)">➤</button>
+  </div>
+</div>
+<div id="subtask-list" class="subtask-list"></div>
 
-        </div>
-        <div id="subtask-list" class="subtask-list"></div>
         
       </div>
     </form>

@@ -1,5 +1,28 @@
 let subtasks = [];
   
+function toggleSubtaskButtons(input) {
+  const container = input.closest(".subtask-input-container");
+  const cancelBtn = container.querySelector(".cancel-subtask-button");
+  const confirmBtn = container.querySelector(".confirm-subtask-button");
+  const addBtn = container.querySelector(".add-subtask-button");
+
+  if (input.value.trim() !== "") {
+    cancelBtn.classList.remove("d-none");
+    confirmBtn.classList.remove("d-none");
+    addBtn.classList.add("d-none");
+  } else {
+    cancelBtn.classList.add("d-none");
+    confirmBtn.classList.add("d-none");
+    addBtn.classList.remove("d-none");
+  }
+}
+
+function clearSubtaskInput(button) {
+  const container = button.closest(".subtask-input-container");
+  const input = container.querySelector(".subtask-input");
+  input.value = "";
+  toggleSubtaskButtons(input);
+}
 
 
 /** 
@@ -17,6 +40,8 @@ function addSubtask() {
 
   renderSubtaskList(subtaskId, title);
   input.value = ""; // 🧼 Feld leeren
+  input.blur();
+  toggleSubtaskButtons(input);
 }
 
 
@@ -31,9 +56,8 @@ function renderSubtaskList(id, title) {
   li.className = 'subtask-item';
   li.id = `subtask-${id}`;
   li.innerHTML = `
-    <span class="subtask-title">${title}</span>
+    <span class="subtask-title" onclick="editSubtask('${id}')">${title}</span>
     <div class="subtask-actions">
-      <img src="svg/edit-black.svg" class="subtask-icon" onclick="editSubtask('${id}')">
       <span class="divider"></span>
       <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
     </div>
@@ -50,15 +74,16 @@ function renderSubtaskList(id, title) {
 function editSubtask(id) {
   const li = document.getElementById(`subtask-${id}`);
   const title = li.querySelector('.subtask-title').textContent;
-  li.innerHTML = `
-  <input type="text" class="edit-subtask-input" value="${title}" />
-<div class="subtask-actions">
-  <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
-  <span class="divider"></span>
-  <span class="subtask-icon" onclick="saveSubtask('${id}')">✔</span>
-</div>
 
+  li.innerHTML = `
+    <input type="text" class="edit-subtask-input" value="${title}" 
+      onblur="saveSubtask('${id}')" 
+      onkeydown="handleSubtaskEditKey(event, '${id}')" />
   `;
+
+  // Fokussiere direkt das Inputfeld
+  const input = li.querySelector('.edit-subtask-input');
+  input.focus();
 }
 
 
@@ -70,17 +95,15 @@ function editSubtask(id) {
  */
 function saveSubtask(id) {
   const li = document.getElementById(`subtask-${id}`);
-  const newTitle = li.querySelector('.edit-subtask-input').value.trim();
+  const input = li.querySelector('.edit-subtask-input');
+  const newTitle = input.value.trim();
   if (!newTitle) return;
 
-  li.innerHTML = `
-    <span class="subtask-title">${newTitle}</span>
-    <div class="subtask-actions">
-      <img src="svg/edit-black.svg" class="subtask-icon" onclick="editSubtask('${id}')">
-      <span class="divider"></span>
-      <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
-    </div>
-  `;
+  renderSubtaskList(id, newTitle);
+
+  // Optional: im Array aktualisieren
+  const sub = subtasks.find(s => s.id === id);
+  if (sub) sub.title = newTitle;
 }
 
 
@@ -103,3 +126,18 @@ function toggleSubtaskDone(id) {
   const sub = subtasks.find(s => s.id === id);
   if (sub) sub.done = !sub.done;
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("subtask-input-container");
+
+  if (container) {
+    container.addEventListener("focusin", () => {
+      container.classList.add("input-focus");
+    });
+
+    container.addEventListener("focusout", () => {
+      container.classList.remove("input-focus");
+    });
+  }
+});

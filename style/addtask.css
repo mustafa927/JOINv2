@@ -35,7 +35,7 @@ form {
 
 label {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 7px;
   font-size: 18px;
 }
 
@@ -49,13 +49,45 @@ select {
   border: 1px solid #ccc;
   border-radius: 6px;
   box-sizing: border-box;
-  min-height: 60px;
+
   margin-bottom: 30px;
 }
 
 textarea {
   resize: vertical;
-  height: 180px;
+  height: 110px;
+}
+
+.custom-date-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+ 
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+  height:50px;
+}
+
+.custom-date-container input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 16px;
+  color: #000;
+  margin-bottom:0 !important;
+}
+
+.custom-date-container input::placeholder {
+  color: #b3b3b3; /* wie "Enter a title" */
+}
+
+.calendar-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
 
 /* === PRIORITY BUTTONS === */
@@ -94,17 +126,17 @@ textarea {
 }
 
 .priority-buttons button.active-urgent {
-  background-color: #ff4d4d;
+  background-color: #FF3D00;
   color: white;
 }
 
 .priority-buttons button.active-medium {
-  background-color: #ffa500;
+  background-color: #ffa800;
   color: white;
 }
 
 .priority-buttons button.active-low {
-  background-color: #28a745;
+  background-color: #7AE229;
   color: white;
 }
 
@@ -115,7 +147,7 @@ textarea {
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 8px;
-  height: 60px;
+  height: 50px;
   margin-bottom: 30px;
 }
 
@@ -231,7 +263,7 @@ textarea {
   border-radius: 8px;
   cursor: pointer;
   background-color: white;
-  height: 60px;
+  height: 50px;
   position: relative;
 }
 
@@ -481,4 +513,9 @@ textarea {
   width: 1px;
   height: 16px;
   background-color: #ccc;
+}
+
+.input-focus {
+  border: 2px solid #29abe2 !important;
+  outline: none;
 }
