@@ -159,15 +159,61 @@ function editContact(name) {
   document.getElementById("addContactForm").innerHTML = contactEditFormTemplate(contact);
 }
 
+
+function handleContactFormSubmit(event) {
+  event.preventDefault();
+
+  const isValid = validateContactForm();
+  if (isValid) {
+    saveContact(); // wird nur aufgerufen, wenn valid
+  }
+}
+
+function validateContactForm() {
+  const nameInput = document.getElementById("inputName");
+  const emailInput = document.getElementById("inputEmail");
+  const phoneInput = document.getElementById("inputPhone");
+
+  let isValid = true;
+
+  // Reset styles
+  [nameInput, emailInput, phoneInput].forEach(input => {
+    input.style.border = ""; // remove previous border
+  });
+
+  // Name: only letters and spaces
+  const nameRegex = /^[A-Za-z\s]+$/;
+  if (!nameInput.value.trim() || !nameRegex.test(nameInput.value.trim())) {
+    nameInput.style.border = "2px solid red";
+    isValid = false;
+  }
+
+  // Email: basic email check
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) {
+    emailInput.style.border = "2px solid red";
+    isValid = false;
+  }
+
+  // Phone: only digits
+  const phoneRegex = /^\d+$/;
+  if (!phoneInput.value.trim() || !phoneRegex.test(phoneInput.value.trim())) {
+    phoneInput.style.border = "2px solid red";
+    isValid = false;
+  }
+
+  return isValid;
+}
+
+
+
+
+
 async function saveContact() {
-  const form = document.getElementById("contactForm");
   const submitBtn = document.getElementById("createContactBtn");
 
-  // HTML5-Formularvalidierung
-  if (!form.checkValidity()) {
-    form.reportValidity();
-    return;
-  }
+  // Custom JS-Validierung
+  if (!validateContactForm()) return;
 
   // Button deaktivieren und Spinner anzeigen (optional)
   submitBtn.disabled = true;
@@ -176,20 +222,25 @@ async function saveContact() {
   const { name, email, phone } = getInputValues();
   const newContact = { name, email, phone };
 
+  try {
     await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json", {
       method: "POST",
       body: JSON.stringify(newContact),
       headers: { "Content-Type": "application/json" }
-    }); 
+    });
 
     await fetchData();
     closeOverlay();
     showSuccessMessage();
-    // Button wieder aktivieren (falls Overlay nicht geschlossen wird)
+  } catch (error) {
+    console.error("❌ Fehler beim Speichern des Kontakts:", error);
+  } finally {
+    // Button wieder aktivieren
     submitBtn.disabled = false;
     submitBtn.innerHTML = `Create contact <span>&check;</span>`;
-  
+  }
 }
+
 
 
 
