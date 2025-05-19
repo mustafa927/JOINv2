@@ -16,26 +16,17 @@ async function handleCreateTask() {
   }, 1500);
 }
 
-/**
- * Validates the required form fields: title and category.
- * Shows or hides error messages accordingly.
- * 
- * @returns {boolean} - Returns true if the form is valid, false otherwise.
- */
-function validateForm() {
-  let valid = true;
-  let title = document.getElementById('title').value.trim();
-  let category = document.getElementById('category').value;
-  if (!title) {
-    showError('title-error');
-    valid = false;
-  } else hideError('title-error');
-  if (!category) {
-    showError('category-error');
-    valid = false;
-  } else hideError('category-error');
-  return valid;
+
+function showFieldError(input, errorElement) {
+  input.classList.add("input-error");
+  errorElement.classList.remove("d-none");
 }
+
+function hideFieldError(input, errorElement) {
+  input.classList.remove("input-error");
+  errorElement.classList.add("d-none");
+}
+
 
 /**
  * Displays an error message by showing the element with the given ID.

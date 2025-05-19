@@ -114,7 +114,7 @@ textarea {
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   transition: all 0.2s ease;
   min-width: 0;
-  overflow: hidden;
+
   text-overflow: ellipsis;
   white-space: nowrap;
   height: 60px;
@@ -148,7 +148,7 @@ textarea {
   border: 1px solid #ddd;
   border-radius: 8px;
   height: 50px;
-  margin-bottom: 30px;
+  margin-bottom: 5px;
 }
 
 .subtask-input {
@@ -193,8 +193,9 @@ textarea {
 
 .clear-btn {
   background-color: transparent;
-  border: 1px solid #ccc;
+  border: 1px solid #2a3647 !important;
   margin-right: 10px;
+  color:#2a3647;
 }
 
 .create-btn {
@@ -232,11 +233,12 @@ textarea {
 
 .required-note {
   font-size: 18px;
-  color: rgb(255, 0, 0);
-  margin-top: 4px;
+  color: #ff8190;
   margin-bottom: 10px;
 }
-
+.input-error {
+  border: 1px solid #ff8190 !important;
+}
 .line {
   margin: 0 20px;
   width: 1px;
@@ -306,7 +308,7 @@ textarea {
 }
 
 .assigned-options {
-  position: absolute;
+  position: static;
   top: 100%;
   left: 0;
   right: 0;
@@ -394,6 +396,10 @@ textarea {
   .maincontent {
     padding-left:30px;
   }
+
+  .priority-buttons button {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 768px) {
@@ -428,15 +434,15 @@ textarea {
 
   .create-btn {
     position: fixed;
-    bottom: 80px;
+    bottom: 100px;
     right: 20px;
     height: 60px;
     width: 150px;
   }
   .clear-btn {
     position: fixed;
-    bottom: 80px;
-    right: 240px;
+    bottom: 100px;
+    right: 200px;
     height: 60px;
     width: 150px;
     border: 2px solid black !important;
@@ -463,16 +469,16 @@ textarea {
 
 @media(max-width:600px) {
   .clear-btn {
-    width:100px;
+    width:130px;
     height:50px;
-    margin-right:-110px;
-    font-size:18px !important;
+    right:150px;
+    font-size:16px !important;
   }
 
   .create-btn {
-    width:100px;
+    width:130px;
     height:50px;
-    font-size:18px !important;
+    font-size:16px !important;
   }
 }
 
@@ -481,7 +487,7 @@ textarea {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 8px;
+  padding: 6px 20px;
   border-radius: 4px;
   transition: background-color 0.2s;
   cursor: default;
@@ -497,9 +503,15 @@ textarea {
 }
 
 .subtask-actions { 
-  display: flex;
+
   align-items: center;
   gap: 6px;
+  display: none;
+}
+
+.subtask-item:hover .subtask-actions,
+.subtask-item:focus-within .subtask-actions {
+  display: flex;
 }
 
 .subtask-icon {
@@ -516,6 +528,59 @@ textarea {
 }
 
 .input-focus {
-  border: 2px solid #29abe2 !important;
+  border: 1px solid #29abe2 !important;
   outline: none;
+}
+
+.edit-subtask-container {
+  position: relative;
+  width: 100%;
+}
+
+.edit-subtask-input {
+  width: 100%;
+  padding-right: 48px; /* Platz für die Icons rechts */
+  box-sizing: border-box;
+  padding:0 !important;
+  margin-bottom: 0 !important;
+}
+
+.edit-subtask-icons {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.edit-subtask-icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.edit-subtask-icon:hover {
+  opacity: 1;
+}
+
+.cancel-subtask-button {
+  border:none;
+  background-color:white;
+  font-weight:bold;
+}
+
+.confirm-subtask-button {
+  border:none;
+  background-color:white;
+}
+
+.subtask-divider {
+   width: 1px;
+  height: 25px;
+  background-color: #ccc;
+}
+.subtask-buttons{
+  display:flex;
 }

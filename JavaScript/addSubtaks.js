@@ -55,9 +55,10 @@ function renderSubtaskList(id, title) {
   const li = document.createElement('li');
   li.className = 'subtask-item';
   li.id = `subtask-${id}`;
-  li.innerHTML = `
+  li.innerHTML = `&bull;&nbsp;
     <span class="subtask-title" onclick="editSubtask('${id}')">${title}</span>
     <div class="subtask-actions">
+     <img src="svg/edit-black.svg" class="subtask-icon" onclick="editSubtask('${id}')" >
       <span class="divider"></span>
       <img src="svg/delete.svg" class="subtask-icon" onclick="deleteSubtask('${id}')">
     </div>
@@ -76,35 +77,72 @@ function editSubtask(id) {
   const title = li.querySelector('.subtask-title').textContent;
 
   li.innerHTML = `
-    <input type="text" class="edit-subtask-input" value="${title}" 
-      onblur="saveSubtask('${id}')" 
-      onkeydown="handleSubtaskEditKey(event, '${id}')" />
+    <div class="edit-subtask-container">
+      <input 
+        type="text" 
+        class="edit-subtask-input" 
+        value="${title}" 
+         onblur="exitSubtaskEdit('${id}')" 
+       
+      />
+      <div class="edit-subtask-icons">
+        <img 
+          src="svg/delete.svg" 
+          alt="Delete" 
+          class="edit-subtask-icon" 
+          onclick="deleteSubtask('${id}')" 
+        />
+        <img 
+          src="svg/checkButton.svg" 
+          alt="Save" 
+          class="edit-subtask-icon" 
+          onclick="exitSubtaskEdit('${id}')" 
+
+        />
+      </div>
+    </div>
   `;
 
-  // Fokussiere direkt das Inputfeld
-  const input = li.querySelector('.edit-subtask-input');
-  input.focus();
+  li.querySelector('.edit-subtask-input').focus();
 }
 
 
+function exitSubtaskEdit(id) {
+  setTimeout(() => {
+    const li = document.getElementById(`subtask-${id}`);
+    if (!li) return;
 
-/**
- * Saves changes made to a subtask after editing.
- * 
- * @param {string} id - The ID of the subtask to save.
- */
-function saveSubtask(id) {
-  const li = document.getElementById(`subtask-${id}`);
-  const input = li.querySelector('.edit-subtask-input');
-  const newTitle = input.value.trim();
-  if (!newTitle) return;
+    const input = li.querySelector('.edit-subtask-input');
+    if (!input) return;
 
-  renderSubtaskList(id, newTitle);
+    const newTitle = input.value.trim();
+    const sub = subtasks.find(s => s.id === id);
+    const finalTitle = newTitle || (sub ? sub.title : '');
 
-  // Optional: im Array aktualisieren
-  const sub = subtasks.find(s => s.id === id);
-  if (sub) sub.title = newTitle;
+    li.innerHTML = `
+      <span class="bullet">&bull;&nbsp;</span>
+      <span class="subtask-title" onclick="editSubtask('${id}')">${finalTitle}</span>
+      <div class="subtask-actions">
+        <img 
+          src="svg/edit-black.svg" 
+          class="subtask-icon" 
+          tabindex="0"
+          onclick="editSubtask('${id}')" 
+          onfocus="editSubtask('${id}')" 
+          alt="Edit Subtask"
+        >
+        <span class="divider"></span>
+        <img 
+          src="svg/delete.svg" 
+          class="subtask-icon" 
+          onclick="deleteSubtask('${id}')" 
+          alt="Delete Subtask"
+        >
+      </div>
+    `;
+  }, 100); // Verzögere das Entfernen, damit Clicks erfasst werden
 }
+
 
 
 /**

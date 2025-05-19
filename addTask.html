@@ -83,7 +83,7 @@
 
         <label for="title">Title<span class="required-note"> *</span></label>
         <input type="text" id="title" placeholder="Enter a title" onfocus="this.classList.add('input-focus')" onblur="this.classList.remove('input-focus')"/>
-        <div id="title-error" class="required-note d-none">Title is required</div>
+        <div id="title-error" class="required-note d-none">This field is required</div>
 
 
         <label for="desc">Description</label>
@@ -91,7 +91,7 @@
 
         <label for="due-date">Due date<span class="required-note">*</span></label>
         <input type="date" id="due-date" onfocus="this.classList.add('input-focus')" onblur="this.classList.remove('input-focus')"/>
-        <div id="date-error" class="required-note d-none">Due date is required</div>
+        <div id="date-error" class="required-note d-none">This field is required</div>
 
       </div>
       <div class="line"></div>
@@ -102,6 +102,8 @@
           <button type="button" class="priority-btn medium active-medium">Medium <img src="svg/mediumwhite.svg" alt="" srcset=""></button>
           <button type="button" class="priority-btn low"> &nbsp;&nbsp;&nbsp;Low&nbsp;&nbsp;&nbsp;  <img src="svg/low.svg" alt=""></button>
         </div>
+      <div id="priority-error" class="required-note d-none">This field is required</div>
+
         <label for="assigned">Assigned to</label>
         <div class="assigned-dropdown" id="assigned-dropdown"  >
           <div class="assigned-select" id="assigned-select" onclick="openAssignedDropdown(event)">
@@ -131,7 +133,8 @@
           <option value="User Story">User Story</option>
         </select>
         
-        <div id="category-error" class="required-note d-none">Category is required</div>
+       <div id="category-error" class="required-note d-none">This field is required</div>
+
 
         
         
@@ -141,8 +144,9 @@
   <input type="text" placeholder="Add new subtask" class="subtask-input"  oninput="toggleSubtaskButtons(this)" />
   <div class="subtask-buttons">
     <button type="button" class="add-subtask-button" onclick="document.querySelector('.subtask-input').focus()">+</button>
-    <button type="button" class="cancel-subtask-button d-none" onclick="clearSubtaskInput(this)">✕</button>
-    <button type="button" class="confirm-subtask-button d-none" onclick="addSubtask(this)">➤</button>
+    <button type="button" class="cancel-subtask-button d-none" onclick="clearSubtaskInput(this)"><img src="svg/XButton.svg" alt=""></button>
+    <div class="subtask-divider"></div>
+    <button type="button" class="confirm-subtask-button d-none" onclick="addSubtask(this)"><img src="svg/checkButton.svg" alt=""></button>
   </div>
 </div>
 <div id="subtask-list" class="subtask-list"></div>
@@ -155,7 +159,7 @@
       <div>    <span class="required-note">*</span> This field is required</div>
 
     <div>
-      <button type="button" class="clear-btn" onclick="clearForm()">Clear ✗</button>
+      <button type="button" class="clear-btn" onclick="clearForm()">Clear X</button>
 
       <button type="button" class="create-btn" onclick="createTaskFromForm()">Create Task ✔</button>
       </div>  

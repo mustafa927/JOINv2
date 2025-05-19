@@ -131,10 +131,12 @@ function createTaskFromForm() {
  * @returns {boolean} - True if all required fields are valid
  */
 function validateRequiredFields() {
-  const titleValid = validateField("title", "title-error");
-  const dateValid = validateField("due-date", "date-error");
-  const categoryValid = validateField("category", "category-error");
-  return titleValid && dateValid && categoryValid;
+  const titleValid = validateFieldWithHighlight("title", "title-error");
+  const dateValid = validateDueDate();
+  const categoryValid = validateFieldWithHighlight("category", "category-error");
+  const priorityValid = validatePrioritySelection();
+
+  return titleValid && dateValid && categoryValid && priorityValid;
 }
 
 /**
@@ -144,16 +146,79 @@ function validateRequiredFields() {
  * @param {string} errorId - ID of error element
  * @returns {boolean} - True if valid
  */
-function validateField(inputId, errorId) {
-  const value = document.getElementById(inputId).value.trim();
+function validateFieldWithHighlight(inputId, errorId) {
+  const input = document.getElementById(inputId);
+  const value = input.value.trim();
   const error = document.getElementById(errorId);
 
   if (!value) {
-    showTemporaryError(error);
+    input.classList.add("input-error");
+    error.classList.remove("d-none");
+
+    setTimeout(() => {
+      input.classList.remove("input-error");
+      error.classList.add("d-none");
+    }, 3000);
+
     return false;
+  } else {
+    input.classList.remove("input-error");
+    error.classList.add("d-none");
+    return true;
   }
-  return true;
 }
+
+function validateDueDate() {
+  const input = document.getElementById("due-date");
+  const error = document.getElementById("date-error");
+  const value = input.value;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Nur Datum, keine Zeit
+
+  const inputDate = new Date(value);
+
+  if (!value || inputDate < today) {
+    input.classList.add("input-error");
+    error.textContent = "Date must be today or in the future";
+    error.classList.remove("d-none");
+
+    setTimeout(() => {
+      input.classList.remove("input-error");
+      error.classList.add("d-none");
+    }, 3000);
+
+    return false;
+  } else {
+    input.classList.remove("input-error");
+    error.classList.add("d-none");
+    return true;
+  }
+}
+
+function validatePrioritySelection() {
+  const buttons = document.querySelectorAll(".priority-btn");
+  const isSelected = Array.from(buttons).some(btn =>
+    btn.classList.contains("active-urgent") ||
+    btn.classList.contains("active-medium") ||
+    btn.classList.contains("active-low")
+  );
+
+  const priorityError = document.getElementById("priority-error");
+
+  if (!isSelected) {
+    priorityError.classList.remove("d-none");
+    setTimeout(() => {
+      priorityError.classList.add("d-none");
+    }, 3000);
+    return false;
+  } else {
+    priorityError.classList.add("d-none");
+    return true;
+  }
+}
+
+
 
 /**
  * Temporarily displays an error element.
