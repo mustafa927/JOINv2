@@ -290,7 +290,7 @@ body.modal-open {
   padding: 10px;
   margin-top: 12px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 16px;
   text-align: center;
   display: none;
 }
@@ -304,7 +304,7 @@ body.modal-open {
   color: #fff;
   padding: 12px 24px;
   border-radius: 999px;
-  font-size: 14px;
+  font-size: 16px;
   font-family: sans-serif;
   z-index: 9999;
   display: none;
@@ -370,7 +370,7 @@ body.modal-open {
   right: 20px;
   font-size: 24px;
   cursor: pointer;
-  color: black;
+  color: white;
   z-index: 10;
 }
 .profile-responsive-middle {
@@ -440,18 +440,24 @@ body.modal-open {
   gap:20px;
 }
 
+.add-contact-form {
+  margin-top:70px; 
+  display:flex; 
+  align-items:center;
+}
+
 @media (max-width:1000px) {
 
   .left-side {
-    width:220px;
+    width:300px;
   }
 
   .contact-name {
-    font-size:14px;
+    font-size:18px;
   }
 
   .contact-email {
-    font-size:12px;
+    font-size:16px;
   }
 
   .contact-info-box h2 {
@@ -472,11 +478,15 @@ body.modal-open {
   }
 
   .contactInfo-subtitle {
-    font-size:15px;
+    font-size:16px;
     margin-left:15px;
   }
   .contact-list {
     gap:10px;
+  }
+
+  .contact-panel{
+    padding:0 !important;
   }
 
   .add-contact-overlay {

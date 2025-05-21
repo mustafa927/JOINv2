@@ -97,7 +97,7 @@ function contactAddFormTemplate() {
       </div>
       <div class="add-contact-right">
       <form id="contactForm" onsubmit="handleContactFormSubmit(event)">
-          <div style="margin-top:70px; display:flex; align-items:center;">
+          <div class="add-contact-form">
             <img id="contactImage" src="./svg/addContactPic.svg" class="profile-responsive-middle" alt="Contact Icon">
             
             <div class="add-contact-form-section">
@@ -151,7 +151,7 @@ function contactEditFormTemplate(contact) {
       </div>
       <div class="add-contact-right">
         <form id="contactForm" onsubmit="event.preventDefault(); if (validateContactForm()) updateContact('${contact.id || contact.name}');">
-          <div style="margin-top:70px; display:flex; align-items:center;">
+          <div class="add-contact-form">
             <div class="edit-contact-avatar" style="background: ${color};">${initials}</div>
             
             <div class="add-contact-form-section">
