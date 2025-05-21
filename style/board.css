@@ -3,6 +3,7 @@ body {
   display: flex;
   margin: 0;
   font-family: Arial, sans-serif;
+  font-size: 16px;
 }
 
 /* Header */
@@ -391,11 +392,11 @@ body.modal-open {
 }
 
 .task-card-description {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .task-card-info {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .task-card-priority {
@@ -428,13 +429,13 @@ body.modal-open {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: bold;
   color: white;
 }
 
 .task-card-name {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .task-card-subtasks {
@@ -444,7 +445,7 @@ body.modal-open {
 .task-card-subtasks label {
   display: block;
   margin-bottom: 8px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .task-card-actions {
@@ -456,20 +457,55 @@ body.modal-open {
 
 .task-card-actions button {
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 16px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
 }
 
 .task-card-delete-btn {
-  background-color: #f44336;
-  color: white;
+background-color: white;
+ gap: 10px;
 }
 
 .task-card-edit-btn {
-  background-color: #e0e0e0;
+  background-color: white;
 }
+
+
+.task-card-edit-save-btn {
+  background-color: #2a3646;
+  color: white;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.task-card-edit-save-btn:hover {
+  background-color: #29abe2;;
+}
+
+.hover-blue {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Optional, für sauberen Abstand */
+  color: inherit; /* Startfarbe vom Text */
+  transition: color 0.2s ease;
+}
+
+.hover-blue img {
+  filter: none;
+  transition: filter 0.2s ease;
+}
+
+.hover-blue:hover {
+  color: #29abe2; /* Dein Wunschblau */
+}
+
+.hover-blue:hover img {
+  filter: brightness(0) saturate(100%) invert(46%) sepia(76%) saturate(442%) hue-rotate(162deg) brightness(91%) contrast(94%);
+  font-weight: bolder;
+}
+
 
 .subtask-input-wrapper {
   display: flex;
@@ -485,7 +521,7 @@ body.modal-open {
   border: none;
   outline: none;
   flex-grow: 1;
-  font-size: 14px;
+  font-size: 16px;
   color: #333;
   padding: 6px;
 }

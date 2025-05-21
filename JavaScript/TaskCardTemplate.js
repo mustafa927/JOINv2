@@ -388,8 +388,8 @@ if ((task.category || "").toLowerCase() === "technical task") {
         </div>
   
         <div class="task-card-actions">
-          <button class="task-card-delete-btn" onclick="deleteTask('${task.id}')">Delete</button>
-          <button class="task-card-edit-btn" onclick="switchToEditMode('${task.id}')">Edit</button>
+          <button class="task-card-delete-btn hover-blue" onclick="deleteTask('${task.id}')"><img src="svg/delete.svg" alt="" style="margin-right: 8px; position: relative; top: -1px;">Delete</button>
+          <button class="task-card-edit-btn hover-blue" onclick="switchToEditMode('${task.id}')"><img src="svg/edit-black.svg" style="margin-right: 8px; position: relative; top: -1px;" alt="" srcset="">Edit</button>
         </div>
       </div>`;
   }
@@ -467,14 +467,14 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
   function buildEditTaskForm(task) {
     return `
-      <div class="task-card-overlay" style="max-height: 60vh; overflow-y: auto;">
+      <div class="task-card-overlay" style="max-height: 70vh; overflow-y: auto; gap:0">
         <div class="task-card-close-btn" onclick="closeOverlay()">&times;</div>
   
         <label>Title</label>
         <input type="text" id="edit-title" value="${task.title}" />
   
         <label>Description</label>
-        <textarea id="edit-desc">${task.description}</textarea>
+        <textarea id="edit-desc" style="min-height: 70px;">${task.description}</textarea>
   
         <label>Due Date</label>
         <input type="date" id="edit-due-date" value="${task.dueDate}" />
@@ -530,7 +530,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
         </div>
   
         <div class="task-card-actions">
-          <button class="task-card-edit-btn" onclick="saveTaskChanges('${task.id}')">Save</button>
+          <button class="task-card-edit-save-btn" onclick="saveTaskChanges('${task.id}')">Save <img src="svg/check.svg" alt="" srcset=""></button>
         </div>
       </div>
     `;
