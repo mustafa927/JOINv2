@@ -13,11 +13,11 @@ main {
 
 .maincontent {
   padding-left: 80px;
-  max-width: 1440px;
+  max-width: 1200px;
 }
 
 h1 {
-  
+  font-size:50px;
   margin-bottom: 20px;
 }
 
@@ -178,9 +178,10 @@ textarea {
 
 /* === BOTTOM BUTTONS === */
 .bottom-buttons {
-  margin-top: 20px;
+  margin-top: 200px;
   display:flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .bottom-buttons button {
@@ -196,6 +197,12 @@ textarea {
   border: 1px solid #2a3647 !important;
   margin-right: 10px;
   color:#2a3647;
+  
+}
+
+.clear-btn:hover {
+  border: 2px solid #5abce5 !important;
+  color: #5abce5 !important;
 }
 
 .create-btn {
@@ -204,7 +211,7 @@ textarea {
 }
 
 .create-btn:hover {
-  background-color: rgb(13, 153, 255);
+  background-color: #5abce5;  
 }
 
 /* === STATUS & FEEDBACK === */
@@ -387,6 +394,7 @@ textarea {
   align-items: center;
   justify-content: center;
 }
+
 
 @media (max-width: 1050px) {
   .line {
