@@ -14,6 +14,9 @@
     <link rel="icon" type="image/x-icon" href="svg/Capa 2.svg">
   </head>
   <body onload="fetchData()">
+   
+      
+    </div>
     <div id="successMessage" class="contact-created">Contact successfully created</div>
 
     <aside class="sidebar">
@@ -78,10 +81,11 @@
       </div>
     </header>
 
-    <div class="left-side">
+   
+      <div class="left-side">
       <button class="new-contact d_none" id="new-contact" onclick="addContact()">
+              <span class="button-label">Add new contact</span>
         <img src="./svg/person_add.svg" alt="Add contact" class="button-icon" />
-        <span class="button-label">Add new contact</span>
       </button>
       
       
@@ -90,7 +94,7 @@
     </div>
     <div class="main">
       <div class="contact-info">
-        <div style="display:flex; align-items: center;">
+        <div class="contact-info-headline">
           <div class="contactInfo-title">Contacts</div>
           <div class="contactInfo-subtitle">Better with a team</div>
         </div>
@@ -106,7 +110,7 @@
       <img src="svg/contactCreated.svg" alt="Contact Created">
     </div>
     
-
+   
 
     <script src="JavaScript/contacts.js"></script>
     <script src="JavaScript/summary.js" type="module"></script>

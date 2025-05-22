@@ -49,12 +49,14 @@ function contactDetailTemplate(contact) {
           <div class="show-contact-avatar" style="background:${bg};">
           ${initials}</div>
           <div><h2 style="margin:0;">${contact.name}</h2>
-          <div style="display:flex;margin-top:5px;">
+          <div style="display:flex;margin-top:10px;">
           <button onclick="editContact('${contact.name}')" class="contact-detail-buttons">
-            <img style="height:15px;width:15px;" src="./svg/edit-black.svg" alt="Edit">Edit
-          </button>
+  <img class="icon-default" src="./svg/edit-black.svg" alt="Edit">
+   <img class="icon-hover" src="./svg/edit-blue-hover.svg" alt="Edit">Edit
+</button>
           <button onclick="deleteContact('${contact.name}')" class="contact-detail-buttons">
-            <img style="height:15px;width:15px;" src="./svg/delete.svg" alt="Delete">Delete
+            <img class="icon-default" src="./svg/delete.svg" alt="Delete">
+             <img class="icon-hover" src="./svg/delete-blue-hover.svg" alt="Delete">Delete
           </button>
           </div>
           </div>
@@ -130,7 +132,6 @@ function contactAddFormTemplate() {
   `;
 }
 
-
 /**
  * Template for the contact edit form with HTML5 validation.
  *
@@ -143,35 +144,47 @@ function contactEditFormTemplate(contact) {
 
   return `
     <div class="add-contact-overlay">
-      <div class="close-btn" onclick="closeOverlayDirectly(); showContact('${contact.name}')">&times;</div>
+      <div class="close-btn" onclick="closeOverlayDirectly(); showContact('${
+        contact.name
+      }')">&times;</div>
       <div class="add-contact-left">
         <img src="./svg/Capa 1.svg" class="add-contact-logo">
         <h2>Edit contact</h2>
         <div class="underline"></div>
       </div>
       <div class="add-contact-right">
-        <form id="contactForm" onsubmit="event.preventDefault(); if (validateContactForm()) updateContact('${contact.id || contact.name}');">
+        <form id="contactForm" onsubmit="event.preventDefault(); if (validateContactForm()) updateContact('${
+          contact.id || contact.name
+        }');">
           <div class="add-contact-form">
             <div class="edit-contact-avatar" style="background: ${color};">${initials}</div>
             
             <div class="add-contact-form-section">
               <div class="add-contact-inputs">
                 <div class="input-wrapper">
-                  <input id="inputName" type="text" placeholder="Name" value="${contact.name}">
+                  <input id="inputName" type="text" placeholder="Name" value="${
+                    contact.name
+                  }">
                   <img src="./svg/person.svg" class="input-icon">
                 </div>
                 <div class="input-wrapper">
-                  <input id="inputEmail" type="text" placeholder="Email" value="${contact.email}">
+                  <input id="inputEmail" type="text" placeholder="Email" value="${
+                    contact.email
+                  }">
                   <img src="./svg/mail.svg" class="input-icon">
                 </div>
                 <div class="input-wrapper">
-                  <input id="inputPhone" type="text" placeholder="Phone" value="${contact.phone}">
+                  <input id="inputPhone" type="text" placeholder="Phone" value="${
+                    contact.phone
+                  }">
                   <img src="./svg/call.svg" class="input-icon">
                 </div>
               </div>
 
               <div class="add-contact-buttons">
-                <button type="button" class="cancel-btn" onclick="deleteContact('${contact.name}')">Delete</button>
+                <button type="button" class="cancel-btn" onclick="deleteContact('${
+                  contact.name
+                }')">Delete</button>
                 <button type="submit" class="create-btn">Save <span>&check;</span></button>
               </div>
             </div>
@@ -182,7 +195,3 @@ function contactEditFormTemplate(contact) {
     </div>
   `;
 }
-
-
-
-
