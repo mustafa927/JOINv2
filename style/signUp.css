@@ -28,7 +28,7 @@ body {
 }
 
 /* Anpassung für die Zentrierung bei großen Bildschirmen */
-@media (min-width: 1921px) {
+@media (max-width: 1921px) {
     body {
         display: flex;
         justify-content: center;

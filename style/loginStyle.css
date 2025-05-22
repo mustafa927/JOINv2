@@ -23,33 +23,6 @@ body {
     align-items: center;
 }
 
-/* Anpassung für die Zentrierung bei großen Bildschirmen */
-@media (min-width: 1921px) {
-    body {
-        display: flex;
-        justify-content: center;
-        background-color: #F6F7F8;
-    }
-    
-    .sidebar {
-        position: relative;
-        left: auto;
-        transform: none;
-    }
-    
-    .page-logo {
-        position: absolute;
-        top: 80px;
-        left: 77px;
-    }
-    
-    .signup-container {
-        position: absolute;
-        top: 40px;
-        right: 40px;
-    }
-}
-
 .page-logo {
     position: absolute;
     top: 80px;
