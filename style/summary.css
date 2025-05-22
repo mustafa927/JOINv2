@@ -4,7 +4,6 @@ body {
   height:100% !important;
   font-family: Arial, sans-serif;
   background-color: #f4f6f8;
-  color: #2c3e50;
   display: flex;
 }
 
@@ -16,7 +15,7 @@ body {
 
 .container {
   margin-left: 280px;
-  margin-top: 88px;
+  margin-top: 120px;
   height: calc(100vh - 200px);
   overflow-y: auto;
 }
@@ -82,6 +81,7 @@ body {
   transition: background-color 0.3s;
   flex-shrink: 0;
   color: white;
+ 
 }
 
 .svg-icon {
@@ -172,8 +172,8 @@ body {
 }
 
 .urgent-icon img {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
 }
 
 .urgent-info {
@@ -280,7 +280,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 64px;
+  margin-left: 80px;
  
 }
 
@@ -296,13 +296,13 @@ body {
 }
 
 .button-container {
-
+width:50%;
 }
 
 .main-container {
   display:flex;
   width:100%;
-  max-width:1440px;
+  max-width:1200px;
 }
 
 @media (max-width:1220px) {
@@ -313,6 +313,14 @@ body {
   .greeting-name {
     font-size:32px;
   }
+
+  .button-container {
+    width:70%;
+  }
+
+  .container {
+    padding-left:0px !important;
+  }
 }
 
 @media (max-width:1020px) {
@@ -320,8 +328,13 @@ body {
     display:none;
     
   }
+  
+  
+  .button-container {
+    width:90%;
+  }
 .title {
-  font-size:30px;
+  font-size:40px;
 }
 
 .sub {
@@ -335,7 +348,27 @@ body {
     
   }
   
+  .card:hover,
+  .card-urgent:hover,
+  .status-card:hover {
+    background-color: #ffffff !important;
+    transform: none !important;
+  }
+   .card:hover .card-icon {
+    background-color: #2a3647 !important;
+    color: white !important;
+  }
 
+  .card:hover .card-number,
+  .card:hover .card-label,
+  .card-urgent:hover .urgent-number,
+  .card-urgent:hover .urgent-label,
+  .card-urgent:hover .urgent-date,
+  .card-urgent:hover .urgent-subtext,
+  .status-card:hover .status-number,
+  .status-card:hover .status-label {
+    color: black !important;
+  }
   .divider-mobile {
     width: 100px;
     height: 3px;
@@ -355,6 +388,9 @@ body {
     margin-left:0;
     padding-bottom:100px;
     height: calc(100vh - 400px);
+    padding-left:40px !important;
+    padding-top:0px;
+
   }
   
   .card {
@@ -394,6 +430,7 @@ body {
   .card-icon {
     height:40px;
     width:40px;
+    margin-left:30%;
   }
 
   .urgent-divider {
@@ -404,7 +441,8 @@ body {
 
 @media (max-width: 480px) {
   .container {
-    padding: 2px;
+    padding-left:20px !important;
+    padding-right:20px !important;
     margin-top: 150px;
     padding-bottom: 100px; /* Abstand zur mobilen Sidebar */
   }
@@ -412,14 +450,15 @@ body {
   .card,
   .card-urgent,
   .status-card {
-    height: auto;
+    min-height: 80px;
     padding: 12px;
-    gap: 8px;
+
   }
 
   .card-icon {
     width: 40px;
     height: 40px;
+    margin-left:20%;
   }
 
   .svg-icon {
@@ -429,7 +468,7 @@ body {
 
   .card-number,
   .status-number {
-    font-size: 24px;
+    font-size: 40px;
   }
 
   .card-label,
@@ -446,10 +485,13 @@ body {
   .urgent-divider {
     height: 40px;
     margin: 0 10px;
+    left:20px;
   }
 
+  .urgent-icon {
+    margin-left:0px;
+  }
   .title {
-    font-size: 28px;
     padding-left:10px;
   }
 
@@ -471,5 +513,27 @@ body {
 
   .button-container {
     width: 100%;
+  }
+
+  .urgent-date {
+    padding-left:0;
+  }
+
+  .urgent-subtext {
+    padding-left:0;
+  }
+
+  .urgent-right {
+    margin-left:30px;
+  }
+}
+
+@media (max-width:350px) {
+  .card-icon {
+    margin-left:2%;
+  }
+  .container {
+    padding-left:5px !important;
+    padding-right:5px !important;
   }
 }
