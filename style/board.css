@@ -193,7 +193,7 @@ main {
 .card-type {
   background-color: #005dff;
   color: white;
-  font-size: 12px;
+  font-size: 16px;
   padding: 4px 12px;
   border-radius: 8px;
   width: fit-content;
@@ -202,12 +202,12 @@ main {
 
 .card-title {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 4px;
 }
 
 .card-description {
-  font-size: 13px;
+  font-size: 16px;
   color: #6b6b6b;
   margin-bottom: 16px;
 }
@@ -234,7 +234,7 @@ main {
 }
 
 .subtasks {
-  font-size: 12px;
+  font-size: 14px;
   color: #6b6b6b;
 }
 
@@ -284,7 +284,7 @@ main {
 .modal-content {
   background-color: white;
   width: 80%;
-  height: 90%;
+  height: 750px;
   border-radius: 16px;
   overflow: hidden;
   position: relative;
@@ -301,6 +301,8 @@ main {
 
 .close-btn {
   position: absolute;
+  margin-top: 20px;
+  margin-right: 20px ;
   right: 10px;
   font-size: 26px;
   font-weight: bold;
@@ -328,7 +330,7 @@ body.modal-open {
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.3);
-  z-index: 999;
+  z-index: 6000;
 }
 
 .nav-button {
