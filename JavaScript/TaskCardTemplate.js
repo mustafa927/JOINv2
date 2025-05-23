@@ -487,7 +487,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
         </div>
   
         <label for="assigned">Assigned to</label>
-        <div class="assigned-dropdown">
+        <div class="assigned-dropdown" style="margin-bottom: 15px;">
           <div class="assigned-select" onclick="toggleAssignedDropdown(event)">
             <input
               type="text"
@@ -500,7 +500,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
           </div>
           <div class="assigned-options d-none" id="assigned-list"></div>
         </div>
-        <div id="selected-avatars" class="selected-avatars"></div>
+        <div id="selected-avatars" style="margin-bottom: 15px; margin-top: 0px;" class="selected-avatars"></div>
   
         <label>Category</label>
         <select id="edit-category">
@@ -517,7 +517,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
       
           <ul id="subtask-list">
             ${Object.entries(task.subtasks || {}).map(([id, sub]) => `
-              <li class="subtask-item" id="subtask-${id}">
+              <li class="subtask-item" id="subtask-${id}" ondblclick="editSubtask('${id}')">
                 <span class="subtask-title">${sub.title}</span>
                 <div class="subtask-actions">
                   <img src="svg/edit-black.svg" class="subtask-icon" onclick="editSubtask('${id}')">

@@ -3,7 +3,7 @@ body {
   display: flex;
   margin: 0;
   font-family: Arial, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 /* Header */
@@ -27,6 +27,7 @@ header h2 {
 
 h1 {
   font-size: 61px;
+  margin-bottom: 50px;
 }
 
 .Board-head {
@@ -369,7 +370,7 @@ body.modal-open {
 .task-card-label {
   background-color: #1a73e8;
   color: white;
-  font-size: 12px;
+  font-size: 18px;
   padding: 4px 12px;
   border-radius: 12px;
   width: fit-content;
@@ -392,11 +393,11 @@ body.modal-open {
 }
 
 .task-card-description {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .task-card-info {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .task-card-priority {
