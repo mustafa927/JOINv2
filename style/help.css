@@ -71,8 +71,8 @@
 }
 
 .user-initial-small {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     background-color: white;
     border: 2px solid black;
     border-radius: 50%;
@@ -86,5 +86,5 @@
 }
 
 .user-initial-small:hover {
-    transform: scale(1.05);
+    background-color: #F5F5F5;
 }

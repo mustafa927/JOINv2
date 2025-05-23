@@ -92,6 +92,19 @@ body {
   
   }
 
+  .nav-item-footer:hover,
+  .nav-item-footer.active {
+    background-color: #091931;
+    color: white;
+  
+  }
+
+  .nav-item-footer{
+    color: #CDCDCD;
+    padding: 8px 0;
+    transition: background 0.3s, color 0.3s;
+}
+
   .nav-item-mobile:hover,
   .nav-item-mobile.active {
     background-color: #081931;

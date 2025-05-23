@@ -28,11 +28,11 @@ profile-wrapper {
     display: none;
     position: absolute;
     right: 0;
-    top: 40px;
     background-color: #2A3647;
+    margin-top: 20px;
     min-width: 140px;
     box-shadow: 0px 3px 6px rgba(0,0,0,0.1);
-    border-radius: 8px;
+    border-radius: 8px 0px 8px 8px;
     z-index: 5000;
     border: 1px dotted #7E2CF7;
 }
@@ -46,7 +46,7 @@ profile-wrapper {
 .dropdown-menu-small li {
     padding: 8px 16px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     color: #CDCDCD;
     transition: background-color 0.3s;
 }
@@ -80,5 +80,9 @@ profile-wrapper {
     
     .help-icon {
         display: none;
+    }
+
+    .dropdown-menu-small{
+        margin-top: 0;
     }
 }
