@@ -414,6 +414,7 @@ textarea {
   .priority-buttons button {
     font-size: 18px;
     padding: 6px 4px;
+    flex-direction:row;
   }
   body {
     display: flex;

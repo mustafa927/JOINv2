@@ -59,7 +59,7 @@ body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   padding: 20px 30px;
   text-align: center;
-  height: 120px;
+  height: 80px;
   transition: background-color 0.3s, transform 0.3s;
   cursor: pointer;
   position: relative;
@@ -137,7 +137,7 @@ body {
   background-color: #ffffff;
   border-radius: 20px;
   padding: 20px 30px;
-  height: 120px;
+  height: 100px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   transition: background-color 0.3s, transform 0.3s;
   cursor: pointer;
@@ -241,7 +241,7 @@ body {
   background-color: #ffffff;
   border-radius: 20px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  height: 100px;
+  height: 80%;
   padding: 20px;
   display: flex;
   flex-direction: column;
