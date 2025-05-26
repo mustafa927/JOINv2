@@ -181,11 +181,11 @@ function contactEditFormTemplate(contact) {
                 </div>
               </div>
 
-              <div class="add-contact-buttons">
-                <button type="button" class="cancel-btn" onclick="deleteContact('${
+              <div class="edit-contact-buttons">
+                <button type="button" class="delete-btn" onclick="deleteContact('${
                   contact.name
                 }')">Delete</button>
-                <button type="submit" class="create-btn">Save <span>&check;</span></button>
+                <button type="submit" class="save-btn">Save <span>&check;</span></button>
               </div>
             </div>
 
