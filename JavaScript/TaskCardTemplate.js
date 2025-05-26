@@ -63,6 +63,8 @@ function getColorFromName(name) {
 
 function createTaskCard(task) {
   const assignedHTML = renderAssignedPeople(task.assignedPeople || []);
+
+  
   const { total, done } = calculateSubtaskProgress(task.subtasks || {});
   const priorityIcon = getPriorityIcon(task.priority);
   const typeStyle = getCategoryStyle(task.category);
@@ -186,7 +188,8 @@ function getCategoryStyle(category) {
   
     for (const [id, task] of Object.entries(tasksData)) {
       const personIds = Object.values(task.assignedTo || {});
-      const assignedPeople = personIds.map(pid => peopleData[pid]).filter(Boolean);
+      const currentUser = getCurrentUser();
+      const assignedPeople = personIds.map(pid => peopleData[pid] || (currentUser && pid === currentUser.id ? currentUser : null)).filter(Boolean);
       const fullTask = { id, ...task, assignedPeople };
       insertTaskIntoColumn(fullTask);
     }

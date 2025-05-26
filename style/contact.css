@@ -1,7 +1,5 @@
 /* === RESET === */
-* {
-  /* box-sizing: border-box; */
-}
+
 
 body {
   margin: 0;
@@ -160,6 +158,7 @@ a {
   background-color: #2a3647;
   color: white;
   padding: 40px;
+  padding-top: 0;
   width: 30%;
   display: flex;
   flex-direction: column;
@@ -473,7 +472,7 @@ body.modal-open {
 }
 
 .add-contact-form {
-  margin-top:70px; 
+  margin-top:30px; 
   display:flex; 
   align-items:center;
 }

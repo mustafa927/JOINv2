@@ -239,6 +239,8 @@ function getCurrentUser() {
   return stored ? JSON.parse(stored) : null;
 }
 
+window.getCurrentUser = getCurrentUser;
+
 /**
  * Clears the entire form and resets all inputs and UI states.
  * 
@@ -317,13 +319,13 @@ function avatarTemplate(name) {
 document.addEventListener("DOMContentLoaded", () => {
   const dropdown = document.getElementById("assigned-select");
 
-  dropdown.addEventListener("focusin", () => {
-    dropdown.classList.add("input-focus");
-  });
+  // dropdown.addEventListener("focusin", () => {
+  //   dropdown.classList.add("input-focus");
+  // });
 
-  dropdown.addEventListener("focusout", () => {
-    dropdown.classList.remove("input-focus");
-  });
+  // dropdown.addEventListener("focusout", () => {
+  //   dropdown.classList.remove("input-focus");
+  // });
 });
 
  document.addEventListener("click", function (event) {
