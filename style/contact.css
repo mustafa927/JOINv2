@@ -497,6 +497,44 @@ body.modal-open {
   outline: none;
 }
 
+.edit-contact-buttons {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+  justify-content: center;
+}
+
+
+.delete-btn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background-color: white;
+  border: 1px solid #2a3647;
+  color: #2a3647;
+}
+.delete-btn:hover {
+  border-color: #29abe2;
+  color: #29abe2;
+}
+
+.save-btn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px; 
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background-color: #2a3647;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #29abe2;
+}
 @media (max-width:1310px) {
   .contact-list {
     margin:0 10px;
