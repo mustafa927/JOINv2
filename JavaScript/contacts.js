@@ -170,33 +170,67 @@ function validateContactForm() {
 
   let isValid = true;
 
-  // Reset styles
+  // Reset styles and errors
   [nameInput, emailInput, phoneInput].forEach(input => {
-    input.style.border = ""; // remove previous border
+    input.style.border = "";
+    const errorElem = input.nextElementSibling;
+    if (errorElem && errorElem.classList.contains("error-message")) {
+      errorElem.textContent = "";
+    }
   });
 
   // Name: only letters and spaces
   const nameRegex = /^[A-Za-z\s]+$/;
-  if (!nameInput.value.trim() || !nameRegex.test(nameInput.value.trim())) {
-    nameInput.style.border = "2px solid red";
+  if (!nameInput.value.trim()) {
+    setError(nameInput, "Bitte einen Namen eingeben.");
+    isValid = false;
+  } else if (!nameRegex.test(nameInput.value.trim())) {
+    setError(nameInput, "Der Name darf nur Buchstaben enthalten.");
     isValid = false;
   }
 
   // Email: basic email check
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) {
-    emailInput.style.border = "2px solid red";
+  if (!emailInput.value.trim()) {
+    setError(emailInput, "Bitte eine E-Mail-Adresse eingeben.");
+    isValid = false;
+  } else if (!emailRegex.test(emailInput.value.trim())) {
+    setError(emailInput, "Bitte eine gültige E-Mail-Adresse eingeben.");
     isValid = false;
   }
 
-  // Phone: only digits
+  // Phone: only digits + min 7 digits
   const phoneRegex = /^\d+$/;
-  if (!phoneInput.value.trim() || !phoneRegex.test(phoneInput.value.trim())) {
-    phoneInput.style.border = "2px solid red";
+  const phoneValue = phoneInput.value.trim();
+  if (!phoneValue) {
+    setError(phoneInput, "Bitte eine Telefonnummer eingeben.");
+    isValid = false;
+  } else if (!phoneRegex.test(phoneValue)) {
+    setError(phoneInput, "Die Telefonnummer darf nur Zahlen enthalten.");
+    isValid = false;
+  } else if (phoneValue.length < 7) {
+    setError(phoneInput, "Die Telefonnummer muss mindestens 7 Ziffern haben.");
     isValid = false;
   }
 
   return isValid;
+}
+
+
+function setError(inputElement, message) {
+  inputElement.style.border = "2px solid red";
+  let errorElem = inputElement.nextElementSibling;
+
+  if (!errorElem || !errorElem.classList.contains("error-message")) {
+    errorElem = document.createElement("div");
+    errorElem.classList.add("error-message");
+    errorElem.style.color = "red";
+    errorElem.style.fontSize = "12px";
+    errorElem.style.marginTop = "4px";
+    inputElement.parentNode.insertBefore(errorElem, inputElement.nextSibling);
+  }
+
+  errorElem.textContent = message;
 }
 
 
