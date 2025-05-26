@@ -30,9 +30,9 @@ profile-wrapper {
     right: 0;
     background-color: #2A3647;
     margin-top: 20px;
-    min-width: 140px;
+    min-width: 150px;
     box-shadow: 0px 3px 6px rgba(0,0,0,0.1);
-    border-radius: 8px 0px 8px 8px;
+    border-radius: 20px 0px 20px 20px;
     z-index: 5000;
     border: 1px dotted #7E2CF7;
 }
@@ -40,7 +40,10 @@ profile-wrapper {
 .dropdown-menu-small ul {
     list-style: none;
     margin: 0;
-    padding: 8px 0;
+    padding: 9px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .dropdown-menu-small li {
@@ -52,17 +55,13 @@ profile-wrapper {
 }
 
 .dropdown-menu-small li:hover {
-    background-color: #091931;
+    background-color: #2a3e59;
 }
 
 .dropdown-menu-small li a {
     color: #CDCDCD;
     text-decoration: none;
     display: block;
-}
-
-.dropdown-menu-small li a:hover {
-    color: white;
 }
 
 .dropdown-menu-small.show {
@@ -82,7 +81,28 @@ profile-wrapper {
         display: none;
     }
 
-    .dropdown-menu-small{
+    .dropdown-menu-small {
+        max-width: 150px;
         margin-top: 0;
+        animation: slideIn 0.3s ease-in-out;
+        border-radius: 20px 0px 20px 20px;
+    }
+
+    .dropdown-menu-small li:hover {
+        background-color: inherit;
+    }
+    .dropdown-menu-small .menu-help:hover {
+        background-color: #2a3e59;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
     }
 }

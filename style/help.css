@@ -10,6 +10,10 @@
     text-decoration: none;
 }
 
+.back-button a:hover {
+    background-color: #edeeee;
+}
+
 .back-button img {
     width: 24px;
     height: 24px;
@@ -86,5 +90,5 @@
 }
 
 .user-initial-small:hover {
-    background-color: #F5F5F5;
+    background-color: #e3e7ec;
 }
