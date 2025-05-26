@@ -253,7 +253,8 @@ function clearForm() {
   });
   document.getElementById("selected-avatars").innerHTML = "";
   window.subtasks = [];
-  renderSubtaskList();
+document.getElementById("subtask-list").innerHTML = "";
+
   document.getElementById("assigned-search").value = "";
   document.querySelector(".assigned-dropdown")?.classList.remove("open");
   document.getElementById("assigned-list")?.classList.add("d-none");

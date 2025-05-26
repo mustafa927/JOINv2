@@ -30,7 +30,7 @@ let newTask = {
  * @async
  */
 async function fetchDataTasks() {
-  console.log("fetchData gestartet");
+ 
   let response = await fetch(
     "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json"
   );
