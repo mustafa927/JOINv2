@@ -260,7 +260,25 @@ document.getElementById("subtask-list").innerHTML = "";
   document.getElementById("assigned-search").value = "";
   document.querySelector(".assigned-dropdown")?.classList.remove("open");
   document.getElementById("assigned-list")?.classList.add("d-none");
+    document.querySelectorAll(".priority-btn").forEach(btn => {
+    btn.classList.remove("active-urgent", "active-medium", "active-low");
+    const img = btn.querySelector("img");
+
+
+    if (btn.classList.contains("urgent")) img.src = "svg/urgent.svg";
+    if (btn.classList.contains("medium")) img.src = "svg/medium.svg";
+    if (btn.classList.contains("low")) img.src = "svg/low.svg";
+  });
+
+
+  const mediumBtn = document.querySelector(".priority-btn.medium");
+  if (mediumBtn) {
+    mediumBtn.classList.add("active-medium");
+    const img = mediumBtn.querySelector("img");
+    if (img) img.src = "svg/mediumwhite.svg";
+  }
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
   setupPriorityButtons();
@@ -337,3 +355,9 @@ document.addEventListener("DOMContentLoaded", () => {
       assignedList.classList.add("d-none");
     }
   });
+
+  document.addEventListener("DOMContentLoaded", () => {
+  const dueDateInput = document.getElementById("due-date");
+  const today = new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
+  dueDateInput.setAttribute("min", today);
+});
