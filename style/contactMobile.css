@@ -25,9 +25,11 @@
   .add-contact-overlay {
     display: block;
     top: 85px;
-    width: 93%;
+    width:auto;
     position: fixed;
     height: calc(90vh - 100px);
+    left:5px;
+    right:5px;
   }
 
   .add-contact-left {
@@ -282,8 +284,7 @@
     width: 140px;
   }
  .edit-contact-avatar {
-  left:35%;
-  right:35%;
+  left:34%;
  }
   .contact-email {
     font-size: 16px;

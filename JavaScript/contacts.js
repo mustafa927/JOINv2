@@ -472,8 +472,12 @@ document.addEventListener("click", function (event) {
   const menuIsVisible = menu.style.display === "flex";
   const clickedOnToggle = toggle.contains(event.target);
 
-  if (clickedInsideForm && menuIsVisible && !clickedOnToggle) {
+  if (clickedOnToggle) {
+    
     toggleContactMenu();
-  } else if (clickedOnToggle) {
+    event.stopPropagation(); 
+  } else if (clickedInsideForm && menuIsVisible) {
+    toggleContactMenu(); 
   }
 }, true);
+
