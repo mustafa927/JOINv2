@@ -42,7 +42,7 @@ function contactDetailTemplate(contact) {
       <div><h1>Contacts</h1>
       <span class="header-infoline">Better with a team
       </div>
-      <div class="arrow-back" onclick="closeOverlayDirectly()"> &#8592;</div>
+      <img src="svg/arrow-left-line.svg" class="arrow-back" onclick="closeOverlayDirectly()">
       </div>
       <div class="contact-info-box slide-in" >
         <div class="contact-name-box">

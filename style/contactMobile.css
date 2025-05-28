@@ -118,9 +118,11 @@
     padding: 20px;
   }
   .arrow-back {
-    color: #29abe2;
-    font-size: 50px;
+    right:20px !important;
     cursor: pointer;
+    position:absolute;
+    top:50px;
+    width:50px;
   }
   .new-contact .button-icon {
     width: 30px;
@@ -239,6 +241,7 @@
   .contact-email {
     font-size: 16px;
     margin-top: 7px;
+    max-width:none;
   }
   .delete-btn {
     padding: 12px 20px;
@@ -285,6 +288,11 @@
   }
  .edit-contact-avatar {
   left:34%;
+ }
+
+ .menu-contact-options {
+  height:50px;
+  width:50px;
  }
   .contact-email {
     font-size: 16px;
