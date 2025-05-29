@@ -246,7 +246,9 @@ main {
 
 .avatars {
   display: flex;
-  gap: 4px;
+  flex-wrap: wrap;         /* Avatare umbrechen, wenn kein Platz */
+  gap: 4px;                /* Abstand zwischen Avataren */
+  max-width: 100%;         /* Verhindert Überlauf */
 }
 
 .avatar {
@@ -359,10 +361,13 @@ body.modal-open {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   width: 360px;
   padding: 24px;
+  max-height: 80vh;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 30px;
+  overflow-y: auto;
+
 }
 
 .task-card-overlay.animate-in {
