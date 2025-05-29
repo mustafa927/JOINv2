@@ -1,4 +1,3 @@
-/* === GENERAL STYLES === */
 body {
   font-family: Arial, sans-serif;
   background-color: #f8f9fb;
@@ -14,20 +13,19 @@ main {
 .maincontent {
   padding-left: 80px;
   max-width: 1200px;
-  display:flex;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 85vh;
 }
 
 h1 {
-  font-size:50px;
+  font-size: 50px;
   margin-bottom: 20px;
-  margin-block-start:0;
-  margin-block-end:0;
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 
-/* === FORM LAYOUT === */
 form {
   display: flex;
   align-items: stretch;
@@ -55,8 +53,7 @@ select {
   border: 1px solid #ccc;
   border-radius: 6px;
   box-sizing: border-box;
-  height:38px;
-
+  height: 38px;
 }
 
 textarea {
@@ -70,10 +67,9 @@ textarea {
   align-items: center;
   border: 1px solid #ccc;
   border-radius: 8px;
- 
   background-color: #f9f9f9;
   margin-bottom: 10px;
-  height:50px;
+  height: 50px;
 }
 
 .custom-date-container input {
@@ -83,11 +79,11 @@ textarea {
   width: 100%;
   font-size: 16px;
   color: #000;
-  margin-bottom:0 !important;
+  margin-bottom: 0 !important;
 }
 
 .custom-date-container input::placeholder {
-  color: #b3b3b3; /* wie "Enter a title" */
+  color: #b3b3b3;
 }
 
 .calendar-icon {
@@ -96,13 +92,11 @@ textarea {
   cursor: pointer;
 }
 
-/* === PRIORITY BUTTONS === */
 .priority-buttons {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   width: 100%;
-
 }
 
 .priority-buttons button {
@@ -145,7 +139,6 @@ textarea {
   color: white;
 }
 
-/* === SUBTASK FIELD === */
 .subtask-input-container {
   display: flex;
   align-items: center;
@@ -184,8 +177,7 @@ textarea {
 .subtask-list-container {
   height: 66px;
   overflow-y: auto;
-  border:none;
-
+  border: none;
   margin-top: 10px;
 }
 
@@ -195,17 +187,14 @@ textarea {
   gap: 4px;
 }
 
-
-/* === BOTTOM BUTTONS === */
 .bottom-buttons {
-  bottom:10px;
-  right:30%;
-  display:flex;
+  bottom: 10px;
+  right: 30%;
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top:30px;
+  margin-top: 30px;
 }
-
 .bottom-buttons button {
   padding: 10px 20px;
   border: none;
@@ -218,8 +207,7 @@ textarea {
   background-color: transparent;
   border: 1px solid #2a3647 !important;
   margin-right: 10px;
-  color:#2a3647;
-  
+  color: #2a3647;
 }
 
 .clear-btn:hover {
@@ -233,10 +221,9 @@ textarea {
 }
 
 .create-btn:hover {
-  background-color: #5abce5;  
+  background-color: #5abce5;
 }
 
-/* === STATUS & FEEDBACK === */
 .task-success {
   position: fixed;
   top: 50%;
@@ -264,11 +251,13 @@ textarea {
   font-size: 18px;
   color: #ff8190;
   margin-bottom: 10px;
-  margin-top:5px;
+  margin-top: 5px;
 }
+
 .input-error {
   border: 1px solid #ff8190 !important;
 }
+
 .line {
   margin: 0 20px;
   width: 1px;
@@ -282,12 +271,11 @@ textarea {
 .invisible {
   visibility: hidden;
 }
-/* === ASSIGNED TO DROPDOWN === */
+
 .assigned-dropdown {
   position: relative;
   width: 100%;
   font-family: sans-serif;
-
 }
 
 .assigned-select {
@@ -341,7 +329,7 @@ textarea {
 }
 
 .assigned-options {
-  position:absolute;
+  position: absolute;
   top: 100%;
   left: 0;
   right: 0;
@@ -388,7 +376,6 @@ textarea {
   flex: 1;
 }
 
-/* === AVATAR DISPLAY === */
 .avatar {
   width: 20px;
   height: 20px;
@@ -408,7 +395,6 @@ textarea {
   margin-top: 10px;
   flex-wrap: wrap;
 }
-
 .selected-avatar {
   width: 36px;
   height: 36px;
@@ -421,119 +407,18 @@ textarea {
   justify-content: center;
 }
 
-
-@media (max-width: 1050px) {
-  .line {
-    margin: 0;
-  }
-
-  .maincontent {
-    padding-left:30px;
-  }
-
-  .priority-buttons button {
-    flex-direction: column;
-  }
-
- 
+.required-note {
+  font-size: 18px;
 }
 
-@media (max-width: 768px) {
-  .priority-buttons button {
-    font-size: 18px;
-    padding: 6px 4px;
-    flex-direction:row;
-  }
-
-  body {
-    display: flex;
-    justify-content: center;
-  }
-  main {
-    margin-left: 0;
-    width: 90%;
-  }
-  .priority-buttons button img {
-    width: 20px;
-    height: 20px;
-  }
-  .bottom-buttons {
-    margin-top:0px;
-  }
-  form {
-    display: block;
-    margin-top:120px;
-  }
-
-  .form-section {
-    width: 100%;
-  }
-
-  .maincontent {
-    padding-bottom: 200px;
-    height:none;
-    height:1000px;
-    padding-left: 0px;
-
-  }
-
-  .create-btn {
-    position: fixed;
-    bottom: 100px;
-    right: 20px;
-    height: 60px;
-    width: 150px;
-  }
-  .clear-btn {
-    position: fixed;
-    bottom: 100px;
-    right: 200px;
-    height: 60px;
-    width: 150px;
-    border: 2px solid black !important;
-    background-color: #f6f7f8;
-  }
-  .h1div {
-    height: 50px;
-    width: 100%;
-    background-color: #f6f7f8;
-    top: 83px;
-    position: fixed;
-    left: 0;
-    padding:20px;
-    z-index:2;
-    }
-  }
-
-  .required-note {
-    font-size: 18px;
-  }
-
-  #required-responsive-note {
-    color: red;
-    font-size: 18px;
-  }
-
-  .maincontent {
-    padding-left: 80;
-  }
-
-
-@media(max-width:600px) {
-  .clear-btn {
-    width:100px;
-    height:50px;
-    right:180px;
-    font-size:16px !important;
-  }
-
-  .create-btn {
-    width:150px;
-    height:50px;
-    font-size:16px !important;
-  }
+#required-responsive-note {
+  color: red;
+  font-size: 18px;
 }
 
+.maincontent {
+  padding-left: 80px;
+}
 
 .subtask-item {
   display: flex;
@@ -554,8 +439,7 @@ textarea {
   flex-grow: 1;
 }
 
-.subtask-actions { 
-
+.subtask-actions {
   align-items: center;
   gap: 6px;
   display: none;
@@ -595,9 +479,9 @@ textarea {
 
 .edit-subtask-input {
   width: 100%;
-  padding-right: 48px; /* Platz für die Icons rechts */
+  padding-right: 48px;
   box-sizing: border-box;
-  padding:0 !important;
+  padding: 0 !important;
   margin-bottom: 0 !important;
 }
 
@@ -622,23 +506,24 @@ textarea {
 }
 
 .cancel-subtask-button {
-  border:none;
-  background-color:white;
-  font-weight:bold;
+  border: none;
+  background-color: white;
+  font-weight: bold;
 }
 
 .confirm-subtask-button {
-  border:none;
-  background-color:white;
+  border: none;
+  background-color: white;
 }
 
 .subtask-divider {
-   width: 1px;
+  width: 1px;
   height: 25px;
   background-color: #ccc;
 }
-.subtask-buttons{
-  display:flex;
+
+.subtask-buttons {
+  display: flex;
 }
 
 .category-dropdown {
@@ -660,7 +545,7 @@ textarea {
 
 .category-placeholder {
   color: #757575;
-  margin-left:15px;
+  margin-left: 15px;
 }
 
 .category-options {
@@ -685,7 +570,6 @@ textarea {
   background-color: #f0f0f0;
 }
 
-
 .category-select.input-error {
   border: 1px solid #ff8190 !important;
 }
@@ -695,8 +579,114 @@ textarea {
 }
 
 
-@media (min-height:850px) {
+@media (max-width: 1050px) {
+  .line {
+    margin: 0;
+  }
+
+  .maincontent {
+    padding-left: 30px;
+  }
+
+  .priority-buttons button {
+    flex-direction: column;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .clear-btn {
+    width: 100px;
+    height: 50px;
+    right: 180px;
+    font-size: 16px !important;
+  }
+
+  .create-btn {
+    width: 150px;
+    height: 50px;
+    font-size: 16px !important;
+  }
+}
+
+
+@media (min-height: 850px) {
   h1 {
-    margin-top:75px !important;
+    margin-top: 75px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .priority-buttons button {
+    font-size: 18px;
+    padding: 6px 4px;
+    flex-direction: row;
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+  }
+
+  main {
+    margin-left: 0;
+    width: 90%;
+  }
+
+  .priority-buttons button img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .bottom-buttons {
+    margin-top: 0;
+  }
+
+  form {
+    display: block;
+    margin-top: 120px;
+  }
+
+  .form-section {
+    width: 100%;
+  }
+
+  .maincontent {
+    padding-bottom: 200px;
+    height: 1000px;
+    padding-left: 0;
+  }
+
+  .create-btn {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    height: 60px;
+    width: 150px;
+  }
+
+  .clear-btn {
+    position: fixed;
+    bottom: 100px;
+    right: 200px;
+    height: 60px;
+    width: 150px;
+    border: 2px solid black !important;
+    background-color: #f6f7f8;
+  }
+
+  .h1div {
+    height: 50px;
+    width: 100%;
+    background-color: #f6f7f8;
+    top: 83px;
+    position: fixed;
+    left: 0;
+    padding: 20px;
+    z-index: 2;
+  }
+
+  h1 {
+    margin-top: 0 !important;
   }
 }

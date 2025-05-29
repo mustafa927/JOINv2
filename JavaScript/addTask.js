@@ -5,12 +5,6 @@ let allUsers = [];
 let priorityButtons = document.querySelectorAll(".priority-btn");
 let activeButton = null;
 
-
-/**
- * Handles the active styling when a priority button is clicked.
- * 
- * @param {HTMLElement} button - The clicked priority button.
- */
 function handlePriorityClick(button) {
   let isActive = button.classList.contains("active-urgent") ||
                  button.classList.contains("active-medium") ||
@@ -18,8 +12,6 @@ function handlePriorityClick(button) {
 
   priorityButtons.forEach(btn => {
     btn.classList.remove("active-urgent", "active-medium", "active-low");
-
-    // Stelle Standard-Icons wieder her
     if (btn.classList.contains("urgent")) {
       btn.querySelector("img").src = "svg/urgent.svg";
     } else if (btn.classList.contains("medium")) {
@@ -30,10 +22,8 @@ function handlePriorityClick(button) {
   });
 
   if (!isActive) {
-    const activeClass = getActiveClass(button);
+    let activeClass = getActiveClass(button);
     button.classList.add(activeClass);
-
-    // Setze aktives Icon
     if (button.classList.contains("urgent")) {
       button.querySelector("img").src = "svg/urgentwhite.svg";
     } else if (button.classList.contains("medium")) {
@@ -44,13 +34,6 @@ function handlePriorityClick(button) {
   }
 }
 
-
-/**
- * Returns the appropriate active class name based on the priority button.
- * 
- * @param {HTMLElement} button - The button element to evaluate.
- * @returns {string} - The class name representing the active state.
- */
 function getActiveClass(button) {
   if (button.classList.contains("urgent")) return "active-urgent";
   if (button.classList.contains("medium")) return "active-medium";
@@ -58,39 +41,21 @@ function getActiveClass(button) {
   return "";
 }
 
-/**
- * Adds event listeners to all priority buttons for click handling.
- * 
- */
 function setupPriorityButtons() {
   priorityButtons.forEach(btn => btn.addEventListener("click", () => handlePriorityClick(btn)));
 }
 
-
-/**
- * Toggles the profile dropdown menu open or closed.
- * 
- */
 function toggleMenu() {
   let menu = document.getElementById("dropdownMenu");
   if (menu) menu.classList.toggle("show");
 }
 
-/**
- * Closes the profile dropdown menu when clicking outside.
- * 
- * @param {MouseEvent} e - The click event.
- */
 function closeMenuOnOutsideClick(e) {
   let profile = document.querySelector(".profile-wrapper");
   let menu = document.getElementById("dropdownMenu");
   if (profile && menu && !profile.contains(e.target)) menu.classList.remove("show");
 }
 
-/**
- * Logs out the user and redirects to the login page.
- * 
- */
 async function handleLogout() {
   try {
     await signOut(auth);
@@ -101,10 +66,6 @@ async function handleLogout() {
   }
 }
 
-/**
- * Adds a click handler to the logout link.
- * 
- */
 function setupLogout() {
   let logoutBtn = document.querySelector('#dropdownMenu a[href="index.html"]');
   if (logoutBtn) logoutBtn.addEventListener("click", e => {
@@ -113,10 +74,6 @@ function setupLogout() {
   });
 }
 
-/**
- * Fetches all users from Firebase and populates the assigned-to list.
- * 
- */
 async function assignedToInput() {
   let res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
   let data = await res.json();
@@ -124,11 +81,6 @@ async function assignedToInput() {
   renderUserList();
 }
 
-/**
- * Renders the list of users available for assignment.
- * 
- * @param {string} [filter=""] - Optional name filter for searching users.
- */
 function renderUserList(filter = "") {
   let container = document.getElementById("assigned-list");
   container.innerHTML = "";
@@ -142,11 +94,6 @@ function renderUserList(filter = "") {
   });
 }
 
-/**
- * Toggles the visibility of the assigned dropdown list.
- * 
- * @param {MouseEvent} e - The click event.
- */
 function toggleAssignedDropdown(e) {
   let dropdown = document.querySelector(".assigned-dropdown");
   let options = document.getElementById("assigned-list");
@@ -156,11 +103,6 @@ function toggleAssignedDropdown(e) {
   e.stopPropagation();
 }
 
-/**
- * Toggles checkbox selection and avatar highlighting.
- * 
- * @param {MouseEvent} e - The click event.
- */
 function toggleCheckbox(e) {
   if (e.target.tagName !== "INPUT") {
     let checkbox = e.currentTarget.querySelector('input[type="checkbox"]');
@@ -170,10 +112,6 @@ function toggleCheckbox(e) {
   updateSelectedAvatars();
 }
 
-/**
- * Updates the display of selected user avatars based on checked boxes.
- * 
- */
 function updateSelectedAvatars() {
   let container = document.getElementById("selected-avatars");
   container.innerHTML = "";
@@ -182,11 +120,6 @@ function updateSelectedAvatars() {
   });
 }
 
-/**
- * Opens the assigned user dropdown.
- * 
- * @param {MouseEvent} e - The click event.
- */
 function openAssignedDropdown(e) {
   let dropdown = document.querySelector(".assigned-dropdown");
   let options = document.getElementById("assigned-list");
@@ -195,33 +128,17 @@ function openAssignedDropdown(e) {
   e.stopPropagation();
 }
 
-/**
- * Filters the assigned user list by input value.
- * 
- */
 function filterAssignedList() {
   let value = document.getElementById("assigned-search").value;
   renderUserList(value);
 }
 
-/**
- * Returns the initials from a given name.
- * 
- * @param {string} name - Full name of the user.
- * @returns {string} - The initials.
- */
 function getInitials(name) {
   if (!name) return "";
   let parts = name.trim().split(" ");
   return (parts[0][0] + (parts[1]?.[0] || "")).toUpperCase();
 }
 
-/**
- * Generates a color based on the given name (consistent hash).
- * 
- * @param {string} name - The name to derive a color from.
- * @returns {string} - A hex color code.
- */
 function getColorFromName(name) {
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
@@ -229,11 +146,6 @@ function getColorFromName(name) {
   return colors[Math.abs(hash) % colors.length];
 }
 
-/**
- * Retrieves the current logged-in user from local storage.
- * 
- * @returns {Object|null} - The current user object or null.
- */
 function getCurrentUser() {
   let stored = localStorage.getItem("currentUser");
   return stored ? JSON.parse(stored) : null;
@@ -241,22 +153,17 @@ function getCurrentUser() {
 
 window.getCurrentUser = getCurrentUser;
 
-/**
- * Clears the entire form and resets all inputs and UI states.
- * 
- */
 function clearForm() {
   ["title", "desc", "due-date"].forEach(id => {
-  const input = document.getElementById(id);
-  if (input) input.value = "";
-});
+    let input = document.getElementById(id);
+    if (input) input.value = "";
+  });
 
-// Setze custom category dropdown separat zurück
-const category = document.getElementById("selected-category");
-if (category) {
-  category.textContent = "Select task category";
-  category.classList.add("category-placeholder");
-}
+  let category = document.getElementById("selected-category");
+  if (category) {
+    category.textContent = "Select task category";
+    category.classList.add("category-placeholder");
+  }
 
   ["title-error", "date-error", "category-error"].forEach(id => document.getElementById(id)?.classList.add("d-none"));
   document.querySelectorAll(".priority-btn").forEach(btn => btn.classList.remove("active-urgent", "active-medium", "active-low"));
@@ -266,30 +173,26 @@ if (category) {
   });
   document.getElementById("selected-avatars").innerHTML = "";
   window.subtasks = [];
-document.getElementById("subtask-list").innerHTML = "";
-
+  document.getElementById("subtask-list").innerHTML = "";
   document.getElementById("assigned-search").value = "";
   document.querySelector(".assigned-dropdown")?.classList.remove("open");
   document.getElementById("assigned-list")?.classList.add("d-none");
-    document.querySelectorAll(".priority-btn").forEach(btn => {
+
+  document.querySelectorAll(".priority-btn").forEach(btn => {
     btn.classList.remove("active-urgent", "active-medium", "active-low");
-    const img = btn.querySelector("img");
-
-
+    let img = btn.querySelector("img");
     if (btn.classList.contains("urgent")) img.src = "svg/urgent.svg";
     if (btn.classList.contains("medium")) img.src = "svg/medium.svg";
     if (btn.classList.contains("low")) img.src = "svg/low.svg";
   });
 
-
-  const mediumBtn = document.querySelector(".priority-btn.medium");
+  let mediumBtn = document.querySelector(".priority-btn.medium");
   if (mediumBtn) {
     mediumBtn.classList.add("active-medium");
-    const img = mediumBtn.querySelector("img");
+    let img = mediumBtn.querySelector("img");
     if (img) img.src = "svg/mediumwhite.svg";
   }
 }
-
 
 document.addEventListener("DOMContentLoaded", () => {
   setupPriorityButtons();
@@ -310,14 +213,6 @@ window.toggleCheckbox = toggleCheckbox;
 window.openAssignedDropdown = openAssignedDropdown;
 window.filterAssignedList = filterAssignedList;
 
-
-/**
- * Generates the HTML for a user row in the assigned-to list.
- * 
- * @param {string} name - The name of the user.
- * @param {boolean} [isCurrent=false] - Whether the user is the current user.
- * @returns {string} - HTML string of the user row.
- */
 function userRowTemplate(name, isCurrent = false) {
   let user = allUsers.find(u => u.name === name);
   let userId = user?.id || "";
@@ -333,12 +228,6 @@ function userRowTemplate(name, isCurrent = false) {
   `;
 }
 
-/**
- * Generates the HTML for a selected user avatar.
- * 
- * @param {string} name - The name of the user.
- * @returns {string} - HTML string of the avatar.
- */
 function avatarTemplate(name) {
   let initials = getInitials(name);
   let color = getColorFromName(name);
@@ -346,46 +235,31 @@ function avatarTemplate(name) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const dropdown = document.getElementById("assigned-select");
-
-  // dropdown.addEventListener("focusin", () => {
-  //   dropdown.classList.add("input-focus");
-  // });
-
-  // dropdown.addEventListener("focusout", () => {
-  //   dropdown.classList.remove("input-focus");
-  // });
+  let dropdown = document.getElementById("assigned-select");
 });
 
- document.addEventListener("click", function (event) {
-    const dropdown = document.querySelector(".assigned-dropdown");
-    const assignedList = document.getElementById("assigned-list");
-
-    if (dropdown && !dropdown.contains(event.target)) {
-      dropdown.classList.remove("open");
-      assignedList.classList.add("d-none");
-    }
-  });
-
-  document.addEventListener("DOMContentLoaded", () => {
-  const dueDateInput = document.getElementById("due-date");
-  const today = new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
-  dueDateInput.setAttribute("min", today);
+document.addEventListener("click", function (event) {
+  let dropdown = document.querySelector(".assigned-dropdown");
+  let assignedList = document.getElementById("assigned-list");
+  if (dropdown && !dropdown.contains(event.target)) {
+    dropdown.classList.remove("open");
+    assignedList.classList.add("d-none");
+  }
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  let dueDateInput = document.getElementById("due-date");
+  if (dueDateInput) {
+    let today = new Date().toISOString().split("T")[0];
+    dueDateInput.setAttribute("min", today);
+  }
+});
 
-/**
- * Öffnet oder schließt das Category-Dropdown-Menü.
- * 
- * @param {MouseEvent} event - Das Klick-Event.
- */
 function toggleCategoryDropdown(event) {
-  event.stopPropagation(); // verhindert, dass das Event weiterpropagiert
-
-  const dropdown = document.getElementById("category-dropdown");
-  const options = document.getElementById("category-options");
-  const isOpen = !options.classList.contains("d-none");
-
+  event.stopPropagation();
+  let dropdown = document.getElementById("category-dropdown");
+  let options = document.getElementById("category-options");
+  let isOpen = !options.classList.contains("d-none");
   if (isOpen) {
     options.classList.add("d-none");
   } else {
@@ -393,45 +267,44 @@ function toggleCategoryDropdown(event) {
   }
 }
 
-// Klick außerhalb des Dropdowns schließt es
 document.addEventListener("click", function (event) {
-  const dropdown = document.getElementById("category-dropdown");
+  let dropdown = document.getElementById("category-dropdown");
   if (dropdown && !dropdown.contains(event.target)) {
     document.getElementById("category-options")?.classList.add("d-none");
   }
 });
 
-/**
- * Setzt die ausgewählte Kategorie im Dropdown-Menü.
- * 
- * @param {string} category - Der Name der gewählten Kategorie.
- */
 function selectCategory(category) {
-  const selected = document.getElementById("selected-category");
+  let selected = document.getElementById("selected-category");
   selected.textContent = category;
   selected.classList.remove("category-placeholder");
   document.getElementById("category-options").classList.add("d-none");
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const categorySelect = document.querySelector(".category-select");
-  categorySelect?.addEventListener("click", toggleCategoryDropdown);
-});
-
-// Macht die Funktion global verfügbar
 window.selectCategory = selectCategory;
 
+document.addEventListener("DOMContentLoaded", () => {
+  let dueDateInput = document.getElementById("due-date");
+  if (dueDateInput) {
+    let today = new Date().toISOString().split("T")[0];
+    dueDateInput.setAttribute("min", today);
+  }
+});
 
 document.addEventListener("DOMContentLoaded", () => {
-  const categorySelect = document.querySelector(".category-select");
+  let categorySelect = document.querySelector(".category-select");
+  if (categorySelect) {
+    categorySelect.addEventListener("click", (event) => {
+      categorySelect.classList.add("input-focus");
+      toggleCategoryDropdown(event);
+    });
 
-  categorySelect.addEventListener("click", () => {
-    categorySelect.classList.add("input-focus");
-  });
-
-  document.addEventListener("click", (event) => {
-    if (!categorySelect.contains(event.target)) {
-      categorySelect.classList.remove("input-focus");
-    }
-  });
+    document.addEventListener("click", (event) => {
+      if (!categorySelect.contains(event.target)) {
+        categorySelect.classList.remove("input-focus");
+        let options = document.getElementById("category-options");
+        if (options) options.classList.add("d-none");
+      }
+    });
+  }
 });

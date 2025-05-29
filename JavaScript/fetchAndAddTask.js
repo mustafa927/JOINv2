@@ -479,3 +479,5 @@ function showValidationError(id) {
     el.classList.add("invisible"); // nach 3 Sekunden wieder unsichtbar
   }, 3000);
 }
+
+
