@@ -131,13 +131,41 @@ function createTaskFromForm() {
  * @returns {boolean} - True if all required fields are valid
  */
 function validateRequiredFields() {
-  const titleValid = validateFieldWithHighlight("title", "title-error");
-  const dateValid = validateDueDate();
-  const categoryValid = validateFieldWithHighlight("category", "category-error");
-  const priorityValid = validatePrioritySelection();
+  let isValid = true;
 
-  return titleValid && dateValid && categoryValid && priorityValid;
+  if (!validateFieldWithHighlight("title", "title-error")) isValid = false;
+  if (!validateDueDate()) isValid = false;
+  if (!validateCategoryField()) isValid = false;
+  if (!validatePrioritySelection()) isValid = false;
+
+  return isValid;
 }
+
+function validateCategoryField() {
+  const categoryElement = document.getElementById("selected-category");
+  const wrapper = document.querySelector(".category-select");
+  const error = document.getElementById("category-error");
+
+  const categoryText = categoryElement.textContent.trim();
+  const isValid = categoryText !== "Select task category";
+
+  if (!isValid) {
+    wrapper.classList.add("input-error");
+    error.classList.remove("invisible");
+
+    setTimeout(() => {
+      wrapper.classList.remove("input-error");
+      error.classList.add("invisible");
+    }, 3000);
+
+    return false;
+  }
+
+  wrapper.classList.remove("input-error");
+  error.classList.add("invisible");
+  return true;
+}
+
 
 /**
  * Validates a single input field.
@@ -148,25 +176,31 @@ function validateRequiredFields() {
  */
 function validateFieldWithHighlight(inputId, errorId) {
   const input = document.getElementById(inputId);
-  const value = input.value.trim();
   const error = document.getElementById(errorId);
+
+  if (!input || !error) return false;
+
+  const value = input.value.trim();
 
   if (!value) {
     input.classList.add("input-error");
-    error.classList.remove("d-none");
+    error.classList.remove("invisible");
 
     setTimeout(() => {
-      input.classList.remove("input-error");
-      error.classList.add("d-none");
+      input.classList.remove("input-error"); // ← das hier ergänzt
+      error.classList.add("invisible");
     }, 3000);
 
     return false;
-  } else {
-    input.classList.remove("input-error");
-    error.classList.add("d-none");
-    return true;
   }
+
+  input.classList.remove("input-error");
+  error.classList.add("invisible");
+  return true;
 }
+
+
+
 
 function validateDueDate() {
   const input = document.getElementById("due-date");
@@ -174,26 +208,25 @@ function validateDueDate() {
   const value = input.value;
 
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Nur Datum, keine Zeit
-
+  today.setHours(0, 0, 0, 0);
   const inputDate = new Date(value);
 
   if (!value || inputDate < today) {
     input.classList.add("input-error");
     error.textContent = "Date must be today or in the future";
-    error.classList.remove("d-none");
+    error.classList.remove("invisible");
 
     setTimeout(() => {
       input.classList.remove("input-error");
-      error.classList.add("d-none");
+      error.classList.add("invisible");
     }, 3000);
 
     return false;
-  } else {
-    input.classList.remove("input-error");
-    error.classList.add("d-none");
-    return true;
   }
+
+  input.classList.remove("input-error");
+  error.classList.add("invisible"); // sicherheitshalber verstecken
+  return true;
 }
 
 function validatePrioritySelection() {
@@ -207,16 +240,20 @@ function validatePrioritySelection() {
   const priorityError = document.getElementById("priority-error");
 
   if (!isSelected) {
-    priorityError.classList.remove("d-none");
+    priorityError.classList.remove("invisible");
+
     setTimeout(() => {
-      priorityError.classList.add("d-none");
+      priorityError.classList.add("invisible");
     }, 3000);
+
     return false;
-  } else {
-    priorityError.classList.add("d-none");
-    return true;
   }
+
+  priorityError.classList.add("invisible");
+  return true;
 }
+
+
 
 
 
@@ -298,17 +335,20 @@ function validateCategory() {
  * @returns {Object} - Task object
  */
 function buildNewTask() {
+  const selectedCategory = document.getElementById("selected-category")?.textContent.trim();
+
   return {
     title: getValue("title"),
     description: getValue("desc"),
     dueDate: getValue("due-date"),
     priority: getSelectedPriority(),
-    category: document.getElementById("category").value,
-    Status: getTaskStatus(), 
+    category: selectedCategory === "Select task category" ? "" : selectedCategory,
+    Status: getTaskStatus(),
     assignedTo: collectAssignedUserIds(),
     subtasks: collectSubtasks()
   };
 }
+
 
 /**
  * Gets the trimmed value of an input field by ID.
@@ -429,3 +469,13 @@ async function addNewTask(taskData) {
 
 
 
+function showValidationError(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  el.classList.remove("invisible"); // macht die Fehlermeldung sichtbar
+
+  setTimeout(() => {
+    el.classList.add("invisible"); // nach 3 Sekunden wieder unsichtbar
+  }, 3000);
+}

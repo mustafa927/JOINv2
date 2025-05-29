@@ -246,7 +246,18 @@ window.getCurrentUser = getCurrentUser;
  * 
  */
 function clearForm() {
-  ["title", "desc", "due-date", "category"].forEach(id => document.getElementById(id).value = "");
+  ["title", "desc", "due-date"].forEach(id => {
+  const input = document.getElementById(id);
+  if (input) input.value = "";
+});
+
+// Setze custom category dropdown separat zurück
+const category = document.getElementById("selected-category");
+if (category) {
+  category.textContent = "Select task category";
+  category.classList.add("category-placeholder");
+}
+
   ["title-error", "date-error", "category-error"].forEach(id => document.getElementById(id)?.classList.add("d-none"));
   document.querySelectorAll(".priority-btn").forEach(btn => btn.classList.remove("active-urgent", "active-medium", "active-low"));
   document.querySelectorAll(".assigned-checkbox").forEach(box => {
@@ -360,4 +371,67 @@ document.addEventListener("DOMContentLoaded", () => {
   const dueDateInput = document.getElementById("due-date");
   const today = new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
   dueDateInput.setAttribute("min", today);
+});
+
+
+/**
+ * Öffnet oder schließt das Category-Dropdown-Menü.
+ * 
+ * @param {MouseEvent} event - Das Klick-Event.
+ */
+function toggleCategoryDropdown(event) {
+  event.stopPropagation(); // verhindert, dass das Event weiterpropagiert
+
+  const dropdown = document.getElementById("category-dropdown");
+  const options = document.getElementById("category-options");
+  const isOpen = !options.classList.contains("d-none");
+
+  if (isOpen) {
+    options.classList.add("d-none");
+  } else {
+    options.classList.remove("d-none");
+  }
+}
+
+// Klick außerhalb des Dropdowns schließt es
+document.addEventListener("click", function (event) {
+  const dropdown = document.getElementById("category-dropdown");
+  if (dropdown && !dropdown.contains(event.target)) {
+    document.getElementById("category-options")?.classList.add("d-none");
+  }
+});
+
+/**
+ * Setzt die ausgewählte Kategorie im Dropdown-Menü.
+ * 
+ * @param {string} category - Der Name der gewählten Kategorie.
+ */
+function selectCategory(category) {
+  const selected = document.getElementById("selected-category");
+  selected.textContent = category;
+  selected.classList.remove("category-placeholder");
+  document.getElementById("category-options").classList.add("d-none");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const categorySelect = document.querySelector(".category-select");
+  categorySelect?.addEventListener("click", toggleCategoryDropdown);
+});
+
+// Macht die Funktion global verfügbar
+window.selectCategory = selectCategory;
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const categorySelect = document.querySelector(".category-select");
+
+  categorySelect.addEventListener("click", () => {
+    categorySelect.classList.add("input-focus");
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!categorySelect.contains(event.target)) {
+      categorySelect.classList.remove("input-focus");
+    }
+  });
 });

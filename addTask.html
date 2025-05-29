@@ -77,21 +77,22 @@
         </header>
 
         <div class="maincontent">
-    <h1>Add Task</h1>
+          <div class="h1div"> <h1>Add Task</h1></div>
+   
     <form>
       <div class="form-section">
 
         <label for="title">Title<span class="required-note"> *</span></label>
         <input type="text" id="title" placeholder="Enter a title" onfocus="this.classList.add('input-focus')" onblur="this.classList.remove('input-focus')"/>
-        <div id="title-error" class="required-note d-none">This field is required</div>
+        <div id="title-error" class="required-note invisible">This field is required</div>
 
 
         <label for="desc">Description</label>
         <textarea id="desc" placeholder="Enter a Description"   onfocus="this.classList.add('input-focus')" onblur="this.classList.remove('input-focus')"></textarea>
 
-        <label for="due-date">Due date<span class="required-note">*</span></label>
+        <label for="due-date" style="margin-top:20px;">Due date<span class="required-note">*</span></label>
         <input type="date" id="due-date" onfocus="this.classList.add('input-focus')" onblur="this.classList.remove('input-focus')"/>
-        <div id="date-error" class="required-note d-none">This field is required</div>
+        <div id="date-error" class="required-note invisible">This field is required</div>
 
       </div>
       <div class="line"></div>
@@ -102,7 +103,7 @@
           <button type="button" class="priority-btn medium active-medium">Medium <img src="svg/mediumwhite.svg" alt="" srcset=""></button>
           <button type="button" class="priority-btn low"> &nbsp;&nbsp;&nbsp;Low&nbsp;&nbsp;&nbsp;  <img src="svg/low.svg" alt=""></button>
         </div>
-      <div id="priority-error" class="required-note d-none">This field is required</div>
+      <div id="priority-error" class="required-note invisible">This field is required</div>
 
         <label for="assigned">Assigned to</label>
         <div class="assigned-dropdown" id="assigned-dropdown"  >
@@ -124,16 +125,21 @@
 
         
         <label for="category" style="margin-top:15px;">
-          Category<span class="required-note"> *</span>
-        </label>
+  Category<span class="required-note"> *</span>
+</label>
 
-        <select id="category" required onfocus="this.classList.add('input-focus')" onblur="this.classList.remove('input-focus')">
-          <option value="" disabled selected hidden>Select task category</option>
-          <option value="Technical Task">Technical Task</option>
-          <option value="User Story">User Story</option>
-        </select>
-        
-       <div id="category-error" class="required-note d-none">This field is required</div>
+<div class="category-dropdown" id="category-dropdown">
+  <div class="category-select">
+    <span id="selected-category" class="category-placeholder">Select task category</span>
+    <img src="svg/dropdownArrowDown.svg" class="dropdown-arrow">
+  </div>
+  <div class="category-options d-none" id="category-options">
+    <div onclick="selectCategory('Technical Task')">Technical Task</div>
+    <div onclick="selectCategory('User Story')">User Story</div>
+  </div>
+</div>
+<div id="category-error" class="required-note invisible">This field is required</div>
+
 
 
         
@@ -149,8 +155,9 @@
     <button type="button" class="confirm-subtask-button d-none" onclick="addSubtask(this)"><img src="svg/checkButton.svg" alt=""></button>
   </div>
 </div>
+<div id="subtask-list-container" class="subtask-list-container">
 <div id="subtask-list" class="subtask-list"></div>
-
+</div>
         
       </div>
     </form>
@@ -176,7 +183,8 @@
 <script src="JavaScript/dropdown-menu.js"></script>
 <script src="JavaScript/userInitials.js" type="module"></script>
 <script src="JavaScript/addTaskAndBoard.js" type="module"></script>
-<div id="task-success-message" class="task-success d-none">
+
+<div id="task-success-message" class="task-success">
   Task added to board <img src="svg/Icons.svg" alt="">
 </div>
 
