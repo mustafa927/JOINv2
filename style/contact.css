@@ -346,6 +346,13 @@ body.modal-open {
   max-width:150px;
 }
 
+.error-message {
+  font-size: 14px !important;
+  color: red;
+position: absolute;
+}
+
+
 /* === ANIMATIONS === */
 @keyframes fadeIn {
   from {
