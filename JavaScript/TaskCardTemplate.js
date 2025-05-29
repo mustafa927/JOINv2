@@ -506,7 +506,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
         <div id="selected-avatars" style="margin-bottom: 15px; margin-top: 0px;" class="selected-avatars"></div>
   
         <label>Category</label>
-        <select id="edit-category">
+        <select id="edit-category"  style="height: 50px;" >
           <option value="Technical Task" ${task.category === "Technical Task" ? "selected" : ""}>Technical Task</option>
           <option value="User Story" ${task.category === "User Story" ? "selected" : ""}>User Story</option>
         </select>
