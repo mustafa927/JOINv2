@@ -93,7 +93,7 @@ function toggleShowContact(name) {
   let allContactElements = document.querySelectorAll('.contact-list');
   allContactElements.forEach(el => el.classList.remove('active'));
 
-  if (window.innerWidth < 768) {
+  if (window.innerWidth <= 768) {
     toggleShowContactMobile(name);
     return;
   }
@@ -437,7 +437,7 @@ window.addEventListener("resize", function () {
   let addContactForm = document.getElementById("addContactForm");
   let isMobileContactOpen =
     backdrop &&
-    backdrop.style.display !== "none" &&
+    !backdrop.classList.contains("d_none") &&
     addContactForm.innerHTML.includes("contact-info-box");
 
   if (isMobileContactOpen && window.innerWidth > 768) {

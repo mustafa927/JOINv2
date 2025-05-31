@@ -239,7 +239,7 @@
   }
 
   .contact-email {
-    font-size: 16px;
+    font-size: 20px;
     margin-top: 7px;
     max-width:none;
   }
@@ -286,6 +286,10 @@
     font-size: 18px;
     width: 140px;
   }
+  .contact-list {
+    justify-content:flex-start;
+    gap:15px;
+  }
  .edit-contact-avatar {
   left:34%;
  }
@@ -302,6 +306,7 @@
   }
   .avatar {
     margin-right: 0;
+    margin-left:20px;
   }
   .new-contact .button-icon {
     width: 25px;

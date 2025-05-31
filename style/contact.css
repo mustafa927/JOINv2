@@ -427,6 +427,9 @@ position: absolute;
   display:none;
 }
 
+.contact-information-div {
+  font-size:18px;
+}
 .contact-detail-buttons {
   background:none;
   border:none;
@@ -434,6 +437,7 @@ position: absolute;
   display:flex;
   align-items:center;
   gap:10px;
+  font-size:16px;
 }
 
 .contact-detail-buttons:hover {

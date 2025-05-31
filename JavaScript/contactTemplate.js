@@ -61,7 +61,7 @@ function contactDetailTemplate(contact) {
           </div>
           </div>
         </div>
-        <div>
+        <div class="contact-information-div">
           <h3 style="font-weight:200;">Contact Information</h3><br>
           <p><strong>Email</strong></p><a href="mailto:${contact.email}">${contact.email}</a>
           <p><strong>Phone</strong></p><p>${contact.phone}</p>
