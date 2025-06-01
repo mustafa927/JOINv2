@@ -98,7 +98,7 @@ function contactAddFormTemplate() {
         <div class="underline"></div>
       </div>
       <div class="add-contact-right">
-      <form id="contactForm" onsubmit="handleContactFormSubmit(event)">
+        <form id="contactForm" onsubmit="handleContactFormSubmit(event)">
           <div class="add-contact-form">
             <img id="contactImage" src="./svg/addContactPic.svg" class="profile-responsive-middle" alt="Contact Icon">
             
@@ -107,14 +107,17 @@ function contactAddFormTemplate() {
                 <div class="input-wrapper">
                   <input id="inputName" type="text" placeholder="Name">
                   <img src="./svg/person.svg" class="input-icon">
+                  <div class="error-message"></div> <!-- Platz für Name-Fehler -->
                 </div>
                 <div class="input-wrapper">
                   <input id="inputEmail" type="text" placeholder="Email">
                   <img src="./svg/mail.svg" class="input-icon">
+                  <div class="error-message"></div> <!-- Platz für Email-Fehler -->
                 </div>
                 <div class="input-wrapper">
                   <input id="inputPhone" type="text" placeholder="Phone">
                   <img src="./svg/call.svg" class="input-icon">
+                  <div class="error-message"></div> <!-- Platz für Phone-Fehler -->
                 </div>
               </div>
 
@@ -132,6 +135,7 @@ function contactAddFormTemplate() {
   `;
 }
 
+
 /**
  * Template for the contact edit form with HTML5 validation.
  *
@@ -144,51 +148,41 @@ function contactEditFormTemplate(contact) {
 
   return `
     <div class="add-contact-overlay">
-      <div class="close-btn" onclick="closeOverlayDirectly(); showContact('${
-        contact.name
-      }')">&times;</div>
+      <div class="close-btn" onclick="closeOverlayDirectly(); showContact('${contact.name}')">&times;</div>
       <div class="add-contact-left">
         <img src="./svg/Capa 1.svg" class="add-contact-logo">
         <h2>Edit contact</h2>
         <div class="underline"></div>
       </div>
       <div class="add-contact-right">
-        <form id="contactForm" onsubmit="event.preventDefault(); if (validateContactForm()) updateContact('${
-          contact.id || contact.name
-        }');">
+        <form id="contactForm" onsubmit="event.preventDefault(); if (validateContactForm()) updateContact('${contact.id || contact.name}');">
           <div class="add-contact-form">
             <div class="edit-contact-avatar" style="background: ${color};">${initials}</div>
             
             <div class="add-contact-form-section">
               <div class="add-contact-inputs">
                 <div class="input-wrapper">
-                  <input id="inputName" type="text" placeholder="Name" value="${
-                    contact.name
-                  }">
+                  <input id="inputName" type="text" placeholder="Name" value="${contact.name}">
                   <img src="./svg/person.svg" class="input-icon">
+                  <div class="error-message"></div>
                 </div>
                 <div class="input-wrapper">
-                  <input id="inputEmail" type="text" placeholder="Email" value="${
-                    contact.email
-                  }">
+                  <input id="inputEmail" type="text" placeholder="Email" value="${contact.email}">
                   <img src="./svg/mail.svg" class="input-icon">
+                  <div class="error-message"></div>
                 </div>
                 <div class="input-wrapper">
-                  <input id="inputPhone" type="text" placeholder="Phone" value="${
-                    contact.phone
-                  }">
+                  <input id="inputPhone" type="text" placeholder="Phone" value="${contact.phone}">
                   <img src="./svg/call.svg" class="input-icon">
+                  <div class="error-message"></div>
                 </div>
               </div>
 
               <div class="edit-contact-buttons">
-                <button type="button" class="delete-btn" onclick="deleteContact('${
-                  contact.name
-                }')">Delete</button>
+                <button type="button" class="delete-btn" onclick="deleteContact('${contact.name}')">Delete</button>
                 <button type="submit" class="save-btn">Save <span>&check;</span></button>
               </div>
             </div>
-
           </div>
         </form>
       </div>

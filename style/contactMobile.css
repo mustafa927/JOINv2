@@ -273,10 +273,13 @@
   .save-btn:hover {
     background-color: #29abe2;
   }
+  .add-contact-buttons {
+    margin-top:0;
+  }
   .edit-contact-buttons {
     display: flex;
     gap: 20px;
-    margin-top: 30px;
+    margin-top: 0px;
     justify-content: center;
   }
 }

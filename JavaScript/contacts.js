@@ -170,16 +170,16 @@ function validateContactForm() {
 
   let isValid = true;
 
-  // Reset styles and errors
+  // Alle Felder zurücksetzen
   [nameInput, emailInput, phoneInput].forEach(input => {
     input.style.border = "";
-    const errorElem = input.nextElementSibling;
-    if (errorElem && errorElem.classList.contains("error-message")) {
+    const errorElem = input.parentNode.querySelector(".error-message");
+    if (errorElem) {
       errorElem.textContent = "";
     }
   });
 
-  // Name: only letters and spaces
+  // Name prüfen: nur Buchstaben & Leerzeichen
   const nameRegex = /^[A-Za-z\s]+$/;
   if (!nameInput.value.trim()) {
     setError(nameInput, "Bitte einen Namen eingeben.");
@@ -189,7 +189,7 @@ function validateContactForm() {
     isValid = false;
   }
 
-  // Email: basic email check
+  // E-Mail prüfen
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailInput.value.trim()) {
     setError(emailInput, "Bitte eine E-Mail-Adresse eingeben.");
@@ -199,7 +199,7 @@ function validateContactForm() {
     isValid = false;
   }
 
-  // Phone: only digits + min 7 digits
+  // Telefonnummer prüfen
   const phoneRegex = /^\d+$/;
   const phoneValue = phoneInput.value.trim();
   if (!phoneValue) {
@@ -217,21 +217,21 @@ function validateContactForm() {
 }
 
 
+
 function setError(inputElement, message) {
-  inputElement.style.border = "2px solid red";
-  let errorElem = inputElement.nextElementSibling;
+  inputElement.style.border = "1px solid #ff8190";
+  const errorElem = inputElement.parentNode.querySelector(".error-message");
+  if (errorElem) {
+    errorElem.textContent = message;
 
-  if (!errorElem || !errorElem.classList.contains("error-message")) {
-    errorElem = document.createElement("div");
-    errorElem.classList.add("error-message");
-    errorElem.style.color = "red";
-    errorElem.style.fontSize = "12px";
-    errorElem.style.marginTop = "4px";
-    inputElement.parentNode.insertBefore(errorElem, inputElement.nextSibling);
+    // Fehler nach 3 Sekunden automatisch entfernen
+    setTimeout(() => {
+      inputElement.style.border = "";
+      errorElem.textContent = "";
+    }, 3000);
   }
-
-  errorElem.textContent = message;
 }
+
 
 
 

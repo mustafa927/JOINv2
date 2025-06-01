@@ -232,7 +232,7 @@ a {
 .input-icon {
   position: absolute;
   right: 12px;
-  top: 50%;
+  top: 30%;
   transform: translateY(-50%);
   width: 18px;
   opacity: 0.5;
@@ -346,10 +346,12 @@ body.modal-open {
   max-width:150px;
 }
 
+
 .error-message {
-  font-size: 14px !important;
-  color: red;
-position: absolute;
+  min-height: 20px;
+  font-size: 14px;
+  color: #ff8190;
+  margin-top: 4px;
 }
 
 
@@ -513,7 +515,7 @@ position: absolute;
 }
 
 .input-wrapper input:focus {
-  border: 2px solid #29abe2;
+  border: 1px solid #29abe2;
   outline: none;
 }
 
