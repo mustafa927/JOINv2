@@ -864,17 +864,17 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
     if (subtasks.title) {
       return `<label>
-        <input type="checkbox" onchange="toggleSubtask('${taskId}', 'sub1', this.checked)">
+        <input style="height: 14px;" type="checkbox" onchange="toggleSubtask('${taskId}', 'sub1', this.checked)">
         ${subtasks.title}
       </label>`;
     }
   
     return Object.entries(subtasks).map(([key, sub]) => {
-      return `<label>
+      return `<label class="subtask-label">
         <input type="checkbox" onchange="toggleSubtask('${taskId}', '${key}', this.checked)" ${sub.done ? "checked" : ""}>
         ${sub.title}
       </label>`;
-    }).join("");
+    }) .join("");
   }
   
 /**
