@@ -247,7 +247,7 @@ main {
 .avatars {
   display: flex;
   flex-wrap: wrap;         /* Avatare umbrechen, wenn kein Platz */
-  gap: 4px;                /* Abstand zwischen Avataren */
+  gap: 2px;                /* Abstand zwischen Avataren */
   max-width: 100%;         /* Verhindert Überlauf */
 }
 
@@ -582,9 +582,31 @@ background-color: white;
   align-items: center;
 }
 
+.subtask-label {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: baseline;   /* Text und Checkbox an Baseline ausrichten */
+  gap: 8px;                /* Abstand zwischen Checkbox und Text */
+  cursor: pointer;
+}
+
+.subtask-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;  /* Optional: leichte vertikale Korrektur */
+}
+
+.avatar-counter {
+  background-color: #ffffff;  /* Optional: neutraler Hintergrund */
+  color: #000000;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 
-@media (max-width:1300px) {
+@media (max-width:1320px) {
 
   .progress-section {
     padding: 6px;
