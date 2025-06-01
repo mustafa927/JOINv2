@@ -175,7 +175,7 @@ textarea {
 }
 
 .subtask-list-container {
-  height: 66px;
+  height: 99px;
   overflow-y: auto;
   border: none;
   margin-top: 10px;
@@ -226,7 +226,7 @@ textarea {
 
 .task-success {
   position: fixed;
-  top: 50%;
+  top: 80%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.9);
   background-color: #2A3647;
@@ -395,5 +395,11 @@ textarea {
 
   h1 {
     margin-top: 0 !important;
+  }
+}
+
+@media (max-width:400px) {
+  .priority-buttons button {
+    flex-direction:column;
   }
 }

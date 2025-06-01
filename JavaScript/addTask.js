@@ -165,7 +165,7 @@ function clearForm() {
     category.classList.add("category-placeholder");
   }
 
-  ["title-error", "date-error", "category-error"].forEach(id => document.getElementById(id)?.classList.add("d-none"));
+  
   document.querySelectorAll(".priority-btn").forEach(btn => btn.classList.remove("active-urgent", "active-medium", "active-low"));
   document.querySelectorAll(".assigned-checkbox").forEach(box => {
     box.checked = false;
