@@ -247,7 +247,7 @@ main {
 .avatars {
   display: flex;
   flex-wrap: wrap;         /* Avatare umbrechen, wenn kein Platz */
-  gap: 4px;                /* Abstand zwischen Avataren */
+  gap: 2px;                /* Abstand zwischen Avataren */
   max-width: 100%;         /* Verhindert Überlauf */
 }
 
@@ -596,6 +596,14 @@ background-color: white;
   vertical-align: middle;  /* Optional: leichte vertikale Korrektur */
 }
 
+.avatar-counter {
+  background-color: #ffffff;  /* Optional: neutraler Hintergrund */
+  color: #000000;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 
 @media (max-width:1320px) {

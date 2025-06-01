@@ -108,12 +108,23 @@ function createTaskCard(task) {
  */
 
 function renderAssignedPeople(people) {
-  return people.map(person => {
+  if (!people || people.length === 0) return "";
+
+  let displayLimit = 3;
+  let avatars = people.slice(0, displayLimit).map(person => {
     const initials = getInitials(person.name);
     const color = getColorForName(person.name);
     return `<div class="avatar" style="background-color:${color}">${initials}</div>`;
   }).join("");
+
+  if (people.length > displayLimit) {
+    const remaining = people.length - displayLimit;
+    avatars += `<div class="avatar avatar-counter">+${remaining}</div>`;
+  }
+
+  return avatars;
 }
+
 
 
 /**
@@ -1053,7 +1064,7 @@ function handleTaskSearch() {
   const searchInput = document.getElementById('taskSearchInput').value.trim().toLowerCase();
   const allCards = document.querySelectorAll('.card'); 
 
-  if (searchInput.length < 3) {
+  if (searchInput.length < 2) {
     allCards.forEach(card => {
       card.style.display = "block";
     });
@@ -1072,16 +1083,19 @@ function handleTaskSearch() {
  * After filtering, it triggers a check to show or hide "no tasks" messages
  * in each board column, depending on whether cards remain visible.
  */
-  allCards.forEach(card => {
-    const titleElement = card.querySelector('.card-title');
-    const title = titleElement ? titleElement.textContent.toLowerCase() : "";
+allCards.forEach(card => {
+  const titleElement = card.querySelector('.card-title');
+  const descElement = card.querySelector('.card-description');
 
-    if (title.includes(searchInput)) {
-      card.style.display = "block"; 
-    } else {
-      card.style.display = "none"; 
-    }
-  });
+  const title = titleElement ? titleElement.textContent.toLowerCase() : "";
+  const description = descElement ? descElement.textContent.toLowerCase() : "";
+
+  if (title.includes(searchInput) || description.includes(searchInput)) {
+    card.style.display = "block"; 
+  } else {
+    card.style.display = "none"; 
+  }
+});
 
   checkEmptySections();
 
