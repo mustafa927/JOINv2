@@ -398,7 +398,9 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
         <div class="task-card-subtasks">
           <strong>Subtasks</strong>
+          <div style="max-height:72px; overflow-y:auto;">
           ${subtasksHtml}
+          </div>
         </div>
   
         <div class="task-card-actions">
@@ -529,7 +531,7 @@ if ((task.category || "").toLowerCase() === "technical task") {
         <button type="button" class="subtask-add-btn" onclick="addSubtaskInEditForm()">+</button>
       </div>
       
-          <ul id="subtask-list">
+          <ul id="subtask-list" style="padding-left:0; max-height:72px; overflow-y:auto;">
             ${Object.entries(task.subtasks || {}).map(([id, sub]) => `
               <li class="subtask-item" id="subtask-${id}" ondblclick="editSubtask('${id}')">
                 <span class="subtask-title">${sub.title}</span>
