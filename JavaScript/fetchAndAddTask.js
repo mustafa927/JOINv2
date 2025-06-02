@@ -322,12 +322,20 @@ function validateTitle() {
  * @returns {boolean} - True if valid
  */
 function validateCategory() {
-  const category = document.getElementById("category").value;
+  const category = document.getElementById("selected-category")?.textContent.trim();
   const error = document.getElementById("category-error");
-  const isValid = !!category;
-  error.classList.toggle(isValid);
+  const isValid = category && category !== "Select task category";
+
+  if (!isValid) {
+    error.classList.remove("invisible");
+    setTimeout(() => error.classList.add("invisible"), 3000);
+  } else {
+    error.classList.add("invisible");
+  }
+
   return isValid;
 }
+
 
 /**
  * Builds a new task object based on form inputs.
