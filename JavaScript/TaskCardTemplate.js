@@ -481,26 +481,26 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
   function buildEditTaskForm(task) {
     return `
-      <div class="task-card-overlay" style="max-height: 70vh; overflow-y: auto; gap:0">
+      <div class="task-card-overlay" style="max-height: 70vh; overflow-y: auto; gap:4px">
         <div class="task-card-close-btn" onclick="closeOverlay()">&times;</div>
   
-        <label>Title</label>
+        <label style="margin-bottom: 0;">Title</label>
         <input type="text" id="edit-title" value="${task.title}" />
   
-        <label>Description</label>
+        <label style="margin-bottom: 0; margin-top: 8px;">Description</label>
         <textarea id="edit-desc" style="min-height: 70px;">${task.description}</textarea>
   
-        <label>Due Date</label>
+        <label style="margin-bottom: 0; margin-top: 8px;">Due Date</label>
         <input type="date" id="edit-due-date" value="${task.dueDate}" />
   
-        <label>Priority</label>
+        <label style="margin-bottom: 0; margin-top: 8px;">Priority</label>
         <div class="priority-buttons">
           <button type="button" class="priority-btn urgent">Urgent <img src="svg/urgent.svg"></button>
           <button type="button" class="priority-btn medium">Medium <img src="svg/medium.svg"></button>
           <button type="button" class="priority-btn low">Low <img src="svg/low.svg"></button>
         </div>
   
-        <label for="assigned">Assigned to</label>
+        <label for="assigned" style="margin-bottom: 0; margin-top: 8px;">Assigned to</label>
         <div class="assigned-dropdown" style="margin-bottom: 15px;">
           <div class="assigned-select" onclick="toggleAssignedDropdown(event)">
             <input
@@ -516,13 +516,13 @@ if ((task.category || "").toLowerCase() === "technical task") {
         </div>
         <div id="selected-avatars" style="margin-bottom: 15px; margin-top: 0px;" class="selected-avatars"></div>
   
-        <label>Category</label>
+        <label style="margin-bottom: 0; margin-top: 8px;">Category</label>
         <select id="edit-category"  style="height: 50px;" >
           <option value="Technical Task" ${task.category === "Technical Task" ? "selected" : ""}>Technical Task</option>
           <option value="User Story" ${task.category === "User Story" ? "selected" : ""}>User Story</option>
         </select>
   
-        <label>Subtasks</label>
+        <label style="margin-bottom: 0; margin-top: 8px;">Subtasks</label>
         <div class="subtasks-section">
         <div class="subtask-input-wrapper">
         <input type="text" id="edit-subtask-input" class="subtask-input" placeholder="Add new subtask" />
