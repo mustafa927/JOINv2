@@ -344,3 +344,21 @@
     margin-top: 100px;
   }
 }
+
+@media (max-height:720px) {
+  .add-contact-inputs {
+    gap:0;
+  }
+
+  h3 {
+    margin-block-start:0;
+    margin-block-end:0;
+  }
+
+  .edit-contact-avatar {
+    height: 75px;
+    width:75px;
+    font-size:24px;
+    left:40%;
+  }
+}
