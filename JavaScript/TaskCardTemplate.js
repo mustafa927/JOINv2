@@ -100,25 +100,33 @@ function createTaskCard(task) {
   `;
 }
 
-
 window.openMoveOverlay = function(event, taskId) {
-  event.stopPropagation(); // OverlayClick ≠ CardClick
+  event.stopPropagation();
 
-  closeMoveOverlays(); // Nur ein Overlay aktiv gleichzeitig
+  closeMoveOverlays();
 
   const icon = event.target;
+  const currentTask = allTasks.find(t => t.id === taskId);
+  const currentStatus = currentTask?.Status;
+
+  const statuses = ["To-Do", "In Progress", "Await Feedback", "Done"];
+
   const overlay = document.createElement("div");
   overlay.className = "move-overlay";
-  overlay.innerHTML = `
-    <strong>Move to</strong>
-    <button onclick="handleMoveClick(event, '${taskId}', 'To-Do')">To-do</button>
-    <button onclick="handleMoveClick(event, '${taskId}', 'In Progress')">In Progress</button>
-    <button onclick="handleMoveClick(event, '${taskId}', 'Await Feedback')">Await Feedback</button>
-    <button onclick="handleMoveClick(event, '${taskId}', 'Done')">Done</button>
-  `;
+  overlay.innerHTML = `<strong>Move to</strong>`;
 
-  icon.parentElement.appendChild(overlay); // Hänge an den div, wo auch das Icon drin ist
+  statuses.forEach(status => {
+    if (status === currentStatus) return; // ⛔️ Aktuellen Status überspringen
+
+    const button = document.createElement("button");
+    button.textContent = status;
+    button.onclick = (e) => handleMoveClick(e, taskId, status);
+    overlay.appendChild(button);
+  });
+
+  icon.parentElement.appendChild(overlay);
 };
+
 
 
 /**

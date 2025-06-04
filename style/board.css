@@ -605,16 +605,23 @@ background-color: white;
   justify-content: center;
 }
 
+.move-overlay button.disabled-button {
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+
 .move-overlay {
   position: absolute;
   top: 12px; /* Direkt unter dem Icon */
   bottom: 10px;
-  height: 145px;
+  height: 110px;
   right: 10px;
   background: #2d3e50;
   color: white;
   padding: 10px;
-  border-radius: 12px;
+  border-radius: 12px 0px 12px 12px;
   display: flex;
   flex-direction: column;
   gap: 4px;
