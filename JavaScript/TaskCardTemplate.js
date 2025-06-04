@@ -116,7 +116,7 @@ window.openMoveOverlay = function(event, taskId) {
   overlay.innerHTML = `<strong>Move to</strong>`;
 
   statuses.forEach(status => {
-    if (status === currentStatus) return; // ⛔️ Aktuellen Status überspringen
+    if (status === currentStatus) return; 
 
     const button = document.createElement("button");
     button.textContent = status;
