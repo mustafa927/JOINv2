@@ -605,6 +605,52 @@ background-color: white;
   justify-content: center;
 }
 
+.move-overlay {
+  position: absolute;
+  top: 12px; /* Direkt unter dem Icon */
+  bottom: 10px;
+  height: 145px;
+  right: 10px;
+  background: #2d3e50;
+  color: white;
+  padding: 10px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.move-overlay button {
+  background: none;
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.move-overlay button:hover {
+  background: #0d1b2a;
+}
+
+
+
+.responsive-swap {
+  position: relative; /* Wichtig: Referenz für .move-overlay */
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.responsive-swap img {
+  height: 24px;
+  border: 1px solid black;
+  border-radius: 8px;
+  display: none;
+}
 
 @media (max-width:1320px) {
 
@@ -626,6 +672,10 @@ background-color: white;
 @media (max-width: 990px) {
   .Board-head {
     flex-direction: column;
+  }
+
+  .responsive-swap img {
+    display: block;
   }
 
   .header-and-Button {

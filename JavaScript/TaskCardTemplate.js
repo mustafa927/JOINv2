@@ -73,10 +73,12 @@ function createTaskCard(task) {
   return `
 
 
-    <div class="card" draggable="true" onclick="openOverlayFromCard('${task.id}')"
+    <div class="card" draggable="true" id="${task.id}" onclick="openOverlayFromCard('${task.id}')"
          ondragstart="startDragging(event)" id="${task.id}">
-      
+      <div class="responsive-swap">
       <div class="card-type" style="${typeStyle}">${task.category || "Task"}</div>
+      <img src="svg/swap_horiz.svg" alt="" class="swap-icon" srcset="" onclick="openMoveOverlay(event, '${task.id}')">
+      </div>
       <div class="card-title">${task.title}</div>
       <div class="card-description">${task.description || ""}</div>
   
@@ -98,6 +100,77 @@ function createTaskCard(task) {
   `;
 }
 
+
+window.openMoveOverlay = function(event, taskId) {
+  event.stopPropagation(); // OverlayClick ≠ CardClick
+
+  closeMoveOverlays(); // Nur ein Overlay aktiv gleichzeitig
+
+  const icon = event.target;
+  const overlay = document.createElement("div");
+  overlay.className = "move-overlay";
+  overlay.innerHTML = `
+    <strong>Move to</strong>
+    <button onclick="handleMoveClick(event, '${taskId}', 'To-Do')">To-do</button>
+    <button onclick="handleMoveClick(event, '${taskId}', 'In Progress')">In Progress</button>
+    <button onclick="handleMoveClick(event, '${taskId}', 'Await Feedback')">Await Feedback</button>
+    <button onclick="handleMoveClick(event, '${taskId}', 'Done')">Done</button>
+  `;
+
+  icon.parentElement.appendChild(overlay); // Hänge an den div, wo auch das Icon drin ist
+};
+
+
+/**
+ * Handles the click on a "Move to" button inside the popup overlay.
+ * Prevents parent onclicks, updates the status and closes the overlay.
+ * 
+ * @param {MouseEvent} event 
+ * @param {string} taskId - The ID of the task being moved
+ * @param {string} newStatus - The target status (e.g., "To-Do", "In Progress", etc.)
+ */
+window.handleMoveClick = async function(event, taskId, newStatus) {
+  event.stopPropagation(); // Verhindert das Öffnen des großen Overlays
+  await moveTaskTo(taskId, newStatus);
+  closeMoveOverlays();
+};
+
+/**
+ * Moves the task to a new status and updates the backend.
+ * 
+ * @param {string} taskId 
+ * @param {string} newStatus 
+ */
+async function moveTaskTo(taskId, newStatus) {
+  try {
+    // Backend aktualisieren
+    await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}.json`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ Status: newStatus })
+    });
+
+    // UI aktualisieren: Seite neu laden oder manuell das Task-Element verschieben
+    location.reload(); // oder: updateTaskCardPosition(taskId, newStatus)
+
+  } catch (error) {
+    console.error("Fehler beim Verschieben des Tasks:", error);
+  }
+}
+
+
+function closeMoveOverlays() {
+  document.querySelectorAll(".move-overlay").forEach(el => el.remove());
+}
+
+
+document.addEventListener("click", (e) => {
+  const isOverlay = e.target.closest(".move-overlay");
+  const isTrigger = e.target.closest(".swap-icon");
+  if (!isOverlay && !isTrigger) closeMoveOverlays();
+});
 
 /**
  * Generates HTML for displaying avatars of assigned people.
