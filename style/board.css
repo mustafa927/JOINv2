@@ -774,6 +774,11 @@ h1 {
     width: 65vw;
 
   }
+
+  .board-section {
+
+    width: calc(100vw - 245px);
+}
 }
 
 @media (max-width:768px) {
