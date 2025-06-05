@@ -222,3 +222,86 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+window.openTaskMoveMenu = function(taskId) {
+  if (window.innerWidth >= 990) {
+    openOverlayFromCard(taskId);
+    return;
+  }
+
+  const task = window.allTasks.find(t => t.id === taskId);
+  if (!task) return;
+
+  const options = getMoveOptions(task.Status);
+  const menuHtml = `
+    <div class="task-move-popup">
+      <div class="move-title">Move to</div>
+      ${options.map(opt => `
+        <button class="move-option" onclick="moveTaskTo('${taskId}', '${opt.status}')">
+          ${opt.icon} ${opt.label}
+        </button>
+      `).join("")}
+    </div>
+  `;
+
+  const container = document.createElement("div");
+  container.className = "move-popup-container";
+  container.innerHTML = menuHtml;
+  document.body.appendChild(container);
+
+  // Close on outside click
+  document.addEventListener("click", function closeMenu(e) {
+    if (!container.contains(e.target)) {
+      container.remove();
+      document.removeEventListener("click", closeMenu);
+    }
+  }, { once: true });
+};
+
+window.getMoveOptions = function(currentStatus) {
+  const all = ["To-Do", "In Progress", "Await Feedback", "Done"];
+  const icons = { "To-Do": "↑", "In Progress": "→", "Await Feedback": "↓", "Done": "✓" };
+
+  return all
+    .filter(status => status !== currentStatus)
+    .map(status => ({
+      status,
+      label: status,
+      icon: icons[status] || ""
+    }));
+};
+
+window.moveTaskTo = async function(taskId, newStatus) {
+  await updateTaskStatus(taskId, newStatus);
+  location.reload(); // Refreshes to reflect status change
+};
+
+
+let longPressTimer;
+let longPressTriggered = false;
+const LONG_PRESS_DURATION = 600;
+
+export function setupLongPress(cardElement, taskId) {
+  cardElement.addEventListener("mousedown", (e) => {
+    longPressTriggered = false;
+    longPressTimer = setTimeout(() => {
+      longPressTriggered = true;
+      openTaskMoveMenu(taskId); // Funktion aus moveMenu.js
+    }, LONG_PRESS_DURATION);
+  });
+
+  cardElement.addEventListener("mouseup", () => {
+    clearTimeout(longPressTimer);
+  });
+
+  cardElement.addEventListener("mouseleave", () => {
+    clearTimeout(longPressTimer);
+  });
+
+  cardElement.addEventListener("click", (e) => {
+    if (longPressTriggered) {
+      e.preventDefault(); // verhindert Overlay
+      return;
+    }
+    openOverlayFromCard(taskId); // Funktion aus board.js
+  });
+}

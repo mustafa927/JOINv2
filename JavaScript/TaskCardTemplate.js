@@ -73,10 +73,12 @@ function createTaskCard(task) {
   return `
 
 
-    <div class="card" draggable="true" onclick="openOverlayFromCard('${task.id}')"
+    <div class="card" draggable="true" id="${task.id}" onclick="openOverlayFromCard('${task.id}')"
          ondragstart="startDragging(event)" id="${task.id}">
-      
+      <div class="responsive-swap">
       <div class="card-type" style="${typeStyle}">${task.category || "Task"}</div>
+      <img src="svg/swap_horiz.svg" alt="" class="swap-icon" srcset="" onclick="openMoveOverlay(event, '${task.id}')">
+      </div>
       <div class="card-title">${task.title}</div>
       <div class="card-description">${task.description || ""}</div>
   
@@ -98,6 +100,85 @@ function createTaskCard(task) {
   `;
 }
 
+window.openMoveOverlay = function(event, taskId) {
+  event.stopPropagation();
+
+  closeMoveOverlays();
+
+  const icon = event.target;
+  const currentTask = allTasks.find(t => t.id === taskId);
+  const currentStatus = currentTask?.Status;
+
+  const statuses = ["To-Do", "In Progress", "Await Feedback", "Done"];
+
+  const overlay = document.createElement("div");
+  overlay.className = "move-overlay";
+  overlay.innerHTML = `<strong>Move to</strong>`;
+
+  statuses.forEach(status => {
+    if (status === currentStatus) return; 
+
+    const button = document.createElement("button");
+    button.textContent = status;
+    button.onclick = (e) => handleMoveClick(e, taskId, status);
+    overlay.appendChild(button);
+  });
+
+  icon.parentElement.appendChild(overlay);
+};
+
+
+
+/**
+ * Handles the click on a "Move to" button inside the popup overlay.
+ * Prevents parent onclicks, updates the status and closes the overlay.
+ * 
+ * @param {MouseEvent} event 
+ * @param {string} taskId - The ID of the task being moved
+ * @param {string} newStatus - The target status (e.g., "To-Do", "In Progress", etc.)
+ */
+window.handleMoveClick = async function(event, taskId, newStatus) {
+  event.stopPropagation(); // Verhindert das Öffnen des großen Overlays
+  await moveTaskTo(taskId, newStatus);
+  closeMoveOverlays();
+};
+
+/**
+ * Moves the task to a new status and updates the backend.
+ * 
+ * @param {string} taskId 
+ * @param {string} newStatus 
+ */
+async function moveTaskTo(taskId, newStatus) {
+  try {
+    // Backend aktualisieren
+    await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}.json`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ Status: newStatus })
+    });
+
+    // UI aktualisieren: Seite neu laden oder manuell das Task-Element verschieben
+    location.reload(); // oder: updateTaskCardPosition(taskId, newStatus)
+
+  } catch (error) {
+    console.error("Fehler beim Verschieben des Tasks:", error);
+  }
+}
+
+
+function closeMoveOverlays() {
+  document.querySelectorAll(".move-overlay").forEach(el => el.remove());
+}
+
+
+document.addEventListener("click", (e) => {
+  const isOverlay = e.target.closest(".move-overlay");
+  const isTrigger = e.target.closest(".swap-icon");
+  if (!isOverlay && !isTrigger) closeMoveOverlays();
+});
 
 /**
  * Generates HTML for displaying avatars of assigned people.
@@ -398,7 +479,9 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
         <div class="task-card-subtasks">
           <strong>Subtasks</strong>
+          <div style="max-height:72px; overflow-y:auto;">
           ${subtasksHtml}
+          </div>
         </div>
   
         <div class="task-card-actions">
@@ -481,26 +564,26 @@ if ((task.category || "").toLowerCase() === "technical task") {
   
   function buildEditTaskForm(task) {
     return `
-      <div class="task-card-overlay" style="max-height: 70vh; overflow-y: auto; gap:0">
+      <div class="task-card-overlay" style="max-height: 70vh; overflow-y: auto; gap:4px">
         <div class="task-card-close-btn" onclick="closeOverlay()">&times;</div>
   
-        <label>Title</label>
+        <label style="margin-bottom: 0;">Title</label>
         <input type="text" id="edit-title" value="${task.title}" />
   
-        <label>Description</label>
+        <label style="margin-bottom: 0; margin-top: 8px;">Description</label>
         <textarea id="edit-desc" style="min-height: 70px;">${task.description}</textarea>
   
-        <label>Due Date</label>
+        <label style="margin-bottom: 0; margin-top: 8px;">Due Date</label>
         <input type="date" id="edit-due-date" value="${task.dueDate}" />
   
-        <label>Priority</label>
+        <label style="margin-bottom: 0; margin-top: 8px;">Priority</label>
         <div class="priority-buttons">
           <button type="button" class="priority-btn urgent">Urgent <img src="svg/urgent.svg"></button>
           <button type="button" class="priority-btn medium">Medium <img src="svg/medium.svg"></button>
           <button type="button" class="priority-btn low">Low <img src="svg/low.svg"></button>
         </div>
   
-        <label for="assigned">Assigned to</label>
+        <label for="assigned" style="margin-bottom: 0; margin-top: 8px;">Assigned to</label>
         <div class="assigned-dropdown" style="margin-bottom: 15px;">
           <div class="assigned-select" onclick="toggleAssignedDropdown(event)">
             <input
@@ -516,20 +599,20 @@ if ((task.category || "").toLowerCase() === "technical task") {
         </div>
         <div id="selected-avatars" style="margin-bottom: 15px; margin-top: 0px;" class="selected-avatars"></div>
   
-        <label>Category</label>
+        <label style="margin-bottom: 0; margin-top: 8px;">Category</label>
         <select id="edit-category"  style="height: 50px;" >
           <option value="Technical Task" ${task.category === "Technical Task" ? "selected" : ""}>Technical Task</option>
           <option value="User Story" ${task.category === "User Story" ? "selected" : ""}>User Story</option>
         </select>
   
-        <label>Subtasks</label>
+        <label style="margin-bottom: 0; margin-top: 8px;">Subtasks</label>
         <div class="subtasks-section">
         <div class="subtask-input-wrapper">
         <input type="text" id="edit-subtask-input" class="subtask-input" placeholder="Add new subtask" />
         <button type="button" class="subtask-add-btn" onclick="addSubtaskInEditForm()">+</button>
       </div>
       
-          <ul id="subtask-list">
+          <ul id="subtask-list" style="padding-left:0; max-height:72px; overflow-y:auto;">
             ${Object.entries(task.subtasks || {}).map(([id, sub]) => `
               <li class="subtask-item" id="subtask-${id}" ondblclick="editSubtask('${id}')">
                 <span class="subtask-title">${sub.title}</span>

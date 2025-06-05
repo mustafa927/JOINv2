@@ -36,7 +36,7 @@ margin-left:20px;
 
 input[type="checkbox"] {
     width: 20px;
-    height: 20px;
+    height: 15px;
     accent-color: #0b140b; /* neu in modernen Browsern */
     cursor: pointer;
   }
