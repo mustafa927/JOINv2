@@ -23,14 +23,35 @@ window.allowDrop = function(event) {
   event.preventDefault();
 }
 
+function showGhostCard(dropzone) {
+  removeGhostCard(); // Falls schon eine da ist
+
+  const ghost = document.createElement("div");
+  ghost.className = "card ghost-card";
+  ghost.id = "ghost-preview";
+  dropzone.appendChild(ghost);
+}
+
+function removeGhostCard() {
+  const existing = document.getElementById("ghost-preview");
+  if (existing) existing.remove();
+}
+
+
 window.handleDragOver = function(event) {
+  event.preventDefault();
   const dropzone = event.currentTarget;
-  dropzone.classList.add("highlight");
+  // dropzone.classList.add("highlight");
+
+  showGhostCard(dropzone);
 };
+
 
 window.handleDragLeave = function(event) {
   const dropzone = event.currentTarget;
-  dropzone.classList.remove("highlight");
+  // dropzone.classList.remove("highlight");
+
+  removeGhostCard();
 };
 
 
@@ -50,11 +71,12 @@ window.drop = async function handleDrop(event) {
 
   if (!draggedElement || !dropzone.classList.contains('dropzone')) return;
 
-  dropzone.classList.remove('highlight'); // ✨ Entferne Highlight bei Drop
+  // dropzone.classList.remove('highlight'); // ✨ Entferne Highlight bei Drop
 
   moveTaskCardToDropzone(draggedElement, dropzone);
   hideNoTasksMessage(dropzone);
   checkEmptySections();
+  removeGhostCard();
 
   const taskId = extractTaskId(draggedElement.id);
   const newStatus = getStatusFromDropzone(dropzone);
