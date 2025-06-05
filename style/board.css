@@ -698,6 +698,13 @@ background-color: white;
     display: block;
   }
 
+  h1  {
+    margin-bottom: 0;
+  }
+.round-plus-btn {
+  margin-top: 0%;
+}
+
   .header-and-Button {
     justify-content: space-between;
     margin: 12px;
