@@ -170,7 +170,7 @@ textarea {
   font-size: 28px;
   color: #888;
   cursor: pointer;
-  padding: 0 5px;
+  padding: 0 13px;
   transition: color 0.2s ease;
 }
 
@@ -286,7 +286,7 @@ textarea {
 }
 
 
-@media (max-width: 1050px) {
+@media (max-width: 1080px) {
   .line {
     margin: 0;
   }
@@ -298,8 +298,20 @@ textarea {
   .priority-buttons button {
     flex-direction: column;
   }
+
+  main {
+    width:72%;
+  }
 }
 
+@media (max-width:850px) {
+  main {
+    width:70%;
+  }
+  .category-select{
+    font-size:17px !important;
+  }
+}
 
 @media (max-width: 600px) {
   .clear-btn {

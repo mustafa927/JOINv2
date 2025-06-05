@@ -362,3 +362,9 @@
     left:40%;
   }
 }
+
+@media(min-height:1000px) {
+  .add-contact-overlay {
+    top:30vh;
+  }
+}
