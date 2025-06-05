@@ -103,7 +103,8 @@
       <!-- Board Columns -->
       <section class="board-cards">
         <!-- To do -->
-        <div class="progress-section dropzone" ondragover="allowDrop(event)" ondrop="drop(event)">
+        <div class="progress-section dropzone" ondragover="allowDrop(event); handleDragOver(event)" ondrop="drop(event)"  
+        ondragleave="handleDragLeave(event)">
           <div class="to-do-header">
             <p>To do</p>
             <button class="icon-btn"><span class="plus-icon">+</span></button>
@@ -115,7 +116,8 @@
         </div>
         
         <!-- In progress -->
-        <div class="progress-section dropzone" ondragover="allowDrop(event)" ondrop="drop(event)">
+        <div class="progress-section dropzone" ondragover="allowDrop(event); handleDragOver(event)" ondrop="drop(event)"  
+        ondragleave="handleDragLeave(event)">
           <div class="to-do-header">
             <p>In progress</p>
             <button  class="icon-btn"><span class="plus-icon">+</span></button>
@@ -126,7 +128,8 @@
         </div>
 
         <!-- Await Feedback -->
-        <div class="progress-section dropzone" ondragover="allowDrop(event)" ondrop="drop(event)">
+        <div class="progress-section dropzone" ondragover="allowDrop(event); handleDragOver(event)" ondrop="drop(event)" 
+        ondragleave="handleDragLeave(event)">
           <div class="to-do-header">
             <p>Await Feedback</p>
             <button  class="icon-btn"><span class="plus-icon">+</span></button>
@@ -135,7 +138,8 @@
         </div>
 
         <!-- Done -->
-        <div class="progress-section dropzone"  ondragover="allowDrop(event)" ondrop="drop(event)">
+        <div class="progress-section dropzone"  ondragover="allowDrop(event); handleDragOver(event)" ondrop="drop(event)" 
+        ondragleave="handleDragLeave(event)">
           <div class="to-do-header"><p>Done</p></div>
           <div class="no-tasks"><p>No tasks To Do</p></div>
         </div>

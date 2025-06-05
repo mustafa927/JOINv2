@@ -3,6 +3,8 @@ import { signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth
 
 let draggedElement;
 
+
+
 /**
  * starts dragging element
  * @param {string} event 
@@ -21,6 +23,17 @@ window.allowDrop = function(event) {
   event.preventDefault();
 }
 
+window.handleDragOver = function(event) {
+  const dropzone = event.currentTarget;
+  dropzone.classList.add("highlight");
+};
+
+window.handleDragLeave = function(event) {
+  const dropzone = event.currentTarget;
+  dropzone.classList.remove("highlight");
+};
+
+
 /**
  * Handles the drop event during a drag-and-drop operation on a task card.
  * Moves the dragged task to the dropzone, updates the UI accordingly,
@@ -34,7 +47,11 @@ window.allowDrop = function(event) {
 window.drop = async function handleDrop(event) {
   event.preventDefault();
   const dropzone = event.currentTarget;
+
   if (!draggedElement || !dropzone.classList.contains('dropzone')) return;
+
+  dropzone.classList.remove('highlight'); // ✨ Entferne Highlight bei Drop
+
   moveTaskCardToDropzone(draggedElement, dropzone);
   hideNoTasksMessage(dropzone);
   checkEmptySections();
@@ -45,6 +62,8 @@ window.drop = async function handleDrop(event) {
     await updateTaskStatus(taskId, newStatus);
   }
 };
+
+
 
 
 /**
