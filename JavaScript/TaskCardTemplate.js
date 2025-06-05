@@ -141,6 +141,8 @@ window.openMoveOverlay = function(event, taskId) {
  */
 window.handleMoveClick = async function(event, taskId, newStatus) {
   event.stopPropagation(); // Verhindert das Öffnen des großen Overlays
+  event.preventDefault(); // ⬅️ DAS hinzufügen!
+
   await moveTaskTo(taskId, newStatus);
   closeMoveOverlays();
 };

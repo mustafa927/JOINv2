@@ -270,10 +270,10 @@ window.getMoveOptions = function(currentStatus) {
     }));
 };
 
-window.moveTaskTo = async function(taskId, newStatus) {
-  await updateTaskStatus(taskId, newStatus);
-  location.reload(); // Refreshes to reflect status change
-};
+// window.moveTaskTo = async function(taskId, newStatus) {
+//   await updateTaskStatus(taskId, newStatus);
+//   // location.reload(); // Refreshes to reflect status change
+// };
 
 
 let longPressTimer;
