@@ -830,4 +830,10 @@ h1 {
 
   }
 
+
+
+  .board-cards {
+    height: auto;
+    padding-bottom: 100px;
+}
 }
