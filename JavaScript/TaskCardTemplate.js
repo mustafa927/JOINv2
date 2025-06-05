@@ -120,7 +120,9 @@ window.openMoveOverlay = function(event, taskId) {
 
     const button = document.createElement("button");
     button.textContent = status;
+    button.type = "button"; // Verhindert reload!
     button.onclick = (e) => handleMoveClick(e, taskId, status);
+    
     overlay.appendChild(button);
   });
 
@@ -150,6 +152,7 @@ window.handleMoveClick = async function(event, taskId, newStatus) {
  * @param {string} newStatus 
  */
 async function moveTaskTo(taskId, newStatus) {
+
   try {
     // Backend aktualisieren
     await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks/${taskId}.json`, {
@@ -161,7 +164,8 @@ async function moveTaskTo(taskId, newStatus) {
     });
 
     // UI aktualisieren: Seite neu laden oder manuell das Task-Element verschieben
-    location.reload(); // oder: updateTaskCardPosition(taskId, newStatus)
+    updateTaskStatusInDOM(taskId, newStatus);
+
 
   } catch (error) {
     console.error("Fehler beim Verschieben des Tasks:", error);
@@ -205,6 +209,7 @@ function renderAssignedPeople(people) {
 
   return avatars;
 }
+
 
 
 
@@ -286,6 +291,76 @@ function getCategoryStyle(category) {
       insertTaskIntoColumn(fullTask);
     }
   }
+  async function reloadBoard() {
+    try {
+      const [tasksRes, peopleRes] = await Promise.all([
+        fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json"),
+        fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json")
+      ]);
+  
+      const tasksData = await tasksRes.json();
+      const peopleData = await peopleRes.json();
+  
+      const newTasks = [];
+  
+      for (const [id, task] of Object.entries(tasksData)) {
+        const personIds = Object.values(task.assignedTo || {});
+        const currentUser = getCurrentUser();
+  
+        const assignedPeople = personIds.map(pid => {
+          return peopleData[pid] || (currentUser && pid === currentUser.id ? currentUser : null);
+        }).filter(Boolean);
+  
+        const fullTask = { id, ...task, assignedPeople };
+        newTasks.push(fullTask);
+      }
+  
+      // Jetzt erst leeren, wenn alles geladen wurde
+      clearAllTaskBuckets();
+  
+      // Dann neu einfügen
+      newTasks.forEach(insertTaskIntoColumn);
+  
+      // Globales Task-Array aktualisieren
+      window.allTasks = newTasks;
+  
+      checkEmptySections();
+  
+    } catch (error) {
+      console.error("Fehler beim Reload des Boards:", error);
+    }
+  }
+  
+  function clearAllTaskBuckets() {
+    const buckets = document.querySelectorAll('.card-bucket');
+    buckets.forEach(bucket => bucket.innerHTML = '');
+  }
+  
+  function updateTaskStatusInDOM(taskId, newStatus) {
+    const card = document.getElementById(taskId);
+    if (!card) return;
+  
+    // Entferne aus alter Spalte
+    const oldColumn = card.closest(".card-bucket");
+    if (oldColumn) card.remove();
+  
+    // Finde den neuen Container
+    const columnSelector = getColumnSelector({ Status: newStatus });
+    const newColumn = document.querySelector(`${columnSelector} .card-bucket`);
+    if (newColumn) {
+      newColumn.appendChild(card);
+    }
+  
+    // Optional: Status updaten im allTasks-Array (wenn nötig)
+    const task = window.allTasks.find(t => t.id === taskId);
+    if (task) {
+      task.Status = newStatus;
+    }
+  
+    // Aktualisiere "Keine Aufgaben"-Hinweis
+    checkEmptySections();
+  }
+  
   
 /**
  * Inserts a task card into the appropriate board column based on its status.
@@ -884,9 +959,9 @@ if ((task.category || "").toLowerCase() === "technical task") {
  * if the task is succesfully saved the overlay closes and the site reloads
  */
 
-  function handleSuccessfulSave() {
+  async function handleSuccessfulSave() {
     closeOverlay();
-    location.reload();
+    await reloadBoard();
   }
   
 /**
