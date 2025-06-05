@@ -768,6 +768,14 @@ h1 {
 }
 
 
+@media (max-width:894px) {
+
+  .card-bucket {
+    width: 65vw;
+
+  }
+}
+
 @media (max-width:768px) {
   .board-section {
     margin-left: 0px;
@@ -822,12 +830,13 @@ h1 {
 }
 
 
-@media (max-height:862px) {
+@media (max-height:894px) {
 
   .task-card-overlay {
     gap: 10px;
 
   }
+
 }
 
 @media (max-height:700px) {
