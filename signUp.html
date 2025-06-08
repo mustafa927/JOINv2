@@ -19,7 +19,7 @@
     </div>
     
     <div class="signup-card">
-        <a href="Index.html" class="back-arrow">
+        <a href="index.html" class="back-arrow">
             <img src="svg/arrow-left-line.svg" alt="Back">
         </a>
         
@@ -31,24 +31,31 @@
         
         <form class="signup-form" id="signupForm" onsubmit="return false;">
             <div class="input-field">
-                <input type="text" id="name" name="name" placeholder="Name" required>
-                <img src="svg/person.svg" alt="Person icon" class="input-icon">
-                <div id="name-error" class="error-message">Please enter your Fullname (with space) </div>
+                <div class="input-wrapper">
+                    <input type="text" id="name" name="name" placeholder="Name" required>
+                    <img src="svg/person.svg" alt="Person icon" class="input-icon">
+                    <div id="name-error" class="error-message">Please enter your Fullname (with space) </div>
+                </div>
             </div>
             
             <div class="input-field">
-                <input type="email" id="email" name="email" placeholder="Email" required>
-                <img src="svg/mail.svg" alt="Email icon" class="input-icon">
-                <div id="email-error" class="error-message">Please enter your email address.</div>
-                <div id="email-format-error" class="error-message">Please enter a valid email address.</div>
+                <div class="input-wrapper">
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                    <img src="svg/mail.svg" alt="Email icon" class="input-icon">
+                    <div id="email-error" class="error-message">Please enter your email address.</div>
+                    <div id="email-format-error" class="error-message">Please enter a valid email address.</div>
+                </div>
             </div>
             
-            <div class="input-field" style="position:relative;">
-                <input type="password" id="password" name="password" placeholder="Password" required minlength="6">
-                <img src="svg/lock.svg" alt="Password icon" class="input-icon" id="lockIconPassword" style="position:absolute; top:50%; transform:translateY(-50%); width:20px;">
-                <img src="svg/visibility.svg" alt="Show Password" id="togglePassword" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); cursor:pointer; width:20px; display:none;">
-                <div id="password-error" class="error-message">Please enter a password.</div>
-                <div id="password-length-error" class="error-message">The password must be at least 6 characters long.</div>
+            <div class="input-field">
+                <div class="input-wrapper">
+                    <input type="password" id="password" name="password" placeholder="Password" required minlength="6">
+                    <img src="svg/lock.svg" alt="Password icon" class="input-icon">
+                    <img src="svg/visibility.svg" alt="Show Password" id="togglePassword" class="visibility-icon">
+                    <div id="password-error" class="error-message">Please enter a password.</div>
+                    <div id="password-length-error" class="error-message">The password must be at least 6 characters long.</div>
+                    <div id="password-weak-error" class="error-message">Password is too weak.</div>
+                </div>
             </div>
             
             <div class="input-field" style="position:relative;">

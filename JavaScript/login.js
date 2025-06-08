@@ -99,17 +99,17 @@ async function createUserDoc(user) {
  */
 function handleLoginError(error) {
     if (error.code === 'auth/invalid-credential') {
-        showError('general-error', 'Invalid email or password. Please check your login details.');
+        showError('login-general-error', 'Invalid email or password. Please check your login details.');
     } else if (error.code === 'auth/user-not-found') {
-        showError('email-error', 'No account found with this email address. Please register or check your email address.');
+        showError('login-email-error', 'No account found with this email address. Please register or check your email address.');
     } else if (error.code === 'auth/wrong-password') {
-        showError('password-error', 'Wrong password. Please try again or reset your password.');
+        showError('login-password-error', 'Wrong password. Please try again or reset your password.');
     } else if (error.code === 'auth/too-many-requests') {
-        showError('general-error', 'Too many failed attempts. Please try again later or reset your password.');
+        showError('login-general-error', 'Too many failed attempts. Please try again later or reset your password.');
     } else if (error.code === 'auth/network-request-failed') {
-        showError('general-error', 'Network error. Please check your internet connection and try again.');
+        showError('login-general-error', 'Network error. Please check your internet connection and try again.');
     } else {
-        showError('general-error', 'An error occurred during login. Please try again later.');
+        showError('login-general-error', 'An error occurred during login. Please try again later.');
     }
 }
 
@@ -120,13 +120,18 @@ function handleLoginError(error) {
  */
 async function handleLogin(event) {
     event.preventDefault();
-    hideError('email-error'); hideError('password-error'); hideError('general-error');
+    hideError('login-email-error'); 
+    hideError('login-password-error'); 
+    hideError('login-general-error');
+    
     const email = document.getElementById('email').value.trim().toLowerCase();
     const password = document.getElementById('password').value;
+    
     const validation = validateInputs(email, password);
-    if (validation === 'email') return showError('email-error', 'Please enter a valid email address.');
-    if (validation === 'password') return showError('password-error', 'The password must be at least 6 characters long.');
-    if (validation) return showError('general-error', validation);
+    if (validation === 'email') return showError('login-email-error', 'Please enter a valid email address.');
+    if (validation === 'password') return showError('login-password-error', 'The password must be at least 6 characters long.');
+    if (validation) return showError('login-general-error', validation);
+    
     setLoginButtonState(true);
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);

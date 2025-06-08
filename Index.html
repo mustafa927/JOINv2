@@ -24,20 +24,24 @@
         <form class="login-form" id="loginForm" onsubmit="return false;">
             <div class="input-group">
                 <div class="input-field">
-                    <input type="email" id="email" name="email" placeholder="Email" required>
-                    <img src="svg/mail.svg" alt="Email icon" class="input-icon">
-                    <div id="email-error" class="error-message"></div>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" name="email" placeholder="Email" required>
+                        <img src="svg/mail.svg" alt="Email icon" class="input-icon">
+                        <div id="login-email-error" class="error-message-login"></div>
+                    </div>
                 </div>
             </div>
             <div class="input-group">
-                <div class="input-field" style="position:relative;">
-                    <input type="password" id="password" name="password" placeholder="Password" required>
-                    <img src="svg/lock.svg" alt="Password icon" class="input-icon" id="lockIconPassword" style="position:absolute; top:50%; transform:translateY(-50%); width:20px;">
-                    <img src="svg/visibility_off.svg" alt="Show Password" id="togglePassword" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); cursor:pointer; width:20px; display:none;">
-                    <div id="password-error" class="error-message"></div>
+                <div class="input-field">
+                    <div class="input-wrapper">
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                        <img src="svg/lock.svg" alt="Password icon" class="input-icon">
+                        <img src="svg/visibility_off.svg" alt="Show Password" id="togglePassword" class="visibility-icon">
+                        <div id="login-password-error" class="error-message-login"></div>
+                    </div>
                 </div>
             </div>
-            <div id="general-error" class="error-message"></div>
+            <div id="login-general-error" class="error-message-login"></div>
             <div class="button-group">
                 <button type="submit" class="btn-primary">Log in</button>
                 <button type="button" class="btn-secondary">Guest Login</button>

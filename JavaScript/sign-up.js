@@ -10,6 +10,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const signupButton = document.getElementById('signupButton');
     if (signupButton) signupButton.addEventListener('click', handleSignUp);
     setupToggleIcons();
+    document.getElementById('name').addEventListener('input', function() {
+        document.getElementById('name-error').style.display = 'none';
+    });
+    document.getElementById('email').addEventListener('input', function() {
+        document.getElementById('email-error').style.display = 'none';
+        document.getElementById('email-format-error').style.display = 'none';
+    });
+    document.getElementById('password').addEventListener('input', function() {
+        const password = this.value;
+        const weakError = document.getElementById('password-weak-error');
+        
+        document.getElementById('password-error').style.display = 'none';
+        document.getElementById('password-length-error').style.display = 'none';
+        
+        if (password.length > 0) {
+            if (isPasswordWeak(password)) {
+                weakError.style.display = 'block';
+            } else {
+                weakError.style.display = 'none';
+            }
+        } else {
+            weakError.style.display = 'none';
+        }
+    });
+    document.getElementById('confirmPassword').addEventListener('input', function() {
+        document.getElementById('confirm-password-error').style.display = 'none';
+        document.getElementById('password-match-error').style.display = 'none';
+    });
 });
 
 /**
@@ -210,4 +238,13 @@ function setupToggleIcons() {
             if (input) input.type = input.type === 'password' ? 'text' : 'password';
         });
     });
+}
+
+function isPasswordWeak(password) {
+    // Überprüft, ob das Passwort mindestens einen Großbuchstaben, einen Kleinbuchstaben und eine Zahl enthält
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    
+    return !(hasUpperCase && hasLowerCase && hasNumbers);
 }

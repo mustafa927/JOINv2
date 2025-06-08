@@ -139,7 +139,12 @@ h1::after {
     position: relative;
 }
 
-.input-field input {
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input-wrapper input {
     width: 100%;
     padding: 12px 45px 12px 15px;
     border: 1px solid #D1D1D1;
@@ -148,7 +153,7 @@ h1::after {
     box-sizing: border-box;
 }
 
-.input-field input:focus {
+.input-wrapper input:focus {
     outline: none;
     border-color: #29ABE2;
 }
@@ -161,6 +166,24 @@ h1::after {
     width: 20px;
     height: auto;
     opacity: 0.5;
+}
+
+.visibility-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    cursor: pointer;
+    display: none;
+}
+
+.error-message-login {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 5px;
+    display: none;
+    width: 100%;
 }
 
 input::placeholder {
