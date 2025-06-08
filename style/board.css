@@ -27,7 +27,8 @@ header h2 {
 
 h1 {
   font-size: 61px;
-  margin-bottom: 50px;
+  margin-bottom: 70px;
+  margin-top: 60px;
 }
 
 .Board-head {
@@ -652,6 +653,16 @@ background-color: white;
   background: #0d1b2a;
 }
 
+.ghost-card {
+  border: 2px dashed #aaa;
+  height: 100px;
+  width: 100%;
+  border-radius: 12px;
+  margin: 8px 0;
+  background-color: transparent;
+  pointer-events: none;
+  box-sizing: border-box;
+}
 
 
 .responsive-swap {
@@ -700,6 +711,7 @@ background-color: white;
 
   h1  {
     margin-bottom: 0;
+    margin-top: 0 !important;
   }
 .round-plus-btn {
   margin-top: 0%;
