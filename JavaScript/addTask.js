@@ -115,10 +115,22 @@ function toggleCheckbox(e) {
 function updateSelectedAvatars() {
   let container = document.getElementById("selected-avatars");
   container.innerHTML = "";
-  document.querySelectorAll(".assigned-checkbox:checked").forEach(box => {
+
+  const checkedBoxes = Array.from(document.querySelectorAll(".assigned-checkbox:checked"));
+  const maxVisible = 2;
+
+  checkedBoxes.slice(0, maxVisible).forEach(box => {
     container.innerHTML += avatarTemplate(box.dataset.name);
   });
+
+  const remaining = checkedBoxes.length - maxVisible;
+  if (remaining > 0) {
+    container.innerHTML += `
+      <div class="selected-avatar" style="background-color: #ccc">+${remaining}</div>
+    `;
+  }
 }
+
 
 function openAssignedDropdown(e) {
   let dropdown = document.querySelector(".assigned-dropdown");

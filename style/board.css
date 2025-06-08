@@ -21,7 +21,7 @@ header h2 {
 .board-section {
   background-color: rgb(246, 247, 248);
   height: calc(100vh - 90px);
-  width: calc(100vw - 230px);
+  width: calc(100vw - 250px);
   
 }
 

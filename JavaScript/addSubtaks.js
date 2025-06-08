@@ -5,17 +5,21 @@ function toggleSubtaskButtons(input) {
   const cancelBtn = container.querySelector(".cancel-subtask-button");
   const confirmBtn = container.querySelector(".confirm-subtask-button");
   const addBtn = container.querySelector(".add-subtask-button");
+  const divider = container.querySelector(".subtask-divider"); // <== Hinzugefügt
 
   if (input.value.trim() !== "") {
     cancelBtn.classList.remove("d-none");
     confirmBtn.classList.remove("d-none");
+    divider.classList.remove("d-none"); // <== Sichtbar machen
     addBtn.classList.add("d-none");
   } else {
     cancelBtn.classList.add("d-none");
     confirmBtn.classList.add("d-none");
+    divider.classList.add("d-none"); // <== Verstecken
     addBtn.classList.remove("d-none");
   }
 }
+
 
 function clearSubtaskInput(button) {
   const container = button.closest(".subtask-input-container");
