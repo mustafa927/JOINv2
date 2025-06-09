@@ -88,7 +88,7 @@ async function saveContact() {
     closeOverlay();
     showSuccessMessage();
   } catch (error) {
-    console.error("❌ Error saving contact:", error);
+    console.error(" Error saving contact:", error);
   } finally {
     submitBtn.disabled = false;
     submitBtn.innerHTML = `Create contact <span>&check;</span>`;
