@@ -199,9 +199,6 @@ function validateFieldWithHighlight(inputId, errorId) {
   return true;
 }
 
-
-
-
 function validateDueDate() {
   const input = document.getElementById("due-date");
   const error = document.getElementById("date-error");
@@ -252,10 +249,6 @@ function validatePrioritySelection() {
   priorityError.classList.add("invisible");
   return true;
 }
-
-
-
-
 
 /**
  * Temporarily displays an error element.
@@ -471,10 +464,6 @@ async function addNewTask(taskData) {
     console.error(" Fehler beim Hinzufügen des Tasks:", error);
   }
 }
-
-
-
-
 
 
 function showValidationError(id) {
