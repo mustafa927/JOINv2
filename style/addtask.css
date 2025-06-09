@@ -58,8 +58,6 @@ select {
   font-weight: normal;
 }
 
-
-
 textarea {
   resize: vertical;
   height: 90px;
@@ -167,7 +165,6 @@ textarea {
 .subtask-input::placeholder {
   color: #bbb;
 }
-
 .add-subtask-button {
   background: none;
   border: none;
@@ -177,7 +174,6 @@ textarea {
   padding: 0 13px;
   transition: color 0.2s ease;
 }
-
 .subtask-list-container {
   height: 99px;
   overflow-y: auto;
@@ -213,21 +209,17 @@ textarea {
   margin-right: 10px;
   color: #2a3647;
 }
-
 .clear-btn:hover {
   border: 2px solid #5abce5 !important;
   color: #5abce5 !important;
 }
-
 .create-btn {
   background-color: #2b2d42;
   color: white;
 }
-
 .create-btn:hover {
   background-color: #5abce5;
 }
-
 .task-success {
   position: fixed;
   top: 80%;
@@ -289,21 +281,17 @@ textarea {
   padding-left: 80px;
 }
 
-
 @media (max-width: 1080px) {
   .line {
     margin: 0;
   }
-
   .maincontent {
     padding-left: 30px;
   }
-
   .priority-buttons button {
     flex-direction: column;
     font-size: 16px;
   }
-
   main {
     width:72%;
   }
@@ -325,15 +313,12 @@ textarea {
     right: 180px !important;
     font-size: 16px !important;
   }
-
   .create-btn {
     width: 150px !important;
     height: 50px !important;
     font-size: 16px !important;
   }
 }
-
-
 @media (min-height: 850px) {
   h1 {
     margin-top: 75px !important;
@@ -351,36 +336,29 @@ textarea {
     display: flex;
     justify-content: center;
   }
-
   main {
     margin-left: 0;
     width: 90%;
   }
-
   .priority-buttons button img {
     width: 20px;
     height: 20px;
   }
-
   .bottom-buttons {
     margin-top: 0;
   }
-
   form {
     display: block;
     margin-top: 120px;
   }
-
   .form-section {
     width: 100%;
   }
-
   .maincontent {
     padding-bottom: 200px;
     height: 1000px;
     padding-left: 0;
   }
-
   .create-btn {
     position: fixed;
     bottom: 100px;
@@ -388,7 +366,6 @@ textarea {
     height: 60px;
     width: 150px;
   }
-
   .clear-btn {
     position: fixed;
     bottom: 100px;
@@ -398,7 +375,6 @@ textarea {
     border: 2px solid black !important;
     background-color: #f6f7f8;
   }
-
   .h1div {
     height: 50px;
     width: 100%;
@@ -409,7 +385,6 @@ textarea {
     padding: 20px;
     z-index: 2;
   }
-
   h1 {
     margin-top: 0 !important;
   }

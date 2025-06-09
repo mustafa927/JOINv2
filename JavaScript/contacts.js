@@ -4,8 +4,6 @@ let avatarColors = [
   "#00BEE8", "#1FD7C1", "#FF4646", "#FFC700", "#BEE800"
 ];
 let currentlyOpenContact = null;
-
-
 let justOpenedMenu = false;
 
 /**
@@ -138,7 +136,6 @@ function addContact() {
   clearOverlay();
   openModal("modalBackdrop");
   document.getElementById("addContactForm").innerHTML = contactAddFormTemplate();
-
 }
 
 /**
@@ -153,135 +150,19 @@ function editContact(name) {
   document.getElementById("addContactForm").innerHTML = contactEditFormTemplate(contact);
 }
 
-
+/**
+ * Handles the form submission for creating a new contact.
+ * Prevents default form behavior, validates input, and calls saveContact if valid.
+ *
+ * @param {Event} event - The form submit event.
+ */
 function handleContactFormSubmit(event) {
   event.preventDefault();
 
   const isValid = validateContactForm();
   if (isValid) {
-    saveContact(); // wird nur aufgerufen, wenn valid
+    saveContact();
   }
-}
-
-function validateContactForm() {
-  const nameInput = document.getElementById("inputName");
-  const emailInput = document.getElementById("inputEmail");
-  const phoneInput = document.getElementById("inputPhone");
-
-  let isValid = true;
-
-  // Alle Felder zurücksetzen
-  [nameInput, emailInput, phoneInput].forEach(input => {
-    input.style.border = "";
-    const errorElem = input.parentNode.querySelector(".error-message");
-    if (errorElem) {
-      errorElem.textContent = "";
-    }
-  });
-
-  // Name prüfen: nur Buchstaben & Leerzeichen
-  const nameRegex = /^[A-Za-z\s]+$/;
-  if (!nameInput.value.trim()) {
-    setError(nameInput, "Bitte einen Namen eingeben.");
-    isValid = false;
-  } else if (!nameRegex.test(nameInput.value.trim())) {
-    setError(nameInput, "Der Name darf nur Buchstaben enthalten.");
-    isValid = false;
-  }
-
-  // E-Mail prüfen
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailInput.value.trim()) {
-    setError(emailInput, "Bitte eine E-Mail-Adresse eingeben.");
-    isValid = false;
-  } else if (!emailRegex.test(emailInput.value.trim())) {
-    setError(emailInput, "Bitte eine gültige E-Mail-Adresse eingeben.");
-    isValid = false;
-  }
-
-  // Telefonnummer prüfen
-  const phoneRegex = /^\d+$/;
-  const phoneValue = phoneInput.value.trim();
-  if (!phoneValue) {
-    setError(phoneInput, "Bitte eine Telefonnummer eingeben.");
-    isValid = false;
-  } else if (!phoneRegex.test(phoneValue)) {
-    setError(phoneInput, "Die Telefonnummer darf nur Zahlen enthalten.");
-    isValid = false;
-  } else if (phoneValue.length < 7) {
-    setError(phoneInput, "Die Telefonnummer muss mindestens 7 Ziffern haben.");
-    isValid = false;
-  }
-
-  return isValid;
-}
-
-
-
-function setError(inputElement, message) {
-  inputElement.style.border = "1px solid #ff8190";
-  const errorElem = inputElement.parentNode.querySelector(".error-message");
-  if (errorElem) {
-    errorElem.textContent = message;
-
-    // Fehler nach 3 Sekunden automatisch entfernen
-    setTimeout(() => {
-      inputElement.style.border = "";
-      errorElem.textContent = "";
-    }, 3000);
-  }
-}
-
-
-
-
-
-
-async function saveContact() {
-  const submitBtn = document.getElementById("createContactBtn");
-
-  // Custom JS-Validierung
-  if (!validateContactForm()) return;
-
-  // Button deaktivieren und Spinner anzeigen (optional)
-  submitBtn.disabled = true;
-  submitBtn.innerHTML = `Creating...`;
-
-  const { name, email, phone } = getInputValues();
-  const newContact = { name, email, phone };
-
-  try {
-    await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json", {
-      method: "POST",
-      body: JSON.stringify(newContact),
-      headers: { "Content-Type": "application/json" }
-    });
-
-    await fetchData();
-    closeOverlay();
-    showSuccessMessage();
-  } catch (error) {
-    console.error("❌ Fehler beim Speichern des Kontakts:", error);
-  } finally {
-    // Button wieder aktivieren
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = `Create contact <span>&check;</span>`;
-  }
-}
-
-
-
-
-/**
- * Collects values from form inputs.
- * @returns {{name: string, email: string, phone: string}} - Contact details.
- */
-function getInputValues() {
-  return {
-    name: document.getElementById("inputName").value.trim(),
-    email: document.getElementById("inputEmail").value.trim(),
-    phone: document.getElementById("inputPhone").value.trim()
-  };
 }
 
 
@@ -294,18 +175,14 @@ function getInputValues() {
 async function updateContact(name) {
   const form = document.getElementById("contactForm");
 
-  // Check if form fields are valid (HTML5)
   if (!form.checkValidity()) {
-    form.reportValidity(); // shows built-in browser message
+    form.reportValidity();
     return;
   }
 
   const { name: newName, email, phone } = getInputValues();
-
-  // Fetch existing data to find the right contact key
   const res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
   const data = await res.json();
-
   const [key] = Object.entries(data || {}).find(([_, val]) => val.name === name || val.id === name) || [];
 
   if (!key) {
@@ -313,16 +190,15 @@ async function updateContact(name) {
     return;
   }
 
-  // Update contact data in Firebase
   await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person/${key}.json`, {
     method: "PUT",
     body: JSON.stringify({ name: newName, email, phone }),
     headers: { "Content-Type": "application/json" }
   });
 
-  await fetchData();          // Refresh list
-  closeOverlay();             // Close modal
-  showContact(newName);       // Show updated contact
+  await fetchData();       
+  closeOverlay();        
+  showContact(newName);     
 }
 
 /**
@@ -405,7 +281,7 @@ function toggleShowContactMobile(name) {
   let contact = allContacts.find(c => c.name === name);
   if (!contact) return;
 
-  currentlyOpenContact = name; // <- HINZUGEFÜGT!
+  currentlyOpenContact = name; 
 
   document.getElementById("addContactForm").innerHTML = contactDetailTemplate(contact);
   openModal("modalBackdrop");
@@ -448,11 +324,9 @@ window.addEventListener("resize", function () {
   }
 });
 
-
 /**
  * Shows a success image when a contact is created.
  */
-
 function showSuccessImage() {
   let imageBox = document.getElementById("contactCreatedImage");
   imageBox.classList.remove("d_none");

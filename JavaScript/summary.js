@@ -1,4 +1,3 @@
-
 /**
  * Fetches all tasks from the backend, calculates summary statistics,
  * identifies the next urgent task due date, and updates the dashboard UI.
@@ -10,7 +9,6 @@
  */
 async function sumOfTask() {
     let url = "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json";
-
     try {
         let tasks = await fetchTasks(url);
         let counts = countTasks(tasks);
@@ -21,14 +19,13 @@ async function sumOfTask() {
     }
 }
 
-
 /**
  * Fetches task data from the given URL and returns the parsed JSON response.
  *
  * @async
  * @function fetchTasks
  * @param {string} url - The endpoint from which to fetch the task data.
- * @returns  The parsed JSON object containing tasks.
+ * @returns {Object} The parsed JSON object containing tasks.
  * @throws {Error} If the HTTP response is not OK.
  */
 async function fetchTasks(url) {
@@ -39,41 +36,30 @@ async function fetchTasks(url) {
     return await response.json();
 }
 
-
 /**
  * Counts tasks by their status and priority and returns a summary object.
  *
  * @function countTasks
  * @param {Object} tasks - An object containing task entries keyed by ID.
- * @returns {Object} An object containing counts for different task categories:
+ * @returns {Object} An object containing counts for different task categories.
  */
 function countTasks(tasks) {
-    let counts = {
-        todo: 0,
-        done: 0,
-        urgent: 0,
-        inProgress: 0,
-        awaiting: 0,
-        total: 0
-    };
-
+    let counts = { todo: 0, done: 0, urgent: 0, inProgress: 0, awaiting: 0, total: 0 };
     for (let key in tasks) {
         let task = tasks[key];
         counts.total++;
         updateStatusCount(task.Status, counts);
         if (task.priority === "Urgent") counts.urgent++;
     }
-
     return counts;
 }
-
 
 /**
  * Increments the corresponding count in the counts object based on the given task status.
  *
  * @function updateStatusCount
- * @param {string} status - The status of the task (e.g. "To-Do", "Done", "In Progress", "Await Feedback").
- * @param {Object} counts - An object containing count fields that will be updated.
+ * @param {string} status - The status of the task.
+ * @param {Object} counts - An object containing count fields to update.
  */
 function updateStatusCount(status, counts) {
     switch (status) {
@@ -88,31 +74,26 @@ function updateStatusCount(status, counts) {
  * Finds the nearest upcoming due date among tasks marked as "Urgent".
  *
  * @function findNextUrgentDate
- * @param {Object} tasks - An object where each key is a task ID and the value is a task object.
- * @returns  The closest future due date of an urgent task, or null if none found.
+ * @param {Object} tasks - Task list object.
+ * @returns {Date|null} The next urgent task due date or null if none.
  */
 function findNextUrgentDate(tasks) {
-    let nextDate = null;
-    let today = new Date();
-
+    let nextDate = null, today = new Date();
     for (let key in tasks) {
         let task = tasks[key];
         if (task.priority !== "Urgent" || !task.dueDate) continue;
-
         let dueDate = new Date(task.dueDate);
-        if (dueDate >= today && (!nextDate || dueDate < nextDate)) {
-            nextDate = dueDate;
-        }
+        if (dueDate >= today && (!nextDate || dueDate < nextDate)) nextDate = dueDate;
     }
-
     return nextDate;
 }
 
 /**
- * Updates the dashboard UI elements with task statistics and the next urgent due date.
+ * Updates the dashboard UI elements with task statistics and next urgent due date.
  *
  * @function updateDashboard
- * @param {Object} counts - An object containing count statistics for tasks.
+ * @param {Object} counts - The task summary counts.
+ * @param {Date|null} nextDate - Next urgent due date.
  */
 function updateDashboard(counts, nextDate) {
     setText("todo", counts.todo);
@@ -121,42 +102,52 @@ function updateDashboard(counts, nextDate) {
     setText("tasks-in-board", counts.total);
     setText("tasks-in-progress", counts.inProgress);
     setText("awaiting-feedback", counts.awaiting);
-
-    let dateText = nextDate ? nextDate.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }) : "";
-
+    let dateText = nextDate ? formatDate(nextDate) : "";
     setText("urgent-date", dateText);
+}
+
+/**
+ * Formats a date into a readable string.
+ *
+ * @function formatDate
+ * @param {Date} date - The date to format.
+ * @returns {string} The formatted date string.
+ */
+function formatDate(date) {
+    return date.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
 /**
  * Sets the text content of a DOM element by its ID.
  *
- * @param {string} id - The ID of the HTML element to update.
- * @param {string|number} value - The text or number to set as the element's content.
+ * @function setText
+ * @param {string} id - The ID of the DOM element.
+ * @param {string|number} value - The text or number to display.
  */
 function setText(id, value) {
-    document.getElementById(id).textContent = value;
+    let element = document.getElementById(id);
+    if (element) element.textContent = value;
 }
 
 /**
  * Updates the greeting message in the UI based on the current user stored in localStorage.
- * If a user is found, it displays a personalized greeting with their name.
- * If not, it defaults to a generic greeting.
+ *
+ * @function updateGreetingMessage
  */
 function updateGreetingMessage() {
-    let greetingElement = document.getElementById('greeting-message');
-    if (!greetingElement) return;
-
+    let el = document.getElementById('greeting-message');
+    if (!el) return;
     let storedUser = localStorage.getItem('currentUser');
     let name = getUserName(storedUser);
-    greetingElement.innerHTML = name ? `Good morning, <br><span class="greeting-name">${name}</span>` : "Good morning";
+    el.innerHTML = name ? `Good morning, <br><span class="greeting-name">${name}</span>` : "Good morning";
 }
 
 /**
  * Extracts and validates the user's name from a stored JSON string.
- * Returns the name if it's not empty or "guest user"; otherwise, returns null.
  *
- * @param {string|null} storedUser - The JSON string of the stored user from localStorage.
- * @returns {string|null} - The validated user name or null if invalid.
+ * @function getUserName
+ * @param {string|null} storedUser - Stored user JSON from localStorage.
+ * @returns {string|null} The user's name or null.
  */
 function getUserName(storedUser) {
     if (!storedUser) return null;
@@ -165,87 +156,53 @@ function getUserName(storedUser) {
     return name && name !== "guest user" ? user.name : null;
 }
 
-window.addEventListener('load', () => {
-    updateGreetingMessage();
-});
-
 /**
  * Displays a full-screen greeting overlay for mobile users upon first login.
- * The overlay is shown only if the screen width is less than 768px
- * and the 'newLogin' flag is present in sessionStorage.
- * It uses the stored user from localStorage to display a personalized name,
- * unless the user is marked as a guest.
  *
- * - Creates the overlay dynamically if it does not already exist.
- * - Styles and appends the greeting elements.
- * - Removes the name display if the user is a guest.
+ * @function showMobileGreeting
  */
 function showMobileGreeting() {
-    if (window.innerWidth >= 768) return;
-    if (!sessionStorage.getItem('newLogin')) return;
+    if (window.innerWidth >= 768 || !sessionStorage.getItem('newLogin')) return;
+    createGreetingOverlay();
+    let user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    let nameField = document.getElementById('mobile-greeting-name');
+    nameField.textContent = user.isGuest ? '' : user.name || '';
+    hideGreetingOverlayAfterDelay();
+}
 
-    if (!document.getElementById('mobile-greeting-overlay')) {
-        let overlay = document.createElement('div');
-        overlay.id = 'mobile-greeting-overlay';
-        overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        `;
+/**
+ * Creates and injects the greeting overlay into the DOM.
+ *
+ * @function createGreetingOverlay
+ */
+function createGreetingOverlay() {
+    if (document.getElementById('mobile-greeting-overlay')) return;
+    let overlay = document.createElement('div');
+    overlay.id = 'mobile-greeting-overlay';
+    overlay.style.cssText = `
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(255, 255, 255, 0.95); z-index: 2000;
+        display: flex; flex-direction: column; justify-content: center;
+        align-items: center; font-family: Arial, sans-serif;`;
+    overlay.innerHTML = `
+        <div id="mobile-greeting-text" style="font-size: 32px; color: #2c3e50; margin-bottom: 10px;">Good morning</div>
+        <div id="mobile-greeting-name" style="font-size: 48px; font-weight: bold; color: #29abe2;"></div>`;
+    document.body.appendChild(overlay);
+}
 
-        let greetingText = document.createElement('div');
-        greetingText.id = 'mobile-greeting-text';
-        greetingText.style.cssText = `
-            font-size: 32px;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        `;
-        greetingText.textContent = 'Good morning';
-
-        let userName = document.createElement('div');
-        userName.id = 'mobile-greeting-name';
-        userName.style.cssText = `
-            font-size: 48px;
-            font-weight: bold;
-            color: #29abe2;
-        `;
-
-        overlay.appendChild(greetingText);
-        overlay.appendChild(userName);
-        document.body.appendChild(overlay);
-    }
-
-    let storedUser = localStorage.getItem('currentUser');
-    if (storedUser) {
-        let user = JSON.parse(storedUser);
-        let nameElement = document.getElementById('mobile-greeting-name');
-
-        if (user.isGuest) {
-            nameElement.textContent = '';
-        } else {
-            nameElement.textContent = user.name || '';
-        }
-    }
-
+/**
+ * Hides the greeting overlay after a short delay and removes the session flag.
+ *
+ * @function hideGreetingOverlayAfterDelay
+ */
+function hideGreetingOverlayAfterDelay() {
     setTimeout(() => {
         let overlay = document.getElementById('mobile-greeting-overlay');
         if (overlay) {
-            overlay.style.opacity = '0';
             overlay.style.transition = 'opacity 0.5s ease';
-
+            overlay.style.opacity = '0';
             setTimeout(() => {
-                if (overlay && overlay.parentNode) {
-                    overlay.parentNode.removeChild(overlay);
-                }
+                overlay.remove();
                 sessionStorage.removeItem('newLogin');
             }, 500);
         }
@@ -253,5 +210,6 @@ function showMobileGreeting() {
 }
 
 window.addEventListener('load', () => {
+    updateGreetingMessage();
     showMobileGreeting();
 });
