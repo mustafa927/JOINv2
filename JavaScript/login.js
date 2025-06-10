@@ -13,6 +13,13 @@ function showError(elementId, message) {
     if (errorElement) {
         errorElement.textContent = message;
         errorElement.style.display = 'block';
+        
+        // Setze roten Rahmen für das entsprechende Input-Feld
+        if (elementId === 'login-email-error') {
+            document.getElementById('email').style.border = '1px solid #ff0000';
+        } else if (elementId === 'login-password-error') {
+            document.getElementById('password').style.border = '1px solid #ff0000';
+        }
     }
 }
 
@@ -179,10 +186,23 @@ function handleGuestLogin() {
     window.location.href = 'summary.html';
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     const loginButton = document.querySelector('.btn-primary');
     const guestLoginButton = document.querySelector('.btn-secondary');
+
+    // Event-Listener für Email-Feld
+    document.getElementById('email').addEventListener('input', function() {
+        document.getElementById('login-email-error').style.display = 'none';
+        this.style.border = '1px solid #D1D1D1';
+    });
+
+    // Event-Listener für Passwort-Feld
+    document.getElementById('password').addEventListener('input', function() {
+        document.getElementById('login-password-error').style.display = 'none';
+        this.style.border = '1px solid #D1D1D1';
+    });
+
     if (loginForm) loginForm.addEventListener('submit', handleLogin);
     if (loginButton) loginButton.addEventListener('click', handleLogin);
     if (guestLoginButton) guestLoginButton.addEventListener('click', handleGuestLogin);
