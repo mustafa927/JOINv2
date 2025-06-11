@@ -83,7 +83,7 @@ function createTaskCard(task) {
       <div class="card-description">${task.description || ""}</div>
   
 
-      ${done > 0 ? `
+      ${total > 0 ? `
         <div class="card-footer">
           <div class="progress">
             <div class="progress-bar" style="width: ${progressPercent}%"></div>
