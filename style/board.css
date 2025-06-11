@@ -46,7 +46,7 @@ h1 {
 /* Hauptbereich */
 main {
   flex-grow: 1;
-  background-color: #fff;
+  background-color: #f4f6f8;
   margin-top: 90px;
   padding-top: 0 !important;
   display: flex;
@@ -803,7 +803,7 @@ h1 {
     display: flex;
     overflow-x: auto;
     min-height: 200px;
-    width: 95vw;
+    width: 91vw;
     gap: 12px;
     padding-bottom: 8px;
     scroll-snap-type: x mandatory;
