@@ -745,13 +745,11 @@ background-color: white;
    
   }
 
-
-
   .card-bucket {
     display: flex;
     overflow-x: auto;
     min-height: 200px;
-    width: 72vw;
+    width: 71vw;
     gap: 12px;
     padding-bottom: 8px;
     scroll-snap-type: x mandatory;
