@@ -868,3 +868,15 @@ h1 {
     padding-bottom: 100px;
 }
 }
+
+@media (min-width: 1145px) and (max-width: 1159px) {
+  .board-cards {
+    gap: 0;
+  }
+}
+
+@media (min-width: 894px) and (max-width: 896px) {
+  .card-bucket {
+    width:71vw !important;
+  }
+}
