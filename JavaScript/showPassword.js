@@ -6,12 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             input: document.getElementById('password'),
             toggle: document.getElementById('togglePassword'),
-            lock: document.getElementById('lockIconPassword')
+            lock: document.querySelector('#password + .input-icon')
         },
         {
             input: document.getElementById('confirmPassword'),
             toggle: document.getElementById('toggleConfirmPassword'),
-            lock: document.getElementById('lockIconConfirm')
+            lock: document.querySelector('#confirmPassword + .input-icon')
         }
     ];
 
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * Sets up a password field with toggle functionality
- * @param {Object} field - The field object containing input, toggle, and lock elements
+ * @param {Object} field - The field object containing input and toggle elements
  * @param {string} lookOn - The path to the visibility off icon
  * @param {string} lookOff - The path to the visibility on icon
  */
@@ -43,7 +43,7 @@ function setupPasswordField(field, lookOn, lookOff) {
 function handleInput(field, lookOn) {
     if (field.input.value.length > 0) {
         field.toggle.style.display = 'block';
-        field.lock.style.visibility = 'hidden';
+        field.lock.style.display = 'none';
     } else {
         resetField(field, lookOn);
     }
@@ -73,7 +73,7 @@ function togglePassword(field, lookOn, lookOff) {
 function initialIconState(field, lookOn) {
     if (field.input.value.length > 0) {
         field.toggle.style.display = 'block';
-        field.lock.style.visibility = 'hidden';
+        field.lock.style.display = 'none';
     } else {
         resetField(field, lookOn);
     }
@@ -86,7 +86,7 @@ function initialIconState(field, lookOn) {
  */
 function resetField(field, lookOn) {
     field.toggle.style.display = 'none';
-    field.lock.style.visibility = 'visible';
+    field.lock.style.display = 'block';
     field.input.type = 'password';
     field.toggle.src = lookOn;
 }

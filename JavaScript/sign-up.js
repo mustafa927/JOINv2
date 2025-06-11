@@ -12,10 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
     setupToggleIcons();
     document.getElementById('name').addEventListener('input', function() {
         document.getElementById('name-error').style.display = 'none';
+        this.style.border = '1px solid #D1D1D1';
     });
     document.getElementById('email').addEventListener('input', function() {
         document.getElementById('email-error').style.display = 'none';
         document.getElementById('email-format-error').style.display = 'none';
+        this.style.border = '1px solid #D1D1D1';
     });
     document.getElementById('password').addEventListener('input', function() {
         const password = this.value;
@@ -23,6 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.getElementById('password-error').style.display = 'none';
         document.getElementById('password-length-error').style.display = 'none';
+        document.getElementById('password-weak-error').style.display = 'none';
+        this.style.border = '1px solid #D1D1D1';
         
         if (password.length > 0) {
             if (isPasswordWeak(password)) {
@@ -37,6 +41,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('confirmPassword').addEventListener('input', function() {
         document.getElementById('confirm-password-error').style.display = 'none';
         document.getElementById('password-match-error').style.display = 'none';
+        this.style.border = '1px solid #D1D1D1';
+    });
+    document.getElementById('privacy-policy').addEventListener('change', function() {
+        if (this.checked) {
+            document.getElementById('privacy-error').style.display = 'none';
+        }
     });
 });
 
@@ -143,6 +153,17 @@ function showError(id, msg, inputId) {
         el.style.display = 'block';
         if (msg) el.textContent = msg;
         if (inputId) document.getElementById(inputId).classList.add('error');
+        
+        // Setze roten Rahmen für das entsprechende Input-Feld
+        if (id === 'name-error') {
+            document.getElementById('name').style.border = '1px solid #ff0000';
+        } else if (id === 'email-error' || id === 'email-format-error') {
+            document.getElementById('email').style.border = '1px solid #ff0000';
+        } else if (id === 'password-error' || id === 'password-length-error' || id === 'password-weak-error') {
+            document.getElementById('password').style.border = '1px solid #ff0000';
+        } else if (id === 'confirm-password-error' || id === 'password-match-error') {
+            document.getElementById('confirmPassword').style.border = '1px solid #ff0000';
+        }
     }
 }
 

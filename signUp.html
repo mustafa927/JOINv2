@@ -51,19 +51,21 @@
                 <div class="input-wrapper">
                     <input type="password" id="password" name="password" placeholder="Password" required minlength="6">
                     <img src="svg/lock.svg" alt="Password icon" class="input-icon">
-                    <img src="svg/visibility.svg" alt="Show Password" id="togglePassword" class="visibility-icon">
+                    <img src="svg/visibility.svg" alt="Show Password" id="togglePassword" class="visibility-icon" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; width: 20px;">
                     <div id="password-error" class="error-message">Please enter a password.</div>
                     <div id="password-length-error" class="error-message">The password must be at least 6 characters long.</div>
                     <div id="password-weak-error" class="error-message">Password is too weak.</div>
                 </div>
             </div>
             
-            <div class="input-field" style="position:relative;">
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required minlength="6">
-                <img src="svg/lock.svg" alt="Password icon" class="input-icon" id="lockIconConfirm" style="position:absolute; top:50%; transform:translateY(-50%); width:20px;">
-                <img src="svg/visibility.svg" alt="Show Password" id="toggleConfirmPassword" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); cursor:pointer; width:20px; display:none;">
-                <div id="confirm-password-error" class="error-message">Please confirm your password.</div>
-                <div id="password-match-error" class="error-message">Your passwords do not match.</div>
+            <div class="input-field">
+                <div class="input-wrapper">
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required minlength="6">
+                    <img src="svg/lock.svg" alt="Password icon" class="input-icon">
+                    <img src="svg/visibility.svg" alt="Show Password" id="toggleConfirmPassword" class="visibility-icon" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; width: 20px;">
+                    <div id="confirm-password-error" class="error-message">Please confirm your password.</div>
+                    <div id="password-match-error" class="error-message">Your passwords do not match.</div>
+                </div>
             </div>
             
             <div class="privacy-checkbox">
