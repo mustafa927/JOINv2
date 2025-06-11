@@ -390,11 +390,3 @@ body {
         background-color: #F6F7F8;
     }
 }
-
-.content-container {
-    max-width: 1440px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 20px;
-    box-sizing: border-box;
-}
