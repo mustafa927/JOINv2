@@ -142,7 +142,9 @@ async function assignedToInput() {
   let res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
   let data = await res.json();
   allUsers = Object.entries(data).map(([id, user]) => ({ id, ...user }));
-  renderUserList();
+  if (window.location.pathname.endsWith("addTask.html")) {
+    renderUserList();
+  }
 }
 
 /**
