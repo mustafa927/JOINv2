@@ -29,7 +29,6 @@ body {
   
 }
 
-/* Ergänzung für die Begrenzung auf 1920px */
 .content-wrapper {
   max-width: 1920px;
   margin: 0 auto;
