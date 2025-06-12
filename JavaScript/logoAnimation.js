@@ -10,7 +10,6 @@
  * - `.main-content`: the primary container for visible content
  * - `.splash-screen`: the animated or delayed splash screen
  */
-
 document.addEventListener('DOMContentLoaded', function() {
     const isIndexPage = checkIfIndexPage();
     const mainContent = document.querySelector('.main-content');
@@ -27,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
  * checks if current page is index.html
  * @returns 
  */
-
 function checkIfIndexPage() {
     return window.location.pathname.includes('index.html') || 
            window.location.pathname === '/' || 
@@ -45,7 +43,6 @@ function isInternalNavigation() {
     const currentDomain = window.location.origin;
     return referrer.startsWith(currentDomain) && referrer !== '';
 }
-
 
 /**
  * Handles the loading behavior of the index page depending on navigation type.
@@ -82,7 +79,6 @@ function showSplashAnimation(mainContent, splashScreen) {
     }, 1000);
 }
 
-
 /**
  * Immediately hides the splash screen and displays the main content.
  * Used when the splash animation is not needed (e.g., during internal navigation).
@@ -90,7 +86,6 @@ function showSplashAnimation(mainContent, splashScreen) {
  * @param {HTMLElement} mainContent - The main content element to make visible.
  * @param {HTMLElement} splashScreen - The splash screen element to hide.
  */
-
 function showContentImmediately(mainContent, splashScreen) {
     if (splashScreen) splashScreen.style.display = 'none';
     if (mainContent) mainContent.classList.add('visible');

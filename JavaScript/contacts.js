@@ -45,7 +45,6 @@ async function fetchData() {
   document.getElementById('new-contact').classList.remove('d_none');
 }
 
-
 /**
  * Renders the list of contacts grouped by the first letter.
  * sorts from a - z
@@ -53,10 +52,8 @@ async function fetchData() {
 function renderContacts() {
   let panel = document.getElementById("contactPanel");
   panel.innerHTML = "";
-
   allContacts.sort((a, b) => a.name.localeCompare(b.name));
   let grouped = groupByLetter(allContacts);
-
   for (let letter in grouped) {
     panel.innerHTML += contactGroupTemplate(letter);
     grouped[letter].forEach(c => {
@@ -64,7 +61,6 @@ function renderContacts() {
     });
   }
 }
-
 
 /**
  * Groups contacts by the first letter of their name.
@@ -95,13 +91,11 @@ function toggleShowContact(name) {
     toggleShowContactMobile(name);
     return;
   }
-
   if (currentlyOpenContact === name) {
     closeContactOverlay();
   } else {
     showContact(name);
     currentlyOpenContact = name;
-
     let contactElement = Array.from(allContactElements).find(el =>
       el.textContent.includes(name)
     );
@@ -158,48 +152,95 @@ function editContact(name) {
  */
 function handleContactFormSubmit(event) {
   event.preventDefault();
-
   const isValid = validateContactForm();
   if (isValid) {
     saveContact();
   }
 }
 
-
 /**
- * Updates an existing contact in Firebase, using HTML5 form validation.
+ * Updates an existing contact in Firebase after validating the form.
  * 
  * @param {string} name - The original name or ID of the contact.
  * @async
  */
 async function updateContact(name) {
   const form = document.getElementById("contactForm");
-
-  if (!form.checkValidity()) {
-    form.reportValidity();
-    return;
-  }
-
-  const { name: newName, email, phone } = getInputValues();
-  const res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
-  const data = await res.json();
-  const [key] = Object.entries(data || {}).find(([_, val]) => val.name === name || val.id === name) || [];
-
-  if (!key) {
+  if (!isFormValid(form)) return;
+  const contactData = getUpdatedContactData();
+  const contactKey = await getContactKeyByName(name);
+  if (!contactKey) {
     alert("Contact not found.");
     return;
   }
+  await updateContactInFirebase(contactKey, contactData);
+  await finalizeContactUpdate(contactData.name);
+}
 
+/**
+ * Validates the contact form using HTML5 form validation.
+ * 
+ * @param {HTMLFormElement} form - The contact form element.
+ * @returns {boolean} - True if form is valid, false otherwise.
+ */
+function isFormValid(form) {
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Extracts updated contact data from the form inputs.
+ * 
+ * @returns {{name: string, email: string, phone: string}} - The updated contact information.
+ */
+function getUpdatedContactData() {
+  const { name, email, phone } = getInputValues();
+  return { name, email, phone };
+}
+
+/**
+ * Fetches the contact key from Firebase based on the original name or ID.
+ * 
+ * @param {string} name - The original name or ID of the contact.
+ * @returns {Promise<string | null>} - The contact key or null if not found.
+ */
+async function getContactKeyByName(name) {
+  const res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
+  const data = await res.json();
+  const [key] = Object.entries(data || {}).find(([_, val]) => val.name === name || val.id === name) || [];
+  return key || null;
+}
+
+/**
+ * Updates the contact data in Firebase.
+ * 
+ * @param {string} key - The contact key in Firebase.
+ * @param {Object} contactData - The updated contact information.
+ * @async
+ */
+async function updateContactInFirebase(key, contactData) {
   await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person/${key}.json`, {
     method: "PUT",
-    body: JSON.stringify({ name: newName, email, phone }),
+    body: JSON.stringify(contactData),
     headers: { "Content-Type": "application/json" }
   });
-
-  await fetchData();       
-  closeOverlay();        
-  showContact(newName);     
 }
+
+/**
+ * Finalizes the contact update process, including data refresh and UI update.
+ * 
+ * @param {string} newName - The updated name of the contact.
+ * @async
+ */
+async function finalizeContactUpdate(newName) {
+  await fetchData();
+  closeOverlay();
+  showContact(newName);
+}
+
 
 /**
  * Deletes a contact from Firebase.
@@ -210,13 +251,11 @@ async function deleteContact(name) {
   let res = await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json");
   let data = await res.json();
   let [key] = Object.entries(data || {}).find(([_, val]) => val.name === name) || [];
-
   if (!key) return;
 
   await fetch(`https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person/${key}.json`, {
     method: "DELETE"
   });
-
   closeContactOverlay();
   fetchData();
   closeOverlay();
@@ -280,9 +319,7 @@ function showSuccessMessage() {
 function toggleShowContactMobile(name) {
   let contact = allContacts.find(c => c.name === name);
   if (!contact) return;
-
   currentlyOpenContact = name; 
-
   document.getElementById("addContactForm").innerHTML = contactDetailTemplate(contact);
   openModal("modalBackdrop");
 }
@@ -293,7 +330,6 @@ function toggleShowContactMobile(name) {
  */
 function toggleContactMenu() {
   const menu = document.getElementById("contactMenu");
-
   if (menu.style.display === "flex") {
     menu.style.display = "none";
     menu.style.animation = "";
@@ -307,7 +343,6 @@ function toggleContactMenu() {
  * Handles responsive changes when resizing the browser.
  * Closes the mobile modal view on desktop.
  */
-
 window.addEventListener("resize", function () {
   let backdrop = document.getElementById("modalBackdrop");
   let addContactForm = document.getElementById("addContactForm");
@@ -336,22 +371,29 @@ function showSuccessImage() {
   }, 3000);
 }
 
+/**
+ * Global click event handler to toggle the visibility of the contact menu.
+ * - Toggles the contact menu when the toggle button is clicked.
+ * - Closes the menu if a click occurs inside the form while the menu is open.
+ * - Ignores clicks if essential DOM elements are missing.
+ * 
+ * @param {MouseEvent} event - The click event triggered anywhere in the document.
+ */
 document.addEventListener("click", function (event) {
   const form = document.getElementById("addContactForm");
   const menu = document.getElementById("contactMenu");
   const toggle = document.getElementById("menu-contact-options");
 
   if (!form || !menu || !toggle) return;
+
   const clickedInsideForm = form.contains(event.target);
   const menuIsVisible = menu.style.display === "flex";
   const clickedOnToggle = toggle.contains(event.target);
 
   if (clickedOnToggle) {
-    
     toggleContactMenu();
     event.stopPropagation(); 
   } else if (clickedInsideForm && menuIsVisible) {
     toggleContactMenu(); 
   }
 }, true);
-

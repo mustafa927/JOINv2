@@ -4,51 +4,102 @@ import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-
 import { updateUserInitials } from './userInitials.js';
 
 /**
- * Sets up event listeners when the DOM is loaded
+ * Initializes all signup form event listeners when DOM is loaded.
  */
-document.addEventListener('DOMContentLoaded', function() {
-    const signupButton = document.getElementById('signupButton');
+document.addEventListener('DOMContentLoaded', function () {
+    initSignupFormEvents();
+});
+
+/**
+ * Sets up core event listeners for signup button and form inputs.
+ */
+function initSignupFormEvents() {
+    let signupButton = document.getElementById('signupButton');
     if (signupButton) signupButton.addEventListener('click', handleSignUp);
+
     setupToggleIcons();
-    document.getElementById('name').addEventListener('input', function() {
+    setupNameInputListener();
+    setupEmailInputListener();
+    setupPasswordInputListener();
+    setupConfirmPasswordListener();
+    setupPrivacyCheckboxListener();
+}
+
+/**
+ * Handles real-time validation on the name input field.
+ */
+function setupNameInputListener() {
+    let nameInput = document.getElementById('name');
+    nameInput.addEventListener('input', function () {
         document.getElementById('name-error').style.display = 'none';
         this.style.border = '1px solid #D1D1D1';
     });
-    document.getElementById('email').addEventListener('input', function() {
+}
+
+/**
+ * Handles real-time validation on the email input field.
+ */
+function setupEmailInputListener() {
+    let emailInput = document.getElementById('email');
+    emailInput.addEventListener('input', function () {
         document.getElementById('email-error').style.display = 'none';
         document.getElementById('email-format-error').style.display = 'none';
         this.style.border = '1px solid #D1D1D1';
     });
-    document.getElementById('password').addEventListener('input', function() {
-        const password = this.value;
-        const weakError = document.getElementById('password-weak-error');
-        
-        document.getElementById('password-error').style.display = 'none';
-        document.getElementById('password-length-error').style.display = 'none';
-        document.getElementById('password-weak-error').style.display = 'none';
+}
+
+/**
+ * Handles real-time password input and weakness validation.
+ */
+function setupPasswordInputListener() {
+    let passwordInput = document.getElementById('password');
+    passwordInput.addEventListener('input', function () {
+        let password = this.value;
+        let weakError = document.getElementById('password-weak-error');
+
+        clearPasswordErrors();
         this.style.border = '1px solid #D1D1D1';
-        
+
         if (password.length > 0) {
-            if (isPasswordWeak(password)) {
-                weakError.style.display = 'block';
-            } else {
-                weakError.style.display = 'none';
-            }
+            weakError.style.display = isPasswordWeak(password) ? 'block' : 'none';
         } else {
             weakError.style.display = 'none';
         }
     });
-    document.getElementById('confirmPassword').addEventListener('input', function() {
+}
+
+/**
+ * Clears all password-related error messages.
+ */
+function clearPasswordErrors() {
+    document.getElementById('password-error').style.display = 'none';
+    document.getElementById('password-length-error').style.display = 'none';
+    document.getElementById('password-weak-error').style.display = 'none';
+}
+
+/**
+ * Clears error messages for confirm password input.
+ */
+function setupConfirmPasswordListener() {
+    let confirmInput = document.getElementById('confirmPassword');
+    confirmInput.addEventListener('input', function () {
         document.getElementById('confirm-password-error').style.display = 'none';
         document.getElementById('password-match-error').style.display = 'none';
         this.style.border = '1px solid #D1D1D1';
     });
-    document.getElementById('privacy-policy').addEventListener('change', function() {
+}
+
+/**
+ * Hides privacy policy error when checkbox is checked.
+ */
+function setupPrivacyCheckboxListener() {
+    let checkbox = document.getElementById('privacy-policy');
+    checkbox.addEventListener('change', function () {
         if (this.checked) {
             document.getElementById('privacy-error').style.display = 'none';
         }
     });
-});
+}
 
 /**
  * Resets all error messages and styling
@@ -153,8 +204,6 @@ function showError(id, msg, inputId) {
         el.style.display = 'block';
         if (msg) el.textContent = msg;
         if (inputId) document.getElementById(inputId).classList.add('error');
-        
-        // Setze roten Rahmen für das entsprechende Input-Feld
         if (id === 'name-error') {
             document.getElementById('name').style.border = '1px solid #ff0000';
         } else if (id === 'email-error' || id === 'email-format-error') {
@@ -261,8 +310,14 @@ function setupToggleIcons() {
     });
 }
 
+/**
+ * Checks if a password is considered weak based on character composition.
+ * A strong password must include at least one uppercase letter, one lowercase letter, and one number.
+ *
+ * @param {string} password - The password string to evaluate.
+ * @returns {boolean} - Returns true if the password is weak, otherwise false.
+ */
 function isPasswordWeak(password) {
-    // Überprüft, ob das Passwort mindestens einen Großbuchstaben, einen Kleinbuchstaben und eine Zahl enthält
     const hasUpperCase = /[A-Z]/.test(password);
     const hasLowerCase = /[a-z]/.test(password);
     const hasNumbers = /\d/.test(password);

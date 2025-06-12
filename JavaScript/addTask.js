@@ -1,3 +1,14 @@
+import {
+  clearForm,
+  clearTextFields,
+  resetCategorySelection,
+  resetPriorityButtons,
+  clearAssignedUsers,
+  clearSubtaskList,
+  resetAssignedDropdown,
+  setDefaultPriority
+} from "./formUtils.js";
+
 import { auth } from "./firebase.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
@@ -6,36 +17,60 @@ let priorityButtons = document.querySelectorAll(".priority-btn");
 let activeButton = null;
 
 /**
+ * onload functions get tasks and dropdown selection of users
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  fetchDataTasks();
+  assignedToInput();
+});
+/**
  * Handles the click event on a priority button.
- * Updates the active class and icon based on current state.
+ * Toggles the active state and updates the corresponding icon.
  * @param {HTMLElement} button - The clicked priority button.
  */
 function handlePriorityClick(button) {
-  let isActive = button.classList.contains("active-urgent") ||
-                 button.classList.contains("active-medium") ||
-                 button.classList.contains("active-low");
-
-  priorityButtons.forEach(btn => {
-    btn.classList.remove("active-urgent", "active-medium", "active-low");
-    if (btn.classList.contains("urgent")) {
-      btn.querySelector("img").src = "svg/urgent.svg";
-    } else if (btn.classList.contains("medium")) {
-      btn.querySelector("img").src = "svg/medium.svg";
-    } else if (btn.classList.contains("low")) {
-      btn.querySelector("img").src = "svg/low.svg";
-    }
-  });
+  let isActive = isPriorityButtonActive(button);
+  resetPriorityButtons();
 
   if (!isActive) {
-    let activeClass = getActiveClass(button);
-    button.classList.add(activeClass);
-    if (button.classList.contains("urgent")) {
-      button.querySelector("img").src = "svg/urgentwhite.svg";
-    } else if (button.classList.contains("medium")) {
-      button.querySelector("img").src = "svg/mediumwhite.svg";
-    } else if (button.classList.contains("low")) {
-      button.querySelector("img").src = "svg/lowwhite.svg";
-    }
+    activatePriorityButton(button);
+  }
+}
+
+/**
+ * Checks whether a button is currently marked as active.
+ * @param {HTMLElement} button - The priority button to check.
+ * @returns {boolean} True if the button is active, otherwise false.
+ */
+function isPriorityButtonActive(button) {
+  return button.classList.contains("active-urgent") ||
+         button.classList.contains("active-medium") ||
+         button.classList.contains("active-low");
+}
+
+/**
+ * Activates the clicked priority button and updates its icon to the active version.
+ * @param {HTMLElement} button - The button to activate.
+ */
+function activatePriorityButton(button) {
+  let activeClass = getActiveClass(button);
+  button.classList.add(activeClass);
+  updatePriorityIcon(button, true);
+}
+
+/**
+ * Updates the icon of a priority button depending on its type and active state.
+ * @param {HTMLElement} button - The button whose icon should be updated.
+ * @param {boolean} isActive - Whether to use the active (white) icon.
+ */
+function updatePriorityIcon(button, isActive) {
+  let icon = button.querySelector("img");
+  if (button.classList.contains("urgent")) {
+    icon.src = isActive ? "svg/urgentwhite.svg" : "svg/urgent.svg";
+  } else if (button.classList.contains("medium")) {
+    icon.src = isActive ? "svg/mediumwhite.svg" : "svg/medium.svg";
+  } else if (button.classList.contains("low")) {
+    icon.src = isActive ? "svg/lowwhite.svg" : "svg/low.svg";
   }
 }
 
@@ -228,110 +263,39 @@ function getCurrentUser() {
 window.getCurrentUser = getCurrentUser;
 
 /**
- * Clears the entire task creation form and resets UI components.
+ * Initializes the page once the DOM is fully loaded.
+ * Sets up event listeners, parses URL parameters, and configures initial task status.
  */
-function clearForm() {
-  clearTextFields();
-  resetCategorySelection();
-  resetPriorityButtons();
-  clearAssignedUsers();
-  clearSubtaskList();
-  resetAssignedDropdown();
-  setDefaultPriority();
-}
-
-/**
- * Clears the input values for the title, description, and due date fields.
- */
-function clearTextFields() {
-  ["title", "desc", "due-date"].forEach(id => {
-    let input = document.getElementById(id);
-    if (input) input.value = "";
-  });
-}
-
-/**
- * Resets the task category selection to its default placeholder.
- */
-function resetCategorySelection() {
-  let category = document.getElementById("selected-category");
-  if (category) {
-    category.textContent = "Select task category";
-    category.classList.add("category-placeholder");
-  }
-}
-
-/**
- * Resets all priority buttons to their default (inactive) state and icons.
- */
-function resetPriorityButtons() {
-  document.querySelectorAll(".priority-btn").forEach(btn => {
-    btn.classList.remove("active-urgent", "active-medium", "active-low");
-    let img = btn.querySelector("img");
-    if (btn.classList.contains("urgent")) img.src = "svg/urgent.svg";
-    if (btn.classList.contains("medium")) img.src = "svg/medium.svg";
-    if (btn.classList.contains("low")) img.src = "svg/low.svg";
-  });
-}
-
-/**
- * Unchecks all assigned user checkboxes and clears the avatar display.
- */
-function clearAssignedUsers() {
-  document.querySelectorAll(".assigned-checkbox").forEach(box => {
-    box.checked = false;
-    box.closest(".assigned-row")?.classList.remove("active");
-  });
-  document.getElementById("selected-avatars").innerHTML = "";
-}
-
-/**
- * Clears the list of subtasks and resets the subtasks display container.
- */
-function clearSubtaskList() {
-  window.subtasks = [];
-  document.getElementById("subtask-list").innerHTML = "";
-}
-
-/**
- * Resets the assigned user dropdown to its initial closed state and clears the search field.
- */
-function resetAssignedDropdown() {
-  document.getElementById("assigned-search").value = "";
-  document.querySelector(".assigned-dropdown")?.classList.remove("open");
-  document.getElementById("assigned-list")?.classList.add("d-none");
-}
-
-/**
- * Activates the medium priority button by default and sets its icon to the highlighted version.
- */
-function setDefaultPriority() {
-  let mediumBtn = document.querySelector(".priority-btn.medium");
-  if (mediumBtn) {
-    mediumBtn.classList.add("active-medium");
-    let img = mediumBtn.querySelector("img");
-    if (img) img.src = "svg/mediumwhite.svg";
-  }
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  setupPriorityButtons();
-  setupLogout();
+  setupPriorityButtons(); // Initializes priority button click handling
+  setupLogout(); // Binds logout button or logic
+
   let status = new URLSearchParams(window.location.search).get("status") || "To-Do";
   let statusInput = document.getElementById("task-status");
   if (statusInput) statusInput.value = status;
+
+  // Stores the initial status globally for reference in other scripts
   window.initialTaskStatus = status;
 });
 
+/**
+ * Closes open menus (e.g., dropdowns or overlays) when the user clicks outside of them.
+ * Useful for dismissing open UI elements on unfocused clicks.
+ * @param {MouseEvent} event - The click event object.
+ */
 document.addEventListener("click", closeMenuOnOutsideClick);
 
-window.clearForm = clearForm;
-window.toggleMenu = toggleMenu;
-window.toggleAssignedDropdown = toggleAssignedDropdown;
-window.assignedToInput = assignedToInput;
-window.toggleCheckbox = toggleCheckbox;
-window.openAssignedDropdown = openAssignedDropdown;
-window.filterAssignedList = filterAssignedList;
+/**
+ * Exposes commonly used functions to the global `window` object,
+ * so they can be accessed inline from HTML or other scripts.
+ */
+window.clearForm = clearForm;                         // Clears the task form
+window.toggleMenu = toggleMenu;                       // Opens/closes the mobile menu
+window.toggleAssignedDropdown = toggleAssignedDropdown; // Toggles the assigned-to dropdown
+window.assignedToInput = assignedToInput;             // Handles input in assigned-to field
+window.toggleCheckbox = toggleCheckbox;               // Toggles selection state of a checkbox
+window.openAssignedDropdown = openAssignedDropdown;   // Opens the assigned dropdown manually
+window.filterAssignedList = filterAssignedList;       // Filters assigned list entries by search
 
 /**
  * Generates HTML for a user row in the assign dropdown.
@@ -365,21 +329,37 @@ function avatarTemplate(name) {
   return `<div class="selected-avatar" style="background-color: ${color}">${initials}</div>`;
 }
 
+/**
+ * Sets up the "assigned-select" dropdown once the DOM is fully loaded.
+ * Currently retrieves the element but does not yet perform actions.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   let dropdown = document.getElementById("assigned-select");
 });
 
+/**
+ * Handles clicks on the document to close the assigned dropdown if the user clicks outside.
+ * Ensures the dropdown closes and the list is hidden when focus is lost.
+ * 
+ * @param {MouseEvent} event - The click event triggered by the user.
+ */
 document.addEventListener("click", function (event) {
   let dropdown = document.querySelector(".assigned-dropdown");
   let assignedList = document.getElementById("assigned-list");
+
   if (dropdown && !dropdown.contains(event.target)) {
     dropdown.classList.remove("open");
     assignedList.classList.add("d-none");
   }
 });
 
+/**
+ * Sets the minimum date for the due date input field to today’s date.
+ * Prevents users from selecting past dates.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   let dueDateInput = document.getElementById("due-date");
+
   if (dueDateInput) {
     let today = new Date().toISOString().split("T")[0];
     dueDateInput.setAttribute("min", today);
@@ -402,6 +382,12 @@ function toggleCategoryDropdown(event) {
   }
 }
 
+/**
+ * Closes the category dropdown menu when the user clicks outside of it.
+ * Prevents the dropdown from staying open if focus is lost.
+ *
+ * @param {MouseEvent} event - The click event triggered by the user.
+ */
 document.addEventListener("click", function (event) {
   let dropdown = document.getElementById("category-dropdown");
   if (dropdown && !dropdown.contains(event.target)) {
@@ -420,8 +406,15 @@ function selectCategory(category) {
   document.getElementById("category-options").classList.add("d-none");
 }
 
+/**
+ * Exposes the selectCategory function globally so it can be used in inline HTML (e.g. onClick).
+ */
 window.selectCategory = selectCategory;
 
+/**
+ * Sets the minimum selectable date for the due date input field to today's date.
+ * Ensures users cannot select a past date.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   let dueDateInput = document.getElementById("due-date");
   if (dueDateInput) {
@@ -430,14 +423,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+/**
+ * Adds focus and dropdown functionality to the category selection input.
+ * Opens the dropdown on click and closes it when clicking outside.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   let categorySelect = document.querySelector(".category-select");
+
   if (categorySelect) {
+    // Handle click on the category select input
     categorySelect.addEventListener("click", (event) => {
       categorySelect.classList.add("input-focus");
       toggleCategoryDropdown(event);
     });
 
+    /**
+     * Closes the category dropdown if the user clicks outside the category input.
+     * Removes visual focus and hides the dropdown options.
+     *
+     * @param {MouseEvent} event - The click event on the document.
+     */
     document.addEventListener("click", (event) => {
       if (!categorySelect.contains(event.target)) {
         categorySelect.classList.remove("input-focus");

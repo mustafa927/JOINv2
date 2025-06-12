@@ -1,5 +1,3 @@
-
-
 window.allTasks = []; 
 
 /**
@@ -23,14 +21,12 @@ let newTask = {
   subtasks: {}
 };
 
-
 /**
  * Fetches tasks from Firebase and stores them in the global `allTasks` array.
  * 
  * @async
  */
 async function fetchDataTasks() {
- 
   let response = await fetch(
     "https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/Tasks.json"
   );
@@ -109,17 +105,13 @@ function enrichTasksWithPeople(tasksData, peopleData) {
   });
 }
 
-
-
 /**
  * Validates form fields, builds task, submits it and redirects.
  * 
  */
 function createTaskFromForm() {
   if (!validateRequiredFields()) return;
-
   const newTask = buildNewTask();
-
   addNewTask(newTask);
   showSuccessMessage();
   redirectToBoard();
@@ -137,7 +129,6 @@ function validateRequiredFields() {
   if (!validateDueDate()) isValid = false;
   if (!validateCategoryField()) isValid = false;
   if (!validatePrioritySelection()) isValid = false;
-
   return isValid;
 }
 
@@ -145,34 +136,28 @@ function validateCategoryField() {
   const categoryElement = document.getElementById("selected-category");
   const wrapper = document.querySelector(".category-select");
   const error = document.getElementById("category-error");
-
   const categoryText = categoryElement.textContent.trim();
   const isValid = categoryText !== "Select task category";
-
   if (!isValid) {
     wrapper.classList.add("input-error");
     error.classList.remove("invisible");
-
     setTimeout(() => {
       wrapper.classList.remove("input-error");
       error.classList.add("invisible");
     }, 3000);
-
     return false;
   }
-
   wrapper.classList.remove("input-error");
   error.classList.add("invisible");
   return true;
 }
 
-
 /**
- * Validates a single input field.
+ * Validates a single input field and shows a temporary error highlight if invalid.
  * 
- * @param {string} inputId - ID of input element
- * @param {string} errorId - ID of error element
- * @returns {boolean} - True if valid
+ * @param {string} inputId - The ID of the input element to validate.
+ * @param {string} errorId - The ID of the associated error message element.
+ * @returns {boolean} - Returns true if the input is valid, false otherwise.
  */
 function validateFieldWithHighlight(inputId, errorId) {
   const input = document.getElementById(inputId);
@@ -181,16 +166,8 @@ function validateFieldWithHighlight(inputId, errorId) {
   if (!input || !error) return false;
 
   const value = input.value.trim();
-
   if (!value) {
-    input.classList.add("input-error");
-    error.classList.remove("invisible");
-
-    setTimeout(() => {
-      input.classList.remove("input-error"); // ← das hier ergänzt
-      error.classList.add("invisible");
-    }, 3000);
-
+    showTemporaryError(input, error);
     return false;
   }
 
@@ -199,33 +176,71 @@ function validateFieldWithHighlight(inputId, errorId) {
   return true;
 }
 
+/**
+ * Applies error styling and shows an error message for a limited time.
+ * 
+ * @param {HTMLElement} input - The input element to highlight.
+ * @param {HTMLElement} error - The error message element to display.
+ */
+function showTemporaryError(input, error) {
+  input.classList.add("input-error");
+  error.classList.remove("invisible");
+  setTimeout(() => {
+    input.classList.remove("input-error");
+    error.classList.add("invisible");
+  }, 3000);
+}
+
+/**
+ * Validates the due date input field.
+ * Ensures the date is set and not in the past.
+ * 
+ * @returns {boolean} - True if the date is valid, false otherwise.
+ */
 function validateDueDate() {
   const input = document.getElementById("due-date");
   const error = document.getElementById("date-error");
   const value = input.value;
 
+  if (!input || !error || !value) return showDateError(input, error);
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const inputDate = new Date(value);
 
-  if (!value || inputDate < today) {
-    input.classList.add("input-error");
-    error.textContent = "Date must be today or in the future";
-    error.classList.remove("invisible");
-
-    setTimeout(() => {
-      input.classList.remove("input-error");
-      error.classList.add("invisible");
-    }, 3000);
-
-    return false;
-  }
+  if (inputDate < today) return showDateError(input, error);
 
   input.classList.remove("input-error");
-  error.classList.add("invisible"); // sicherheitshalber verstecken
+  error.classList.add("invisible");
   return true;
 }
 
+/**
+ * Displays an error for an invalid date input field for a short duration.
+ * 
+ * @param {HTMLElement} input - The date input element.
+ * @param {HTMLElement} error - The error message element.
+ * @returns {boolean} - Always returns false.
+ */
+function showDateError(input, error) {
+  input.classList.add("input-error");
+  error.textContent = "Date must be today or in the future";
+  error.classList.remove("invisible");
+
+  setTimeout(() => {
+    input.classList.remove("input-error");
+    error.classList.add("invisible");
+  }, 3000);
+
+  return false;
+}
+
+/**
+ * Validates that one of the priority buttons is selected.
+ * If none is selected, displays a temporary error message.
+ * 
+ * @returns {boolean} - True if a priority is selected, otherwise false.
+ */
 function validatePrioritySelection() {
   const buttons = document.querySelectorAll(".priority-btn");
   const isSelected = Array.from(buttons).some(btn =>
@@ -235,19 +250,24 @@ function validatePrioritySelection() {
   );
 
   const priorityError = document.getElementById("priority-error");
-
-  if (!isSelected) {
-    priorityError.classList.remove("invisible");
-
-    setTimeout(() => {
-      priorityError.classList.add("invisible");
-    }, 3000);
-
-    return false;
-  }
+  if (!isSelected) return showPriorityError(priorityError);
 
   priorityError.classList.add("invisible");
   return true;
+}
+
+/**
+ * Displays the priority error message for a short duration.
+ * 
+ * @param {HTMLElement} errorElement - The element displaying the error.
+ * @returns {boolean} - Always returns false.
+ */
+function showPriorityError(errorElement) {
+  errorElement.classList.remove("invisible");
+  setTimeout(() => {
+    errorElement.classList.add("invisible");
+  }, 3000);
+  return false;
 }
 
 /**
@@ -259,7 +279,6 @@ function showTemporaryError(errorElement) {
   errorElement.classList.remove("d-none");
   setTimeout(() => errorElement.classList.add("d-none"), 3000);
 }
-
 
 /**
  * Form handler for modal-based task creation.
@@ -465,16 +484,19 @@ async function addNewTask(taskData) {
   }
 }
 
-
+/**
+ * Displays a validation error message temporarily.
+ *
+ * @param {string} id - The ID of the HTML element to show as an error.
+ */
 function showValidationError(id) {
   const el = document.getElementById(id);
   if (!el) return;
 
-  el.classList.remove("invisible"); // macht die Fehlermeldung sichtbar
+  el.classList.remove("invisible");
 
   setTimeout(() => {
-    el.classList.add("invisible"); // nach 3 Sekunden wieder unsichtbar
+    el.classList.add("invisible");
   }, 3000);
 }
-
 

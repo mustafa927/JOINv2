@@ -16,12 +16,23 @@ async function handleCreateTask() {
   }, 1500);
 }
 
-
+/**
+ * Displays a validation error by styling the input field and showing the error message.
+ *
+ * @param {HTMLElement} input - The input field to highlight with an error.
+ * @param {HTMLElement} errorElement - The element that displays the error message.
+ */
 function showFieldError(input, errorElement) {
   input.classList.add("input-error");
   errorElement.classList.remove("d-none");
 }
 
+/**
+ * Hides the validation error by removing the error styling and hiding the error message.
+ *
+ * @param {HTMLElement} input - The input field to remove error styling from.
+ * @param {HTMLElement} errorElement - The element that contains the error message to hide.
+ */
 function hideFieldError(input, errorElement) {
   input.classList.remove("input-error");
   errorElement.classList.add("d-none");

@@ -1,33 +1,34 @@
-// Import Firebase modules
 import { auth, db } from './firebase.js';
-import { doc, getDoc, setDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// Database utility for Join application
 const DB_NAME = 'JoinDB';
 const DB_VERSION = 1;
 
-// Database stores
 const STORES = {
     USERS: 'users',
     TASKS: 'tasks',
     CONTACTS: 'contacts'
 };
 
+/**
+ * A wrapper class for managing IndexedDB and syncing with Firestore.
+ */
 class Database {
     constructor() {
         this.db = null;
         this.init();
     }
 
+    /**
+     * Initializes the IndexedDB database and creates necessary object stores.
+     * 
+     * @returns {Promise<IDBDatabase>}
+     */
     async init() {
         return new Promise((resolve, reject) => {
             const request = indexedDB.open(DB_NAME, DB_VERSION);
 
-            request.onerror = (event) => {
-                console.error('Database error:', event.target.error);
-                reject(event.target.error);
-            };
-
+            request.onerror = (event) => reject(event.target.error);
             request.onsuccess = (event) => {
                 this.db = event.target.result;
                 resolve(this.db);
@@ -36,7 +37,6 @@ class Database {
             request.onupgradeneeded = (event) => {
                 const db = event.target.result;
 
-                // Create stores if they don't exist
                 if (!db.objectStoreNames.contains(STORES.USERS)) {
                     db.createObjectStore(STORES.USERS, { keyPath: 'email' });
                 }
@@ -50,7 +50,13 @@ class Database {
         });
     }
 
-    // Generic method to add data to a store
+    /**
+     * Adds a new record to the specified store.
+     * 
+     * @param {string} storeName 
+     * @param {Object} data 
+     * @returns {Promise<number|string>}
+     */
     async add(storeName, data) {
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction(storeName, 'readwrite');
@@ -62,7 +68,13 @@ class Database {
         });
     }
 
-    // Generic method to get data from a store
+    /**
+     * Retrieves a record by key from the specified store.
+     * 
+     * @param {string} storeName 
+     * @param {string|number} key 
+     * @returns {Promise<Object>}
+     */
     async get(storeName, key) {
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction(storeName, 'readonly');
@@ -74,7 +86,13 @@ class Database {
         });
     }
 
-    // Generic method to update data in a store
+    /**
+     * Updates an existing record in the specified store.
+     * 
+     * @param {string} storeName 
+     * @param {Object} data 
+     * @returns {Promise<number|string>}
+     */
     async update(storeName, data) {
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction(storeName, 'readwrite');
@@ -86,7 +104,13 @@ class Database {
         });
     }
 
-    // Generic method to delete data from a store
+    /**
+     * Deletes a record from the specified store.
+     * 
+     * @param {string} storeName 
+     * @param {string|number} key 
+     * @returns {Promise<void>}
+     */
     async delete(storeName, key) {
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction(storeName, 'readwrite');
@@ -98,14 +122,16 @@ class Database {
         });
     }
 
-    // User-specific methods
+    /**
+     * Adds a user to both Firestore and IndexedDB.
+     * 
+     * @param {Object} userData 
+     * @returns {Promise<number|string>}
+     */
     async addUser(userData) {
         try {
-            // First, add to Firestore
             const userDocRef = doc(db, "users", auth.currentUser.uid);
             await setDoc(userDocRef, userData);
-            
-            // Then add to IndexedDB
             return this.add(STORES.USERS, userData);
         } catch (error) {
             console.error('Error adding user:', error);
@@ -113,17 +139,21 @@ class Database {
         }
     }
 
+    /**
+     * Retrieves a user by email from Firestore or falls back to IndexedDB.
+     * 
+     * @param {string} email 
+     * @returns {Promise<Object|null>}
+     */
     async getUser(email) {
         try {
-            // First try to get from Firestore
             const userDocRef = doc(db, "users", auth.currentUser.uid);
             const userDoc = await getDoc(userDocRef);
-            
+
             if (userDoc.exists()) {
                 return userDoc.data();
             }
-            
-            // Fallback to IndexedDB
+
             return this.get(STORES.USERS, email);
         } catch (error) {
             console.error('Error getting user:', error);
@@ -131,13 +161,16 @@ class Database {
         }
     }
 
+    /**
+     * Updates user data in both Firestore and IndexedDB.
+     * 
+     * @param {Object} userData 
+     * @returns {Promise<number|string>}
+     */
     async updateUser(userData) {
         try {
-            // Update in Firestore
             const userDocRef = doc(db, "users", auth.currentUser.uid);
             await setDoc(userDocRef, userData, { merge: true });
-            
-            // Update in IndexedDB
             return this.update(STORES.USERS, userData);
         } catch (error) {
             console.error('Error updating user:', error);
@@ -145,41 +178,86 @@ class Database {
         }
     }
 
-    // Task-specific methods
+    /**
+     * Adds a task to IndexedDB.
+     * 
+     * @param {Object} taskData 
+     * @returns {Promise<number>}
+     */
     async addTask(taskData) {
         return this.add(STORES.TASKS, taskData);
     }
 
+    /**
+     * Retrieves a task by ID from IndexedDB.
+     * 
+     * @param {number} id 
+     * @returns {Promise<Object>}
+     */
     async getTask(id) {
         return this.get(STORES.TASKS, id);
     }
 
+    /**
+     * Updates a task in IndexedDB.
+     * 
+     * @param {Object} taskData 
+     * @returns {Promise<number>}
+     */
     async updateTask(taskData) {
         return this.update(STORES.TASKS, taskData);
     }
 
+    /**
+     * Deletes a task by ID from IndexedDB.
+     * 
+     * @param {number} id 
+     * @returns {Promise<void>}
+     */
     async deleteTask(id) {
         return this.delete(STORES.TASKS, id);
     }
 
-    // Contact-specific methods
+    /**
+     * Adds a contact to IndexedDB.
+     * 
+     * @param {Object} contactData 
+     * @returns {Promise<number>}
+     */
     async addContact(contactData) {
         return this.add(STORES.CONTACTS, contactData);
     }
 
+    /**
+     * Retrieves a contact by ID from IndexedDB.
+     * 
+     * @param {number} id 
+     * @returns {Promise<Object>}
+     */
     async getContact(id) {
         return this.get(STORES.CONTACTS, id);
     }
 
+    /**
+     * Updates a contact in IndexedDB.
+     * 
+     * @param {Object} contactData 
+     * @returns {Promise<number>}
+     */
     async updateContact(contactData) {
         return this.update(STORES.CONTACTS, contactData);
     }
 
+    /**
+     * Deletes a contact by ID from IndexedDB.
+     * 
+     * @param {number} id 
+     * @returns {Promise<void>}
+     */
     async deleteContact(id) {
         return this.delete(STORES.CONTACTS, id);
     }
 }
 
-// Create a singleton instance
 const database = new Database();
-export default database; 
+export default database;

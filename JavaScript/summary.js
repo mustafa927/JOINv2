@@ -209,6 +209,10 @@ function hideGreetingOverlayAfterDelay() {
     }, 3000);
 }
 
+/**
+ * Executes greeting-related logic after the full page load.
+ * Triggers functions to update the greeting message and show it on mobile view.
+ */
 window.addEventListener('load', () => {
     updateGreetingMessage();
     showMobileGreeting();

@@ -29,7 +29,6 @@ auth.useDeviceLanguage();
  * @param {import("firebase/app").FirebaseApp} app - The Firebase app instance to initialize Firestore with.
  * @returns {import("firebase/firestore").Firestore} The initialized Firestore instance.
  */
-
 function setupFirestore(app) {
     return initializeFirestore(app, {
         cacheSizeBytes: CACHE_SIZE_UNLIMITED,
@@ -46,7 +45,6 @@ function setupFirestore(app) {
  * - Sets `isOnline` to `true` when the user goes online.
  * - Sets `isOnline` to `false` when the user goes offline.
  */
-
 function setupNetworkListeners() {
     window.addEventListener('online', () => { isOnline = true; });
     window.addEventListener('offline', () => { isOnline = false; });

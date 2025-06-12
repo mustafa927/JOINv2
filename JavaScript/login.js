@@ -127,21 +127,62 @@ function handleLoginError(error) {
  */
 async function handleLogin(event) {
     event.preventDefault();
-    hideError('login-email-error'); 
-    hideError('login-password-error'); 
+    resetLoginErrors();
+
+    let email = document.getElementById('email').value.trim().toLowerCase();
+    let password = document.getElementById('password').value;
+
+    let validation = validateInputs(email, password);
+    if (handleValidationErrors(validation)) return;
+
+    await attemptLogin(email, password);
+}
+
+/**
+ * Resets all visible login error messages on the form.
+ * This includes email, password, and general login errors.
+ */
+function resetLoginErrors() {
+    hideError('login-email-error');
+    hideError('login-password-error');
     hideError('login-general-error');
-    
-    const email = document.getElementById('email').value.trim().toLowerCase();
-    const password = document.getElementById('password').value;
-    
-    const validation = validateInputs(email, password);
-    if (validation === 'email') return showError('login-email-error', 'Please enter a valid email address.');
-    if (validation === 'password') return showError('login-password-error', 'The password must be at least 6 characters long.');
-    if (validation) return showError('login-general-error', validation);
-    
+}
+
+/**
+ * Handles validation errors by checking the validation result
+ * and showing the appropriate error message.
+ *
+ * @param {string|boolean} validation - The validation result (e.g. 'email', 'password', or a custom error message).
+ * @returns {boolean} True if an error was handled and shown; false if no error was found.
+ */
+function handleValidationErrors(validation) {
+    if (validation === 'email') {
+        showError('login-email-error', 'Please enter a valid email address.');
+        return true;
+    }
+    if (validation === 'password') {
+        showError('login-password-error', 'The password must be at least 6 characters long.');
+        return true;
+    }
+    if (validation) {
+        showError('login-general-error', validation);
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Attempts to sign in the user with the provided email and password using Firebase Authentication.
+ * Updates the login button state during the process and handles any errors.
+ *
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @returns {Promise<void>} A promise that resolves when the login attempt is complete.
+ */
+async function attemptLogin(email, password) {
     setLoginButtonState(true);
     try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        let userCredential = await signInWithEmailAndPassword(auth, email, password);
         await processUserLogin(userCredential.user);
     } catch (error) {
         handleLoginError(error);
@@ -167,8 +208,7 @@ async function processUserLogin(user) {
     }
     storeUserSession(user, userData);
     updateUserInitials();
-    
-    // Set flag for new login to show greeting
+
     sessionStorage.setItem('newLogin', 'true');
     
     window.location.href = 'summary.html';
@@ -179,8 +219,7 @@ async function processUserLogin(user) {
  */
 function handleGuestLogin() {
     localStorage.setItem('currentUser', JSON.stringify({ isGuest: true, name: 'Guest User' }));
-    
-    // Set flag for new login to show greeting
+
     sessionStorage.setItem('newLogin', 'true');
     
     window.location.href = 'summary.html';
@@ -191,13 +230,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginButton = document.querySelector('.btn-primary');
     const guestLoginButton = document.querySelector('.btn-secondary');
 
-    // Event-Listener für Email-Feld
     document.getElementById('email').addEventListener('input', function() {
         document.getElementById('login-email-error').style.display = 'none';
         this.style.border = '1px solid #D1D1D1';
     });
 
-    // Event-Listener für Passwort-Feld
     document.getElementById('password').addEventListener('input', function() {
         document.getElementById('login-password-error').style.display = 'none';
         this.style.border = '1px solid #D1D1D1';

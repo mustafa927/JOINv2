@@ -62,7 +62,9 @@ function setError(inputElement, message) {
 }
 
 /**
- * Saves a new contact to Firebase.
+ * Saves a new contact to Firebase after validating the form.
+ * Disables the submit button, sends data, and handles UI updates.
+ * 
  * @async
  * @returns {Promise<void>}
  */
@@ -70,30 +72,84 @@ async function saveContact() {
   const submitBtn = document.getElementById("createContactBtn");
 
   if (!validateContactForm()) return;
+  disableSubmitButton(submitBtn);
 
-  submitBtn.disabled = true;
-  submitBtn.innerHTML = `Creating...`;
-
-  const { name, email, phone } = getInputValues();
-  const newContact = { name, email, phone };
+  const contactData = buildNewContact();
 
   try {
-    await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json", {
-      method: "POST",
-      body: JSON.stringify(newContact),
-      headers: { "Content-Type": "application/json" }
-    });
-
-    await fetchData();
-    closeOverlay();
-    showSuccessMessage();
+    await postContactToFirebase(contactData);
+    await finalizeContactCreation();
   } catch (error) {
-    console.error(" Error saving contact:", error);
+    handleContactError(error);
   } finally {
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = `Create contact <span>&check;</span>`;
+    enableSubmitButton(submitBtn);
   }
 }
+
+/**
+ * Gathers input values and builds the contact object.
+ * 
+ * @returns {{name: string, email: string, phone: string}} New contact data.
+ */
+function buildNewContact() {
+  const { name, email, phone } = getInputValues();
+  return { name, email, phone };
+}
+
+/**
+ * Sends a POST request to Firebase to save the contact.
+ * 
+ * @param {Object} contact - Contact data to save.
+ * @returns {Promise<void>}
+ */
+async function postContactToFirebase(contact) {
+  await fetch("https://join-2aee1-default-rtdb.europe-west1.firebasedatabase.app/person.json", {
+    method: "POST",
+    body: JSON.stringify(contact),
+    headers: { "Content-Type": "application/json" }
+  });
+}
+
+/**
+ * Final steps after saving a contact: refresh, close overlay, show success.
+ * 
+ * @returns {Promise<void>}
+ */
+async function finalizeContactCreation() {
+  await fetchData();
+  closeOverlay();
+  showSuccessMessage();
+}
+
+/**
+ * Handles errors during the contact save process.
+ * 
+ * @param {Error} error - The thrown error.
+ */
+function handleContactError(error) {
+  console.error("Error saving contact:", error);
+}
+
+/**
+ * Disables the create button and shows loading state.
+ * 
+ * @param {HTMLButtonElement} btn - Submit button element.
+ */
+function disableSubmitButton(btn) {
+  btn.disabled = true;
+  btn.innerHTML = `Creating...`;
+}
+
+/**
+ * Re-enables the create button and restores its label.
+ * 
+ * @param {HTMLButtonElement} btn - Submit button element.
+ */
+function enableSubmitButton(btn) {
+  btn.disabled = false;
+  btn.innerHTML = `Create contact <span>&check;</span>`;
+}
+
 
 /**
  * Collects values from the input fields.

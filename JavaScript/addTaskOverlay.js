@@ -1,5 +1,3 @@
-
-
 /**
  * Clears the task creation form by resetting inputs, hiding error messages,
  * and removing any active priority button classes.
