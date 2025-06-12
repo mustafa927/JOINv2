@@ -228,7 +228,7 @@ async function handleLogout() {
  *
  */
 document.addEventListener('DOMContentLoaded', () => {
-    const logoutButton = document.querySelector('#dropdownMenu a[href="index.html"]');
+    const logoutButton = document.querySelector('#dropdownMenu a[href="Index.html"]');
     if (logoutButton) {
         logoutButton.addEventListener('click', (e) => {
             e.preventDefault();

@@ -277,7 +277,7 @@ async function saveUserData(user, name, email) {
 function showSuccessAndRedirect() {
     const msg = document.getElementById('success-message');
     if (msg) msg.style.display = 'block';
-    setTimeout(() => window.location.href = 'index.html', 2000);
+    setTimeout(() => window.location.href = 'Index.html', 2000);
 }
 
 /**

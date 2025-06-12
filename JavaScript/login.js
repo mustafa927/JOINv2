@@ -254,7 +254,7 @@ async function handleLogout() {
         await signOut(auth);
         localStorage.removeItem('currentUser');
         document.querySelectorAll('.user-initial-small').forEach(e => e.textContent = 'G');
-        window.location.href = 'index.html';
+        window.location.href = 'Index.html';
     } catch (error) {
         console.error('Error during logout:', error);
     }

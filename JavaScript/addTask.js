@@ -119,7 +119,7 @@ async function handleLogout() {
   try {
     await signOut(auth);
     localStorage.removeItem("currentUser");
-    window.location.href = "index.html";
+    window.location.href = "Index.html";
   } catch (error) {
     console.error("Logout error:", error);
   }
@@ -129,7 +129,7 @@ async function handleLogout() {
  * Sets up the logout functionality by attaching event listener.
  */
 function setupLogout() {
-  let logoutBtn = document.querySelector('#dropdownMenu a[href="index.html"]');
+  let logoutBtn = document.querySelector('#dropdownMenu a[href="Index.html"]');
   if (logoutBtn) logoutBtn.addEventListener("click", e => {
     e.preventDefault();
     handleLogout();

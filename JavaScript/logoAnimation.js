@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
  * @returns 
  */
 function checkIfIndexPage() {
-    return window.location.pathname.includes('index.html') || 
+    return window.location.pathname.includes('Index.html') || 
            window.location.pathname === '/' || 
            window.location.pathname.endsWith('/');
 }
