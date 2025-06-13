@@ -47,10 +47,12 @@ body {
 }
 
 .signup-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-right:50px;
+  position: absolute;
+    top: 40px;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .signup-text {
