@@ -10,34 +10,26 @@
     <link rel="icon" type="image/x-icon" href="svg/Capa 2.svg">
 </head>
 <body>
-   <div class="content">
-  <div class="top-bar">
-    <div class="page-logo">
-      <img src="svg/Capa 2.svg" alt="Join Logo">
-    </div>
-    <div class="signup-container">
-      <span class="signup-text">Not a Join user?</span>
-      <a href="signUp.html" class="signup-button-login">Sign up</a>
-    </div>
-  </div>
-</div>
-
 <div class="splash-screen">
     <img src="svg/Capa 2.svg" alt="Join Logo" class="splash-logo">
 </div>
 
-<div class="sidebar">
-   
-    
-    <div class="login-container">
-        <h1>Login</h1>
-        <form class="login-form" id="loginForm" onsubmit="return false;">
-            <div class="input-group">
-                <div class="input-field">
-                    <div class="input-wrapper">
-                        <input type="email" id="email" name="email" placeholder="Email" required>
-                        <img src="svg/mail.svg" alt="Email icon" class="input-icon">
-                        <div id="login-email-error" class="error-message-login"></div>
+<div class="max-width-container">
+    <div class="sidebar">
+        <div class="page-logo">
+            <img src="svg/Capa 2.svg" alt="Join Logo">
+        </div>
+        
+        <div class="login-container">
+            <h1>Login</h1>
+            <form class="login-form" id="loginForm" onsubmit="return false;">
+                <div class="input-group">
+                    <div class="input-field">
+                        <div class="input-wrapper">
+                            <input type="email" id="email" name="email" placeholder="Email" required>
+                            <img src="svg/mail.svg" alt="Email icon" class="input-icon">
+                            <div id="login-email-error" class="error-message-login"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="input-group">
@@ -58,7 +50,10 @@
             </form>
         </div>
 
- 
+        <div class="signup-container">
+            <span class="signup-text">Not a Join user?</span>
+            <a href="signUp.html" class="signup-button-login">Sign up</a>
+        </div>
 
         <div class="page-footer">
             <a href="privacy-login.html">Privacy Policy</a>
