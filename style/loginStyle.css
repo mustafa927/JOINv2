@@ -35,11 +35,7 @@ body {
 }
 
 .signup-container {
-<<<<<<< HEAD
-  position: absolute;
-=======
     position: absolute;
->>>>>>> f070534b200b1d7d8d7f92c5e1d045cdfa1dde8c
     top: 40px;
     right: 40px;
     display: flex;
@@ -415,12 +411,4 @@ button {
         color: #A8A8A8;
         text-decoration: none;
     }
-}
-
-.max-width-container {
-    max-width: 1440px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 20px;
-    box-sizing: border-box;
 }

@@ -41,8 +41,12 @@ body {
     padding:0 20px;
 }
 
+.signup-page-logo {
+    position: absolute;
+    top: 0;
+    left: 60px;
+}
 
-/* Anpassung für die Zentrierung bei großen Bildschirmen */
 @media (max-width: 1921px) {
     body {
         display: flex;
@@ -334,7 +338,6 @@ body {
     }
 
     .signup-button {
-        width: 38%;
         max-width: none;
         font-size: 16px;
         margin: auto;
@@ -371,7 +374,6 @@ body {
 
     .signup-card {
         padding: 20px;
-        margin-top: 75px;
     }
 
     h1 {
